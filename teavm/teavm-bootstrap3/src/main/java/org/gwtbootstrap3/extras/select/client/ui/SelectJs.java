@@ -32,7 +32,7 @@ final class SelectJs {
     }
     @JSBody(params = {}, script = "return !!(window.jQuery && window.jQuery.fn.selectpicker);")
     static native boolean ready();
-    @JSBody(params = {}, script = "window.bootstrap = window.bootstrap || {};")
+    @JSBody(params = {}, script = "window.bootstrap = window.bootstrap || {}; if (window.jQuery && !window.jQuery.fn.triggerNative) { window.jQuery.fn.triggerNative = function(e) { var t, i = this[0]; if (i && i.dispatchEvent) { try { t = new Event(e, { bubbles: true }); } catch(err) { t = document.createEvent('Event'); t.initEvent(e, true, false); } i.dispatchEvent(t); } }; }")
     static native void prepare();
     @JSBody(params = {}, script = "var p=window.jQuery.fn.selectpicker; if(!p.__gbmDefaults) { p.__gbmDefaults=window.jQuery.extend({},p.Constructor.DEFAULTS); p.__gbmLocaleDefaults=window.jQuery.extend({},p.defaults); }")
     static native void captureDefaults();
@@ -48,7 +48,7 @@ final class SelectJs {
     @JSBody(params = {"e", "options"}, script = "window.jQuery(e).selectpicker(options);")
     private static native void initializeNative2(JSObject e, JSObject options);
     static void command(Element e, String command) { commandNative3(e.unwrap(), command); }
-    @JSBody(params = {"e", "command"}, script = "var jq=window.jQuery(e);\n        if(command==='refresh') { for(var i=0;i<e.attributes.length;i++) { var a=e.attributes[i]; if(a.name.indexOf('data-')===0) jq.removeData(a.name.slice(5)); } }\n        jq.selectpicker(command);")
+    @JSBody(params = {"e", "command"}, script = "var jq=window.jQuery(e);\n        if(command==='refresh') { for(var i=0;i<e.attributes.length;i++) { var a=e.attributes[i]; if(a.name.indexOf('data-')===0) jq.removeData(a.name.slice(5)); } var sp = jq.data('selectpicker'); if (sp && sp.selectpicker && sp.selectpicker.main) { sp.selectpicker.main.data = []; sp.selectpicker.main.elements = []; sp.selectpicker.main.optionQueue = document.createDocumentFragment(); sp.selectpicker.view = {}; sp.selectpicker.optionValuesDataMap = {}; } }\n        jq.selectpicker(command);")
     private static native void commandNative3(JSObject e, String command);
     static String value(Element e) { return valueNative4(e.unwrap()); }
     @JSBody(params = {"e"}, script = "return window.jQuery(e).val();")
