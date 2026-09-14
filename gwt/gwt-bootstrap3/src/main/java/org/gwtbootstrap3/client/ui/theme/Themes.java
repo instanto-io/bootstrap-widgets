@@ -144,6 +144,28 @@ public final class Themes {
     }
 
     /**
+     * Unapplies the currently active theme (removing custom stylesheet links and body classes)
+     * without clearing the stored preference in storage.
+     */
+    public static void clear() {
+        final Element link = Document.get().getElementById(LINK_ID);
+        if (link != null) {
+            link.removeFromParent();
+        }
+        final Element overlay = Document.get().getElementById(OVERLAY_LINK_ID);
+        if (overlay != null) {
+            overlay.removeFromParent();
+        }
+        final Element body = Document.get().getBody();
+        if (body != null) {
+            body.removeAttribute("data-theme");
+            body.removeClassName("theme-dark");
+            body.removeClassName("theme-light");
+        }
+        current = null;
+    }
+
+    /**
      * Applies the remembered theme, or {@code fallback} when there is none.
      *
      * @return the theme applied, or null when neither was available
