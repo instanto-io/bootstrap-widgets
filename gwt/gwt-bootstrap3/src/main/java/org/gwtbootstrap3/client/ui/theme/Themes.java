@@ -111,10 +111,35 @@ public final class Themes {
         }
         linkElement(LINK_ID, null).setAttribute("href", theme.getUrl());
         applyOverlay(theme.getOverlayUrl());
+        final Element body = Document.get().getBody();
+        if (body != null) {
+            applyBodyTheme(body, theme);
+        } else {
+            com.google.gwt.core.client.Scheduler.get().scheduleDeferred(() -> {
+                final Element b = Document.get().getBody();
+                if (b != null) {
+                    applyBodyTheme(b, theme);
+                }
+            });
+        }
         current = theme;
         store(theme.getName());
         for (final ThemeChangeHandler handler : new ArrayList<>(HANDLERS)) {
             handler.onThemeChanged(theme);
+        }
+    }
+
+    private static void applyBodyTheme(final Element body, final Theme theme) {
+        if (body == null || theme == null) {
+            return;
+        }
+        body.setAttribute("data-theme", theme.getName());
+        if (theme.isDark()) {
+            body.addClassName("theme-dark");
+            body.removeClassName("theme-light");
+        } else {
+            body.addClassName("theme-light");
+            body.removeClassName("theme-dark");
         }
     }
 
