@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.instanto</groupId>
+    <artifactId>gwt-bootstrap-widgets</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>gwt-bootstrap5-themes</artifactId>
+  <name>GWT Bootstrap 5 Themes</name>
+  <packaging>jar</packaging>
+  <description>
+    Swappable Bootstrap 5 stylesheets for gwt-bootstrap5, vendored from Bootswatch.
+    Kept in its own artifact because the themes total about 1.9 MB; an application that does
+    not offer a theme choice should not carry them.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap5</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+  </build>
+</project>

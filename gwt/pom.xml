@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.instanto</groupId>
+    <artifactId>bootstrap-widgets</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>gwt-bootstrap-widgets</artifactId>
+  <packaging>pom</packaging>
+  <name>GWT Bootstrap Widgets</name>
+
+  <modules>
+    <module>gwt-bootstrap3</module>
+    <module>gwt-bootstrap3-extras</module>
+    <module>gwt-bootstrap3-themes</module>
+    <module>gwt-bootstrap3-showcase</module>
+    <module>gwt-bootstrap3-browser-fixtures</module>
+    <module>gwt-bootstrap5</module>
+    <module>gwt-bootstrap5-themes</module>
+    <module>gwt-bootstrap5-extras</module>
+    <module>gwt-bootstrap5-showcase</module>
+    <module>gwt-bootstrap5-browser-fixtures</module>
+    <module>gwt-user-jvm-contract-tests</module>
+    <module>gwt-bootstrap-widget-tests</module>
+  </modules>
+</project>

@@ -1,0 +1,150 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Maven build and showcase compile
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_READ_TOKEN || secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      - name: Check out the shared development parent
+        uses: actions/checkout@v4
+        with:
+          repository: instanto-io/instanto-poms
+          path: .build/instanto-poms
+      - name: Install the shared development parent
+        run: mvn -B -ntp -f .build/instanto-poms/pom.xml install
+      - name: Check out the development compatibility libraries
+        uses: actions/checkout@v4
+        with:
+          repository: instanto-io/teavm-compat
+          path: .build/teavm-compat
+      - name: Install the development compatibility libraries
+        run: mvn -B -ntp -f .build/teavm-compat/pom.xml -DskipTests install
+      - name: Configure Maven for private package repositories
+        run: |
+          mkdir -p "$HOME/.m2"
+          cat > "$HOME/.m2/settings.xml" <<'XML'
+          <settings>
+            <servers>
+              <server>
+                <id>github-teavm-compat</id>
+                <username>${env.GITHUB_ACTOR}</username>
+                <password>${env.PACKAGES_READ_TOKEN}</password>
+              </server>
+              <server>
+                <id>github</id>
+                <username>${env.GITHUB_ACTOR}</username>
+                <password>${env.GITHUB_TOKEN}</password>
+              </server>
+              <server>
+                <id>github-cucumber-tea</id>
+                <username>${env.GITHUB_ACTOR}</username>
+                <password>${env.PACKAGES_READ_TOKEN}</password>
+              </server>
+              <server>
+                <id>github-gherkin-tea</id>
+                <username>${env.GITHUB_ACTOR}</username>
+                <password>${env.PACKAGES_READ_TOKEN}</password>
+              </server>
+              <server>
+                <id>github-mockatcha</id>
+                <username>${env.GITHUB_ACTOR}</username>
+                <password>${env.PACKAGES_READ_TOKEN}</password>
+              </server>
+            </servers>
+          </settings>
+          XML
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check showcase code samples
+        run: python3 scripts/check-showcase-samples.py
+
+      - name: Check module layout and shared-source seams
+        run: python3 scripts/check-module-layout.py
+
+      - name: Build and install reactor artifacts
+        run: mvn -B -U -DskipTests install
+
+      - name: Run compatibility and widget browser tests
+        run: mvn -B -pl :gwt-user-jvm-contract-tests,:gwt-bootstrap-widget-tests,:teavm-bootstrap3-tests,:teavm-bootstrap5-tests test
+
+      - name: Upload test results including unfinished specifications
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: widget-test-results
+          path: '**/target/surefire-reports/*'
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Compile showcase with GWT
+        run: mvn -B -f gwt/gwt-bootstrap3-showcase/pom.xml -DskipTests -Dgwt.forceCompilation=true gwt:compile
+
+      - name: Compile Bootstrap 3 browser fixtures with GWT
+        run: mvn -B -f gwt/gwt-bootstrap3-browser-fixtures/pom.xml -DskipTests -Dgwt.forceCompilation=true gwt:compile
+
+      - name: Compile Bootstrap 5 showcase with GWT
+        run: mvn -B -f gwt/gwt-bootstrap5-showcase/pom.xml -DskipTests -Dgwt.forceCompilation=true gwt:compile
+
+      - name: Compile Bootstrap 5 browser fixtures with GWT
+        run: mvn -B -f gwt/gwt-bootstrap5-browser-fixtures/pom.xml -DskipTests -Dgwt.forceCompilation=true gwt:compile
+
+      - name: Verify published source maps and source JARs
+        run: python3 scripts/prepare-showcase-debug-artifacts.py
+
+      - name: Assemble verified showcase site
+        run: mvn -B -pl showcase-site -am -DskipTests package
+
+      - name: Smoke-test assembled showcases in Chromium
+        run: bash scripts/smoke-showcase-pages.sh
+
+      - name: Exercise compiled showcase navigation in Java
+        run: mvn -B -f testing/showcase-browser-tests/pom.xml test
+
+      - name: Upload showcase navigation results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: showcase-navigation-results
+          path: testing/showcase-browser-tests/target/surefire-reports/*
+          if-no-files-found: warn
+
+      - name: Exercise compiled GWT widgets with mobile touch input
+        run: node scripts/run-browser-behaviour-tests.mjs
+
+      - name: Upload verified showcase site
+        uses: actions/upload-artifact@v4
+        with:
+          name: showcase-pages
+          path: showcase-site/target/pages
+          if-no-files-found: error
+          retention-days: 7

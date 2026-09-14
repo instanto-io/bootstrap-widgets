@@ -1,0 +1,4 @@
+<module rename-to="BootstrapWidgetContractsTest">
+  <inherits name="io.instanto.gwt.testing.api.GwtApi"/>
+  <source path=""/>
+</module>

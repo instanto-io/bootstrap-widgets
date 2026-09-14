@@ -1,0 +1,39 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:b="urn:import:io.instanto.bootstrap5.client.ui"
+             xmlns:b.html="urn:import:io.instanto.bootstrap5.client.ui.html">
+
+    <b:Panel>
+        <b:PanelHeader>
+            <b:Heading size="H3" text="Declared in UiBinder"/>
+        </b:PanelHeader>
+        <b:PanelBody>
+            <b:ButtonGroup>
+                <b:Button text="Primary" type="PRIMARY"/>
+                <b:Button ui:field="counter" text="Clicked 0 times"/>
+            </b:ButtonGroup>
+            <b:FormGroup>
+                <b:FormLabel text="A labelled control"/>
+                <b:TextBox ui:field="box" placeholder="Bound with ui:field"/>
+            </b:FormGroup>
+            <b:CheckBox ui:field="check" text="A checkbox declared in markup"/>
+            <b:Alert type="INFO" dismissable="true">
+                <b.html:Text text="Badge and icon: "/>
+                <b:Badge text="7"/>
+                <b:Icon type="STAR"/>
+            </b:Alert>
+            <b:Carousel ui:field="carousel">
+                <b:CarouselInner>
+                    <b:CarouselSlide active="true">
+                        <b:Paragraph text="First slide, declared in markup"/>
+                    </b:CarouselSlide>
+                    <b:CarouselSlide>
+                        <b:Paragraph text="Second slide"/>
+                    </b:CarouselSlide>
+                </b:CarouselInner>
+                <b:CarouselControl targetId="probeCarousel" prev="true"/>
+                <b:CarouselControl targetId="probeCarousel" next="true"/>
+            </b:Carousel>
+        </b:PanelBody>
+    </b:Panel>
+</ui:UiBinder>

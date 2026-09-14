@@ -1,0 +1,13 @@
+<module rename-to="Bootstrap3BrowserFixtures">
+  <inherits name="org.gwtbootstrap3.GwtBootstrap3NoTheme"/>
+  <inherits name="org.gwtbootstrap3.themes.GwtBootstrap3Themes"/>
+  <inherits name="org.gwtbootstrap3.extras.positionedtabs.PositionedTabs"/>
+  <inherits name="org.gwtbootstrap3.extras.select.Select"/>
+  <entry-point class="io.instanto.bootstrap.testing.gwt3.client.Bootstrap3BrowserFixturesEntryPoint"/>
+  <source path="client"/>
+  <set-property name="user.agent" value="safari"/>
+  <set-property name="compiler.useSourceMaps" value="true"/>
+  <set-configuration-property name="compiler.embedSourceMaps" value="false"/>
+  <set-configuration-property name="includeSourceMapUrl"
+                              value="symbolMaps/__HASH___sourceMap__FRAGMENT__.json"/>
+</module>

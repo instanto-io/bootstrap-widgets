@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Swappable Bootstrap 5 stylesheets, vendored from Bootswatch (MIT).
+
+  No stylesheet is declared here: these themes replace bootstrap.css rather than adding
+  to it, so the application chooses one at runtime through Themes.apply(). Inherit
+  GwtBootstrap5NoTheme alongside this module so nothing else claims the stylesheet.
+-->
+<module>
+    <!-- for io.instanto.bootstrap5.client.ui.theme.Theme, which the catalogue returns -->
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <source path="client"/>
+    <public path="client/resource">
+        <include name="css/*.css"/>
+    </public>
+</module>

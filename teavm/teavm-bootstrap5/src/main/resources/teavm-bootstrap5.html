@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TeaVM Bootstrap 5</title>
+  <link rel="stylesheet" href="teavm5/css/showcase.css">
+  <!--
+    Themes adopts the link carrying this id rather than appending a second
+    stylesheet, so the runtime theme switcher performs a single atomic swap.
+    Keep the id in step with Themes.LINK_ID.
+  -->
+  <link id="bootstrap5-theme" rel="stylesheet" href="bootstrap5/GwtBootstrap5Showcase/css/bootstrap-5.3.8.min.cache.css">
+</head>
+<body>
+  <div id="showcase"></div>
+  <script src="vendor/bootstrap-5.3.8.bundle.min.cache.js"></script>
+  <script>window.exports = window;</script>
+  <script src="teavm5/teavm-bootstrap5-smoke.js"></script>
+  <script>
+    const teavmMain = window.main || (window.exports && window.exports.main);
+    if (typeof teavmMain === 'function') {
+      teavmMain([]);
+    } else {
+      document.body.innerHTML = '<main class="container py-4"><div class="alert alert-danger">TeaVM Bootstrap 5 entry point was not exported.</div></main>';
+    }
+  </script>
+</body>
+</html>

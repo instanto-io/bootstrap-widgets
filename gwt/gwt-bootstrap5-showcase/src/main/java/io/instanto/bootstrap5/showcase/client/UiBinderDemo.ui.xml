@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:b="urn:import:io.instanto.bootstrap5.client.ui">
+
+    <b:PanelBody>
+        <b:Heading size="H4" text="Buttons and form fields"/>
+        <b:ButtonGroup>
+            <b:Button type="PRIMARY" text="Primary"/>
+            <b:Button type="SUCCESS" text="Success"/>
+            <b:Button ui:field="counter" text="Clicked 0 times"/>
+        </b:ButtonGroup>
+        <b:FormGroup>
+            <b:FormLabel text="Bound with ui:field"/>
+            <b:TextBox ui:field="box" placeholder="the handler writes here"/>
+        </b:FormGroup>
+        <b:Alert type="INFO" dismissable="true"
+                 text="Buttons and form fields declared in a template share the same events and styles as widgets built in Java. Click the counter to update the field below it."/>
+    </b:PanelBody>
+</ui:UiBinder>

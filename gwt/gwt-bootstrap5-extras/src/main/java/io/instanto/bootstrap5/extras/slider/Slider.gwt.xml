@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  noUiSlider 15, for what a native range input cannot do.
+
+  Bootstrap 5 styles the native control with .form-range, and the core Range
+  widget wraps it, so a plain single-value slider needs nothing from here. This
+  module is for the rest: two handles for a range, non-linear scales, tooltips
+  on the handles, pips. noUiSlider is MIT and has no dependencies, in
+  particular, no jQuery, unlike the bootstrap-slider that GwtBootstrap3 wrapped.
+-->
+<module rename-to='slider'>
+    <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <source path='client'/>
+    <public path="client/resource">
+        <include name="css/*.css"/>
+    </public>
+    <stylesheet src="css/nouislider-15.8.1.min.cache.css"/>
+    <entry-point class="io.instanto.bootstrap5.extras.slider.client.SliderEntryPoint"/>
+</module>

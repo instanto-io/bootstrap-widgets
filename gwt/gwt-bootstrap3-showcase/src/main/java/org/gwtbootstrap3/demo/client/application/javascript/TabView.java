@@ -1,0 +1,74 @@
+package org.gwtbootstrap3.demo.client.application.javascript;
+
+/*
+ * #%L
+ * GwtBootstrap3
+ * %%
+ * Copyright (C) 2013 - 2014 GwtBootstrap3
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
+import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.TabListItem;
+
+/**
+ * @author godi
+ */
+public class TabView extends Composite {
+
+    @UiField
+    TabListItem tab7ListItem;
+    @UiField
+    TabListItem tab8ListItem;
+    @UiField
+    TabListItem tab9ListItem;
+    @UiField
+    Button tab7Button;
+    @UiField
+    Button tab8Button;
+    @UiField
+    Button tab9Button;
+
+    @UiHandler("tab7Button")
+    public void handleTab7(final ClickEvent event) {
+        tab7ListItem.showTab();
+    }
+
+    @UiHandler("tab8Button")
+    public void handleTab8(final ClickEvent event) {
+        tab8ListItem.showTab();
+    }
+
+    @UiHandler("tab9Button")
+    public void handleTab9(final ClickEvent event) {
+        tab9ListItem.showTab();
+    }
+
+    interface Binder extends UiBinder<Widget, TabView> {
+    }
+
+
+    private static final Binder BINDER = GWT.create(Binder.class);
+    public TabView() {
+        initWidget(BINDER.createAndBindUi(this));
+    }
+}

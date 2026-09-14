@@ -1,0 +1,60 @@
+    .gbm-showcase {
+      padding-top: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .gbm-example-body > * {
+      margin-right: .5rem;
+      margin-bottom: .5rem;
+    }
+
+    .gbm-inline-demo {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .gbm-inline-demo .card,
+    .gbm-inline-demo .list-group,
+    .gbm-inline-demo .navbar,
+    .gbm-inline-demo .progress,
+    .gbm-inline-demo .vstack {
+      width: 100%;
+    }
+
+    .gbm-stacked-demo {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+
+    .gbm-stacked-demo .card,
+    .gbm-stacked-demo .list-group,
+    .gbm-stacked-demo .navbar,
+    .gbm-stacked-demo .progress,
+    .gbm-stacked-demo .vstack {
+      width: 100%;
+    }
+
+    .gbm-inline-demo img,
+    .gbm-stacked-demo img,
+    .gbm-example-body .d-flex > img {
+      max-width: 12rem;
+      height: auto;
+    }
+
+    pre {
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 575.98px) {
+      .gbm-showcase {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .gbm-showcase .p-5 {
+        padding: 1.5rem !important;
+      }
+    }

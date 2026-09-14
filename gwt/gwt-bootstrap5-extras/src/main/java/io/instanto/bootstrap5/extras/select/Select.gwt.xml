@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <inherits name="io.instanto.bootstrap5.extras.base.Integration"/>
+    <inherits name="com.google.gwt.resources.Resources"/>
+  <entry-point class="io.instanto.bootstrap5.extras.select.client.SelectEntryPoint"/>
+  <source path="client"/>
+    <public path="client/resource"/>
+      <stylesheet src="css/tom-select-bootstrap5-2.6.2.min.css"/>
+</module>

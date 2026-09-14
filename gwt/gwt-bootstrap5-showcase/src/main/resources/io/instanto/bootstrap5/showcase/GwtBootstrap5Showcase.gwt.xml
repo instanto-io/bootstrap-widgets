@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="GwtBootstrap5Showcase">
+    <public path="public"/>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <inherits name="io.instanto.bootstrap5.themes.GwtBootstrap5Themes"/>
+    <inherits name="io.instanto.bootstrap5.extras.datepicker.DatePicker"/>
+    <inherits name="io.instanto.bootstrap5.extras.richtext.RichText"/>
+    <inherits name="io.instanto.bootstrap5.extras.slider.Slider"/>
+    <inherits name="io.instanto.bootstrap5.extras.select.Select"/>
+    <inherits name="io.instanto.bootstrap5.extras.grid.Grid"/>
+    <inherits name="io.instanto.bootstrap5.extras.sortable.Sortable"/>
+    <inherits name="io.instanto.bootstrap5.extras.dashboard.Dashboard"/>
+    <inherits name="io.instanto.bootstrap5.extras.gallery.Gallery"/>
+    <inherits name="io.instanto.bootstrap5.extras.markdown.Markdown"/>
+    <set-property name="compiler.useSourceMaps" value="true"/>
+    <set-configuration-property name="compiler.embedSourceMaps" value="false"/>
+    <set-configuration-property name="includeSourceMapUrl"
+                                value="symbolMaps/__HASH___sourceMap__FRAGMENT__.json"/>
+    <entry-point class="io.instanto.bootstrap5.showcase.client.ShowcaseEntryPoint"/>
+</module>

@@ -1,0 +1,358 @@
+<!--
+  #%L
+  GwtBootstrap3
+  %%
+  Copyright (C) 2013 - 2015 GwtBootstrap3
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:b.html="urn:import:org.gwtbootstrap3.client.ui.html"
+             xmlns:summer="urn:import:org.gwtbootstrap3.extras.summernote.client.ui"
+             xmlns:summerbase="urn:import:org.gwtbootstrap3.extras.summernote.client.ui.base"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:d="urn:import:org.gwtbootstrap3.demo.client.ui">
+
+    <ui:style>
+        .danger {
+            background-color: #fcf2f2;
+            border-color: #dFb5b4;
+        }
+
+        .margin-fix {
+            margin-top: 0 !important;
+        }
+
+        .spacing {
+            margin-top: 10px;
+        }
+
+        .logRow {
+            border: 1px solid #888888;
+            padding: 5px;
+        }
+
+        .logTitle {
+            margin-right: 10px;
+        }
+
+        .button {
+            margin-bottom: 10px;
+        }
+
+        .spacing2 {
+            margin-left: 5px;
+        }
+    </ui:style>
+
+    <b:Row>
+        <b:Column size="XS_12">
+
+            <b:PageHeader text="Summernote WYSIWYG Editor"/>
+
+            <b:BlockQuote>
+                <b.html:Strong>Original Library Link:</b.html:Strong>
+                <b:Anchor target="_blank" addStyleNames="{style.spacing2}" href="http://summernote.org/">Summernote
+                </b:Anchor>
+                <b.html:Br/>
+                <b.html:Strong>Current Version Supported: 0.8.2</b.html:Strong>
+            </b:BlockQuote>
+
+            <b:BlockQuote addStyleNames="{style.danger}">
+                <b:Heading addStyleNames="{style.margin-fix}" size="H4" text="Required for use"/>
+                <b.html:Paragraph>
+                    To use Summernote, you must first add the extras module to your project. In Maven:
+                </b.html:Paragraph>
+                <d:PrettyPre addStyleNames="lang-xml">
+                    &lt;dependency&gt;\n
+                    \s\s\s\s&lt;groupId&gt;org.gwtbootstrap3&lt;/groupId&gt;\n
+                    \s\s\s\s&lt;artifactId&gt;gwtbootstrap3-extras&lt;/artifactId&gt;\n
+                    \s\s\s\s&lt;version&gt;VERSION&lt;/version&gt;\n
+                    \s\s\s\s&lt;scope&gt;provided&lt;/scope&gt;\n
+                    &lt;/dependency&gt;
+                </d:PrettyPre>
+                <b.html:Paragraph>
+                    Then you need to inherit the following GWT Module
+                    <strong>additionally</strong>
+                    to any GwtBootstrap3
+                    module into your *.gwt.xml of your project:
+                </b.html:Paragraph>
+                <d:PrettyPre addStyleNames="lang-xml">
+                    &lt;inherits name="org.gwtbootstrap3.extras.summernote.Summernote"/&gt;
+                </d:PrettyPre>
+                <b.html:Paragraph>
+                    Last but not least must add this namespace to your *.ui.xml (don't have to name it summer):
+                </b.html:Paragraph>
+                <d:PrettyPre addStyleNames="lang-xml">
+                    xmlns:summer="urn:import:org.gwtbootstrap3.extras.summernote.client.ui"
+                </d:PrettyPre>
+            </b:BlockQuote>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Basic"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <summer:Summernote/>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote/&gt;
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Air Mode"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <b:Alert type="INFO">
+                        <b.html:Text>Air-mode gives clearer interface with hidden toolbar. 
+                        To reveal toolbar, select a text where you want to shape up.</b.html:Text>
+                    </b:Alert>
+                    <summer:Summernote ui:field="airMode" airMode="true">
+                        <g:HTML>
+                            <p>This is an Air-mode editable area.</p>
+                            <ul>
+                                <li>Select a text to reveal the toolbar.</li>
+                                <li>Edit rich document on-the-fly, so elastic!</li>
+                            </ul>
+                            <p>End of air-mode area</p>
+                        </g:HTML>
+                    </summer:Summernote>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote airMode="true"/&gt;
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Editor Customization"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <summer:Summernote ui:field="customNote" defaultHeight="100" minHeight="50" maxHeight="150"
+                        hasFocus="true" placeholder="This is a placeholder." disableDragAndDrop="true"
+                        shortcuts="false" showToolbar="false"/>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote ui:field="customNote" defaultHeight="100" minHeight="50" maxHeight="150"\n
+                        \s\shasFocus="true" placeholder="This is a placeholder." disableDragAndDrop="true"\n
+                        \s\sshortcuts="false" showToolbar="false"/&gt;
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Toolbar Customization"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <summer:Summernote ui:field="customToolbar"/>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote ui:field="customToolbar"/&gt;
+                    </d:PrettyPre>
+                    <b:Heading size="H4" text="Java code"/>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        customToolbar.setFontNames(SummernoteFontName.HELVETICA_NEUE, SummernoteFontName.VERDANA, SummernoteFontName.ARIAL);\n
+                        customToolbar.setToolbar(new Toolbar()\n
+                        \s\s.addGroup(ToolbarButton.FONT_NAME, ToolbarButton.FONT_SIZE)\n
+                        \s\s.addGroup(ToolbarButton.UNDO, ToolbarButton.REDO)\n
+                        \s\s.addGroup(ToolbarButton.CODE_VIEW)\n
+                        \s\s.addGroup(ToolbarButton.TABLE));\n
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="API"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <summer:Summernote ui:field="apiTest" code="This is the initial code &lt;b&gt;before&lt;/b&gt; the editor is attached to DOM."/>
+                    <b:Button type="PRIMARY" text="Set Code" ui:field="setCode"/>
+                    <b:Button addStyleNames="{style.spacing2}" type="PRIMARY" text="Get Code" ui:field="getCode"/>
+                    <b:Button addStyleNames="{style.spacing2}" type="PRIMARY" text="Clear" ui:field="clear"/>
+                    <b:Button addStyleNames="{style.spacing2}" type="PRIMARY" text="Is Empty" ui:field="isEmpty"/>
+                    <b:Button addStyleNames="{style.spacing2}" type="PRIMARY" text="Enable" ui:field="enable"/>
+                    <b:Button addStyleNames="{style.spacing2}" type="PRIMARY" text="Disable" ui:field="disable"/>
+                    <b:Button addStyleNames="{style.spacing2}" type="PRIMARY" text="Reset" ui:field="reset"/>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote ui:field="apiTest" code="This is the initial code
+                        &amp;lt;b&amp;gt;before&amp;lt;/b&amp;gt; the editor is attached to DOM."/&gt;
+                    </d:PrettyPre>
+                    <b:Heading size="H4" text="Java code"/>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        // Set Code\n
+                        apiTest.setCode("&lt;b&gt;This is custom code. &lt;/b&gt;&lt;u&gt;OH YA&lt;/u&gt;");\n\n
+                        // Get Code\n
+                        Window.alert(apiTest.getCode());\n\n
+                        // Is Empty\n
+                        Window.alert(apiTest.isEmpty());\n\n
+                        // Enable\n
+                        apiTest.setEnabled(true);\n\n
+                        // Disable\n
+                        apiTest.setEnabled(false);\n\n
+                        // Reset\n
+                        apiTest.reset();\n\n
+                        // Clear\n
+                        apiTest.clear();
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Language Support"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <summer:Summernote ui:field="languageNote"/>
+                    <b:Form type="INLINE">
+                        <b:FormGroup>               
+                            <b:FormLabel for="languageBox">Select Language: </b:FormLabel>
+                            <b:ListBox b:id="languageBox" ui:field="languageBox" addStyleNames="{style.spacing2}"/>                        
+                        </b:FormGroup>
+                    </b:Form>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote ui:field="languageNote"/&gt;
+                    </d:PrettyPre>
+                    <b:Heading size="H4" text="Java code"/>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        // Default language is: EN_US\n
+                        languageNote.setLanguage(SummernoteLanguage.FR_FR);\n
+                        languageNote.reconfigure();
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Hint for words"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <summer:Summernote ui:field="hintWords" showToolbar="false"
+                        placeholder="Type with apple, orange, watermelon, and lemon"/>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote ui:field="hintWords" showToolbar="false"\n
+                        \s\placeholder="Type with apple, orange, watermelon, and lemon"/&gt;
+                    </d:PrettyPre>
+                    <b:Heading size="H4" text="Java code"/>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        hintWords.setHint("\\b(\\w{1,})$", new DefaultHintHandler() {\n
+                        \s\sList&lt;String&gt; words = new ArrayList&lt;&gt;(Arrays.asList("apple", "orange", "watermelon", "lemon"));\n
+                        \s\s@Override\n
+                        \s\spublic String[] onSearch(String keyword) {\n
+                        \s\s\s\sList&lt;String&gt; result = new ArrayList&lt;&gt;(0);\n
+                        \s\s\s\sfor (String word : words) {\n
+                        \s\s\s\s\s\sif (word.indexOf(keyword) == 0)\n
+                        \s\s\s\s\s\s\s\sresult.add(word);\n
+                        \s\s\s\s}\n
+                        \s\s\s\sreturn result.toArray(new String[0]);\n
+                        });\n
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Hint for emoji"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <summer:Summernote ui:field="hintEmoji" showToolbar="false"
+                        placeholder="Type starting with : then any alphabet"/>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <b:Heading size="H4" text="UiBinder"/>
+                    <d:PrettyPre addStyleNames="lang-xml">
+                        &lt;summer:Summernote ui:field="hintEmoji" showToolbar="false"\n
+                        \s\placeholder="Type starting with : then any alphabet"/&gt;
+                    </d:PrettyPre>
+                    <b:Heading size="H4" text="Java code"/>
+                    <b:Alert type="INFO">
+                        <b.html:Text>emojiUrlsText is JSON response of:</b.html:Text>
+                        <b:Anchor addStyleNames="{style.spacing2}" target="_blank" href="https://api.github.com/emojis">https://api.github.com/emojis</b:Anchor>
+                    </b:Alert>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        final JSONObject emojiUrls = JSONParser.parseStrict(emojiUrlsText).isObject();\n
+                        hintEmoji.setHint(":([\\-+\\w]+)$", new DefaultHintHandler() {\n
+                        \s\s@Override\n
+                        \s\spublic String[] onSearch(String keyword) {\n
+                        \s\s\s\sList&lt;String&gt; result = new ArrayList&lt;&gt;(0);\n
+                        \s\s\s\sfor (String key : emojiUrls.keySet()) {\n
+                        \s\s\s\s\s\sif (key.indexOf(keyword) == 0)\n
+                        \s\s\s\s\s\s\s\s\s\sresult.add(key);\n
+                        \s\s\s\s}\n
+                        \s\s\s\sreturn result.toArray(new String[0]);\n
+                        \s\s}\n\n
+        
+                        \s\s@Override\n
+                        \s\spublic String getTemplate(String item) {\n
+                        \s\s\s\sString url = emojiUrls.get(item).isString().stringValue();\n
+                        \s\s\s\sreturn "&lt;img src=\"" + url + "\" style=\"width:20px\"/&gt; :" + item + ":";\n
+                        \s\s}\n\n
+        
+                        \s\s@Override\n
+                        \s\spublic Node getContent(String item) {\n
+                        \s\s\s\sString url = emojiUrls.get(item).isString().stringValue();\n
+                        \s\s\s\sImageElement img = Document.get().createImageElement();\n
+                        \s\s\s\simg.setSrc(url);\n
+                        \s\s\s\simg.getStyle().setWidth(20, Unit.PX);\n
+                        \s\s\s\sreturn img;\n
+                        \s\s}\n
+                        });\n
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Events"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <b:Row>
+                        <b:Column size="SM_6 MD_8">
+                            <summer:Summernote ui:field="events" defaultHeight="100"/>
+                        </b:Column>
+                        <b:Column addStyleNames="{style.logRow}" size="SM_6 MD_4">
+                            <b.html:Strong text="Event Log" addStyleNames="{style.logTitle}"/>
+                            <b:Button addStyleNames="pull-right" text="Clear Log" ui:field="clearLogButton"/>
+                            <g:FlowPanel ui:field="logRow"/>
+                        </b:Column>
+                    </b:Row>
+                </b:PanelBody>
+            </b:Panel>
+        </b:Column>
+    </b:Row>
+
+</ui:UiBinder>

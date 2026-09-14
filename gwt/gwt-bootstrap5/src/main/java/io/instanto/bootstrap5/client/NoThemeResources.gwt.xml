@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Resources without the swappable Bootstrap stylesheet.
+
+  The icon font and this library's own rules are declared here rather than in
+  Resources, because they are additive: they sit on top of whichever Bootstrap
+  stylesheet is active and are not replaced when a theme is switched. Only
+  bootstrap.css itself is swappable, and Resources adds that.
+-->
+<module>
+    <public path="resource">
+        <include name="css/*.css"/>
+        <include name="css/*.map"/>
+        <include name="js/*.js"/>
+        <include name="js/*.map"/>
+        <include name="fonts/*"/>
+    </public>
+    <stylesheet src="css/bootstrap-icons-1.13.1.min.cache.css"/>
+    <stylesheet src="css/gwt-bootstrap5.cache.css"/>
+</module>

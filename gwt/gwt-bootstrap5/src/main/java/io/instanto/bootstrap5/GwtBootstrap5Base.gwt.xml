@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Deferred binding shared by every Bootstrap 5 module.
+
+  GwtBootstrap3 declared these in GwtBootstrap3Base.gwt.xml; the Bootstrap 5
+  module had no rebind rules at all, which left GWT.create(ValidatorMessageMixin)
+  with no concrete type the moment anything referenced the validator package.
+  The IE8 variants GwtBootstrap3 carried are gone: Bootstrap 5 does not support
+  IE at all.
+-->
+<module>
+    <source path="client"/>
+
+    <!--
+      Injects Bootstrap's JavaScript. It lives here rather than in
+      GwtBootstrap5.gwt.xml because it has nothing to do with which stylesheet is
+      in play: GwtBootstrap5NoTheme needs it just as much, and without it every
+      Bootstrap component that needs JavaScript silently stops working.
+    -->
+    <entry-point class="io.instanto.bootstrap5.client.GwtBootstrap5EntryPoint"/>
+
+    <replace-with class="io.instanto.bootstrap5.client.ui.form.validator.DefaultValidatorMessageMixin">
+        <when-type-is class="io.instanto.bootstrap5.client.ui.form.validator.ValidatorMessageMixin"/>
+    </replace-with>
+
+    <replace-with class="io.instanto.bootstrap5.client.ui.impl.CheckBoxImpl">
+        <when-type-is class="io.instanto.bootstrap5.client.ui.impl.CheckBoxImpl"/>
+    </replace-with>
+
+    <replace-with class="io.instanto.bootstrap5.client.ui.impl.RadioImpl">
+        <when-type-is class="io.instanto.bootstrap5.client.ui.impl.RadioImpl"/>
+    </replace-with>
+
+    <replace-with class="io.instanto.bootstrap5.client.ui.impl.SimpleCheckBoxImpl">
+        <when-type-is class="io.instanto.bootstrap5.client.ui.impl.SimpleCheckBoxImpl"/>
+    </replace-with>
+
+    <replace-with class="io.instanto.bootstrap5.client.ui.impl.SimpleRadioButtonImpl">
+        <when-type-is class="io.instanto.bootstrap5.client.ui.impl.SimpleRadioButtonImpl"/>
+    </replace-with>
+</module>

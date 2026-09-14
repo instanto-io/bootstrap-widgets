@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <inherits name="io.instanto.bootstrap5.extras.base.Integration"/>
+    <inherits name="com.google.gwt.resources.Resources"/>
+  <entry-point class="io.instanto.bootstrap5.extras.sortable.client.SortableEntryPoint"/>
+  <source path="client"/>
+    <public path="client/resource"/>
+  </module>

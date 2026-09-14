@@ -1,0 +1,53 @@
+<!--
+  #%L
+  GwtBootstrap3
+  %%
+  Copyright (C) 2013 - 2015 GwtBootstrap3
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:b.html="urn:import:org.gwtbootstrap3.client.ui.html"
+             xmlns:md="urn:import:org.gwtbootstrap3.extras.markdown.client.ui">
+
+    <b:Container>
+        <b:PageHeader text="Markdown"/>
+
+        <b:Row>
+            <b:Column size="MD_12">
+                <b:Panel>
+                    <b:PanelHeader text="Editor"/>
+                    <b:PanelBody>
+                        <b.html:Paragraph>
+                            For applications that store Markdown rather than HTML. The source is kept
+                            exactly as typed; the toolbar inserts the syntax, the Preview tab renders it
+                            with the same dialect flexmark produces, and the reference sits beneath the
+                            editor instead of linking away to another site.
+                        </b.html:Paragraph>
+                        <md:MarkdownEditor ui:field="editor"/>
+                    </b:PanelBody>
+                </b:Panel>
+
+                <b:Panel>
+                    <b:PanelHeader text="Rendered"/>
+                    <b:PanelBody>
+                        <md:MarkdownPanel ui:field="rendered"/>
+                    </b:PanelBody>
+                </b:Panel>
+            </b:Column>
+        </b:Row>
+    </b:Container>
+
+</ui:UiBinder>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tempus Dominus 6, the Bootstrap 5 date and time picker.
+
+  This replaces the two Bootstrap 3 extras rather than porting them.
+  bootstrap-datepicker and bootstrap-datetimepicker are both built for Bootstrap
+  3 markup and the latter has been unmaintained for years; Tempus Dominus is the
+  maintained successor, targets Bootstrap 5, and needs no jQuery, so this module
+  does not inherit the jQuery extra.
+
+  Popper is vendored alongside it. Tempus Dominus positions its popup with
+  Popper and looks for window.Popper first, falling back to a dynamic import
+  that cannot resolve in a compiled GWT application. Bootstrap 5's bundle keeps
+  its own copy of Popper private, so the global has to come from here.
+-->
+<module rename-to='datepicker'>
+    <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <source path='client'/>
+    <public path="client/resource">
+        <include name="css/*.css"/>
+    </public>
+    <stylesheet src="css/tempus-dominus-6.10.4.min.cache.css"/>
+    <entry-point class="io.instanto.bootstrap5.extras.datepicker.client.DatePickerEntryPoint"/>
+</module>

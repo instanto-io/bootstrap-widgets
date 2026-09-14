@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  GwtBootstrap3
+  %%
+  Copyright (C) 2016 GwtBootstrap3
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<module>
+    <public path="resource">
+        <include name="css/*.css"/>
+        <include name="css/*.map"/>
+        <include name="js/*.js"/>
+        <include name="js/*.map"/>
+        <include name="fonts/*"/>
+    </public>
+    <!--
+      Additive, not swappable: the icon font sits on top of whichever Bootstrap
+      stylesheet is active and is not replaced when a theme is switched, so it
+      belongs here rather than in Resources.
+    -->
+    <stylesheet src="css/font-awesome-4.7.0.min.cache.css"/>
+
+    <!--
+      The library's own stylesheet, additive to Bootstrap rather than a
+      replacement for it, so it survives a runtime theme switch the same way
+      Font Awesome above does.
+    -->
+    <stylesheet src="css/gwt-bootstrap3.cache.css"/>
+</module>

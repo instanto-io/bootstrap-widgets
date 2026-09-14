@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:b="urn:import:io.instanto.bootstrap5.client.ui">
+
+    <b:Panel addStyleNames="mb-4">
+        <b:PanelHeader>
+            <b:Heading size="H3" text="Variants, pills and links"/>
+        </b:PanelHeader>
+        <b:PanelBody>
+            <b:Badge type="PRIMARY" text="Primary"/>
+            <b:Badge type="SUCCESS" text="Success"/>
+            <b:Badge type="WARNING" text="Warning"/>
+            <b:Badge type="DANGER" text="Danger"/>
+            <b:Badge type="SUCCESS" pill="true" text="Pill badge"/>
+            <b:Anchor href="#" text="Inbox" badgeText="12"/>
+        </b:PanelBody>
+    </b:Panel>
+</ui:UiBinder>

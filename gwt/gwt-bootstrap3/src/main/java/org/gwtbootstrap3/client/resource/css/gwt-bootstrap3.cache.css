@@ -1,0 +1,116 @@
+/*
+ * #%L
+ * GWT Bootstrap
+ * %%
+ * Copyright (C) 2026 Carl Stainton
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
+/*
+ * Toggle buttons on touch devices.
+ *
+ * Bootstrap 3 gives .btn-default:hover and .btn-default.active the same
+ * background, #e6e6e6. On a mouse that is harmless, because hover ends when the
+ * pointer leaves. On touch the hover state sticks to whatever was tapped last
+ * and only clears on the next scroll or tap elsewhere, so a toggle button that
+ * has just been switched off still paints as though it were on, and a radio
+ * that has just been selected looks exactly as it did before it was tapped.
+ * The state is correct throughout -- .active and the input's checked property
+ * both track properly -- it is only the paint that misleads.
+ *
+ * Under (hover: none) a standalone toggle or a button in a toggle group that is
+ * not active therefore paints as its resting self, leaving .active as the only
+ * thing that changes the background. Bootstrap 3 has no custom properties, so
+ * each variant has to name its own resting colours; the values are Bootstrap
+ * 3.4.1's, which is the version vendored beside this file. :focus is included
+ * because Bootstrap gives it the same background as :hover and it also survives
+ * a tap.
+ */
+@media (hover: none) {
+  .btn[data-toggle="button"]:not(.active):hover,
+  .btn[data-toggle="button"]:not(.active):focus,
+  .btn[data-toggle="button"]:not(.active).focus,
+  .btn-group[data-toggle="buttons"] > .btn:not(.active):hover,
+  .btn-group[data-toggle="buttons"] > .btn:not(.active):focus,
+  .btn-group[data-toggle="buttons"] > .btn:not(.active).focus {
+    box-shadow: none;
+  }
+
+  .btn-default[data-toggle="button"]:not(.active):hover,
+  .btn-default[data-toggle="button"]:not(.active):focus,
+  .btn-default[data-toggle="button"]:not(.active).focus,
+  .btn-group[data-toggle="buttons"] > .btn-default:not(.active):hover,
+  .btn-group[data-toggle="buttons"] > .btn-default:not(.active):focus,
+  .btn-group[data-toggle="buttons"] > .btn-default:not(.active).focus {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+  }
+
+  .btn-primary[data-toggle="button"]:not(.active):hover,
+  .btn-primary[data-toggle="button"]:not(.active):focus,
+  .btn-primary[data-toggle="button"]:not(.active).focus,
+  .btn-group[data-toggle="buttons"] > .btn-primary:not(.active):hover,
+  .btn-group[data-toggle="buttons"] > .btn-primary:not(.active):focus,
+  .btn-group[data-toggle="buttons"] > .btn-primary:not(.active).focus {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+  }
+
+  .btn-success[data-toggle="button"]:not(.active):hover,
+  .btn-success[data-toggle="button"]:not(.active):focus,
+  .btn-success[data-toggle="button"]:not(.active).focus,
+  .btn-group[data-toggle="buttons"] > .btn-success:not(.active):hover,
+  .btn-group[data-toggle="buttons"] > .btn-success:not(.active):focus,
+  .btn-group[data-toggle="buttons"] > .btn-success:not(.active).focus {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
+
+  .btn-info[data-toggle="button"]:not(.active):hover,
+  .btn-info[data-toggle="button"]:not(.active):focus,
+  .btn-info[data-toggle="button"]:not(.active).focus,
+  .btn-group[data-toggle="buttons"] > .btn-info:not(.active):hover,
+  .btn-group[data-toggle="buttons"] > .btn-info:not(.active):focus,
+  .btn-group[data-toggle="buttons"] > .btn-info:not(.active).focus {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+  }
+
+  .btn-warning[data-toggle="button"]:not(.active):hover,
+  .btn-warning[data-toggle="button"]:not(.active):focus,
+  .btn-warning[data-toggle="button"]:not(.active).focus,
+  .btn-group[data-toggle="buttons"] > .btn-warning:not(.active):hover,
+  .btn-group[data-toggle="buttons"] > .btn-warning:not(.active):focus,
+  .btn-group[data-toggle="buttons"] > .btn-warning:not(.active).focus {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+  }
+
+  .btn-danger[data-toggle="button"]:not(.active):hover,
+  .btn-danger[data-toggle="button"]:not(.active):focus,
+  .btn-danger[data-toggle="button"]:not(.active).focus,
+  .btn-group[data-toggle="buttons"] > .btn-danger:not(.active):hover,
+  .btn-group[data-toggle="buttons"] > .btn-danger:not(.active):focus,
+  .btn-group[data-toggle="buttons"] > .btn-danger:not(.active).focus {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+  }
+}

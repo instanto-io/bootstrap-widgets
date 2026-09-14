@@ -1,0 +1,215 @@
+# Bootstrap 5 Porting Inventory
+
+The Bootstrap 5 module should aim for broad functional coverage of the GwtBootstrap3 widget catalogue, but with Bootstrap 5-native markup, classes, data attributes, and behaviour. Breaking API and template changes are allowed when Bootstrap 5 removed or redesigned a Bootstrap 3 concept.
+
+## Current Scope
+
+- GwtBootstrap3 top-level widget classes inventoried: `126`.
+- Bootstrap 5 top-level UI Java classes currently present: `134`, including small enum/helper classes.
+- Bootstrap 5 widgets live under `io.instanto.bootstrap5.*`, not `org.gwtbootstrap3.*`.
+- The Bootstrap 5 showcase must remain separate from the GwtBootstrap3 compatibility showcase.
+
+## Compatibility Notes
+
+- The Bootstrap 5 module now represents the current GwtBootstrap3 top-level widget catalogue, but it is not a source-compatible Bootstrap 3 drop-in. Bootstrap 3-only behaviours are mapped to Bootstrap 5 idioms where possible.
+- The intended migration contract is that composition, event handling, value handling, active/disabled state, and familiar constructors should stay as close to GwtBootstrap3 as possible. Users should normally be thinking about Bootstrap 5 markup/classes, not a new widget programming model.
+- `Panel`, `Well`, `ThumbnailPanel`, `ThumbnailLink`, `PageHeader`, and `Jumbotron` render through Bootstrap 5 card, spacing, border, background, and utility classes.
+- `Affix` maps to `sticky-top`; Bootstrap 5 no longer ships the old affix plugin.
+- `ScrollSpy`, dropdowns, collapse, carousel, popover, tooltip, modal, and tabs use Bootstrap 5 `data-bs-*` attributes and JavaScript APIs rather than jQuery plugins.
+- `CheckBoxButton` preserves the button-toggle concept with explicit `active`/`aria-pressed` state rather than relying on the removed Bootstrap 3 button plugin loading/toggle API.
+
+## Native Workstream
+
+- Class-presence checkboxes below record the Bootstrap 5-native implementation only; they do not impose Bootstrap 3 API parity.
+- Prefer widening the Bootstrap 5 widgets to match GwtBootstrap3-style constructors and methods before asking application code to change.
+- Anchor-backed widgets should compose children into the clickable anchor element.
+- Value widgets should implement GWT value-change semantics where the Bootstrap 3 widget did.
+- Container widgets should expose standard GWT click/double-click handlers unless there is a strong reason not to.
+- Deliberate deviations should be recorded here, not hidden in the showcase.
+
+## First-Port Priority
+
+- [x] `Container` present
+- [x] `Row` present
+- [x] `Column` present
+- [x] `Button` present
+- [x] `Anchor`
+- [x] `AnchorButton`
+- [x] `ButtonGroup`
+- [x] `ButtonToolBar`
+- [x] `DropDown`
+- [x] `DropDownMenu`
+- [x] `Divider`
+- [x] `Navbar`
+- [x] `NavbarBrand`
+- [x] `NavbarCollapse`
+- [x] `NavbarCollapseButton`
+- [x] `NavbarNav`
+- [x] `NavbarLink`
+- [x] `NavbarText`
+- [x] `Nav`
+- [x] `NavTabs`
+- [x] `NavPills`
+- [x] `Modal`
+- [x] `ModalHeader`
+- [x] `ModalBody`
+- [x] `ModalFooter`
+- [x] `Alert`
+- [x] `Badge`
+- [x] `Label`
+- [x] `Progress`
+- [x] `ProgressBar`
+- [x] `Pagination`
+- [x] `Pager`
+- [x] `Form`
+- [x] `FormGroup`
+- [x] `FormLabel`
+- [x] `Input`
+- [x] `TextBox`
+- [x] `TextArea`
+- [x] `ListBox`
+- [x] `CheckBox`
+- [x] `Radio`
+- [x] `HelpBlock`
+- [x] `InputGroup`
+- [x] `InputGroupAddon`
+- [x] `InputGroupButton`
+- [x] `Card` present
+- [x] `Panel`
+- [x] `PanelBody`
+- [x] `PanelHeader`
+- [x] `PanelFooter`
+- [x] `Jumbotron`
+- [x] `Tooltip`
+- [x] `Popover`
+- [x] `Collapse`
+- [x] `Carousel`
+
+## Full GwtBootstrap3 Widget Inventory
+
+- [x] `Abbreviation`
+- [x] `Affix`
+- [x] `Alert`
+- [x] `Anchor`
+- [x] `AnchorButton`
+- [x] `AnchorListItem`
+- [x] `Badge`
+- [x] `BlockQuote`
+- [x] `BooleanRadioGroup`
+- [x] `Breadcrumbs`
+- [x] `Button`
+- [x] `ButtonGroup`
+- [x] `ButtonToolBar`
+- [x] `Caption`
+- [x] `Carousel`
+- [x] `CarouselCaption`
+- [x] `CarouselControl`
+- [x] `CarouselIndicator`
+- [x] `CarouselIndicators`
+- [x] `CarouselInner`
+- [x] `CarouselSlide`
+- [x] `CheckBox`
+- [x] `CheckBoxButton`
+- [x] `Code`
+- [x] `Collapse`
+- [x] `Column`
+- [x] `Container`
+- [x] `Description`
+- [x] `DescriptionData`
+- [x] `DescriptionTitle`
+- [x] `Divider`
+- [x] `DoubleBox`
+- [x] `DoubleRadioGroup`
+- [x] `DropDown`
+- [x] `DropDownHeader`
+- [x] `DropDownMenu`
+- [x] `FieldSet`
+- [x] `Form`
+- [x] `FormControlStatic`
+- [x] `FormGroup`
+- [x] `FormLabel`
+- [x] `Heading`
+- [x] `HelpBlock`
+- [x] `Icon`
+- [x] `IconStack`
+- [x] `Image`
+- [x] `ImageAnchor`
+- [x] `InlineCheckBox`
+- [x] `InlineHelpBlock`
+- [x] `InlineRadio`
+- [x] `Input`
+- [x] `InputGroup`
+- [x] `InputGroupAddon`
+- [x] `InputGroupButton`
+- [x] `IntegerBox`
+- [x] `IntegerRadioGroup`
+- [x] `IsClosable`
+- [x] `Jumbotron`
+- [x] `Label`
+- [x] `Lead`
+- [x] `Legend`
+- [x] `LinkedGroup`
+- [x] `LinkedGroupItem`
+- [x] `LinkedGroupItemText`
+- [x] `ListBox`
+- [x] `ListDropDown`
+- [x] `ListGroup`
+- [x] `ListGroupItem`
+- [x] `ListItem`
+- [x] `LongBox`
+- [x] `MediaBody`
+- [x] `MediaList`
+- [x] `Modal`
+- [x] `ModalBody`
+- [x] `ModalComponent`
+- [x] `ModalFooter`
+- [x] `ModalHeader`
+- [x] `ModalSize`
+- [x] `Nav`
+- [x] `NavPills`
+- [x] `NavTabs`
+- [x] `Navbar`
+- [x] `NavbarBrand`
+- [x] `NavbarButton`
+- [x] `NavbarCollapse`
+- [x] `NavbarCollapseButton`
+- [x] `NavbarForm`
+- [x] `NavbarHeader`
+- [x] `NavbarLink`
+- [x] `NavbarNav`
+- [x] `NavbarText`
+- [x] `PageHeader`
+- [x] `Pager`
+- [x] `Pagination`
+- [x] `Panel`
+- [x] `PanelBody`
+- [x] `PanelCollapse`
+- [x] `PanelFooter`
+- [x] `PanelGroup`
+- [x] `PanelHeader`
+- [x] `Popover`
+- [x] `Pre`
+- [x] `Progress`
+- [x] `ProgressBar`
+- [x] `Radio`
+- [x] `RadioButton`
+- [x] `Row`
+- [x] `ScrollSpy`
+- [x] `SimpleCheckBox`
+- [x] `SimpleRadioButton`
+- [x] `StringRadioGroup`
+- [x] `SubmitButton`
+- [x] `SuggestBox`
+- [x] `TabContent`
+- [x] `TabListItem`
+- [x] `TabPane`
+- [x] `TabPanel`
+- [x] `TextArea`
+- [x] `TextBox`
+- [x] `ThumbnailLink`
+- [x] `ThumbnailPanel`
+- [x] `Tooltip`
+- [x] `TooltipHelpBlock`
+- [x] `ValueListBox`
+- [x] `VerticalButtonGroup`
+- [x] `Well`

@@ -1,0 +1,6 @@
+# TeaVM inlines each bundle listed here at build time.
+#
+# The base name must NOT match an existing class name: TeaVM's bundle loader resolves a
+# class of that name first, and an interface has no constructor, so it skips the bundle
+# entirely. Hence ValidationMessagesBundle rather than ValidationMessages.
+io.instanto.bootstrap5.client.ui.form.validator.ValidationMessagesBundle

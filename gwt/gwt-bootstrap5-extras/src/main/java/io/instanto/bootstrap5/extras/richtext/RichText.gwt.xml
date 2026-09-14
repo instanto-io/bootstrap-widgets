@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Quill 2, replacing the Summernote extra.
+
+  Summernote is the one Bootstrap 3 extra with no jQuery-free equivalent, so it
+  is replaced rather than ported. Quill ships a UMD build that ScriptInjector can
+  load, brings its own toolbar, and has a small API to wrap; TipTap is the other
+  candidate but it is headless and ESM-first, which means writing the whole
+  toolbar and adding a bundling step.
+
+  Quill is BSD-3-Clause; see QUILL-LICENSE at the module root.
+-->
+<module rename-to='richtext'>
+    <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <source path='client'/>
+    <public path="client/resource">
+        <include name="css/*.css"/>
+    </public>
+    <stylesheet src="css/quill-snow-2.0.3.cache.css"/>
+    <entry-point class="io.instanto.bootstrap5.extras.richtext.client.RichTextEntryPoint"/>
+</module>

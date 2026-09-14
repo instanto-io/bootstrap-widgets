@@ -1,0 +1,70 @@
+GWT Bootstrap Modern
+Copyright 2026 Carl Stainton
+
+This product includes software developed by the GwtBootstrap3 project
+(https://github.com/gwtbootstrap3/gwtbootstrap3), licensed under the
+Apache License, Version 2.0.
+
+  Copyright (C) 2013-2018 GwtBootstrap3
+  Original authors include Sven Jacobs and Joshua Godi.
+
+This is a modified derivative work. Files carrying a GwtBootstrap3 copyright
+header have been changed from their originals; the nature of the changes varies
+by module and is described below.
+
+--------------------------------------------------------------------------------
+Upstream baselines
+--------------------------------------------------------------------------------
+
+Forked from the following upstream commits:
+
+  gwtbootstrap3          66b482b4ec5db54931ff76c4a66454ea4d39637f
+  gwtbootstrap3-extras   3b4c82f547f39fbfcf9d44b4b912ea3fdd61c13b
+  gwtbootstrap3-demo     d4fc399914ac386220fc351dbd707592afa34224
+
+--------------------------------------------------------------------------------
+Modifications by module
+--------------------------------------------------------------------------------
+
+gwt-bootstrap3
+gwt-bootstrap3-extras
+gwt-bootstrap3-showcase
+    Dependency and toolchain maintenance of the upstream sources. The Java API,
+    package names, GWT module names and Bootstrap 3 markup are preserved; the
+    build targets org.gwtproject GWT 2.13.1, Bootstrap 3.4.1 and jQuery 3.7.1.
+
+gwt-bootstrap5
+gwt-bootstrap5-extras
+gwt-bootstrap5-themes
+gwt-bootstrap5-showcase
+    Derived from the GwtBootstrap3 sources and substantially modified: moved to
+    the io.instanto.bootstrap5 package namespace, re-targeted at Bootstrap 5 markup,
+    class names and data-bs-* attributes, with jQuery plugin calls replaced by
+    Bootstrap 5 JavaScript APIs. Widget semantics differ from the originals
+    wherever Bootstrap 5 removed or redesigned a Bootstrap 3 concept.
+
+teavm-gwt-compat
+    Not derived from GwtBootstrap3. A minimal reimplementation of the
+    com.google.gwt.* client API surface the widget sources use, backed by TeaVM
+    DOM calls, so those sources compile on both backends.
+
+teavm-bootstrap3
+teavm-bootstrap5
+    TeaVM backends for the widget sets above. These compile the corresponding
+    GWT module's sources, and add TeaVM-specific implementations for the parts
+    that depend on GWT compiler features (JSNI bridges to Bootstrap's
+    JavaScript, and deferred-binding lookups).
+
+gwt-teavm-compat
+    Original to this project. Reimplements, over TeaVM's JSO libraries, the
+    subset of the GWT client API that the widget libraries call. Class and
+    method names follow GWT's own API (https://github.com/gwtproject/gwt),
+    which is likewise licensed under the Apache License, Version 2.0.
+
+--------------------------------------------------------------------------------
+Third-party browser assets
+--------------------------------------------------------------------------------
+
+Browser JavaScript and CSS distributions are vendored into the GWT modules and
+redistributed under their own licences. Versions and provenance are recorded in
+THIRD-PARTY-ASSETS.md.

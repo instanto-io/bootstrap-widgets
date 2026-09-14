@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Inherit this module to supply your own Bootstrap 5 stylesheet, or to let something
+  else own it, such as a runtime theme switcher. It puts the widget source and the
+  packaged resources on the path but declares no stylesheet of its own.
+-->
+<module rename-to="GwtBootstrap5NoTheme">
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5Base"/>
+    <inherits name="io.instanto.bootstrap5.client.NoThemeResources"/>
+</module>

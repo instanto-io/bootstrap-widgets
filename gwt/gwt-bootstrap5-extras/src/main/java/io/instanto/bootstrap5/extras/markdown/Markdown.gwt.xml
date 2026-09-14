@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Markdown rendering and authoring.
+
+  Aimed at applications that store Markdown rather than HTML. marked is
+  configured for GitHub Flavoured Markdown, which is the dialect flexmark-java
+  produces when it is built with the tables, strikethrough and task list
+  extensions, so a client-side preview matches what a flexmark server renders.
+
+  Output is sanitised with DOMPurify before it reaches the DOM. marked does not
+  sanitise, by design, and Markdown permits raw HTML, so anything rendered from
+  user input would otherwise be an injection route.
+
+  marked is MIT; DOMPurify is MPL-2.0 or Apache-2.0.
+-->
+<module rename-to='markdown'>
+    <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+    <source path='client'/>
+    <entry-point class="io.instanto.bootstrap5.extras.markdown.client.MarkdownEntryPoint"/>
+</module>

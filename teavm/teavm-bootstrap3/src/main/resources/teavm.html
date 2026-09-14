@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap 3 Showcase (TeaVM)</title>
+  <!--
+    Themes adopts the link with this id rather than adding a second stylesheet,
+    so the runtime theme switcher performs a single atomic swap. Keep the id.
+  -->
+  <link id="gwtbootstrap3-theme" rel="stylesheet" href="css/bootstrap-3.4.1.min.cache.css">
+</head>
+<body>
+  <script>window.exports = window;</script>
+  <script src="teavm/teavm-bootstrap3-showcase.js"></script>
+  <script>
+    const teavmMain = window.main || (window.exports && window.exports.main);
+    if (typeof teavmMain === 'function') {
+      teavmMain([]);
+    } else {
+      document.body.innerHTML = '<main class="container py-4"><div class="alert alert-danger">TeaVM entry point was not exported.</div></main>';
+    }
+  </script>
+</body>
+</html>

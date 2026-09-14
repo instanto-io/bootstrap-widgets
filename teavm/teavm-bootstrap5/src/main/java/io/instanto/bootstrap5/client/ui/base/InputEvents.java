@@ -1,0 +1,53 @@
+/*
+ * #%L
+ * GWT Bootstrap
+ * %%
+ * Copyright (C) 2026 Carl Stainton
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+package io.instanto.bootstrap5.client.ui.base;
+
+import org.teavm.jso.dom.events.EventListener;
+import org.teavm.jso.dom.html.HTMLElement;
+
+import com.google.gwt.dom.client.Element;
+
+/**
+ * TeaVM implementation of the {@code input} event seam.
+ *
+ * <p>Identical in package and API to the Bootstrap 5 class of the same name; it exists
+ * separately only because that one reaches the DOM through JSNI, which TeaVM cannot
+ * compile. Here the listener is registered directly against the TeaVM element.</p>
+ */
+public final class InputEvents {
+
+    /** Notified on every {@code input} event, which for a range fires while dragging. */
+    public interface Handler {
+        void onInput();
+    }
+
+    private InputEvents() {
+    }
+
+    /** Calls {@code handler} whenever {@code element} raises {@code input}. */
+    public static void listen(final Element element, final Handler handler) {
+        if (element == null || handler == null) {
+            return;
+        }
+        final HTMLElement target = element.unwrap();
+        target.addEventListener("input", (EventListener<org.teavm.jso.dom.events.Event>)
+                event -> handler.onInput());
+    }
+}

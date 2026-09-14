@@ -1,0 +1,283 @@
+.dropdown-menu-match-toggle {
+  min-width: 100% !important;
+}
+
+.card.border-primary > .card-header {
+  color: #fff;
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.card.border-success > .card-header {
+  color: #fff;
+  background-color: var(--bs-success);
+  border-color: var(--bs-success);
+}
+
+.card.border-info > .card-header {
+  color: #000;
+  background-color: var(--bs-info);
+  border-color: var(--bs-info);
+}
+
+.card.border-warning > .card-header {
+  color: #000;
+  background-color: var(--bs-warning);
+  border-color: var(--bs-warning);
+}
+
+.card.border-danger > .card-header {
+  color: #fff;
+  background-color: var(--bs-danger);
+  border-color: var(--bs-danger);
+}
+.dropdown-toggle-no-caret::after {
+    display: none;
+}
+
+.btn-group-justified {
+  display: flex;
+  width: 100%;
+}
+
+.btn-group-justified > .btn {
+  flex: 1 1 auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Icon modifiers.
+
+   Bootstrap 3 got these from Font Awesome, which shipped fa-spin, fa-fw,
+   fa-border, fa-rotate-*, fa-flip-* and fa-stack. Bootstrap Icons ships glyphs
+   only, so the equivalents are declared here. Sizing and colour are not:
+   IconSize maps onto Bootstrap's own fs-* utilities and Emphasis onto text-*.
+
+   Namespaced gbm-icon-* rather than bi-*, because a bi-* modifier could collide
+   with an icon of the same name -- bi-border is a real Bootstrap icon.
+   --------------------------------------------------------------------------- */
+
+.gbm-icon-fw {
+  display: inline-block;
+  width: 1.25em;
+  text-align: center;
+}
+
+.gbm-icon-border {
+  padding: 0.2em 0.25em 0.15em;
+  border: solid 0.08em var(--bs-border-color, #dee2e6);
+  border-radius: 0.1em;
+}
+
+.gbm-icon-inverse {
+  color: var(--bs-body-bg, #fff);
+}
+
+.gbm-icon-rotate-90 {
+  display: inline-block;
+  transform: rotate(90deg);
+}
+
+.gbm-icon-rotate-180 {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+
+.gbm-icon-rotate-270 {
+  display: inline-block;
+  transform: rotate(270deg);
+}
+
+.gbm-icon-flip-horizontal {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
+.gbm-icon-flip-vertical {
+  display: inline-block;
+  transform: scaleY(-1);
+}
+
+.gbm-icon-spin {
+  display: inline-block;
+  animation: gbm-icon-spin 2s infinite linear;
+}
+
+.gbm-icon-pulse {
+  display: inline-block;
+  animation: gbm-icon-spin 1s infinite steps(8);
+}
+
+@keyframes gbm-icon-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gbm-icon-spin,
+  .gbm-icon-pulse {
+    animation: none;
+  }
+}
+
+.gbm-icon-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+.gbm-icon-stack > .gbm-icon-stack-base,
+.gbm-icon-stack > .gbm-icon-stack-top {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.gbm-icon-stack > .gbm-icon-stack-base {
+  font-size: 2em;
+  line-height: inherit;
+}
+
+.gbm-icon-stack > .gbm-icon-stack-top {
+  line-height: 2em;
+}
+
+/* ---------------------------------------------------------------------------
+   Form layouts.
+
+   Bootstrap 5 removed .form-inline and .form-horizontal in favour of grid and
+   flex utilities applied per element. FormType keeps both constants and names
+   these classes, so a Bootstrap 3 form layout still describes itself the same
+   way in Java.
+   --------------------------------------------------------------------------- */
+
+.gbm-form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.gbm-form-inline > * {
+  flex: 0 0 auto;
+  margin-bottom: 0;
+}
+
+.gbm-form-inline .form-label {
+  margin-bottom: 0;
+}
+
+.gbm-form-horizontal > .mb-3 {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.gbm-form-horizontal > .mb-3 > .form-label {
+  flex: 0 0 auto;
+  width: 25%;
+  max-width: 12rem;
+  margin-bottom: 0;
+  text-align: end;
+}
+
+.gbm-form-horizontal > .mb-3 > :not(.form-label) {
+  flex: 1 1 12rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Layouts Bootstrap 5 dropped but the widget API still names.
+
+   .well-lg / .well-sm, .tabs-left / .tabs-right / .tabs-below and
+   .pre-scrollable all went in the Bootstrap 3 to 5 move. WellSize, TabPosition
+   and Pre.setScrollable keep their meaning by naming these instead.
+   --------------------------------------------------------------------------- */
+
+.gbm-well    { padding: 1rem; }
+.gbm-well-lg { padding: 3rem; }
+.gbm-well-sm { padding: 0.5rem; }
+
+.gbm-tabs-below {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.gbm-tabs-left,
+.gbm-tabs-right {
+  display: flex;
+  gap: 1rem;
+}
+
+.gbm-tabs-right { flex-direction: row-reverse; }
+
+.gbm-tabs-left > .nav,
+.gbm-tabs-right > .nav {
+  flex-direction: column;
+  flex: 0 0 auto;
+}
+
+.gbm-tabs-left > .tab-content,
+.gbm-tabs-right > .tab-content {
+  flex: 1 1 auto;
+}
+
+.gbm-pre-scrollable {
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Toggle buttons on touch devices.
+
+   Bootstrap styles toggle-button hover the same as the checked state, so an
+   outline toggle button turns solid on hover. Touch browsers latch :hover after
+   a tap and hold it until you tap elsewhere, which leaves a tapped-but-unchecked
+   button looking exactly like a checked one. On devices without hover, restore
+   unchecked and inactive controls to the values from Bootstrap's own button
+   variables so every variant stays correct.
+   --------------------------------------------------------------------------- */
+
+@media (hover: none) {
+  .btn[data-bs-toggle="button"]:not(.active):hover,
+  .btn-check:not(:checked):not(:disabled) + .btn:not(.active):hover {
+    color: var(--bs-btn-color);
+    background-color: var(--bs-btn-bg);
+    border-color: var(--bs-btn-border-color);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Validation warning state.
+
+   Bootstrap 3 had three contextual states on the form group -- .has-error,
+   .has-warning and .has-success. Bootstrap 5 keeps only invalid and valid, on
+   the control itself. ValidationState.WARNING names the class below, which
+   mirrors Bootstrap's own .is-invalid rules in amber so the third state still
+   renders rather than silently doing nothing.
+   --------------------------------------------------------------------------- */
+
+.gbm-is-warning {
+  border-color: var(--bs-warning-border-subtle, #ffcd39);
+}
+
+.gbm-is-warning:focus {
+  border-color: var(--bs-warning-border-subtle, #ffcd39);
+  box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+}
+
+.gbm-is-warning ~ .warning-feedback,
+.gbm-is-warning ~ .invalid-feedback.gbm-warning {
+  display: block;
+}
+
+.warning-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: var(--bs-warning-text-emphasis, #997404);
+}

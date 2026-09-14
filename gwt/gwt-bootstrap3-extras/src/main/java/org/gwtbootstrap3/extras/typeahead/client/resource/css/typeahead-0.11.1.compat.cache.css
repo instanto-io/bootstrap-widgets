@@ -1,0 +1,27 @@
+.tt-menu {
+  min-width: 160px;
+  margin: 2px 0 0;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.tt-suggestion {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.tt-suggestion:hover,
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #337ab7;
+}
+.tt-hint {
+  color: #999;
+}

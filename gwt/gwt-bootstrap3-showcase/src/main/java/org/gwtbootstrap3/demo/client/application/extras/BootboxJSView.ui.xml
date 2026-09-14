@@ -1,0 +1,265 @@
+<!--
+  #%L
+  GwtBootstrap3
+  %%
+  Copyright (C) 2013 GwtBootstrap3
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:b.html="urn:import:org.gwtbootstrap3.client.ui.html"
+             xmlns:d="urn:import:org.gwtbootstrap3.demo.client.ui">
+
+    <ui:style>
+        .danger {
+            background-color: #fcf2f2;
+            border-color: #dFb5b4;
+        }
+
+        .margin-fix {
+            margin-top: 0 !important;
+        }
+
+        .spacing {
+            margin-left: 5px;
+        }
+    </ui:style>
+
+    <b:Row>
+        <b:Column size="XS_12">
+
+            <b:PageHeader text="Bootbox"/>
+
+            <b:BlockQuote>
+                <b.html:Strong>Original Library Link:</b.html:Strong>
+                <b:Anchor target="_blank" addStyleNames="{style.spacing}" href="http://bootboxjs.com/">Bootbox.js</b:Anchor>
+                <b.html:Br/>
+                <b.html:Strong>Current Version Supported: 4.4.0</b.html:Strong>
+            </b:BlockQuote>
+
+            <b:BlockQuote addStyleNames="{style.danger}">
+                <b:Heading addStyleNames="{style.margin-fix}" size="H4" text="Required for use"/>
+                <b.html:Paragraph>
+                    To use Bootbox, you must first add the extras module to your project. In Maven:
+                </b.html:Paragraph>
+                <d:PrettyPre addStyleNames="lang-xml">
+                    &lt;dependency&gt;\n
+                    \s\s\s\s&lt;groupId&gt;org.gwtbootstrap3&lt;/groupId&gt;\n
+                    \s\s\s\s&lt;artifactId&gt;gwtbootstrap3-extras&lt;/artifactId&gt;\n
+                    \s\s\s\s&lt;version&gt;VERSION&lt;/version&gt;\n
+                    \s\s\s\s&lt;scope&gt;provided&lt;/scope&gt;\n
+                    &lt;/dependency&gt;
+                </d:PrettyPre>
+                <b.html:Paragraph>
+                    Then you need to inherit the following GWT Module
+                    <strong>additionally</strong>
+                    to any GwtBootstrap3
+                    module into your *.gwt.xml of your project:
+                </b.html:Paragraph>
+                <d:PrettyPre addStyleNames="lang-xml">
+                    &lt;inherits name="org.gwtbootstrap3.extras.bootbox.Bootbox"/&gt;
+                </d:PrettyPre>
+                <b.html:Paragraph>
+                    Then, you can call static method from Bootbox class in GWT client code:
+                </b.html:Paragraph>
+                <d:PrettyPre addStyleNames="lang-java">
+                    Bootbox.alert("Message");
+                </d:PrettyPre>
+            </b:BlockQuote>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Default Locale"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <b:Form type="INLINE">
+                        <b:FormGroup>               
+                            <b:FormLabel for="localeBox">Select Default Locale: </b:FormLabel>
+                            <b:ListBox b:id="localeBox" ui:field="localeBox" addStyleNames="{style.spacing}"/>                        
+                        </b:FormGroup>
+                    </b:Form>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        @UiHandler("localeBox")\n
+                        void onChangeLanguage(final ChangeEvent event) {\n
+                        \s\sString locale = localeBox.getSelectedValue();\n
+                        \s\sBootbox.setLocale(BootboxLocale.valueOf(locale));\n
+                        }
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Alert"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <b:Button type="PRIMARY" icon="PLAY" ui:field="alertButton">Alert</b:Button>
+                    <b:Button addStyleNames="{style.spacing}" type="PRIMARY" icon="PLAY" ui:field="alertCallbackButton">Alert With Callback</b:Button>
+                    <b:Button addStyleNames="{style.spacing}" type="PRIMARY" icon="PLAY" ui:field="alertOptionsButton">Alert With Options</b:Button>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        // Alert\n
+                        @UiHandler("alertButton")\n
+                        void handleAlertButton(ClickEvent event) {\n
+                        \s\sBootbox.alert("Hello World");\n
+                        }\n\n
+                        // Alert With Callback\n
+                        @UiHandler("alertCallbackButton")\n
+                        void handleAlertCallbackButton(ClickEvent event) {\n
+                        \s\sBootbox.alert("Alert With Callback", new SimpleCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback() {\n
+                        \s\s\s\s\s\sWindow.alert("Alert Callback");\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        }\n\n
+                        // Alert With Options\n
+                        @UiHandler("alertOptionsButton")\n
+                        void handleAlertOptionsButton(ClickEvent event) {\n
+                        \s\sAlertOptions options = AlertOptions.newOptions("Alert With Options");\n
+                        \s\soptions.setSize(BootboxSize.LARGE);\n
+                        \s\soptions.setAnimate(false);\n
+                        \s\soptions.setBackdrop(false);\n
+                        \s\soptions.setTitle("My Custom Title");\n
+                        \s\soptions.setCloseButton(false);\n
+                        \s\sBootbox.alert(options);\n
+                        }
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Confirm"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <b:Button type="PRIMARY" icon="PLAY" ui:field="confirmButton">Confirm</b:Button>
+                    <b:Button addStyleNames="{style.spacing}" type="PRIMARY" icon="PLAY" ui:field="confirmOptionsButton">Confirm With Options</b:Button>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        @UiHandler("confirmButton")\n
+                        void handleConfirmButton(ClickEvent event) {\n
+                        \s\sBootbox.confirm("Hello World", new ConfirmCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback(boolean result) {\n
+                        \s\s\s\s\s\sWindow.alert("Return: " + result);\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        }\n\n
+                        // Confirm With Options\n
+                        @UiHandler("confirmOptionsButton")\n
+                        void handleConfirmOptionsButton(ClickEvent event) {\n
+                        \s\sConfirmOptions options = ConfirmOptions.newOptions("Confirm With Options");\n
+                        \s\soptions.setSize(BootboxSize.SMALL);\n
+                        \s\soptions.setAnimate(false);\n
+                        \s\soptions.setBackdrop(false);\n
+                        \s\soptions.setTitle("Custom Confirm Title");\n
+                        \s\soptions.setCloseButton(false);\n
+                        \s\soptions.setCallback(new ConfirmCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback(final boolean result) {\n
+                        \s\s\s\s\s\sWindow.alert("Return: " + result);\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        \s\sBootbox.confirm(options);\n
+                        }
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Prompt"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <b:Button type="PRIMARY" icon="PLAY" ui:field="promptButton">Prompt</b:Button>
+                    <b:Button addStyleNames="{style.spacing}" type="PRIMARY" icon="PLAY" ui:field="promptOptionsButton">Prompt With Options</b:Button>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        @UiHandler("button")\n
+                        public void handleButton(ClickEvent event) {\n
+                        \s\sBootbox.prompt("Hello World", new PromptCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback(String result) {\n
+                        \s\s\s\s\s\sWindow.alert("Return: " + result);\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        }\n\n
+                        // Prompt With Options\n
+                        @UiHandler("promptOptionsButton")\n
+                        void handlePromptOptionsButton(ClickEvent event) {\n
+                        \s\sPromptOptions options = PromptOptions.newOptions("Prompt With Options");\n
+                        \s\soptions.setAnimate(false);\n
+                        \s\soptions.setBackdrop(false);\n
+                        \s\soptions.setTitle("Custom Confirm Title");\n
+                        \s\soptions.setCloseButton(false);\n
+                        \s\soptions.setCallback(new PromptCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback(final boolean result) {\n
+                        \s\s\s\s\s\sWindow.alert("Return: " + result);\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        \s\sBootbox.prompt(options);\n
+                        }
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+
+            <b:Panel>
+                <b:PanelHeader>
+                    <b:Heading size="H3" text="Custom Dialog"/>
+                </b:PanelHeader>
+                <b:PanelBody>
+                    <b:Button type="PRIMARY" icon="PLAY" ui:field="dialogButton">Custom Dialog</b:Button>
+                </b:PanelBody>
+                <b:PanelFooter>
+                    <d:PrettyPre addStyleNames="lang-java">
+                        @UiHandler("dialogButton")\n
+                        void handleDialogButton(ClickEvent event) {\n
+                        \s\sDialogOptions options = DialogOptions.newOptions("I am a custom dialog");\n
+                        \s\soptions.setTitle("Custom title");\n
+                        \s\soptions.setOnEscape(new SimpleCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback() {\n
+                        \s\s\s\s\s\sWindow.alert("On Escape!");\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        \s\soptions.addButton("Success!", ButtonType.SUCCESS.getCssName(), new SimpleCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback() {\n
+                        \s\s\s\s\s\sWindow.alert("Success callback!");\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        \s\soptions.addButton("Danger!", ButtonType.DANGER.getCssName(), new SimpleCallback() {\n
+                        \s\s\s\s@Override\n
+                        \s\s\s\spublic void callback() {\n
+                        \s\s\s\s\s\sWindow.alert("Danger callback!");\n
+                        \s\s\s\s}\n
+                        \s\s});\n
+                        \s\soptions.addButton("Click ME!");\n
+                        \s\sBootbox.dialog(options);\n
+                        }
+                    </d:PrettyPre>
+                </b:PanelFooter>
+            </b:Panel>
+        </b:Column>
+    </b:Row>
+
+</ui:UiBinder>

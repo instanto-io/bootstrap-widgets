@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.instanto</groupId>
+    <artifactId>bootstrap-widgets</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>showcase-site</artifactId>
+  <packaging>pom</packaging>
+  <name>Showcase Site</name>
+  <description>
+    Assembles the GitHub Pages site from the compiled showcases, the browser
+    fixtures and the TeaVM backends.
+
+    The four applications arrive as war artifacts and are unpacked, so the build
+    order is a real dependency rather than an assumption about which target
+    directories happen to exist. The vendored stylesheets and scripts are copied
+    from the modules that own them, and the result is checked by the enforcer
+    rather than by a list of shell tests.
+  </description>
+
+  <properties>
+    <pages.dir>${project.build.directory}/pages</pages.dir>
+    <b3.res>${project.parent.basedir}/gwt/gwt-bootstrap3/src/main/java/org/gwtbootstrap3/client/resource</b3.res>
+    <b5.res>${project.parent.basedir}/gwt/gwt-bootstrap5/src/main/java/io/instanto/bootstrap5/client/resource</b5.res>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap3-showcase</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap5-showcase</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap3-browser-fixtures</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap5-browser-fixtures</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>teavm-bootstrap3</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>teavm-bootstrap5</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap3</artifactId>
+      <version>${project.version}</version>
+      <classifier>javadoc</classifier>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap3-extras</artifactId>
+      <version>${project.version}</version>
+      <classifier>javadoc</classifier>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap5</artifactId>
+      <version>${project.version}</version>
+      <classifier>javadoc</classifier>
+    </dependency>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-bootstrap5-extras</artifactId>
+      <version>${project.version}</version>
+      <classifier>javadoc</classifier>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-applications</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <excludes>WEB-INF/**,META-INF/**</excludes>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap3-showcase</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${pages.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap5-showcase</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${pages.dir}/bootstrap5</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap3-browser-fixtures</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${pages.dir}/fixtures/gwt-bootstrap3</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap5-browser-fixtures</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${pages.dir}/fixtures/gwt-bootstrap5</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-api-documentation</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap3</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>javadoc</classifier>
+                  <outputDirectory>${pages.dir}/apidocs</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap3-extras</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>javadoc</classifier>
+                  <outputDirectory>${pages.dir}/extras-apidocs</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap5</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>javadoc</classifier>
+                  <outputDirectory>${pages.dir}/bootstrap5/apidocs</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>io.instanto</groupId>
+                  <artifactId>gwt-bootstrap5-extras</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>javadoc</classifier>
+                  <outputDirectory>${pages.dir}/bootstrap5/extras-apidocs</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-site-assets</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${pages.dir}</outputDirectory>
+              <resources>
+                <!-- The TeaVM backends, and the pages that host them. -->
+                <resource>
+                  <directory>${project.parent.basedir}/teavm/teavm-bootstrap3/target/teavm</directory>
+                  <targetPath>teavm</targetPath>
+                </resource>
+                <resource>
+                  <directory>${project.parent.basedir}/teavm/teavm-bootstrap5/target/teavm</directory>
+                  <targetPath>teavm5</targetPath>
+                </resource>
+                <resource>
+                  <directory>${project.parent.basedir}/teavm/teavm-bootstrap3/src/main/resources</directory>
+                  <includes><include>teavm.html</include></includes>
+                </resource>
+                <resource>
+                  <directory>${project.parent.basedir}/teavm/teavm-bootstrap5/src/main/resources</directory>
+                  <includes><include>teavm-bootstrap5.html</include></includes>
+                </resource>
+                <!--
+                  teavm.html is served from the site root, so the assets its theme
+                  switcher names have to sit beside it rather than under the TeaVM
+                  JavaScript directory.
+                -->
+                <resource>
+                  <directory>${b3.res}/css</directory>
+                  <targetPath>bootstrap</targetPath>
+                  <includes>
+                    <include>bootstrap-3.4.1.min.cache.css</include>
+                    <include>bootstrap-theme-3.4.1.min.cache.css</include>
+                  </includes>
+                </resource>
+                <resource>
+                  <directory>${b3.res}/css</directory>
+                  <targetPath>css</targetPath>
+                  <includes>
+                    <include>font-awesome-4.7.0.min.cache.css</include>
+                    <include>gwt-bootstrap3.cache.css</include>
+                    <!--
+                      Also here, not only under bootstrap/: StandardThemes builds a theme
+                      URL as the module base plus css/, so this is where the runtime theme
+                      switcher looks for the stylesheet it swaps in.
+                    -->
+                    <include>bootstrap-3.4.1.min.cache.css</include>
+                    <include>bootstrap-theme-3.4.1.min.cache.css</include>
+                  </includes>
+                </resource>
+                <!--
+                  The syntax highlighter. GWT compiles it into the output through a
+                  ClientBundle; the TeaVM showcase loads the same file by URL, so the
+                  site has to serve it.
+                -->
+                <resource>
+                  <directory>${project.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/resources/org/gwtbootstrap3/demo/client/resource/js</directory>
+                  <targetPath>teavm/js</targetPath>
+                  <includes><include>prettify.js</include></includes>
+                </resource>
+                <resource>
+                  <directory>${b3.res}/fonts</directory>
+                  <targetPath>fonts</targetPath>
+                </resource>
+                <resource>
+                  <directory>${project.parent.basedir}/gwt/gwt-bootstrap3-themes/src/main/java/org/gwtbootstrap3/themes/client/resource/css</directory>
+                  <targetPath>themes</targetPath>
+                  <includes><include>bootswatch-*.css</include></includes>
+                </resource>
+                <resource>
+                  <directory>${b3.res}/js</directory>
+                  <targetPath>vendor</targetPath>
+                  <includes>
+                    <include>jquery-3.7.1.min.cache.js</include>
+                    <include>bootstrap-3.4.1.min.cache.js</include>
+                  </includes>
+                </resource>
+                <resource>
+                  <directory>${b5.res}/js</directory>
+                  <targetPath>vendor</targetPath>
+                  <includes>
+                    <include>bootstrap-5.3.8.bundle.min.cache.js</include>
+                    <include>bootstrap-5.3.8.bundle.min.cache.js.map</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>alias-bootstrap3-showcase</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <!-- The Bootstrap 3 showcase is linked as showcase.html as well. -->
+                <copy file="${pages.dir}/GwtBootstrap3Demo.html"
+                      tofile="${pages.dir}/showcase.html" failonerror="true"/>
+                <touch file="${pages.dir}/favicon.ico" mkdirs="true"/>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>verify-assembled-site</id>
+            <phase>package</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireFilesExist>
+                  <files>
+                    <file>${pages.dir}/showcase.html</file>
+                    <file>${pages.dir}/bootstrap5/index.html</file>
+                    <file>${pages.dir}/fixtures/gwt-bootstrap3/index.html</file>
+                    <file>${pages.dir}/fixtures/gwt-bootstrap5/index.html</file>
+                    <file>${pages.dir}/teavm.html</file>
+                    <file>${pages.dir}/teavm-bootstrap5.html</file>
+                    <file>${pages.dir}/teavm/teavm-bootstrap3-showcase.js</file>
+                    <file>${pages.dir}/teavm5/teavm-bootstrap5-smoke.js</file>
+                    <file>${pages.dir}/vendor/jquery-3.7.1.min.cache.js</file>
+                    <file>${pages.dir}/vendor/bootstrap-3.4.1.min.cache.js</file>
+                    <file>${pages.dir}/vendor/bootstrap-5.3.8.bundle.min.cache.js</file>
+                    <file>${pages.dir}/apidocs/index.html</file>
+                    <file>${pages.dir}/extras-apidocs/index.html</file>
+                    <file>${pages.dir}/bootstrap5/apidocs/index.html</file>
+                    <file>${pages.dir}/bootstrap5/extras-apidocs/index.html</file>
+                  </files>
+                </requireFilesExist>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

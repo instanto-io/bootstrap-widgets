@@ -1,0 +1,2 @@
+# TeaVM inlines each bundle listed here at build time.
+org.gwtbootstrap3.client.ui.form.validator.ValidationMessagesBundle
