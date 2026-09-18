@@ -14,6 +14,11 @@
   <packaging>war</packaging>
 
   <properties>
+    <!-- Sources vendored from GWTBootstrap3. Formatting them would produce a
+         permanent diff against upstream, and one file already breaks the
+         formatter by separating its imports with a comment. -->
+    <spotless.apply.skip>true</spotless.apply.skip>
+    <spotless.check.skip>true</spotless.check.skip>
     <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
     <validation.version>1.0.0.GA</validation.version>
     <hibernate-validator.version>4.1.0.Final</hibernate-validator.version>
