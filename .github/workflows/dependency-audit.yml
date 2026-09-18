@@ -16,9 +16,9 @@ concurrency:
 jobs:
   audit:
     name: OWASP dependency audit
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, instanto-container]
     env:
-      PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_READ_TOKEN || secrets.GITHUB_TOKEN }}
+      PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Check out

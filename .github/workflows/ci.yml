@@ -9,13 +9,13 @@ on:
 jobs:
   build:
     name: Maven build and showcase compile
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, instanto-container]
     permissions:
       contents: read
       packages: read
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_READ_TOKEN || secrets.GITHUB_TOKEN }}
+      PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Check out

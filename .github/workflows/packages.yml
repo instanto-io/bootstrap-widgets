@@ -13,7 +13,7 @@ permissions:
 jobs:
   publish:
     name: Publish library reactor
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, instanto-container]
 
     steps:
       - name: Check out
@@ -45,7 +45,7 @@ jobs:
         run: mvn -B -ntp -f .build/teavm-compat/pom.xml -DskipTests install
       - name: Configure compatibility package access
         env:
-          PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_READ_TOKEN || secrets.GITHUB_TOKEN }}
+          PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           echo "PACKAGES_READ_TOKEN=$PACKAGES_READ_TOKEN" >> "$GITHUB_ENV"
           python3 - <<'PYSET'
