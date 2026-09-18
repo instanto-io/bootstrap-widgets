@@ -47,7 +47,7 @@ jobs:
           repository: instanto-io/teavm-compat
           path: .build/teavm-compat
       - name: Install the development compatibility libraries
-        run: mvn -B -ntp -f .build/teavm-compat/pom.xml -DskipTests install
+        run: mvn -B -ntp -f .build/teavm-compat/pom.xml -DskipTests -Dspotbugs.skip=true install
       - name: Configure Maven for private package repositories
         run: |
           mkdir -p "$HOME/.m2"
