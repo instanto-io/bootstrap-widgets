@@ -68,9 +68,19 @@ public final class Markdown {
         return markdown == null || markdown.isEmpty() ? "" : render(markdown);
     }
 
+    /** Converts {@code html} back to Markdown. */
+    public static String toMarkdown(final String html) {
+        if (html == null || html.trim().isEmpty()) {
+            return "";
+        }
+        return renderMarkdown(html);
+    }
+
     /** Whether the parser and sanitiser have finished loading. */
     public static native boolean isReady() /*-{
-        return typeof $wnd.marked !== "undefined" && typeof $wnd.DOMPurify !== "undefined";
+        return typeof $wnd.marked !== "undefined"
+            && typeof $wnd.DOMPurify !== "undefined"
+            && typeof $wnd.TurndownService !== "undefined";
     }-*/;
 
     private static native String render(String markdown) /*-{
@@ -87,5 +97,24 @@ public final class Markdown {
         // server sends rather than merely similar.
         return html.replace(/<table>/g,
                 "<table class=\"table table-striped table-condensed table-bordered\">");
+    }-*/;
+
+    private static native String renderMarkdown(String html) /*-{
+        if (typeof $wnd.TurndownService === "undefined") {
+            return html;
+        }
+        if (!$wnd.__turndownServiceInstance) {
+            var service = new $wnd.TurndownService({
+                headingStyle: 'atx',
+                hr: '---',
+                bulletListMarker: '-',
+                codeBlockStyle: 'fenced'
+            });
+            if (typeof $wnd.turndownPluginGfm !== "undefined" && $wnd.turndownPluginGfm.gfm) {
+                service.use($wnd.turndownPluginGfm.gfm);
+            }
+            $wnd.__turndownServiceInstance = service;
+        }
+        return $wnd.__turndownServiceInstance.turndown(html || '');
     }-*/;
 }

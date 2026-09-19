@@ -37,4 +37,10 @@ public interface MarkdownClientBundle extends ClientBundle {
 
     @Source("resource/js/dompurify-3.4.14.min.cache.js")
     TextResource domPurify();
+
+    @Source("resource/js/turndown-7.2.4.cache.js")
+    TextResource turndown();
+
+    @Source("resource/js/turndown-plugin-gfm-1.0.2.cache.js")
+    TextResource turndownPluginGfm();
 }

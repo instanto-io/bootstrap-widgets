@@ -41,6 +41,16 @@ public class MarkdownEntryPoint implements EntryPoint {
                     .setWindow(ScriptInjector.TOP_WINDOW)
                     .inject();
         }
+        if (!isTurndownLoaded()) {
+            ScriptInjector.fromString(MarkdownClientBundle.INSTANCE.turndown().getText())
+                    .setWindow(ScriptInjector.TOP_WINDOW)
+                    .inject();
+        }
+        if (!isTurndownGfmLoaded()) {
+            ScriptInjector.fromString(MarkdownClientBundle.INSTANCE.turndownPluginGfm().getText())
+                    .setWindow(ScriptInjector.TOP_WINDOW)
+                    .inject();
+        }
         Markdown.configure();
     }
 
@@ -50,5 +60,13 @@ public class MarkdownEntryPoint implements EntryPoint {
 
     private static native boolean isPurifyLoaded() /*-{
         return typeof $wnd.DOMPurify !== "undefined";
+    }-*/;
+
+    private static native boolean isTurndownLoaded() /*-{
+        return typeof $wnd.TurndownService !== "undefined";
+    }-*/;
+
+    private static native boolean isTurndownGfmLoaded() /*-{
+        return typeof $wnd.turndownPluginGfm !== "undefined";
     }-*/;
 }
