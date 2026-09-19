@@ -266,7 +266,7 @@
         <version>${teavm.version}</version>
         <executions>
           <execution>
-            <id>compile-teavm-smoke-app</id>
+            <id>compile-teavm-showcase-app</id>
             <phase>process-classes</phase>
             <goals>
               <goal>compile</goal>
