@@ -6,6 +6,9 @@
   <parent>
     <groupId>io.instanto</groupId>
     <artifactId>gwt-bootstrap-widgets</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
 
   <properties>
     <!-- Sources vendored from GWTBootstrap3. Formatting them would produce a
@@ -14,9 +17,6 @@
     <spotless.apply.skip>true</spotless.apply.skip>
     <spotless.check.skip>true</spotless.check.skip>
   </properties>
-    <version>1.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
 
   <artifactId>gwt-bootstrap3</artifactId>
   <name>GWT Bootstrap 3</name>

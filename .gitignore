@@ -4,3 +4,4 @@ war/
 gwt-unitCache/
 
 /.build/
+.flattened-pom.xml
