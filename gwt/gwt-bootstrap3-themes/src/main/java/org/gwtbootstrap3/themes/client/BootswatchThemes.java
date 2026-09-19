@@ -84,6 +84,13 @@ public final class BootswatchThemes {
             new Entry("superhero", "Superhero", true),
             new Entry("united", "United", false),
             new Entry("yeti", "Yeti", false),
+            new Entry("flat-ui", "Flat UI", false),
+            new Entry("minty", "Minty", false),
+            new Entry("pulse", "Pulse", false),
+            new Entry("zephyr", "Zephyr", false),
+            new Entry("morph", "Morph", false),
+            new Entry("solar", "Solar", true),
+            new Entry("vapor", "Vapor", true),
             new Entry("__none__", "", false));
 
     private BootswatchThemes() {
