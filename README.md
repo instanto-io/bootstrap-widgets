@@ -227,23 +227,19 @@ ToggleSwitch and Summernote showcase pages. See [EXTRAS-INVENTORY.md](EXTRAS-INV
 for the remaining integrations. Bootstrap 5 integrations use explicit JavaScript seams that
 both compilers can implement.
 
-## Using GitHub Packages
+## Using published snapshots
 
 Add the package repository to the consuming build:
 
 ```xml
 <repository>
-  <id>github</id>
-  <url>https://maven.pkg.github.com/cstainton/bootstrap-widgets</url>
-  <snapshots>
-    <enabled>true</enabled>
-  </snapshots>
+  <id>forgejo</id>
+  <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
+  <releases><enabled>false</enabled></releases>
+  <snapshots><enabled>true</enabled></snapshots>
 </repository>
 ```
 
-GitHub Packages repositories are listed in each module's POM. Maven downloads require
-credentials in `settings.xml`, including for public packages. See
-[GitHub's Maven authentication instructions](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry).
 Then add the artifact for the track you want, for example:
 
 ```xml
@@ -292,7 +288,7 @@ JavaScript source maps and the corresponding Java source trees.
 
 The Java/Gherkin widget suites currently need the `0.1.0-SNAPSHOT` builds of
 `cucumber-tea`, `cucumber-tea-codegen`, `gherkin-tea` and `mockatcha-dom`, either installed
-locally or downloaded from GitHub Packages. CI uses a token with package read access;
+locally or downloaded from their current GitHub Packages repositories. CI uses a token with package read access;
 private companion repositories also require access to those repositories.
 
 For CI, store a classic token with `read:packages` scope in the repository's Actions

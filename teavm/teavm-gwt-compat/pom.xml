@@ -12,16 +12,5 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Relocated to the independent TeaVM compatibility build.</description>
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/instanto-io/bootstrap-widgets</url>
-    </repository>
-    <relocation>
-      <groupId>io.instanto</groupId>
-      <artifactId>gwt-user-compat</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
-      <message>Compatibility libraries are maintained in cstainton/teavm-compat.</message>
-    </relocation>
-  </distributionManagement>
+
 </project>

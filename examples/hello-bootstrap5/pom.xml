@@ -12,10 +12,22 @@
     <site.directory>${project.build.directory}/site</site.directory>
   </properties>
   <repositories>
-    <repository><id>github-teavm-compat</id><url>https://maven.pkg.github.com/instanto-io/teavm-compat</url></repository>
+    <repository>
+      <id>forgejo</id>
+      <name>Instanto snapshots</name>
+      <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
+    </repository>
   </repositories>
   <pluginRepositories>
-    <pluginRepository><id>github-teavm-compat</id><url>https://maven.pkg.github.com/instanto-io/teavm-compat</url></pluginRepository>
+    <pluginRepository>
+      <id>forgejo</id>
+      <name>Instanto snapshot build plugins</name>
+      <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
+    </pluginRepository>
   </pluginRepositories>
   <dependencies>
     <dependency><groupId>io.instanto</groupId><artifactId>teavm-bootstrap5</artifactId><version>${widgets.version}</version></dependency>

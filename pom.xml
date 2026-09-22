@@ -30,23 +30,13 @@
     <developerConnection>scm:git:ssh://git@github.com/instanto-io/bootstrap-widgets.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/instanto-io/bootstrap-widgets</url>
-    </repository>
-    <snapshotRepository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/instanto-io/bootstrap-widgets</url>
-    </snapshotRepository>
-  </distributionManagement>
+
   <repositories>
     <repository>
-      <id>github-webapp-testkit</id>
-      <url>https://maven.pkg.github.com/instanto-io/webapp-testkit</url>
-      <releases><enabled>true</enabled></releases>
+      <id>forgejo</id>
+      <name>Instanto snapshots</name>
+      <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
+      <releases><enabled>false</enabled></releases>
       <snapshots><enabled>true</enabled></snapshots>
     </repository>
     <repository>
@@ -93,15 +83,15 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
-    <repository>
-      <id>github-teavm-compat</id>
-      <url>https://maven.pkg.github.com/instanto-io/teavm-compat</url>
-    </repository>
+
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>github-teavm-compat</id>
-      <url>https://maven.pkg.github.com/instanto-io/teavm-compat</url>
+      <id>forgejo</id>
+      <name>Instanto snapshot build plugins</name>
+      <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
     </pluginRepository>
   </pluginRepositories>
   <modules>
