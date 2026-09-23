@@ -20,15 +20,16 @@
 package io.instanto.bootstrap5.client.ui.base;
 
 import com.google.gwt.dom.client.Element;
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsType;
+import jsinterop.base.Any;
+import jsinterop.base.Js;
 
 /**
  * The DOM {@code input} event, which this GWT release has no {@code InputEvent} type for.
  *
- * <p>It sits in its own class because the GWT implementation is JSNI, which the TeaVM
- * backend cannot compile. That backend excludes this file and supplies the same API
- * through {@code @JSBody}, the arrangement {@code BootstrapComponent} already uses. A
- * widget wanting the event implements {@link Handler} rather than declaring JSNI of its
- * own, so the seam stays one file wide.</p>
+ * <p>Reached through JsInterop, so GWT and TeaVM compile this one source. A widget wanting
+ * the event implements {@link Handler} rather than touching the DOM itself.</p>
  */
 public final class InputEvents {
 
@@ -41,9 +42,20 @@ public final class InputEvents {
     }
 
     /** Calls {@code handler} whenever {@code element} raises {@code input}. */
-    public static native void listen(Element element, Handler handler) /*-{
-        element.addEventListener("input", function () {
-            handler.@io.instanto.bootstrap5.client.ui.base.InputEvents.Handler::onInput()();
-        });
-    }-*/;
+    public static void listen(final Element element, final Handler handler) {
+        if (element == null || handler == null) {
+            return;
+        }
+        Js.<EventTarget>uncheckedCast(Js.asAny(element)).addEventListener("input", event -> handler.onInput());
+    }
+
+    @JsFunction
+    interface Listener {
+        void handle(Any event);
+    }
+
+    @JsType(isNative = true)
+    interface EventTarget {
+        void addEventListener(String type, Listener listener);
+    }
 }

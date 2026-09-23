@@ -20,7 +20,7 @@
 package io.instanto.bootstrap5.extras.slider.client.ui;
 
 import com.google.gwt.dom.client.Element;
-import io.instanto.bootstrap5.extras.base.client.JsArrays;
+import io.instanto.bootstrap5.client.shared.js.JsArrays;
 import io.instanto.bootstrap5.extras.slider.client.SliderResources;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;

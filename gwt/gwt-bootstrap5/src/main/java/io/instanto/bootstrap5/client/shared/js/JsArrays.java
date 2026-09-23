@@ -1,4 +1,4 @@
-package io.instanto.bootstrap5.extras.base.client;
+package io.instanto.bootstrap5.client.shared.js;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;

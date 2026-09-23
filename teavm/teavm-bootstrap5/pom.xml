@@ -172,9 +172,6 @@
           </annotationProcessorPaths>
           <excludes>
             <exclude>io/instanto/bootstrap5/client/GwtBootstrap5EntryPoint.java</exclude>
-            <exclude>io/instanto/bootstrap5/client/ui/base/BootstrapEventBridge.java</exclude>
-            <exclude>io/instanto/bootstrap5/client/ui/base/BootstrapComponent.java</exclude>
-            <exclude>io/instanto/bootstrap5/client/ui/base/InputEvents.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/datepicker/client/DatePickerClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/datepicker/client/DatePickerEntryPoint.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/markdown/client/MarkdownClientBundle.java</exclude>
@@ -211,13 +208,7 @@
                 <requireFilesExist>
                   <files>
                     <file>${project.build.directory}/shared-sources/io/instanto/bootstrap5/client/GwtBootstrap5EntryPoint.java</file>
-                    <file>${project.build.directory}/shared-sources/io/instanto/bootstrap5/client/ui/base/BootstrapEventBridge.java</file>
-                    <file>${project.build.directory}/shared-sources/io/instanto/bootstrap5/client/ui/base/BootstrapComponent.java</file>
-                    <file>${project.build.directory}/shared-sources/io/instanto/bootstrap5/client/ui/base/InputEvents.java</file>
                     <file>${project.basedir}/src/main/java/io/instanto/bootstrap5/client/TeaVmBootstrap5EntryPoint.java</file>
-                    <file>${project.basedir}/src/main/java/io/instanto/bootstrap5/client/ui/base/BootstrapEventBridge.java</file>
-                    <file>${project.basedir}/src/main/java/io/instanto/bootstrap5/client/ui/base/BootstrapComponent.java</file>
-                    <file>${project.basedir}/src/main/java/io/instanto/bootstrap5/client/ui/base/InputEvents.java</file>
                   </files>
                 </requireFilesExist>
               </rules>

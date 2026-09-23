@@ -101,9 +101,6 @@ TRACKS = {
         ),
         "excludes": {
             "io/instanto/bootstrap5/client/GwtBootstrap5EntryPoint.java",
-            "io/instanto/bootstrap5/client/ui/base/BootstrapEventBridge.java",
-            "io/instanto/bootstrap5/client/ui/base/BootstrapComponent.java",
-            "io/instanto/bootstrap5/client/ui/base/InputEvents.java",
             "io/instanto/bootstrap5/extras/datepicker/client/DatePickerClientBundle.java",
             "io/instanto/bootstrap5/extras/datepicker/client/DatePickerEntryPoint.java",
             "io/instanto/bootstrap5/extras/markdown/client/MarkdownClientBundle.java",
@@ -125,9 +122,6 @@ TRACKS = {
         },
         "replacements": {
             "io/instanto/bootstrap5/client/TeaVmBootstrap5EntryPoint.java",
-            "io/instanto/bootstrap5/client/ui/base/BootstrapEventBridge.java",
-            "io/instanto/bootstrap5/client/ui/base/BootstrapComponent.java",
-            "io/instanto/bootstrap5/client/ui/base/InputEvents.java",
         },
     },
 }
