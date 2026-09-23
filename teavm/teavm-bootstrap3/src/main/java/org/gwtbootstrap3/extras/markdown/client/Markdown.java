@@ -33,7 +33,7 @@ import org.teavm.jso.JSBody;
  * server sets, so a preview is the markup the server sends rather than merely
  * something similar.</p>
  *
- * <p>GWT compiles marked and DOMPurify into the module through a ClientBundle. There
+ * <p>GWT compiles marked, DOMPurify and Turndown into the module through a ClientBundle. There
  * is no such thing here, so they are fetched by URL and this reports when they have
  * arrived rather than leaving a panel to poll for them.</p>
  */
@@ -60,8 +60,14 @@ public final class Markdown {
         return markdown == null || markdown.isEmpty() ? "" : render(markdown);
     }
 
+    /** Converts {@code html} back to Markdown. */
+    public static String toMarkdown(final String html) {
+        return html == null || html.trim().isEmpty() ? "" : renderMarkdown(html);
+    }
+
     @JSBody(script = "return typeof window.marked !== 'undefined'"
-            + " && typeof window.DOMPurify !== 'undefined';")
+            + " && typeof window.DOMPurify !== 'undefined'"
+            + " && typeof window.TurndownService !== 'undefined';")
     public static native boolean isReady();
 
     @JSBody(params = {"markdown"}, script =
@@ -74,4 +80,18 @@ public final class Markdown {
             + "return html.replace(/<table>/g,"
             + " '<table class=\"table table-striped table-condensed table-bordered\">');")
     private static native String render(String markdown);
+
+    @JSBody(params = {"html"}, script =
+            "if (typeof window.TurndownService === 'undefined') { return html; }"
+            + "if (!window.__turndownServiceInstance) {"
+            + "  var service = new window.TurndownService({"
+            + "    headingStyle: 'atx', hr: '---', bulletListMarker: '-', codeBlockStyle: 'fenced'"
+            + "  });"
+            + "  if (typeof window.turndownPluginGfm !== 'undefined' && window.turndownPluginGfm.gfm) {"
+            + "    service.use(window.turndownPluginGfm.gfm);"
+            + "  }"
+            + "  window.__turndownServiceInstance = service;"
+            + "}"
+            + "return window.__turndownServiceInstance.turndown(html || '');")
+    private static native String renderMarkdown(String html);
 }
