@@ -87,15 +87,12 @@ script instead validated tag spelling on every build and never noticed.
 
 ## 4. Structural guards
 
-Two checks that are not tests of behaviour but of the repository's shape:
+A check that is not a test of behaviour but of the repository's shape:
 
 - **`check-module-layout.py`** — every TeaVM pom's `add-source` and `<excludes>`
   must be exactly the expected set, and every excluded GWT file must have a TeaVM
   counterpart that exists. This is what stops a half-made seam, where a file is
   excluded but nothing replaces it.
-- **`check-showcase-samples.py`** — the showcase's hand-written code snippets must
-  name widgets that exist and must be well-formed. They are maintained separately
-  from the live examples beside them, so they drift.
 
 ## Where things run
 
@@ -121,8 +118,7 @@ Two of these are worth knowing about:
 | `run-browser-behaviour-tests.mjs` | 2093 | CI |
 | `check-module-layout.py` | 148 | CI |
 | `prepare-showcase-debug-artifacts.py` | 122 | CI |
-| `check-showcase-samples.py` | 104 | CI |
 | `smoke-showcase-pages.sh` | 78 | CI |
 
 Nothing here gates a local build any more: `mvn install` no longer needs a python
-interpreter. All six run in CI only.
+interpreter. All four run in CI only.

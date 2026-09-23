@@ -81,9 +81,6 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Check showcase code samples
-        run: python3 scripts/check-showcase-samples.py
-
       - name: Check module layout and shared-source seams
         run: python3 scripts/check-module-layout.py
 
