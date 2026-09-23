@@ -27,6 +27,7 @@ package io.instanto.bootstrap5.extras.datepicker.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
+import jsinterop.base.Js;
 
 /**
  * Injects Popper, then Tempus Dominus, in that order.
@@ -53,11 +54,11 @@ public class DatePickerEntryPoint implements EntryPoint {
         }
     }
 
-    private static native boolean isPopperLoaded() /*-{
-        return typeof $wnd.Popper !== "undefined";
-    }-*/;
+    private static boolean isPopperLoaded() {
+        return Js.global().get("Popper") != null;
+    }
 
-    private static native boolean isTempusDominusLoaded() /*-{
-        return typeof $wnd.tempusDominus !== "undefined";
-    }-*/;
+    private static boolean isTempusDominusLoaded() {
+        return Js.global().get("tempusDominus") != null;
+    }
 }

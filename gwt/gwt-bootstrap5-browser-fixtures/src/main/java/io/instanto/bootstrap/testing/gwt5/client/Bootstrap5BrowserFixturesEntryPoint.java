@@ -59,6 +59,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import jsinterop.base.Js;
 
 /** Bootstrap 5 fixtures sharing the browser contract used by the Bootstrap 3 app. */
 public final class Bootstrap5BrowserFixturesEntryPoint implements EntryPoint {
@@ -1230,7 +1231,7 @@ public final class Bootstrap5BrowserFixturesEntryPoint implements EntryPoint {
         element.setAttribute("data-event-order", current.isEmpty() ? event : current + "," + event);
     }
 
-    private static native void markReady() /*-{
-        $wnd.__bootstrapWidgetFixturesReady = true;
-    }-*/;
+    private static void markReady() {
+        Js.global().set("__bootstrapWidgetFixturesReady", true);
+    }
 }

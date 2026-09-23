@@ -27,6 +27,7 @@ package io.instanto.bootstrap5.extras.markdown.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
+import jsinterop.base.Js;
 
 /** Injects marked and DOMPurify unless the page already provides them. */
 public class MarkdownEntryPoint implements EntryPoint {
@@ -46,11 +47,11 @@ public class MarkdownEntryPoint implements EntryPoint {
         Markdown.configure();
     }
 
-    private static native boolean isMarkedLoaded() /*-{
-        return typeof $wnd.marked !== "undefined";
-    }-*/;
+    private static boolean isMarkedLoaded() {
+        return Js.global().get("marked") != null;
+    }
 
-    private static native boolean isPurifyLoaded() /*-{
-        return typeof $wnd.DOMPurify !== "undefined";
-    }-*/;
+    private static boolean isPurifyLoaded() {
+        return Js.global().get("DOMPurify") != null;
+    }
 }

@@ -27,6 +27,7 @@ package io.instanto.bootstrap5.extras.richtext.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
+import jsinterop.base.Js;
 
 /** Injects Quill unless the page already provides it. */
 public class RichTextEntryPoint implements EntryPoint {
@@ -41,7 +42,7 @@ public class RichTextEntryPoint implements EntryPoint {
                 .inject();
     }
 
-    private static native boolean isLoaded() /*-{
-        return typeof $wnd.Quill !== "undefined";
-    }-*/;
+    private static boolean isLoaded() {
+        return Js.global().get("Quill") != null;
+    }
 }

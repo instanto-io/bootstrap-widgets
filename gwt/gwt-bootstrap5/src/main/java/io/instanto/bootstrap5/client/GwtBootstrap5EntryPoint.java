@@ -21,13 +21,15 @@ package io.instanto.bootstrap5.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
+import jsinterop.base.Js;
 
 /** Injects Bootstrap 5 JavaScript when the host page has not already supplied it. */
 public class GwtBootstrap5EntryPoint implements EntryPoint {
 
-    private native boolean isBootstrapLoaded() /*-{
-        return typeof $wnd.bootstrap !== 'undefined' && typeof $wnd.bootstrap.Modal !== 'undefined';
-    }-*/;
+    private boolean isBootstrapLoaded() {
+        final Object bootstrap = Js.global().get("bootstrap");
+        return bootstrap != null && Js.asPropertyMap(bootstrap).get("Modal") != null;
+    }
 
     @Override
     public void onModuleLoad() {

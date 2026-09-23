@@ -27,6 +27,7 @@ package io.instanto.bootstrap5.extras.slider.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
+import jsinterop.base.Js;
 
 /** Injects noUiSlider unless the page already provides it. */
 public class SliderEntryPoint implements EntryPoint {
@@ -41,7 +42,7 @@ public class SliderEntryPoint implements EntryPoint {
                 .inject();
     }
 
-    private static native boolean isLoaded() /*-{
-        return typeof $wnd.noUiSlider !== "undefined";
-    }-*/;
+    private static boolean isLoaded() {
+        return Js.global().get("noUiSlider") != null;
+    }
 }
