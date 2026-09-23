@@ -20,6 +20,8 @@
   -->
 <module>
     <inherits name="com.google.gwt.user.User"/>
+    <!-- JavaScript callbacks are JsInterop functions, so TeaVM compiles these sources too. -->
+    <inherits name="jsinterop.base.Base"/>
     <inherits name="com.google.gwt.user.UserAgent"/>
     <inherits name="com.google.gwt.i18n.I18N"/>
 

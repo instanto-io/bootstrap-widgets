@@ -23,7 +23,7 @@
  */
 package org.gwtbootstrap3.extras.markdown.client.ui;
 
-import com.google.gwt.dom.client.TextAreaElement;
+import com.google.gwt.dom.client.Element;
 
 /**
  * Reading and setting a textarea's selection.
@@ -37,15 +37,15 @@ final class TextAreaSelection {
     private TextAreaSelection() {
     }
 
-    static native int start(TextAreaElement element) /*-{
+    static native int start(Element element) /*-{
         return element.selectionStart | 0;
     }-*/;
 
-    static native int end(TextAreaElement element) /*-{
+    static native int end(Element element) /*-{
         return element.selectionEnd | 0;
     }-*/;
 
-    static native void focusAndSelect(TextAreaElement element, int start, int length) /*-{
+    static native void focusAndSelect(Element element, int start, int length) /*-{
         element.focus();
         element.setSelectionRange(start, start + length);
     }-*/;

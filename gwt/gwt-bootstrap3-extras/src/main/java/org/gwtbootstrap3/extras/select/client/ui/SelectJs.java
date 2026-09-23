@@ -2,17 +2,33 @@ package org.gwtbootstrap3.extras.select.client.ui;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.Element;
+import jsinterop.annotations.JsFunction;
+import org.gwtbootstrap3.client.Bootstrap3;
+import org.gwtbootstrap3.extras.select.client.SelectClientBundle;
+import org.gwtbootstrap3.extras.select.client.SelectResourcesResources;
 
 /** Native boundary for the shared select widgets. */
 final class SelectJs {
     static native com.google.gwt.core.client.JsArrayNumber numbers() /*-{ return []; }-*/;
-    interface Events { void event(String name); }
+    @JsFunction interface Events { void event(String name); }
+    @JsFunction interface CountText { String text(int selected, int total); }
+    @JsFunction interface LimitText { String text(int limit); }
     static void whenReady(Runnable action) {
-        if (!ready()) new org.gwtbootstrap3.extras.select.client.SelectEntryPoint().onModuleLoad();
-        prepare();
-        captureDefaults();
-        action.run();
+        Bootstrap3.initialise(() -> {
+            SelectResourcesResources.ensureInjected();
+            if (!ready()) {
+                // The plugin needs the bootstrap global and triggerNative while it is being
+                // defined, so prepare before injecting it and again for a page that had it.
+                prepare();
+                ScriptInjector.fromString(SelectClientBundle.INSTANCE.select().getText())
+                        .setWindow(ScriptInjector.TOP_WINDOW).inject();
+            }
+            prepare();
+            captureDefaults();
+            action.run();
+        });
     }
     static native boolean ready() /*-{ return !!($wnd.jQuery && $wnd.jQuery.fn.selectpicker); }-*/;
     static native void prepare() /*-{
@@ -57,14 +73,21 @@ final class SelectJs {
     static native void value(Element e, JsArrayString value) /*-{ e.__gbmSelectSilent=true; try { $wnd.jQuery(e).selectpicker('val',value); } finally { e.__gbmSelectSilent=false; } }-*/;
     static native void unbind(Element e) /*-{ $wnd.jQuery(e).off('.gbmSelect'); }-*/;
     static native void bind(Element e, Events callback) /*-{
-        $wnd.jQuery(e).on('loaded.bs.select.gbmSelect changed.bs.select.gbmSelect show.bs.select.gbmSelect shown.bs.select.gbmSelect hide.bs.select.gbmSelect hidden.bs.select.gbmSelect rendered.bs.select.gbmSelect refreshed.bs.select.gbmSelect', function(event) { if(e.__gbmSelectSilent && event.type==='changed') return; callback.@org.gwtbootstrap3.extras.select.client.ui.SelectJs.Events::event(Ljava/lang/String;)(event.type); });
+        $wnd.jQuery(e).on('loaded.bs.select.gbmSelect changed.bs.select.gbmSelect show.bs.select.gbmSelect shown.bs.select.gbmSelect hide.bs.select.gbmSelect hidden.bs.select.gbmSelect rendered.bs.select.gbmSelect refreshed.bs.select.gbmSelect', function(event) { if(e.__gbmSelectSilent && event.type==='changed') return; callback(event.type); });
     }-*/;
-    static native void countText(JavaScriptObject options, CountSelectedTextHandler handler) /*-{
-        if (!handler) { delete options.countSelectedText; return; }
-        options.countSelectedText = function(a,b) { return handler.@org.gwtbootstrap3.extras.select.client.ui.CountSelectedTextHandler::getCountSelectedText(II)(a,b); };
+    static void countText(JavaScriptObject options, CountSelectedTextHandler handler) {
+        countTextNative(options, handler == null ? null : handler::getCountSelectedText);
+    }
+    private static native void countTextNative(JavaScriptObject options, CountText text) /*-{
+        if (!text) { delete options.countSelectedText; return; }
+        options.countSelectedText = function(a,b) { return text(a,b); };
     }-*/;
-    static native void maxText(JavaScriptObject options, MaxOptionsTextHandler handler) /*-{
-        if (!handler) { delete options.maxOptionsText; return; }
-        options.maxOptionsText = function(a,b) { return [handler.@org.gwtbootstrap3.extras.select.client.ui.MaxOptionsTextHandler::getMaxSelectOptionsText(I)(a),handler.@org.gwtbootstrap3.extras.select.client.ui.MaxOptionsTextHandler::getMaxGroupOptionsText(I)(b)]; };
+    static void maxText(JavaScriptObject options, MaxOptionsTextHandler handler) {
+        if (handler == null) maxTextNative(options, null, null);
+        else maxTextNative(options, handler::getMaxSelectOptionsText, handler::getMaxGroupOptionsText);
+    }
+    private static native void maxTextNative(JavaScriptObject options, LimitText select, LimitText group) /*-{
+        if (!select) { delete options.maxOptionsText; return; }
+        options.maxOptionsText = function(a,b) { return [select(a), group(b)]; };
     }-*/;
 }

@@ -40,7 +40,9 @@ public class PrettyCode extends Code {
         prettyPrint();
     }
 
-    private native void prettyPrint() /*-{
-        $wnd.prettyPrint();
+    private static native void prettyPrint() /*-{
+        if (typeof $wnd.prettyPrint === 'function') {
+            $wnd.prettyPrint();
+        }
     }-*/;
 }

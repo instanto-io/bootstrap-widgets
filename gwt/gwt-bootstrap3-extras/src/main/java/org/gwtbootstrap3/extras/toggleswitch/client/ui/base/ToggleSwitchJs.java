@@ -1,10 +1,13 @@
 package org.gwtbootstrap3.extras.toggleswitch.client.ui.base;
 
 import com.google.gwt.dom.client.Element;
-import org.gwtbootstrap3.extras.toggleswitch.client.ToggleSwitchEntryPoint;
+import jsinterop.annotations.JsFunction;
+import org.gwtbootstrap3.client.Bootstrap3;
+import org.gwtbootstrap3.extras.toggleswitch.client.ToggleSwitchResourcesResources;
 
 /** Browser calls shared by checkbox and radio switches. */
 final class ToggleSwitchJs {
+    @JsFunction
     interface ChangeHandler {
         void changed(boolean value);
     }
@@ -12,10 +15,7 @@ final class ToggleSwitchJs {
     private ToggleSwitchJs() { }
 
     static void whenReady(Runnable action) {
-        if (!isReady()) {
-            new ToggleSwitchEntryPoint().onModuleLoad();
-        }
-        action.run();
+        Bootstrap3.initialise(() -> ToggleSwitchResourcesResources.whenReady(ToggleSwitchJs::isReady, action));
     }
 
     private static native boolean isReady() /*-{
@@ -33,7 +33,7 @@ final class ToggleSwitchJs {
             }
         }
         $wnd.jQuery(element).bootstrapSwitch(options).on('switchChange.bootstrapSwitch.widget', function(e, state) {
-            handler.@org.gwtbootstrap3.extras.toggleswitch.client.ui.base.ToggleSwitchJs$ChangeHandler::changed(Z)(state);
+            handler(state);
         });
     }-*/;
 

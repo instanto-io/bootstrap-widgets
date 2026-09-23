@@ -43,18 +43,18 @@ public final class Markdown {
     /**
      * Runs an action once the parser is usable.
      *
-     * <p>The GWT module compiles marked and DOMPurify in, so by the time anything is
-     * rendered they are there and this runs immediately. The TeaVM counterpart fetches
-     * them, so it runs the action when they arrive. A panel can then be written once
-     * and be correct on both.</p>
+     * <p>The GWT module compiles marked, DOMPurify and Turndown in, so by the time anything
+     * is rendered they are there and this runs immediately. On TeaVM, {@link MarkdownResources}
+     * fetches them and runs the action when they arrive. A panel can then be written once and
+     * be correct on both.</p>
      */
     public static void whenReady(final Runnable action) {
-        ensureResources();
-        action.run();
+        MarkdownResources.whenReady(Markdown::isReady, action);
     }
 
-    /** Nothing to fetch: the module compiles the parser into the application. */
+    /** Starts loading the parser if that has not already begun. */
     public static void ensureResources() {
+        MarkdownResources.ensureInjected();
     }
 
     public static native void configure() /*-{

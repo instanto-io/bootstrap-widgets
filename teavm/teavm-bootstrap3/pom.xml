@@ -66,6 +66,17 @@
       <groupId>io.instanto</groupId>
       <artifactId>gwt-user-compat</artifactId>
     </dependency>
+    <!-- The TeaVM side of the JsInterop the shared sources use, and the annotations,
+         which the binding generator leaves imported. -->
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>jsinterop-base-compat</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.jsinterop</groupId>
+      <artifactId>jsinterop-annotations</artifactId>
+      <version>${jsinterop.annotations.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.teavm</groupId>
       <artifactId>teavm-jso</artifactId>
@@ -89,6 +100,9 @@
     <spotless.apply.skip>true</spotless.apply.skip>
     <spotless.check.skip>true</spotless.check.skip>
     <shared.source.artifacts>gwt-bootstrap3,gwt-bootstrap3-themes,gwt-bootstrap3-showcase</shared.source.artifacts>
+    <!-- GWT halves of seams whose TeaVM halves are generated or hand-kept: the loaders, and
+         Summernote, whose JsArray of image overlays has no portable form. -->
+    <shared.source.gwt.only>META-INF/**,org/gwtbootstrap3/client/Bootstrap3.java,org/gwtbootstrap3/extras/toggleswitch/client/ToggleSwitchResourcesResources.java,org/gwtbootstrap3/extras/slider/client/SliderResourcesResources.java,org/gwtbootstrap3/extras/select/client/SelectResourcesResources.java,org/gwtbootstrap3/extras/markdown/client/MarkdownResources.java,org/gwtbootstrap3/extras/summernote/client/ui/base/SummernoteJs.java,org/gwtbootstrap3/extras/summernote/client/event/SummernoteImageUploadEvent.java</shared.source.gwt.only>
   </properties>
   <build>
     <plugins>
@@ -134,6 +148,20 @@
               </inlineTextBundles>
             </configuration>
           </execution>
+          <!-- The GWT sources still use JSNI, with callbacks as JsInterop functions.
+               adapt-sources rewrites both for TeaVM, so TeaVM compiles the same source
+               rather than a hand-kept copy; the compiler reads teavm-sources below. -->
+          <execution>
+            <id>adapt-shared-sources</id>
+            <goals>
+              <goal>adapt-sources</goal>
+            </goals>
+            <configuration>
+              <sourceRoot>${project.build.directory}/shared-sources</sourceRoot>
+              <outputRoot>${project.build.directory}/teavm-sources</outputRoot>
+              <legacyJsni>true</legacyJsni>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -150,6 +178,7 @@
               <classifier>sources</classifier>
               <includeArtifactIds>gwt-bootstrap3-extras</includeArtifactIds>
               <includes>org/gwtbootstrap3/extras/animate/**,org/gwtbootstrap3/extras/card/**,org/gwtbootstrap3/extras/markdown/**,org/gwtbootstrap3/extras/toggleswitch/**,org/gwtbootstrap3/extras/slider/**,org/gwtbootstrap3/extras/select/**,org/gwtbootstrap3/extras/summernote/**</includes>
+              <excludes>${shared.source.gwt.only}</excludes>
               <outputDirectory>${project.build.directory}/shared-sources</outputDirectory>
               <overWriteSnapshots>true</overWriteSnapshots>
             </configuration>
@@ -169,7 +198,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>${project.build.directory}/shared-sources</source>
+                <source>${project.build.directory}/teavm-sources</source>
                 <source>${project.build.directory}/generated-sources/teavm-modules</source>
               </sources>
             </configuration>
@@ -190,7 +219,6 @@
           <excludes>
             <exclude>org/gwtbootstrap3/demo/client/ExtrasPages.java</exclude>
             <exclude>org/gwtbootstrap3/demo/client/ShowcaseScripts.java</exclude>
-            <exclude>org/gwtbootstrap3/demo/client/ui/PrettyPre.java</exclude>
             <exclude>org/gwtbootstrap3/demo/client/GwtBootstrap3DemoClientBundle.java</exclude>
             <exclude>org/gwtbootstrap3/demo/client/application/extras/AnimateView.java</exclude>
             <exclude>org/gwtbootstrap3/demo/client/application/extras/BootboxJSView.java</exclude>
@@ -205,22 +233,16 @@
             <exclude>org/gwtbootstrap3/demo/client/application/extras/TagsInputView.java</exclude>
             <exclude>org/gwtbootstrap3/demo/client/application/extras/TypeaheadView.java</exclude>
             <exclude>org/gwtbootstrap3/demo/client/application/css/validation/**</exclude>
-            <exclude>org/gwtbootstrap3/extras/animate/client/ui/AnimateJs.java</exclude>
-            <exclude>org/gwtbootstrap3/extras/toggleswitch/client/ui/base/ToggleSwitchJs.java</exclude>
             <exclude>org/gwtbootstrap3/extras/toggleswitch/client/ToggleSwitchClientBundle.java</exclude>
             <exclude>org/gwtbootstrap3/extras/toggleswitch/client/ToggleSwitchEntryPoint.java</exclude>
-            <exclude>org/gwtbootstrap3/extras/markdown/client/Markdown.java</exclude>
-            <exclude>org/gwtbootstrap3/extras/slider/client/ui/base/SliderJs.java</exclude>
             <exclude>org/gwtbootstrap3/extras/slider/client/SliderClientBundle.java</exclude>
             <exclude>org/gwtbootstrap3/extras/slider/client/SliderEntryPoint.java</exclude>
-            <exclude>org/gwtbootstrap3/extras/select/client/ui/SelectJs.java</exclude>
             <exclude>org/gwtbootstrap3/extras/select/client/SelectEntryPoint.java</exclude>
             <exclude>org/gwtbootstrap3/extras/summernote/client/ui/base/SummernoteJs.java</exclude>
             <exclude>org/gwtbootstrap3/extras/summernote/client/event/SummernoteImageUploadEvent.java</exclude>
             <exclude>org/gwtbootstrap3/extras/summernote/client/SummernoteEntryPoint.java</exclude>
             <exclude>org/gwtbootstrap3/extras/markdown/client/MarkdownClientBundle.java</exclude>
             <exclude>org/gwtbootstrap3/extras/markdown/client/MarkdownEntryPoint.java</exclude>
-            <exclude>org/gwtbootstrap3/extras/markdown/client/ui/TextAreaSelection.java</exclude>
             <exclude>org/gwtbootstrap3/client/GwtBootstrap3EntryPoint.java</exclude>
             <exclude>org/gwtbootstrap3/client/GwtBootstrap3ClientBundle.java</exclude>
             <exclude>org/gwtbootstrap3/client/shared/js/JQuery.java</exclude>

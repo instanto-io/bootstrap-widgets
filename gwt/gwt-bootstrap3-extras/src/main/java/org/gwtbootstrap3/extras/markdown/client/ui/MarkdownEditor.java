@@ -23,6 +23,7 @@
  */
 package org.gwtbootstrap3.extras.markdown.client.ui;
 
+import jsinterop.annotations.JsFunction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         visualEditor.getElement().getStyle().setProperty("minHeight", "180px");
         visualEditor.getElement().getStyle().setProperty("height", "auto");
         visualEditor.getElement().getStyle().setProperty("overflowY", "auto");
-        initInputListener(visualEditor.getElement());
+        initInputListener(visualEditor.getElement(), this::onVisualEditorInput);
         add(visualEditor);
 
         // Classic Textarea
@@ -609,10 +610,15 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         }
     }-*/;
 
-    private native void initInputListener(Element el) /*-{
-        var self = this;
+    /** Notified on every input in the visual editor. */
+    @JsFunction
+    interface InputListener {
+        void onInput();
+    }
+
+    private static native void initInputListener(Element el, InputListener listener) /*-{
         el.addEventListener('input', function() {
-            self.@org.gwtbootstrap3.extras.markdown.client.ui.MarkdownEditor::onVisualEditorInput()();
+            listener();
         });
     }-*/;
 }

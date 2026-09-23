@@ -47,7 +47,9 @@ public class PrettyPre extends Pre {
      * GWT compiles, and teavm-bootstrap3 carries a JSBody counterpart. The two do the
      * same thing by the only route each backend has.</p>
      */
-    private native void prettyPrint() /*-{
-        $wnd.prettyPrint();
+    private static native void prettyPrint() /*-{
+        if (typeof $wnd.prettyPrint === 'function') {
+            $wnd.prettyPrint();
+        }
     }-*/;
 }

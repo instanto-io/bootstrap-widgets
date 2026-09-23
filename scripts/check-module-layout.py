@@ -14,7 +14,7 @@ TRACKS = {
     "Bootstrap 3": {
         "pom": ROOT / "teavm/teavm-bootstrap3/pom.xml",
         "sources": {
-            "${project.build.directory}/shared-sources",
+            "${project.build.directory}/teavm-sources",
             "${project.build.directory}/generated-sources/teavm-modules",
         },
         "unpacked": {
@@ -33,7 +33,6 @@ TRACKS = {
         "excludes": {
             "org/gwtbootstrap3/demo/client/ExtrasPages.java",
             "org/gwtbootstrap3/demo/client/ShowcaseScripts.java",
-            "org/gwtbootstrap3/demo/client/ui/PrettyPre.java",
             "org/gwtbootstrap3/demo/client/GwtBootstrap3DemoClientBundle.java",
             "org/gwtbootstrap3/demo/client/application/extras/AnimateView.java",
             "org/gwtbootstrap3/demo/client/application/extras/BootboxJSView.java",
@@ -48,22 +47,16 @@ TRACKS = {
             "org/gwtbootstrap3/demo/client/application/extras/TagsInputView.java",
             "org/gwtbootstrap3/demo/client/application/extras/TypeaheadView.java",
             "org/gwtbootstrap3/demo/client/application/css/validation/**",
-            "org/gwtbootstrap3/extras/animate/client/ui/AnimateJs.java",
-            "org/gwtbootstrap3/extras/toggleswitch/client/ui/base/ToggleSwitchJs.java",
             "org/gwtbootstrap3/extras/toggleswitch/client/ToggleSwitchClientBundle.java",
             "org/gwtbootstrap3/extras/toggleswitch/client/ToggleSwitchEntryPoint.java",
-            "org/gwtbootstrap3/extras/markdown/client/Markdown.java",
-            "org/gwtbootstrap3/extras/slider/client/ui/base/SliderJs.java",
             "org/gwtbootstrap3/extras/slider/client/SliderClientBundle.java",
             "org/gwtbootstrap3/extras/slider/client/SliderEntryPoint.java",
-            "org/gwtbootstrap3/extras/select/client/ui/SelectJs.java",
             "org/gwtbootstrap3/extras/select/client/SelectEntryPoint.java",
             "org/gwtbootstrap3/extras/summernote/client/ui/base/SummernoteJs.java",
             "org/gwtbootstrap3/extras/summernote/client/event/SummernoteImageUploadEvent.java",
             "org/gwtbootstrap3/extras/summernote/client/SummernoteEntryPoint.java",
             "org/gwtbootstrap3/extras/markdown/client/MarkdownClientBundle.java",
             "org/gwtbootstrap3/extras/markdown/client/MarkdownEntryPoint.java",
-            "org/gwtbootstrap3/extras/markdown/client/ui/TextAreaSelection.java",
             "org/gwtbootstrap3/client/GwtBootstrap3EntryPoint.java",
             "org/gwtbootstrap3/client/GwtBootstrap3ClientBundle.java",
             "org/gwtbootstrap3/client/shared/js/JQuery.java",
@@ -78,7 +71,6 @@ TRACKS = {
             "org/gwtbootstrap3/client/ui/base/CarouselOptions.java",
             "org/gwtbootstrap3/demo/client/ExtrasPages.java",
             "org/gwtbootstrap3/demo/client/ShowcaseScripts.java",
-            "org/gwtbootstrap3/demo/client/ui/PrettyPre.java",
         },
     },
     "Bootstrap 5": {
