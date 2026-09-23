@@ -1,6 +1,5 @@
 package io.instanto.bootstrap5.extras.select.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -13,7 +12,7 @@ import io.instanto.bootstrap5.extras.base.client.PluginWidget;
 import java.util.*;
 
 /** Searchable single/multiple selection, tags and asynchronous option loading through Tom Select. */
-public class SearchableSelect extends PluginWidget implements HasValue<List<String>>, HasEnabled {
+public class SearchableSelect extends PluginWidget<SelectJs.Handle> implements HasValue<List<String>>, HasEnabled {
     public interface DataProvider {
         void load(String query, AsyncCallback<List<SelectOption>> result);
     }
@@ -72,14 +71,14 @@ public class SearchableSelect extends PluginWidget implements HasValue<List<Stri
         return addHandler(handler, ValueChangeEvent.getType());
     }
     @Override protected void whenReady(Runnable action) { SelectJs.whenReady(action); }
-    @Override protected JavaScriptObject createPlugin() {
+    @Override protected SelectJs.Handle createPlugin() {
         return SelectJs.create(getElement(), tags, placeholder, data -> ValueChangeEvent.fire(this, getValue()));
     }
     @Override protected void afterCreate() {
         SelectJs.setValues(plugin(), Json.encode(values));
         SelectJs.enabled(plugin(), enabled);
         if (provider != null) SelectJs.remote(plugin(), request -> {
-            final JavaScriptObject current = plugin();
+            final SelectJs.Handle current = plugin();
             final String id = SelectJs.requestId(request);
             AsyncCallback<List<SelectOption>> callback = new AsyncCallback<List<SelectOption>>() {
                 private boolean completed;
@@ -109,7 +108,7 @@ public class SearchableSelect extends PluginWidget implements HasValue<List<Stri
         values = getValue();
         for (String value : values) if (!options.containsKey(value)) options.put(value, value);
     }
-    @Override protected void destroyPlugin(JavaScriptObject plugin) {
+    @Override protected void destroyPlugin(SelectJs.Handle plugin) {
         SelectJs.destroy(plugin);
         // Tom Select restores the original select markup, which predates remote options and tags.
         select.clear();

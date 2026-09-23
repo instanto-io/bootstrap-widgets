@@ -96,17 +96,13 @@
   </dependencies>
   <properties>
     <shared.source.artifacts>gwt-bootstrap5,gwt-bootstrap5-themes,gwt-bootstrap5-extras,gwt-bootstrap5-showcase</shared.source.artifacts>
-    <shared.source.gwt.only>META-INF/**,io/instanto/bootstrap5/extras/markdown/client/MarkdownResources.java</shared.source.gwt.only>
+    <shared.source.gwt.only>META-INF/**,io/instanto/bootstrap5/extras/markdown/client/MarkdownResources.java,io/instanto/bootstrap5/extras/grid/client/GridResources.java,io/instanto/bootstrap5/extras/sortable/client/SortableResources.java,io/instanto/bootstrap5/extras/gallery/client/GalleryResources.java,io/instanto/bootstrap5/extras/dashboard/client/DashboardResources.java,io/instanto/bootstrap5/extras/select/client/SelectResources.java</shared.source.gwt.only>
   </properties>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>io.instanto</groupId>
@@ -126,6 +122,19 @@
               <packagedRoot>${project.build.outputDirectory}/META-INF/bootstrap5-assets</packagedRoot>
               <resourcesClass>io.instanto.bootstrap5.client.Bootstrap5Resources</resourcesClass>
               <idPrefix>bootstrap5-</idPrefix>
+            </configuration>
+          </execution>
+          <!-- The GWT sources reach JavaScript through JsInterop. adapt-sources
+               rewrites that as TeaVM JSO, so TeaVM compiles the same source rather
+               than a hand-kept copy; the compiler reads teavm-sources below. -->
+          <execution>
+            <id>adapt-shared-sources</id>
+            <goals>
+              <goal>adapt-sources</goal>
+            </goals>
+            <configuration>
+              <sourceRoot>${project.build.directory}/shared-sources</sourceRoot>
+              <outputRoot>${project.build.directory}/teavm-sources</outputRoot>
             </configuration>
           </execution>
         </executions>
@@ -175,19 +184,14 @@
             <exclude>io/instanto/bootstrap5/extras/slider/client/SliderClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/slider/client/SliderEntryPoint.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/slider/client/ui/SliderJs.java</exclude>
-            <exclude>io/instanto/bootstrap5/extras/select/client/ui/SelectJs.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/select/client/SelectClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/select/client/SelectEntryPoint.java</exclude>
-            <exclude>io/instanto/bootstrap5/extras/grid/client/ui/GridJs.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/grid/client/GridClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/grid/client/GridEntryPoint.java</exclude>
-            <exclude>io/instanto/bootstrap5/extras/sortable/client/ui/SortableJs.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/sortable/client/SortableClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/sortable/client/SortableEntryPoint.java</exclude>
-            <exclude>io/instanto/bootstrap5/extras/dashboard/client/ui/DashboardJs.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/dashboard/client/DashboardClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/dashboard/client/DashboardEntryPoint.java</exclude>
-            <exclude>io/instanto/bootstrap5/extras/gallery/client/ui/GalleryJs.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/gallery/client/GalleryClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/gallery/client/GalleryEntryPoint.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/richtext/client/RichTextClientBundle.java</exclude>

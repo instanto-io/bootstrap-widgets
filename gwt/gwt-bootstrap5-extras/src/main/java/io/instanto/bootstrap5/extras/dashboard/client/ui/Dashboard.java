@@ -1,6 +1,5 @@
 package io.instanto.bootstrap5.extras.dashboard.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasEnabled;
@@ -8,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.extras.base.client.PluginWidget;
 
 /** Responsive dashboard with draggable/resizable tiles and serializable layout. */
-public class Dashboard extends PluginWidget implements HasEnabled, HasValueChangeHandlers<String> {
+public class Dashboard extends PluginWidget<DashboardJs.GridStack> implements HasEnabled, HasValueChangeHandlers<String> {
     private boolean enabled = true;
     private String layout;
     public Dashboard() { setStyleName("grid-stack"); }
@@ -43,7 +42,7 @@ public class Dashboard extends PluginWidget implements HasEnabled, HasValueChang
         return addHandler(handler, ValueChangeEvent.getType());
     }
     @Override protected void whenReady(Runnable action) { DashboardJs.whenReady(action); }
-    @Override protected JavaScriptObject createPlugin() {
+    @Override protected DashboardJs.GridStack createPlugin() {
         return DashboardJs.create(getElement(), enabled, value -> {
             layout = value;
             ValueChangeEvent.fire(this, value);
@@ -51,5 +50,5 @@ public class Dashboard extends PluginWidget implements HasEnabled, HasValueChang
     }
     @Override protected void afterCreate() { if (layout != null) DashboardJs.restore(plugin(), layout); }
     @Override protected void captureState() { layout = getLayoutJson(); }
-    @Override protected void destroyPlugin(JavaScriptObject plugin) { DashboardJs.destroy(plugin); }
+    @Override protected void destroyPlugin(DashboardJs.GridStack plugin) { DashboardJs.destroy(plugin); }
 }

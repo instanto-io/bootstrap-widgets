@@ -1,13 +1,12 @@
 package io.instanto.bootstrap5.extras.grid.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import io.instanto.bootstrap5.extras.base.client.*;
 import java.util.*;
 
 /** Tabulator table with editing, grouping, tree rows, local paging and remote scroll loading. */
-public class DataTable extends PluginWidget implements HasValueChangeHandlers<String> {
+public class DataTable extends PluginWidget<GridJs.Handle> implements HasValueChangeHandlers<String> {
     private String columns = "[]";
     private String rows = "[]";
     private String group = "";
@@ -37,10 +36,10 @@ public class DataTable extends PluginWidget implements HasValueChangeHandlers<St
         return addHandler(handler, ValueChangeEvent.getType());
     }
     @Override protected void whenReady(Runnable action) { GridJs.whenReady(action); }
-    @Override protected JavaScriptObject createPlugin() {
+    @Override protected GridJs.Handle createPlugin() {
         return GridJs.create(getElement(), columns, rows, group, tree, pageSize, remote,
                 data -> { rows = data; ValueChangeEvent.fire(this, data); });
     }
     @Override protected void captureState() { rows = getRowsJson(); }
-    @Override protected void destroyPlugin(JavaScriptObject plugin) { GridJs.destroy(plugin); }
+    @Override protected void destroyPlugin(GridJs.Handle plugin) { GridJs.destroy(plugin); }
 }

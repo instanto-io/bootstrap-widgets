@@ -58,40 +58,6 @@
             </execution>
           </executions>
         </plugin>
-        <!-- The GWT sources reach JavaScript through JsInterop. teavm-compat's
-             binding generator rewrites those declarations as TeaVM JSO, so TeaVM
-             compiles the same source rather than a hand-kept copy. The output,
-             teavm-sources, is what a module compiles instead of shared-sources. -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>${exec-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>adapt-shared-sources</id>
-              <phase>process-sources</phase>
-              <goals>
-                <goal>java</goal>
-              </goals>
-              <configuration>
-                <mainClass>io.instanto.compat.GenerateBindings</mainClass>
-                <includeProjectDependencies>false</includeProjectDependencies>
-                <includePluginDependencies>true</includePluginDependencies>
-                <arguments>
-                  <argument>${project.build.directory}/teavm-sources</argument>
-                  <argument>${project.build.directory}/shared-sources</argument>
-                </arguments>
-              </configuration>
-            </execution>
-          </executions>
-          <dependencies>
-            <dependency>
-              <groupId>io.instanto</groupId>
-              <artifactId>jsinterop-binding-generator</artifactId>
-              <version>${teavm-compat.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>

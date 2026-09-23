@@ -1,6 +1,5 @@
 package io.instanto.bootstrap5.extras.gallery.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import io.instanto.bootstrap5.client.ui.Anchor;
@@ -8,7 +7,7 @@ import io.instanto.bootstrap5.client.ui.Image;
 import io.instanto.bootstrap5.extras.base.client.PluginWidget;
 
 /** Thumbnail links with a zoomable, touch-friendly PhotoSwipe viewer. */
-public class ImageGallery extends PluginWidget implements HasSelectionHandlers<Integer> {
+public class ImageGallery extends PluginWidget<GalleryJs.Handle> implements HasSelectionHandlers<Integer> {
     public ImageGallery() { setStyleName("d-flex flex-wrap gap-3"); }
     public void addImage(String source, String thumbnail, int width, int height, String alternativeText) {
         if (width <= 0 || height <= 0) throw new IllegalArgumentException("Image dimensions must be positive");
@@ -40,8 +39,8 @@ public class ImageGallery extends PluginWidget implements HasSelectionHandlers<I
         return addHandler(handler, SelectionEvent.getType());
     }
     @Override protected void whenReady(Runnable action) { GalleryJs.whenReady(action); }
-    @Override protected JavaScriptObject createPlugin() {
+    @Override protected GalleryJs.Handle createPlugin() {
         return GalleryJs.create(getElement(), index -> SelectionEvent.fire(this, Integer.valueOf(index)));
     }
-    @Override protected void destroyPlugin(JavaScriptObject plugin) { GalleryJs.destroy(plugin); }
+    @Override protected void destroyPlugin(GalleryJs.Handle plugin) { GalleryJs.destroy(plugin); }
 }
