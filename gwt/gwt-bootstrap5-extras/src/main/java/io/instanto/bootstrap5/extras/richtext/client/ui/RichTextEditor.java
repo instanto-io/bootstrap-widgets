@@ -29,7 +29,6 @@ import io.instanto.bootstrap5.client.ui.base.HasId;
 import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
 import io.instanto.bootstrap5.client.ui.html.Div;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -74,7 +73,7 @@ public class RichTextEditor extends Div implements HasHTML, HasEnabled, HasId,
 
     private boolean enabled = true;
 
-    private JavaScriptObject quill;
+    private QuillJs.Quill quill;
 
     public RichTextEditor() {
         addStyleName("gbm-richtext");

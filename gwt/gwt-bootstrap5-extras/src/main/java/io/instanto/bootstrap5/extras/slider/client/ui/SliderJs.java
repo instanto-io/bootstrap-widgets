@@ -19,17 +19,22 @@
  */
 package io.instanto.bootstrap5.extras.slider.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import io.instanto.bootstrap5.extras.base.client.JsArrays;
+import io.instanto.bootstrap5.extras.slider.client.SliderResources;
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
+import jsinterop.base.JsArrayLike;
+import jsinterop.base.JsPropertyMap;
 
 /**
- * The noUiSlider API.
+ * The noUiSlider API, reached through JsInterop so GWT and TeaVM compile this one source.
  *
- * <p>Its own class because the implementation is JSNI, which the TeaVM backend cannot
- * compile. That backend excludes this file and supplies the same API through
- * {@code @JSBody}, the arrangement the widget library already uses for its seams. The
- * update callback is an interface rather than a back-reference into the widget, because
- * JSNI can call a Java method by signature and {@code @JSBody} cannot.</p>
+ * <p>The update callback is an interface rather than a back-reference into the widget, so the
+ * widget stays plain Java; it is adapted to a JavaScript function here.</p>
  */
 final class SliderJs {
 
@@ -41,92 +46,100 @@ final class SliderJs {
     private SliderJs() {
     }
 
-
-    /**
-     * Ensures the library this seam wraps has been asked for. On GWT the module's entry
-     * point has already injected it, so this does nothing; the TeaVM implementation of
-     * this class fetches it. Widgets call this rather than the application, so adding a
-     * widget is all it takes to get the widget working.
-     */
-    /**
-     * Runs an action once noUiSlider is usable.
-     *
-     * <p>The GWT module injects the library as script text before the application runs,
-     * so by the time a widget attaches it is there. If it is not, waiting will not help
-     * -- nothing else is going to load it -- so this says so rather than failing later
-     * inside the library.</p>
-     */
+    /** Runs an action once noUiSlider is usable, immediately if it already is. */
     static void whenReady(final Runnable action) {
-        ensureResources();
-        if (isReady()) {
-            action.run();
-        } else {
-            com.google.gwt.core.client.GWT.log(
-                    "Slider: noUiSlider is not on the page; the module did not load it");
-        }
+        SliderResources.whenReady(SliderJs::isReady, action);
     }
 
+    /** Starts loading noUiSlider if that has not already begun. */
     static void ensureResources() {
+        SliderResources.ensureInjected();
     }
 
     /** Whether noUiSlider has finished loading. */
-    static native boolean isReady() /*-{
-        return typeof $wnd.noUiSlider !== "undefined";
-    }-*/;
+    static boolean isReady() {
+        return Js.global().get("noUiSlider") != null;
+    }
 
-    static native JavaScriptObject create(Element element, double min, double max, double step,
-            double start, double end, boolean range, boolean tooltips, boolean pips) /*-{
-        var options = {
-            start: range ? [start, end] : [start],
-            connect: range ? true : "lower",
-            step: step,
-            range: { min: min, max: max },
-            tooltips: tooltips
-        };
+    static Api create(final Element element, final double min, final double max, final double step,
+            final double start, final double end, final boolean range, final boolean tooltips, final boolean pips) {
+        final JsPropertyMap<Object> options = JsPropertyMap.of();
+        options.set("start", range ? JsArrays.of(start, end) : JsArrays.of(start));
+        options.set("connect", range ? (Object) Boolean.TRUE : "lower");
+        options.set("step", step);
+        options.set("range", JsPropertyMap.<Object>of("min", min, "max", max));
+        options.set("tooltips", tooltips);
         if (pips) {
-            options.pips = { mode: "count", values: 5, density: 4 };
+            options.set("pips", JsPropertyMap.<Object>of("mode", "count", "values", 5d, "density", 4d));
         }
-        $wnd.noUiSlider.create(element, options);
-        return element.noUiSlider;
-    }-*/;
+        NoUiSlider.create(element, options);
+        return Js.<Target>uncheckedCast(Js.asAny(element)).getNoUiSlider();
+    }
 
-    static native void bindChange(JavaScriptObject slider, UpdateHandler handler) /*-{
-        slider.on("update", function (values, handle) {
-            handler.@io.instanto.bootstrap5.extras.slider.client.ui.SliderJs.UpdateHandler::onUpdate(D)(
-                    parseFloat(values[handle]));
-        });
-    }-*/;
+    static void bindChange(final Api slider, final UpdateHandler handler) {
+        slider.on("update", (values, handle) -> handler.onUpdate(NativeNumber.parseFloat(values.getAt(handle))));
+    }
 
     /**
-     * noUiSlider returns a string for one handle and an array of strings for two.
-     * "instanceof Array" is unreliable from compiled GWT, where the array can come from
-     * another realm; a false result there silently parsed "120.00,880.00" as 120, so both
-     * handles read the same. Duck-typing the array is what actually holds.
+     * noUiSlider returns a string for one handle and an array of strings for two. Telling
+     * them apart by the Java type holds on both platforms, where "instanceof Array" did not:
+     * from compiled GWT the array can come from another realm.
      */
-    static native double readValue(JavaScriptObject slider, int handle) /*-{
-        var v = slider.get();
-        var isArray = v != null && typeof v !== "string" && typeof v.length === "number";
-        return parseFloat(isArray ? v[handle] : v);
-    }-*/;
+    static double readValue(final Api slider, final int handle) {
+        final Object v = slider.get();
+        return NativeNumber.parseFloat(isSingle(v) ? v : Js.asArrayLike(v).getAt(handle));
+    }
 
-    static native void applyValues(JavaScriptObject slider, double lower, double upper) /*-{
-        var current = slider.get();
-        var isArray = current != null && typeof current !== "string"
-                && typeof current.length === "number";
-        slider.set(isArray ? [lower, upper] : lower);
-    }-*/;
+    static void applyValues(final Api slider, final double lower, final double upper) {
+        slider.set(isSingle(slider.get()) ? (Object) lower : JsArrays.of(lower, upper));
+    }
 
-    static native void applyEnabled(Element element, boolean enabled) /*-{
+    static void applyEnabled(final Element element, final boolean enabled) {
         if (enabled) {
             element.removeAttribute("disabled");
         } else {
-            element.setAttribute("disabled", true);
+            element.setAttribute("disabled", "true");
         }
-    }-*/;
+    }
 
-    static native void destroy(JavaScriptObject slider) /*-{
-        if (typeof slider.destroy === "function") {
+    static void destroy(final Api slider) {
+        if ("function".equals(Js.typeof(Js.asPropertyMap(slider).get("destroy")))) {
             slider.destroy();
         }
-    }-*/;
+    }
+
+    private static boolean isSingle(final Object value) {
+        return value == null || value instanceof String;
+    }
+
+    @JsFunction
+    interface UpdateListener {
+        void onUpdate(JsArrayLike<Object> values, int handle);
+    }
+
+    /** The element noUiSlider was created on, which then carries the slider. */
+    @JsType(isNative = true)
+    interface Target {
+        @JsProperty
+        Api getNoUiSlider();
+    }
+
+    @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "noUiSlider")
+    static class NoUiSlider {
+        static native void create(Element target, JsPropertyMap<Object> options);
+    }
+
+    /** A slider, as noUiSlider attaches it to its element. */
+    @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
+    static class Api {
+        native void on(String event, UpdateListener listener);
+        native Object get();
+        native void set(Object value);
+        native void destroy();
+    }
+
+    @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Number")
+    static class NativeNumber {
+        static native double parseFloat(Object value);
+    }
 }

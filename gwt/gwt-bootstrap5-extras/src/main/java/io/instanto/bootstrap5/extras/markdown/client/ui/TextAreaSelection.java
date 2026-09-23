@@ -20,30 +20,48 @@
 package io.instanto.bootstrap5.extras.markdown.client.ui;
 
 import com.google.gwt.dom.client.TextAreaElement;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
 
 /**
- * The textarea selection API, which this GWT release does not expose from Java.
- *
- * <p>Its own class because the implementation is JSNI, which the TeaVM backend cannot
- * compile. That backend excludes this file and supplies the same API through
- * {@code @JSBody}, the arrangement the widget library already uses for its own seams.</p>
+ * The text-area selection API, which GWT's TextAreaElement does not expose. Reached through
+ * JsInterop so GWT and TeaVM compile this one source.
  */
 final class TextAreaSelection {
 
     private TextAreaSelection() {
     }
 
-    static native int start(TextAreaElement element) /*-{
-        return element.selectionStart | 0;
-    }-*/;
+    static int start(final TextAreaElement element) {
+        return view(element).getSelectionStart();
+    }
 
-    static native int end(TextAreaElement element) /*-{
-        return element.selectionEnd | 0;
-    }-*/;
+    static int end(final TextAreaElement element) {
+        return view(element).getSelectionEnd();
+    }
 
-    /** Focuses the element and selects {@code length} characters from {@code start}. */
-    static native void focusAndSelect(TextAreaElement element, int start, int length) /*-{
-        element.focus();
-        element.setSelectionRange(start, start + length);
-    }-*/;
+    static void focusAndSelect(final TextAreaElement element, final int start, final int length) {
+        final Selectable area = view(element);
+        area.focus();
+        area.setSelectionRange(start, start + length);
+    }
+
+    private static Selectable view(final TextAreaElement element) {
+        return Js.uncheckedCast(Js.asAny(element));
+    }
+
+    /** The native text area, as far as selection goes. */
+    @JsType(isNative = true)
+    interface Selectable {
+        @JsProperty
+        int getSelectionStart();
+
+        @JsProperty
+        int getSelectionEnd();
+
+        void focus();
+
+        void setSelectionRange(int start, int end);
+    }
 }

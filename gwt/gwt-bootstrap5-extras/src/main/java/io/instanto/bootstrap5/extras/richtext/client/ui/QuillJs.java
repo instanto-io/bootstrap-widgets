@@ -19,114 +19,135 @@
  */
 package io.instanto.bootstrap5.extras.richtext.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import io.instanto.bootstrap5.extras.base.client.NativeJson;
+import io.instanto.bootstrap5.extras.richtext.client.RichTextResources;
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
+import jsinterop.base.Any;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
- * The Quill API.
+ * Quill, reached through JsInterop so GWT and TeaVM compile this one source.
  *
- * <p>Its own class because the implementation is JSNI, which the TeaVM backend cannot
- * compile. That backend excludes this file and supplies the same API through
- * {@code @JSBody}. The change callback is an interface rather than a back-reference into
- * the widget, because JSNI can call a Java method by signature and {@code @JSBody}
- * cannot.</p>
+ * <p>The change callback is an interface rather than a back-reference into the widget, so
+ * the widget stays plain Java; it is adapted to a JavaScript function here.</p>
  */
 final class QuillJs {
 
-    /** Notified on every text change. */
+    /** Notified when the text changes. */
     interface ChangeHandler {
         void onTextChange();
     }
 
+    /** Quill's toolbar groups, as its toolbar module takes them. */
+    private static final String FULL_TOOLBAR = "[[{\"header\":[1,2,3,false]}],"
+            + "[\"bold\",\"italic\",\"underline\",\"strike\"],"
+            + "[{\"color\":[]},{\"background\":[]}],"
+            + "[{\"list\":\"ordered\"},{\"list\":\"bullet\"}],"
+            + "[{\"align\":[]}],"
+            + "[\"blockquote\",\"code-block\",\"link\"],"
+            + "[\"clean\"]]";
+    private static final String BASIC_TOOLBAR = "[[\"bold\",\"italic\",\"underline\",\"strike\"],"
+            + "[{\"list\":\"ordered\"},{\"list\":\"bullet\"}],"
+            + "[\"link\",\"clean\"]]";
+
     private QuillJs() {
     }
 
-
-    /**
-     * Ensures the library this seam wraps has been asked for. On GWT the module's entry
-     * point has already injected it, so this does nothing; the TeaVM implementation of
-     * this class fetches it. Widgets call this rather than the application, so adding a
-     * widget is all it takes to get the widget working.
-     */
-    /**
-     * Runs an action once Quill is usable.
-     *
-     * <p>The GWT module injects the library as script text before the application runs,
-     * so by the time a widget attaches it is there. If it is not, waiting will not help
-     * -- nothing else is going to load it -- so this says so rather than failing later
-     * inside the library.</p>
-     */
+    /** Runs an action once Quill is usable, immediately if it already is. */
     static void whenReady(final Runnable action) {
-        ensureResources();
-        if (isReady()) {
-            action.run();
-        } else {
-            com.google.gwt.core.client.GWT.log(
-                    "RichText: Quill is not on the page; the module did not load it");
-        }
+        RichTextResources.whenReady(QuillJs::isReady, action);
     }
 
+    /** Starts loading Quill if that has not already begun. */
     static void ensureResources() {
+        RichTextResources.ensureInjected();
     }
 
     /** Whether Quill has finished loading. */
-    static native boolean isReady() /*-{
-        return typeof $wnd.Quill !== "undefined";
-    }-*/;
+    static boolean isReady() {
+        return Js.global().get("Quill") != null;
+    }
 
-    static native JavaScriptObject create(Element element, String toolbarSpec,
-            String placeholder) /*-{
-        var toolbar;
-        if (toolbarSpec === "none") {
-            toolbar = false;
-        } else if (toolbarSpec === "full") {
-            toolbar = [
-                [{ header: [1, 2, 3, false] }],
-                ["bold", "italic", "underline", "strike"],
-                [{ color: [] }, { background: [] }],
-                [{ list: "ordered" }, { list: "bullet" }],
-                [{ align: [] }],
-                ["blockquote", "code-block", "link"],
-                ["clean"]
-            ];
+    static Quill create(final Element element, final String toolbarSpec, final String placeholder) {
+        final Object toolbar;
+        if ("none".equals(toolbarSpec)) {
+            toolbar = Boolean.FALSE;
+        } else if ("full".equals(toolbarSpec)) {
+            toolbar = NativeJson.parse(FULL_TOOLBAR);
         } else {
-            toolbar = [
-                ["bold", "italic", "underline", "strike"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                ["link", "clean"]
-            ];
+            toolbar = NativeJson.parse(BASIC_TOOLBAR);
         }
-        return new $wnd.Quill(element, {
-            theme: "snow",
-            placeholder: placeholder,
-            modules: { toolbar: toolbar }
-        });
-    }-*/;
+        final JsPropertyMap<Object> options = JsPropertyMap.<Object>of("theme", "snow", "placeholder", placeholder,
+                "modules", JsPropertyMap.<Object>of("toolbar", toolbar));
+        return new Quill(Js.asAny(element), options);
+    }
 
-    static native void bindChange(JavaScriptObject quill, ChangeHandler handler) /*-{
-        quill.on("text-change", function () {
-            handler.@io.instanto.bootstrap5.extras.richtext.client.ui.QuillJs.ChangeHandler::onTextChange()();
-        });
-    }-*/;
+    static void bindChange(final Quill quill, final ChangeHandler handler) {
+        quill.on("text-change", handler::onTextChange);
+    }
 
-    static native String readHtml(JavaScriptObject quill) /*-{
-        return typeof quill.getSemanticHTML === "function"
-            ? quill.getSemanticHTML() : quill.root.innerHTML;
-    }-*/;
+    static String readHtml(final Quill quill) {
+        return "function".equals(Js.typeof(Js.asPropertyMap(quill).get("getSemanticHTML")))
+                ? quill.getSemanticHTML() : Js.asString(Js.asPropertyMap(quill.getRoot()).get("innerHTML"));
+    }
 
-    static native void writeHtml(JavaScriptObject quill, String html) /*-{
-        quill.setContents(quill.clipboard.convert({ html: html }), "silent");
-    }-*/;
+    static void writeHtml(final Quill quill, final String html) {
+        quill.setContents(quill.getClipboard().convert(JsPropertyMap.<Object>of("html", html)), "silent");
+    }
 
-    static native String readText(JavaScriptObject quill) /*-{
+    static String readText(final Quill quill) {
         return quill.getText();
-    }-*/;
+    }
 
-    static native void applyEnabled(JavaScriptObject quill, boolean enabled) /*-{
+    static void applyEnabled(final Quill quill, final boolean enabled) {
         quill.enable(enabled);
-    }-*/;
+    }
 
-    static native void applyPlaceholder(JavaScriptObject quill, String placeholder) /*-{
-        quill.root.setAttribute("data-placeholder", placeholder);
-    }-*/;
+    static void applyPlaceholder(final Quill quill, final String placeholder) {
+        Js.<Root>uncheckedCast(quill.getRoot()).setAttribute("data-placeholder", placeholder);
+    }
+
+    @JsFunction
+    interface Listener {
+        void handle();
+    }
+
+    @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Quill")
+    static class Quill {
+        Quill(Any element, JsPropertyMap<Object> options) {
+        }
+
+        native void on(String event, Listener listener);
+
+        native String getSemanticHTML();
+
+        native String getText();
+
+        native void setContents(Any delta, String source);
+
+        native void enable(boolean enabled);
+
+        @JsProperty(name = "root")
+        native Any getRoot();
+
+        @JsProperty(name = "clipboard")
+        native Clipboard getClipboard();
+    }
+
+    /** Quill's clipboard module, which turns HTML into a delta. */
+    @JsType(isNative = true)
+    interface Clipboard {
+        Any convert(JsPropertyMap<Object> source);
+    }
+
+    /** The editable element Quill renders into. */
+    @JsType(isNative = true)
+    interface Root {
+        void setAttribute(String name, String value);
+    }
 }

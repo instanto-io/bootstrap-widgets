@@ -34,7 +34,6 @@ import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
 import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
 import io.instanto.bootstrap5.client.ui.html.Div;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -73,7 +72,7 @@ public class DatePicker extends Div implements HasEnabled, HasId, HasName, HasPl
 
     private final String wrapperId;
 
-    private JavaScriptObject picker;
+    private DatePickerJs.TempusDominus picker;
 
     private String format;
 

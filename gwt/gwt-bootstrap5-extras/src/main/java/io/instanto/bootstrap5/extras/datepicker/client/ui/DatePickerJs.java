@@ -19,21 +19,25 @@
  */
 package io.instanto.bootstrap5.extras.datepicker.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import io.instanto.bootstrap5.extras.datepicker.client.DatePickerResources;
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
+import jsinterop.base.Any;
+import jsinterop.base.Js;
+import jsinterop.base.JsArrayLike;
+import jsinterop.base.JsPropertyMap;
 
 /**
- * The Tempus Dominus API.
+ * Tempus Dominus, reached through JsInterop so GWT and TeaVM compile this one source.
  *
- * <p>Its own class because the implementation is JSNI, which the TeaVM backend cannot
- * compile; that backend excludes this file and supplies the same API through
- * {@code @JSBody}. The change callback is an interface rather than a back-reference into
- * the widget, because JSNI can call a Java method by signature and {@code @JSBody}
- * cannot.</p>
+ * <p>The change callback is an interface rather than a back-reference into the widget, so
+ * the widget stays plain Java; it is adapted to a JavaScript function here.</p>
  */
 final class DatePickerJs {
 
-    /** Notified when the picked date changes; -1 means cleared. */
+    /** Notified when the picked date changes; {@code -1} when it is cleared. */
     interface ChangeHandler {
         void onDateChange(double millis);
     }
@@ -42,76 +46,107 @@ final class DatePickerJs {
     }
 
     /** Whether Tempus Dominus has finished loading. */
-    static native boolean isReady() /*-{
-        return typeof $wnd.tempusDominus !== "undefined";
-    }-*/;
+    static boolean isReady() {
+        return Js.global().get("tempusDominus") != null;
+    }
 
-    /** Asks for the library; a no-op on GWT, where the entry point already injected it. */
-    /**
-     * Runs an action once the date picker is usable.
-     *
-     * <p>The GWT module injects the library as script text before the application runs,
-     * so by the time a widget attaches it is there. If it is not, waiting will not help
-     * -- nothing else is going to load it -- so this says so rather than failing later
-     * inside the library.</p>
-     */
+    /** Runs an action once the date picker is usable, immediately if it already is. */
     static void whenReady(final Runnable action) {
-        ensureResources();
-        if (isReady()) {
-            action.run();
-        } else {
-            com.google.gwt.core.client.GWT.log(
-                    "DatePicker: the date picker is not on the page; the module did not load it");
-        }
+        DatePickerResources.whenReady(DatePickerJs::isReady, action);
     }
 
+    /** Starts loading the date picker if that has not already begun. */
     static void ensureResources() {
+        DatePickerResources.ensureInjected();
     }
 
-    static native JavaScriptObject create(Element element, String format, boolean sideBySide,
-            boolean showClear, boolean showClose) /*-{
-        var options = {
-            display: {
-                sideBySide: sideBySide,
-                buttons: { today: true, clear: showClear, close: showClose },
-                theme: "auto"
-            }
-        };
-        if (format) {
-            options.localization = { format: format };
+    static TempusDominus create(final Element element, final String format, final boolean sideBySide,
+            final boolean showClear, final boolean showClose) {
+        final JsPropertyMap<Object> buttons = JsPropertyMap.<Object>of("today", true, "clear", showClear, "close", showClose);
+        final JsPropertyMap<Object> display = JsPropertyMap.<Object>of("sideBySide", sideBySide, "buttons", buttons, "theme", "auto");
+        final JsPropertyMap<Object> options = JsPropertyMap.<Object>of("display", display);
+        if (format != null && !format.isEmpty()) {
+            options.set("localization", JsPropertyMap.<Object>of("format", format));
         }
-        return new $wnd.tempusDominus.TempusDominus(element, options);
-    }-*/;
+        return new TempusDominus(Js.asAny(element), options);
+    }
 
-    static native void bindChange(JavaScriptObject picker, ChangeHandler handler) /*-{
-        picker.subscribe($wnd.tempusDominus.Namespace.events.change, function (e) {
-            var d = e && e.date ? e.date.valueOf() : -1;
-            handler.@io.instanto.bootstrap5.extras.datepicker.client.ui.DatePickerJs.ChangeHandler::onDateChange(D)(d);
+    static void bindChange(final TempusDominus picker, final ChangeHandler handler) {
+        final String change = Js.asString(Js.global().nestedGet("tempusDominus.Namespace.events.change"));
+        picker.subscribe(change, event -> {
+            final Object date = Js.isTruthy(event) ? Js.asPropertyMap(event).get("date") : null;
+            handler.onDateChange(Js.isTruthy(date) ? Js.<DateTime>uncheckedCast(date).valueOf() : -1);
         });
-    }-*/;
+    }
 
-    static native void invoke(JavaScriptObject picker, String method) /*-{
-        if (typeof picker[method] === "function") {
-            picker[method]();
+    /** Calls {@code method} on the picker if it has one, as show, hide and toggle. */
+    static void invoke(final TempusDominus picker, final String method) {
+        final Object function = Js.asPropertyMap(picker).get(method);
+        if ("function".equals(Js.typeof(function))) {
+            Js.<Function>uncheckedCast(function).call(Js.asAny(picker));
         }
-    }-*/;
+    }
 
-    static native double readValue(JavaScriptObject picker) /*-{
-        var dates = picker.dates.picked;
-        return dates && dates.length ? dates[0].valueOf() : -1;
-    }-*/;
+    static double readValue(final TempusDominus picker) {
+        final JsArrayLike<Object> dates = picker.getDates().getPicked();
+        return Js.isTruthy(dates) && dates.getLength() > 0
+                ? Js.<DateTime>uncheckedCast(dates.getAt(0)).valueOf() : -1;
+    }
 
-    static native void writeValue(JavaScriptObject picker, double millis) /*-{
+    static void writeValue(final TempusDominus picker, final double millis) {
         if (millis < 0) {
-            picker.dates.clear();
+            picker.getDates().clear();
         } else {
-            picker.dates.setValue(new $wnd.tempusDominus.DateTime(millis));
+            picker.getDates().setValue(new DateTime(millis));
         }
-    }-*/;
+    }
 
-    static native void dispose(JavaScriptObject picker) /*-{
-        if (typeof picker.dispose === "function") {
+    static void dispose(final TempusDominus picker) {
+        if ("function".equals(Js.typeof(Js.asPropertyMap(picker).get("dispose")))) {
             picker.dispose();
         }
-    }-*/;
+    }
+
+    @JsFunction
+    interface ChangeListener {
+        void onChange(Any event);
+    }
+
+    /** A JavaScript function, called with a receiver. */
+    @JsType(isNative = true)
+    interface Function {
+        void call(Any receiver);
+    }
+
+    @JsType(isNative = true, namespace = "tempusDominus", name = "TempusDominus")
+    static class TempusDominus {
+        TempusDominus(Any element, JsPropertyMap<Object> options) {
+        }
+
+        native void subscribe(String event, ChangeListener listener);
+
+        @JsProperty(name = "dates")
+        native Dates getDates();
+
+        native void dispose();
+    }
+
+    /** The picker's selected dates. */
+    @JsType(isNative = true)
+    interface Dates {
+        @JsProperty
+        JsArrayLike<Object> getPicked();
+
+        void clear();
+
+        void setValue(DateTime date);
+    }
+
+    @JsType(isNative = true, namespace = "tempusDominus", name = "DateTime")
+    static class DateTime {
+        DateTime(double millis) {
+        }
+
+        native double valueOf();
+    }
 }

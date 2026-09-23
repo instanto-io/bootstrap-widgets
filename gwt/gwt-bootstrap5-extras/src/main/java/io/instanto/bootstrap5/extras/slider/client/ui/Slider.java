@@ -29,7 +29,6 @@ import io.instanto.bootstrap5.client.ui.base.HasId;
 import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
 import io.instanto.bootstrap5.client.ui.html.Div;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -73,7 +72,7 @@ public class Slider extends Div implements HasEnabled, HasId, HasValueChangeHand
 
 
 
-    private JavaScriptObject slider;
+    private SliderJs.Api slider;
 
     public Slider() {
         addStyleName("gbm-slider");
