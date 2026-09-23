@@ -94,6 +94,9 @@
     </dependency>
   </dependencies>
   <properties>
+    <source.maps.phase>prepare-package</source.maps.phase>
+    <source.maps.mode>teavm</source.maps.mode>
+    <source.maps.path>${project.build.directory}/teavm/teavm-bootstrap3-showcase.js</source.maps.path>
     <!-- Sources vendored from GWTBootstrap3. Formatting them would produce a
          permanent diff against upstream, and one file already breaks the
          formatter by separating its imports with a comment. -->
@@ -106,6 +109,10 @@
   </properties>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>

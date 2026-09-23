@@ -108,11 +108,10 @@ jobs:
       - name: Compile Bootstrap 5 browser fixtures with GWT
         run: mvn -B -f gwt/gwt-bootstrap5-browser-fixtures/pom.xml -DskipTests -Dgwt.forceCompilation=true gwt:compile
 
-      - name: Verify published source maps and source JARs
-        run: python3 scripts/prepare-showcase-debug-artifacts.py
-
+      # Packaging each application prepares and checks its source maps; required here,
+      # because the GWT compile above means every map must be present.
       - name: Assemble verified showcase site
-        run: mvn -B -pl showcase-site -am -DskipTests package
+        run: mvn -B -pl showcase-site -am -DskipTests -Dsource.maps.flag=--required package
 
       - name: Smoke-test assembled showcases in Chromium
         run: bash scripts/smoke-showcase-pages.sh

@@ -14,6 +14,9 @@
   <packaging>war</packaging>
 
   <properties>
+    <source.maps.phase>prepare-package</source.maps.phase>
+    <source.maps.mode>gwt</source.maps.mode>
+    <source.maps.path>${project.build.directory}/${project.build.finalName}/GwtBootstrap3Demo</source.maps.path>
     <!-- Sources vendored from GWTBootstrap3. Formatting them would produce a
          permanent diff against upstream, and one file already breaks the
          formatter by separating its imports with a comment. -->
@@ -107,6 +110,10 @@
   <build>
     <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>

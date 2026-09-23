@@ -32,7 +32,10 @@ chrome_bin="$(find_chrome)"
 server_log="${root_dir}/target/showcase-smoke-server.log"
 mkdir -p "${root_dir}/target/showcase-smoke"
 
-python3 -u -m http.server "${port}" --bind 127.0.0.1 --directory "${pages_dir}" >"${server_log}" 2>&1 &
+# The JDK's own static file server, so the smoke test needs nothing but Java and Chrome.
+jwebserver="${JAVA_HOME:+${JAVA_HOME}/bin/}jwebserver"
+"${jwebserver}" --bind-address 127.0.0.1 --port "${port}" --directory "$(cd "${pages_dir}" && pwd)" \
+    --output none >"${server_log}" 2>&1 &
 server_pid=$!
 trap 'kill "${server_pid}" 2>/dev/null || true' EXIT
 

@@ -15,6 +15,9 @@
   <packaging>war</packaging>
 
   <properties>
+    <source.maps.phase>prepare-package</source.maps.phase>
+    <source.maps.mode>gwt</source.maps.mode>
+    <source.maps.path>${project.build.directory}/${project.build.finalName}/Bootstrap5BrowserFixtures</source.maps.path>
     <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
   </properties>
 
@@ -46,6 +49,10 @@
   <build>
     <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>

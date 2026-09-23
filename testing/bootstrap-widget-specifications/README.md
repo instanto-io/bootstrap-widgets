@@ -27,13 +27,6 @@ The authoritative tag and fixture-state definitions are in the
 `@dom-contract` and `@style-contract` do not imply `@browser`: detached markup
 and static stylesheet rules can be inspected without a browser engine.
 
-`showcase-behaviour-inventory.tsv` is generated from the feature files. Update
-it with:
-
-```sh
-python3 scripts/generate-behaviour-inventory.py --write
-```
-
-Maven validation checks that the committed inventory is current. Feature
-files are the source of truth; the TSV is the reviewable coverage report and
-four-target matrix.
+The feature files are the source of truth. The generated inventory and its Maven
+check were removed: they validated tag spelling while nothing compared the scenarios
+with the browser tests that implement them (see [TEST-ARCHITECTURE.md](../../TEST-ARCHITECTURE.md)).

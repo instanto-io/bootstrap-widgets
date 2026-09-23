@@ -121,8 +121,9 @@ Two of these are worth knowing about:
 | Script | Lines | Runs |
 |---|---|---|
 | `run-browser-behaviour-tests.mjs` | 2093 | CI |
-| `prepare-showcase-debug-artifacts.py` | 122 | CI |
 | `smoke-showcase-pages.sh` | 78 | CI |
 
-Nothing here gates a local build any more: `mvn install` no longer needs a python
-interpreter. All three run in CI only.
+No script gates a local build, and nothing in the build or CI needs a python
+interpreter. Both run in CI only. `build-tools/SourceMaps.java` is not a CI script: the
+JDK runs it as part of packaging each showcase application, and it makes their source
+maps usable from the published site and fails when a mapped source is missing.

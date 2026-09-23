@@ -95,11 +95,18 @@
     </dependency>
   </dependencies>
   <properties>
+    <source.maps.phase>prepare-package</source.maps.phase>
+    <source.maps.mode>teavm</source.maps.mode>
+    <source.maps.path>${project.build.directory}/teavm/teavm-bootstrap5-smoke.js</source.maps.path>
     <shared.source.artifacts>gwt-bootstrap5,gwt-bootstrap5-themes,gwt-bootstrap5-extras,gwt-bootstrap5-showcase</shared.source.artifacts>
     <shared.source.gwt.only>META-INF/**,io/instanto/bootstrap5/extras/markdown/client/MarkdownResources.java,io/instanto/bootstrap5/extras/grid/client/GridResources.java,io/instanto/bootstrap5/extras/sortable/client/SortableResources.java,io/instanto/bootstrap5/extras/gallery/client/GalleryResources.java,io/instanto/bootstrap5/extras/dashboard/client/DashboardResources.java,io/instanto/bootstrap5/extras/select/client/SelectResources.java,io/instanto/bootstrap5/extras/slider/client/SliderResources.java,io/instanto/bootstrap5/extras/datepicker/client/DatePickerResources.java,io/instanto/bootstrap5/extras/richtext/client/RichTextResources.java</shared.source.gwt.only>
   </properties>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
