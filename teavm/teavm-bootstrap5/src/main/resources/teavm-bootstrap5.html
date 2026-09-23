@@ -15,10 +15,12 @@
 <body>
   <div id="showcase"></div>
   <script src="vendor/bootstrap-5.3.8.bundle.min.cache.js"></script>
-  <script>window.exports = window;</script>
   <script src="teavm5/teavm-bootstrap5-smoke.js"></script>
   <script>
-    const teavmMain = window.main || (window.exports && window.exports.main);
+    // TeaVM's module wrapper exports main onto the window when the page defines no
+    // exports object. Defining one sent every UMD plugin loaded later down its CommonJS
+    // path, where require is missing, so Bootstrap Switch and Summernote never loaded.
+    const teavmMain = window.main;
     if (typeof teavmMain === 'function') {
       teavmMain([]);
     } else {

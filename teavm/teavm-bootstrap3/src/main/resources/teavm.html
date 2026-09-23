@@ -11,10 +11,12 @@
   <link id="gwtbootstrap3-theme" rel="stylesheet" href="css/bootstrap-3.4.1.min.cache.css">
 </head>
 <body>
-  <script>window.exports = window;</script>
   <script src="teavm/teavm-bootstrap3-showcase.js"></script>
   <script>
-    const teavmMain = window.main || (window.exports && window.exports.main);
+    // TeaVM's module wrapper exports main onto the window when the page defines no
+    // exports object. Defining one sent every UMD plugin loaded later down its CommonJS
+    // path, where require is missing, so Bootstrap Switch and Summernote never loaded.
+    const teavmMain = window.main;
     if (typeof teavmMain === 'function') {
       teavmMain([]);
     } else {
