@@ -264,17 +264,54 @@
             <configuration>
               <rules>
                 <requireFilesExist>
+                  <!-- Every compiler exclusion still names a GWT source, so an exclusion cannot
+                       silently outlive the file it was written for. -->
                   <files>
-                    <file>${project.build.directory}/shared-sources/org/gwtbootstrap3/client/GwtBootstrap3EntryPoint.java</file>
-                    <file>${project.build.directory}/shared-sources/org/gwtbootstrap3/client/GwtBootstrap3ClientBundle.java</file>
-                    <file>${project.build.directory}/shared-sources/org/gwtbootstrap3/client/shared/js/JQuery.java</file>
-                    <file>${project.build.directory}/shared-sources/org/gwtbootstrap3/client/ui/base/TooltipOptions.java</file>
-                    <file>${project.build.directory}/shared-sources/org/gwtbootstrap3/client/ui/base/CarouselOptions.java</file>
-                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/TeaVmBootstrap3EntryPoint.java</file>
-                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/Bootstrap3Resources.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/ExtrasPages.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/ShowcaseScripts.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/GwtBootstrap3DemoClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/AnimateView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/BootboxJSView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/CardView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/DatePickerView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/DateTimePickerView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/FullCalendarView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/GalleryView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/MarkdownView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/NotifyView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/OfflineView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/TagsInputView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/extras/TypeaheadView.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-showcase/src/main/java/org/gwtbootstrap3/demo/client/application/css/validation</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/toggleswitch/client/ToggleSwitchClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/toggleswitch/client/ToggleSwitchEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/slider/client/SliderClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/slider/client/SliderEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/select/client/SelectEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/summernote/client/ui/base/SummernoteJs.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/summernote/client/event/SummernoteImageUploadEvent.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/summernote/client/SummernoteEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/markdown/client/MarkdownClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3-extras/src/main/java/org/gwtbootstrap3/extras/markdown/client/MarkdownEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3/src/main/java/org/gwtbootstrap3/client/GwtBootstrap3EntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3/src/main/java/org/gwtbootstrap3/client/GwtBootstrap3ClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3/src/main/java/org/gwtbootstrap3/client/shared/js/JQuery.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3/src/main/java/org/gwtbootstrap3/client/ui/base/TooltipOptions.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap3/src/main/java/org/gwtbootstrap3/client/ui/base/CarouselOptions.java</file>
+                  </files>
+                </requireFilesExist>
+                <requireFilesExist>
+                  <!-- The TeaVM halves of the seams that remain. -->
+                  <files>
+                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/Bootstrap3.java</file>
                     <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/shared/js/JQuery.java</file>
-                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/ui/base/TooltipOptions.java</file>
                     <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/ui/base/CarouselOptions.java</file>
+                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/ui/base/TooltipOptions.java</file>
+                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/demo/client/ExtrasPages.java</file>
+                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/demo/client/ShowcaseScripts.java</file>
+                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/extras/summernote/client/event/SummernoteImageUploadEvent.java</file>
+                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/extras/summernote/client/ui/base/SummernoteJs.java</file>
+                    <file>${project.basedir}/src/main/java/org/gwtbootstrap3/client/TeaVmBootstrap3EntryPoint.java</file>
                   </files>
                 </requireFilesExist>
               </rules>

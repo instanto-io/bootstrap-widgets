@@ -55,8 +55,8 @@ three kinds:
 - **Unavailable features** — `ExtrasPages` returns the 14 extras-backed showcase pages
   on GWT and `null` on TeaVM, which is how the entry point itself stays shared.
 
-`check-module-layout.py` enforces that every excluded file has a counterpart, so a
-seam cannot be left half-made.
+The TeaVM builds' `verify-*-source-seams` enforcer rules require every excluded file
+to exist and the TeaVM half of each remaining seam, so a seam cannot be left half-made.
 
 ## The two showcases
 

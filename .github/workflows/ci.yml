@@ -81,9 +81,6 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Check module layout and shared-source seams
-        run: python3 scripts/check-module-layout.py
-
       - name: Build and install reactor artifacts
         run: mvn -B -U -DskipTests install
 

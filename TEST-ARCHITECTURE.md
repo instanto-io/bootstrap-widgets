@@ -87,12 +87,17 @@ script instead validated tag spelling on every build and never noticed.
 
 ## 4. Structural guards
 
-A check that is not a test of behaviour but of the repository's shape:
+Checks of the repository's shape rather than of behaviour. Both run in every
+Maven build:
 
-- **`check-module-layout.py`** — every TeaVM pom's `add-source` and `<excludes>`
-  must be exactly the expected set, and every excluded GWT file must have a TeaVM
-  counterpart that exists. This is what stops a half-made seam, where a file is
-  excluded but nothing replaces it.
+- **Source seams** — each TeaVM module's `verify-*-source-seams` enforcer execution
+  requires every GWT file its compiler excludes to exist, so an exclusion cannot
+  outlive the file it was written for, and requires the TeaVM halves of the seams
+  that remain. Most seams are gone: the TeaVM builds compile the GWT sources
+  themselves, through teavm-compat's `adapt-sources`.
+- **`ElementPanelInterfacesTest`** — `ElementPanel` declares `HasWidgets`
+  immediately before `HasHTML`, which is how UiBinder knows its children are
+  widgets.
 
 ## Where things run
 
@@ -100,7 +105,7 @@ A check that is not a test of behaviour but of the repository's shape:
 |---|---|---|
 | Contracts, widget tests, processor tests | yes | yes |
 | Browser behaviour tests | no | yes |
-| Structural guards | no | yes |
+| Structural guards | yes | yes |
 | GWT compilation of the showcases | **no** | yes |
 
 Two of these are worth knowing about:
@@ -116,9 +121,8 @@ Two of these are worth knowing about:
 | Script | Lines | Runs |
 |---|---|---|
 | `run-browser-behaviour-tests.mjs` | 2093 | CI |
-| `check-module-layout.py` | 148 | CI |
 | `prepare-showcase-debug-artifacts.py` | 122 | CI |
 | `smoke-showcase-pages.sh` | 78 | CI |
 
 Nothing here gates a local build any more: `mvn install` no longer needs a python
-interpreter. All four run in CI only.
+interpreter. All three run in CI only.

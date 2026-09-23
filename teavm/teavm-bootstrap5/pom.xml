@@ -206,8 +206,33 @@
             <configuration>
               <rules>
                 <requireFilesExist>
+                  <!-- Every compiler exclusion still names a GWT source, so an exclusion cannot
+                       silently outlive the file it was written for. -->
                   <files>
-                    <file>${project.build.directory}/shared-sources/io/instanto/bootstrap5/client/GwtBootstrap5EntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5/src/main/java/io/instanto/bootstrap5/client/GwtBootstrap5EntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/datepicker/client/DatePickerClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/datepicker/client/DatePickerEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/markdown/client/MarkdownClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/markdown/client/MarkdownEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/slider/client/SliderClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/slider/client/SliderEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/select/client/SelectClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/select/client/SelectEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/grid/client/GridClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/grid/client/GridEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/sortable/client/SortableClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/sortable/client/SortableEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/dashboard/client/DashboardClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/dashboard/client/DashboardEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/gallery/client/GalleryClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/gallery/client/GalleryEntryPoint.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/richtext/client/RichTextClientBundle.java</file>
+                    <file>${project.parent.parent.basedir}/gwt/gwt-bootstrap5-extras/src/main/java/io/instanto/bootstrap5/extras/richtext/client/RichTextEntryPoint.java</file>
+                  </files>
+                </requireFilesExist>
+                <requireFilesExist>
+                  <!-- The TeaVM halves of the seams that remain. -->
+                  <files>
                     <file>${project.basedir}/src/main/java/io/instanto/bootstrap5/client/TeaVmBootstrap5EntryPoint.java</file>
                   </files>
                 </requireFilesExist>
