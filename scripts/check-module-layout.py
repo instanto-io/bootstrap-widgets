@@ -85,7 +85,7 @@ TRACKS = {
         "pom": ROOT / "teavm/teavm-bootstrap5/pom.xml",
         "sources": {
             "${project.build.directory}/generated-sources/teavm-modules",
-            "${project.build.directory}/shared-sources",
+            "${project.build.directory}/teavm-sources",
         },
         "unpacked": {
             "gwt-bootstrap5",
@@ -107,7 +107,6 @@ TRACKS = {
             "io/instanto/bootstrap5/extras/datepicker/client/DatePickerClientBundle.java",
             "io/instanto/bootstrap5/extras/datepicker/client/DatePickerEntryPoint.java",
             "io/instanto/bootstrap5/extras/datepicker/client/ui/DatePickerJs.java",
-            "io/instanto/bootstrap5/extras/markdown/client/Markdown.java",
             "io/instanto/bootstrap5/extras/markdown/client/MarkdownClientBundle.java",
             "io/instanto/bootstrap5/extras/markdown/client/MarkdownEntryPoint.java",
             "io/instanto/bootstrap5/extras/markdown/client/ui/TextAreaSelection.java",
@@ -139,7 +138,6 @@ TRACKS = {
             "io/instanto/bootstrap5/client/ui/base/BootstrapComponent.java",
             "io/instanto/bootstrap5/client/ui/base/InputEvents.java",
             "io/instanto/bootstrap5/extras/datepicker/client/ui/DatePickerJs.java",
-            "io/instanto/bootstrap5/extras/markdown/client/Markdown.java",
             "io/instanto/bootstrap5/extras/markdown/client/ui/TextAreaSelection.java",
             "io/instanto/bootstrap5/extras/select/client/ui/SelectJs.java",
             "io/instanto/bootstrap5/extras/grid/client/ui/GridJs.java",

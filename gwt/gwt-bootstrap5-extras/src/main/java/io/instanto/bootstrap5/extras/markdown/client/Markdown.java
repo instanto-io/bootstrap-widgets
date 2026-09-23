@@ -25,6 +25,10 @@
  */
 package io.instanto.bootstrap5.extras.markdown.client;
 
+import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
+
 /**
  * Renders Markdown to HTML, in the dialect a flexmark-java server produces.
  *
@@ -35,43 +39,33 @@ package io.instanto.bootstrap5.extras.markdown.client;
  * <p>Everything is passed through DOMPurify on the way out. Markdown permits raw
  * HTML and marked does not sanitise, by design, so rendering user input without
  * this would be an injection route.</p>
+ *
+ * <p>The libraries are reached through JsInterop, so this one source serves GWT and
+ * TeaVM alike. Only how the scripts arrive differs, and that is
+ * {@link MarkdownResources}'s concern.</p>
  */
 public final class Markdown {
 
     private Markdown() {
     }
 
-    /**
-     * Ensures the parser and sanitiser have been asked for. On GWT the module's entry
-     * point has already injected them, so this does nothing.
-     */
-    /**
-     * Runs an action once the parser is usable.
-     *
-     * <p>The GWT module injects the library as script text before the application runs,
-     * so by the time a widget attaches it is there. If it is not, waiting will not help
-     * -- nothing else is going to load it -- so this says so rather than failing later
-     * inside the library.</p>
-     */
+    /** Runs an action once the parser is usable, immediately if it already is. */
     public static void whenReady(final Runnable action) {
-        ensureResources();
-        if (isReady()) {
-            action.run();
-        } else {
-            com.google.gwt.core.client.GWT.log(
-                    "Markdown: the parser is not on the page; the module did not load it");
-        }
+        MarkdownResources.whenReady(Markdown::isReady, action);
     }
 
+    /** Starts loading the parser if that has not already begun. */
     public static void ensureResources() {
+        MarkdownResources.ensureInjected();
     }
 
-    /** Applies the GFM options. Called once by the module's entry point. */
-    public static native void configure() /*-{
-        if ($wnd.marked && $wnd.marked.setOptions) {
-            $wnd.marked.setOptions({ gfm: true, breaks: false });
+    /** Applies the GFM options. Called once the scripts have loaded. */
+    public static void configure() {
+        final Marked marked = marked();
+        if (marked != null && Js.asPropertyMap(marked).has("setOptions")) {
+            marked.setOptions(options());
         }
-    }-*/;
+    }
 
     /** Renders {@code markdown} to sanitised HTML. */
     public static String toHtml(final String markdown) {
@@ -79,22 +73,49 @@ public final class Markdown {
     }
 
     /** Whether the parser and sanitiser have finished loading. */
-    public static native boolean isReady() /*-{
-        return typeof $wnd.marked !== "undefined" && typeof $wnd.DOMPurify !== "undefined";
-    }-*/;
+    public static boolean isReady() {
+        return marked() != null && purifier() != null;
+    }
 
-    private static native String render(String markdown) /*-{
-        if (typeof $wnd.marked === "undefined") {
+    private static String render(final String markdown) {
+        final Marked marked = marked();
+        if (marked == null) {
             return markdown;
         }
-        var parse = $wnd.marked.parse || $wnd.marked;
-        var html = parse(markdown, { gfm: true, breaks: false });
-        if (typeof $wnd.DOMPurify !== "undefined") {
-            html = $wnd.DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+        String html = marked.parse(markdown, options());
+        final DomPurify purifier = purifier();
+        if (purifier != null) {
+            html = purifier.sanitize(html,
+                    JsPropertyMap.<Object>of("USE_PROFILES", JsPropertyMap.of("html", true)));
         }
         // flexmark is usually configured to put the Bootstrap table classes on
         // rendered tables; do the same so a preview matches the server.
-        return html.replace(/<table>/g,
-                "<table class=\"table table-striped table-bordered\">");
-    }-*/;
+        return html.replace("<table>", "<table class=\"table table-striped table-bordered\">");
+    }
+
+    private static JsPropertyMap<Object> options() {
+        return JsPropertyMap.<Object>of("gfm", true, "breaks", false);
+    }
+
+    private static Marked marked() {
+        return Js.uncheckedCast(Js.global().get("marked"));
+    }
+
+    private static DomPurify purifier() {
+        return Js.uncheckedCast(Js.global().get("DOMPurify"));
+    }
+
+    /** The {@code marked} global. */
+    @JsType(isNative = true)
+    interface Marked {
+        String parse(String markdown, JsPropertyMap<Object> options);
+
+        void setOptions(JsPropertyMap<Object> options);
+    }
+
+    /** The {@code DOMPurify} global. */
+    @JsType(isNative = true)
+    interface DomPurify {
+        String sanitize(String html, JsPropertyMap<Object> options);
+    }
 }

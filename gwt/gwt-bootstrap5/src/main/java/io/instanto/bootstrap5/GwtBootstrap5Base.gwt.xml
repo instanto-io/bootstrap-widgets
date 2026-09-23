@@ -9,6 +9,12 @@
   IE at all.
 -->
 <module>
+    <!--
+      Browser libraries are reached through JsInterop rather than JSNI, so the same
+      source also compiles with TeaVM through the teavm-compat bindings.
+    -->
+    <inherits name="jsinterop.base.Base"/>
+
     <source path="client"/>
 
     <!--

@@ -114,6 +114,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>17</maven.compiler.release>
     <gwt.version>2.13.1</gwt.version>
+    <jsinterop.base.version>1.0.1</jsinterop.base.version>
+    <jsinterop.annotations.version>2.0.2</jsinterop.annotations.version>
     <bootstrap.version>3.4.1</bootstrap.version>
     <bootstrap5.version>5.3.8</bootstrap5.version>
     <jquery.compat.version>3.7.1</jquery.compat.version>

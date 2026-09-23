@@ -15,12 +15,21 @@
     <module>teavm-bootstrap5</module>
     <module>teavm-bootstrap-widget-tests</module>
   </modules>
+  <properties>
+    <!-- Shared-source files a TeaVM module leaves out when it unpacks the GWT
+         sources: GWT-only halves of a seam whose TeaVM half is generated, such as
+         a module's hand-written GWT XResources loader. Comma-separated. -->
+    <shared.source.gwt.only>META-INF/**</shared.source.gwt.only>
+  </properties>
   <build>
     <resources>
       <resource>
         <directory>${project.build.directory}/shared-sources</directory>
         <includes>
           <include>**/resource/**</include>
+          <!-- The Java is compiled from teavm-sources, which holds only .java files,
+               so the UiBinder processor finds templates on the class path instead. -->
+          <include>**/*.ui.xml</include>
         </includes>
       </resource>
       <resource>
@@ -44,10 +53,44 @@
                 <includeArtifactIds>${shared.source.artifacts}</includeArtifactIds>
                 <outputDirectory>${project.build.directory}/shared-sources</outputDirectory>
                 <overWriteSnapshots>true</overWriteSnapshots>
-                <excludes>META-INF/**</excludes>
+                <excludes>META-INF/**,${shared.source.gwt.only}</excludes>
               </configuration>
             </execution>
           </executions>
+        </plugin>
+        <!-- The GWT sources reach JavaScript through JsInterop. teavm-compat's
+             binding generator rewrites those declarations as TeaVM JSO, so TeaVM
+             compiles the same source rather than a hand-kept copy. The output,
+             teavm-sources, is what a module compiles instead of shared-sources. -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>${exec-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>adapt-shared-sources</id>
+              <phase>process-sources</phase>
+              <goals>
+                <goal>java</goal>
+              </goals>
+              <configuration>
+                <mainClass>io.instanto.compat.GenerateBindings</mainClass>
+                <includeProjectDependencies>false</includeProjectDependencies>
+                <includePluginDependencies>true</includePluginDependencies>
+                <arguments>
+                  <argument>${project.build.directory}/teavm-sources</argument>
+                  <argument>${project.build.directory}/shared-sources</argument>
+                </arguments>
+              </configuration>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>io.instanto</groupId>
+              <artifactId>jsinterop-binding-generator</artifactId>
+              <version>${teavm-compat.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>

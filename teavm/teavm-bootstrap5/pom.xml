@@ -66,6 +66,18 @@
       <groupId>io.instanto</groupId>
       <artifactId>gwt-user-compat</artifactId>
     </dependency>
+    <!-- The TeaVM side of the JsInterop the shared sources use: compat's Js and
+         JsPropertyMap in place of com.google.jsinterop:base, and the annotations,
+         which the binding generator leaves imported. -->
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>jsinterop-base-compat</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.jsinterop</groupId>
+      <artifactId>jsinterop-annotations</artifactId>
+      <version>${jsinterop.annotations.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.teavm</groupId>
       <artifactId>teavm-jso</artifactId>
@@ -84,12 +96,17 @@
   </dependencies>
   <properties>
     <shared.source.artifacts>gwt-bootstrap5,gwt-bootstrap5-themes,gwt-bootstrap5-extras,gwt-bootstrap5-showcase</shared.source.artifacts>
+    <shared.source.gwt.only>META-INF/**,io/instanto/bootstrap5/extras/markdown/client/MarkdownResources.java</shared.source.gwt.only>
   </properties>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>io.instanto</groupId>
@@ -126,7 +143,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>${project.build.directory}/shared-sources</source>
+                <source>${project.build.directory}/teavm-sources</source>
                 <source>${project.build.directory}/generated-sources/teavm-modules</source>
               </sources>
             </configuration>
@@ -154,7 +171,6 @@
             <exclude>io/instanto/bootstrap5/extras/datepicker/client/ui/DatePickerJs.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/markdown/client/MarkdownClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/markdown/client/MarkdownEntryPoint.java</exclude>
-            <exclude>io/instanto/bootstrap5/extras/markdown/client/Markdown.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/markdown/client/ui/TextAreaSelection.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/slider/client/SliderClientBundle.java</exclude>
             <exclude>io/instanto/bootstrap5/extras/slider/client/SliderEntryPoint.java</exclude>
