@@ -1,9 +1,17 @@
 package io.instanto.bootstrap5.client.ui.html;
 
+import io.instanto.bootstrap5.client.ui.base.HasAlignment;
+import io.instanto.bootstrap5.client.ui.base.HasEmphasis;
 import io.instanto.bootstrap5.client.ui.base.HasPull;
+import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
+import io.instanto.bootstrap5.client.ui.base.mixin.HTMLMixin;
 import io.instanto.bootstrap5.client.ui.base.mixin.PullMixin;
+import io.instanto.bootstrap5.client.ui.constants.Alignment;
+import io.instanto.bootstrap5.client.ui.constants.Emphasis;
 import io.instanto.bootstrap5.client.ui.constants.Pull;
+import io.instanto.bootstrap5.client.ui.gwt.HTMLPanel;
 
+import com.google.gwt.dom.client.ParagraphElement;
 
 /*
  * #%L
@@ -24,16 +32,6 @@ import io.instanto.bootstrap5.client.ui.constants.Pull;
  * limitations under the License.
  * #L%
  */
-
-import io.instanto.bootstrap5.client.ui.base.HasAlignment;
-import io.instanto.bootstrap5.client.ui.base.HasEmphasis;
-import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
-import io.instanto.bootstrap5.client.ui.base.mixin.HTMLMixin;
-import io.instanto.bootstrap5.client.ui.constants.Alignment;
-import io.instanto.bootstrap5.client.ui.constants.Emphasis;
-import io.instanto.bootstrap5.client.ui.gwt.HTMLPanel;
-
-import com.google.gwt.dom.client.ParagraphElement;
 
 /**
  * @author Sven Jacobs
