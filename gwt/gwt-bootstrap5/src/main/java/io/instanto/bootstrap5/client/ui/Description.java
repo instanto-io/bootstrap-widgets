@@ -27,24 +27,21 @@ package io.instanto.bootstrap5.client.ui;
 
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 
-
 public class Description extends ElementPanel {
 
-    public Description() {
-        super("dl");
-    }
+  public Description() {
+    super("dl");
+  }
 
-    /**
-     * Bootstrap 5 builds horizontal description lists from the grid rather than
-     * .dl-horizontal, so this adds .row and the child columns take their widths
-     * from the stylesheet.
-     */
-    public void setHorizontal(final boolean horizontal) {
-        setStyleName("row", horizontal);
-    }
+  /**
+   * Bootstrap 5 builds horizontal description lists from the grid rather than .dl-horizontal, so
+   * this adds .row and the child columns take their widths from the stylesheet.
+   */
+  public void setHorizontal(final boolean horizontal) {
+    setStyleName("row", horizontal);
+  }
 
-    public boolean isHorizontal() {
-        return StyleHelper.containsStyle(getStyleName(), "row");
-    }
-
+  public boolean isHorizontal() {
+    return StyleHelper.containsStyle(getStyleName(), "row");
+  }
 }

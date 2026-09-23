@@ -32,11 +32,11 @@ import com.google.gwt.resources.client.TextResource;
 /** The Markdown parser and the sanitiser this module injects. */
 public interface MarkdownClientBundle extends ClientBundle {
 
-    MarkdownClientBundle INSTANCE = GWT.create(MarkdownClientBundle.class);
+  MarkdownClientBundle INSTANCE = GWT.create(MarkdownClientBundle.class);
 
-    @Source("resource/js/marked-18.0.11.umd.cache.js")
-    TextResource marked();
+  @Source("resource/js/marked-18.0.11.umd.cache.js")
+  TextResource marked();
 
-    @Source("resource/js/dompurify-3.4.14.min.cache.js")
-    TextResource domPurify();
+  @Source("resource/js/dompurify-3.4.14.min.cache.js")
+  TextResource domPurify();
 }

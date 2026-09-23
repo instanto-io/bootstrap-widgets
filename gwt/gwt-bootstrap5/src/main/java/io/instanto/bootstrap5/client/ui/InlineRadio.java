@@ -29,25 +29,24 @@ import com.google.gwt.uibinder.client.UiConstructor;
 
 public class InlineRadio extends Radio {
 
-    public InlineRadio() {
-        this("");
-    }
+  public InlineRadio() {
+    this("");
+  }
 
-    /**
-     * Creates an inline radio in the group {@code name}, with no label.
-     *
-     * <p>Note this mirrors {@link Radio}: the single argument is the group
-     * name, not the label. Use {@link #InlineRadio(String, String)} to set
-     * both.</p>
-     */
-    @UiConstructor
-    public InlineRadio(final String name) {
-        super(name);
-        addStyleName("form-check-inline");
-    }
+  /**
+   * Creates an inline radio in the group {@code name}, with no label.
+   *
+   * <p>Note this mirrors {@link Radio}: the single argument is the group name, not the label. Use
+   * {@link #InlineRadio(String, String)} to set both.
+   */
+  @UiConstructor
+  public InlineRadio(final String name) {
+    super(name);
+    addStyleName("form-check-inline");
+  }
 
-    public InlineRadio(final String name, final String label) {
-        this(name);
-        setText(label);
-    }
+  public InlineRadio(final String name, final String label) {
+    this(name);
+    setText(label);
+  }
 }

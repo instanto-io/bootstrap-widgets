@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class LinkedGroup extends ElementPanel {
 
-    public LinkedGroup() {
-        super("div");
-        addStyleName("list-group");
-    }
+  public LinkedGroup() {
+    super("div");
+    addStyleName("list-group");
+  }
 }

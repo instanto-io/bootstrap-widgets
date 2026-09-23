@@ -27,32 +27,31 @@ package io.instanto.bootstrap5.client.ui.form.error;
  */
 public interface HasErrorHandler {
 
-    /**
-     * Gets the error handler.
-     *
-     * @return the error handler
-     */
-    ErrorHandler getErrorHandler();
+  /**
+   * Gets the error handler.
+   *
+   * @return the error handler
+   */
+  ErrorHandler getErrorHandler();
 
-    /**
-     * Sets the error handler.
-     *
-     * @param errorHandler the new error handler
-     */
-    void setErrorHandler(ErrorHandler errorHandler);
+  /**
+   * Sets the error handler.
+   *
+   * @param errorHandler the new error handler
+   */
+  void setErrorHandler(ErrorHandler errorHandler);
 
-    /**
-     * Gets the error handler type.
-     *
-     * @return the error handler type
-     */
-    ErrorHandlerType getErrorHandlerType();
+  /**
+   * Gets the error handler type.
+   *
+   * @return the error handler type
+   */
+  ErrorHandlerType getErrorHandlerType();
 
-    /**
-     * Sets the error handler type.
-     *
-     * @param errorHandlerType the new error handler type
-     */
-    void setErrorHandlerType(ErrorHandlerType errorHandlerType);
-
+  /**
+   * Sets the error handler type.
+   *
+   * @param errorHandlerType the new error handler type
+   */
+  void setErrorHandlerType(ErrorHandlerType errorHandlerType);
 }

@@ -28,43 +28,41 @@ package io.instanto.bootstrap5.extras.markdown.client;
 import com.google.gwt.core.client.GWT;
 
 /**
- * How the Markdown scripts arrive on GWT: compiled into the application through
- * {@link MarkdownClientBundle} and injected by {@link MarkdownEntryPoint} before it runs.
+ * How the Markdown scripts arrive on GWT: compiled into the application through {@link
+ * MarkdownClientBundle} and injected by {@link MarkdownEntryPoint} before it runs.
  *
- * <p>TeaVM builds leave this class out. The resources plugin generates a
- * {@code MarkdownResources} with the same methods there, which fetches the scripts by
- * URL, so {@link Markdown} calls one API and each platform supplies its own loading.</p>
+ * <p>TeaVM builds leave this class out. The resources plugin generates a {@code MarkdownResources}
+ * with the same methods there, which fetches the scripts by URL, so {@link Markdown} calls one API
+ * and each platform supplies its own loading.
  */
 public final class MarkdownResources {
 
-    /** Whether the library is usable on the page. */
-    public interface Presence {
-        boolean isPresent();
-    }
+  /** Whether the library is usable on the page. */
+  public interface Presence {
+    boolean isPresent();
+  }
 
-    private MarkdownResources() {
-    }
+  private MarkdownResources() {}
 
-    /** Nothing to fetch: the entry point has already injected the scripts. */
-    public static void ensureInjected() {
-    }
+  /** Nothing to fetch: the entry point has already injected the scripts. */
+  public static void ensureInjected() {}
 
-    /**
-     * Runs an action now if the library is on the page.
-     *
-     * <p>If it is not, waiting will not help -- nothing else is going to load it -- so
-     * this says so rather than failing later inside the library.</p>
-     */
-    public static void whenReady(final Presence presence, final Runnable action) {
-        if (presence.isPresent()) {
-            action.run();
-        } else {
-            GWT.log("Markdown: the parser is not on the page; the module did not load it");
-        }
+  /**
+   * Runs an action now if the library is on the page.
+   *
+   * <p>If it is not, waiting will not help -- nothing else is going to load it -- so this says so
+   * rather than failing later inside the library.
+   */
+  public static void whenReady(final Presence presence, final Runnable action) {
+    if (presence.isPresent()) {
+      action.run();
+    } else {
+      GWT.log("Markdown: the parser is not on the page; the module did not load it");
     }
+  }
 
-    /** Whether the library is usable now. */
-    public static boolean isReady(final Presence presence) {
-        return presence.isPresent();
-    }
+  /** Whether the library is usable now. */
+  public static boolean isReady(final Presence presence) {
+    return presence.isPresent();
+  }
 }

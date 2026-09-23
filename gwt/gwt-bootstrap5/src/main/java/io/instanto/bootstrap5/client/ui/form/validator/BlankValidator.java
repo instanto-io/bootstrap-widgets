@@ -1,8 +1,7 @@
 package io.instanto.bootstrap5.client.ui.form.validator;
 
-import java.util.Collection;
-
 import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
+import java.util.Collection;
 
 /*
  * #%L
@@ -32,33 +31,32 @@ import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
  */
 public class BlankValidator<T> extends AbstractValidator<T> {
 
-    /**
-     * Constructor.
-     */
-    public BlankValidator() {
-        super(Keys.BLANK, new Object[0]);
-    }
+  /** Constructor. */
+  public BlankValidator() {
+    super(Keys.BLANK, new Object[0]);
+  }
 
-    /**
-     * Constructor.
-     *
-     * @param invalidMessageOverride the invalid message override
-     */
-    public BlankValidator(String invalidMessageOverride) {
-        super(invalidMessageOverride);
-    }
+  /**
+   * Constructor.
+   *
+   * @param invalidMessageOverride the invalid message override
+   */
+  public BlankValidator(String invalidMessageOverride) {
+    super(invalidMessageOverride);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public int getPriority() {
-        return Priority.LOWEST;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public int getPriority() {
+    return Priority.LOWEST;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(T value) {
-        if (value instanceof Collection<?>) { return ((Collection<?>) value).size() > 0; }
-        return value != null && !"".equals(value.toString());
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(T value) {
+    if (value instanceof Collection<?>) {
+      return ((Collection<?>) value).size() > 0;
     }
-
+    return value != null && !"".equals(value.toString());
+  }
 }

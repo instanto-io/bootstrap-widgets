@@ -20,34 +20,34 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.constants.Styles;
-
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.UIObject;
+import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 /**
  * @author Joshua Godi
  */
-public class EnabledMixin<T extends UIObject & HasEnabled> extends AbstractMixin implements HasEnabled {
-    private static final String DISABLED = "disabled";
+public class EnabledMixin<T extends UIObject & HasEnabled> extends AbstractMixin
+    implements HasEnabled {
+  private static final String DISABLED = "disabled";
 
-    public EnabledMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public EnabledMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    @Override
-    public void setEnabled(final boolean enabled) {
-        if (enabled) {
-            uiObject.removeStyleName(Styles.DISABLED);
-            uiObject.getElement().removeAttribute(DISABLED);
-        } else {
-            uiObject.addStyleName(Styles.DISABLED);
-            uiObject.getElement().setAttribute(DISABLED, "");
-        }
+  @Override
+  public void setEnabled(final boolean enabled) {
+    if (enabled) {
+      uiObject.removeStyleName(Styles.DISABLED);
+      uiObject.getElement().removeAttribute(DISABLED);
+    } else {
+      uiObject.addStyleName(Styles.DISABLED);
+      uiObject.getElement().setAttribute(DISABLED, "");
     }
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return !uiObject.getElement().hasAttribute(DISABLED);
-    }
+  @Override
+  public boolean isEnabled() {
+    return !uiObject.getElement().hasAttribute(DISABLED);
+  }
 }

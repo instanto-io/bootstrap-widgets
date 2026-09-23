@@ -25,6 +25,9 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
+import com.google.gwt.editor.client.IsEditor;
+import com.google.gwt.editor.client.LeafValueEditor;
+import com.google.gwt.editor.ui.client.adapters.HasTextEditor;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -39,80 +42,69 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-
-
-import com.google.gwt.editor.client.IsEditor;
-import com.google.gwt.editor.client.LeafValueEditor;
-import com.google.gwt.editor.ui.client.adapters.HasTextEditor;
-
-
 import io.instanto.bootstrap5.client.ui.constants.LabelType;
 
-/**
- * Bootstrap 5 removed labels; the equivalent visual primitive is a badge.
- */
+/** Bootstrap 5 removed labels; the equivalent visual primitive is a badge. */
 public class Label extends Badge implements IsEditor<LeafValueEditor<String>>, HasAllMouseHandlers {
 
-    public Label() {
-        super();
+  public Label() {
+    super();
+  }
+
+  public Label(String text) {
+    super(text);
+  }
+
+  public Label(String text, Variant variant) {
+    super(text, variant);
+  }
+
+  public Label(String text, LabelType type) {
+    super(text, type);
+  }
+
+  private LeafValueEditor<String> editor;
+
+  /**
+   * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a panel rather than a
+   * leaf so that it can hold an icon or nested markup, so the editor is composed in rather than
+   * inherited.
+   */
+  @Override
+  public LeafValueEditor<String> asEditor() {
+    if (editor == null) {
+      editor = HasTextEditor.of(this);
     }
+    return editor;
+  }
 
-    public Label(String text) {
-        super(text);
-    }
+  @Override
+  public HandlerRegistration addMouseDownHandler(final MouseDownHandler handler) {
+    return addDomHandler(handler, MouseDownEvent.getType());
+  }
 
-    public Label(String text, Variant variant) {
-        super(text, variant);
-    }
+  @Override
+  public HandlerRegistration addMouseUpHandler(final MouseUpHandler handler) {
+    return addDomHandler(handler, MouseUpEvent.getType());
+  }
 
-    public Label(String text, LabelType type) {
-        super(text, type);
-    }
+  @Override
+  public HandlerRegistration addMouseOutHandler(final MouseOutHandler handler) {
+    return addDomHandler(handler, MouseOutEvent.getType());
+  }
 
-    private LeafValueEditor<String> editor;
+  @Override
+  public HandlerRegistration addMouseOverHandler(final MouseOverHandler handler) {
+    return addDomHandler(handler, MouseOverEvent.getType());
+  }
 
-    /**
-     * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a
-     * panel rather than a leaf so that it can hold an icon or nested markup, so
-     * the editor is composed in rather than inherited.
-     */
-    @Override
-    public LeafValueEditor<String> asEditor() {
-        if (editor == null) {
-            editor = HasTextEditor.of(this);
-        }
-        return editor;
-    }
+  @Override
+  public HandlerRegistration addMouseMoveHandler(final MouseMoveHandler handler) {
+    return addDomHandler(handler, MouseMoveEvent.getType());
+  }
 
-
-    @Override
-    public HandlerRegistration addMouseDownHandler(final MouseDownHandler handler) {
-        return addDomHandler(handler, MouseDownEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addMouseUpHandler(final MouseUpHandler handler) {
-        return addDomHandler(handler, MouseUpEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addMouseOutHandler(final MouseOutHandler handler) {
-        return addDomHandler(handler, MouseOutEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addMouseOverHandler(final MouseOverHandler handler) {
-        return addDomHandler(handler, MouseOverEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addMouseMoveHandler(final MouseMoveHandler handler) {
-        return addDomHandler(handler, MouseMoveEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addMouseWheelHandler(final MouseWheelHandler handler) {
-        return addDomHandler(handler, MouseWheelEvent.getType());
-    }
-
+  @Override
+  public HandlerRegistration addMouseWheelHandler(final MouseWheelHandler handler) {
+    return addDomHandler(handler, MouseWheelEvent.getType());
+  }
 }

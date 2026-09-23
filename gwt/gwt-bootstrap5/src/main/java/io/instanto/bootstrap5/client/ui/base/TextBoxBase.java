@@ -28,18 +28,17 @@ import com.google.gwt.text.shared.testing.PassthroughRenderer;
 
 public class TextBoxBase extends ValueBoxBase<String> {
 
-    protected TextBoxBase(final Element elem) {
-        this(elem, PassthroughRenderer.instance(), PassthroughParser.instance());
-    }
+  protected TextBoxBase(final Element elem) {
+    this(elem, PassthroughRenderer.instance(), PassthroughParser.instance());
+  }
 
-    protected TextBoxBase(final Element elem, Renderer<String> renderer, Parser<String> parser) {
-        super(elem, renderer, parser);
-    }
+  protected TextBoxBase(final Element elem, Renderer<String> renderer, Parser<String> parser) {
+    super(elem, renderer, parser);
+  }
 
-    @Override
-    public String getValue() {
-        final String raw = super.getValue();
-        return raw == null ? "" : raw;
-    }
-
+  @Override
+  public String getValue() {
+    final String raw = super.getValue();
+    return raw == null ? "" : raw;
+  }
 }

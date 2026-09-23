@@ -20,15 +20,14 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.Tooltip;
-
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.Tooltip;
 
 /**
  * @author Pontus Enmark
  */
 public interface TooltipEvent {
-    Tooltip getTooltip();
+  Tooltip getTooltip();
 
-    Event getNativeEvent();
+  Event getNativeEvent();
 }

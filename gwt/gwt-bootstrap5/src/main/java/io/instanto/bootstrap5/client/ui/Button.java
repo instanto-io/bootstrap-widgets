@@ -25,65 +25,63 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickHandler;
 import io.instanto.bootstrap5.client.ui.base.button.AbstractToggleButton;
 import io.instanto.bootstrap5.client.ui.constants.Attributes;
 import io.instanto.bootstrap5.client.ui.constants.ButtonType;
 import io.instanto.bootstrap5.client.ui.constants.IconType;
 import io.instanto.bootstrap5.client.ui.constants.Toggle;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickHandler;
-
 /**
- * Button based on a {@code <button>} element. It preserves the GwtBootstrap3
- * widget contract while rendering Bootstrap 5 classes and behaviour.
+ * Button based on a {@code <button>} element. It preserves the GwtBootstrap3 widget contract while
+ * rendering Bootstrap 5 classes and behaviour.
  */
 public class Button extends AbstractToggleButton {
 
-    public Button() {
-    }
+  public Button() {}
 
-    public Button(final String text) {
-        setText(text);
-    }
+  public Button(final String text) {
+    setText(text);
+  }
 
-    public Button(final String text, final ClickHandler handler) {
-        this(text);
-        addClickHandler(handler);
-    }
+  public Button(final String text, final ClickHandler handler) {
+    this(text);
+    addClickHandler(handler);
+  }
 
-    public Button(final String text, final IconType iconType, final ClickHandler handler) {
-        this(text, handler);
-        setIcon(iconType);
-    }
+  public Button(final String text, final IconType iconType, final ClickHandler handler) {
+    this(text, handler);
+    setIcon(iconType);
+  }
 
-    public Button(final String text, final Variant variant) {
-        this(text);
-        setVariant(variant);
-    }
+  public Button(final String text, final Variant variant) {
+    this(text);
+    setVariant(variant);
+  }
 
-    public Button(final String text, final ButtonType type) {
-        super(type);
-        setText(text);
-    }
+  public Button(final String text, final ButtonType type) {
+    super(type);
+    setText(text);
+  }
 
-    public void setDataToggle(final String toggle) {
-        if (toggle == null || toggle.isEmpty()) {
-            setDataToggle((Toggle) null);
-            return;
-        }
-        for (final Toggle candidate : Toggle.values()) {
-            if (candidate.getToggle().equals(toggle)) {
-                setDataToggle(candidate);
-                return;
-            }
-        }
-        getElement().setAttribute(Attributes.DATA_TOGGLE, toggle);
+  public void setDataToggle(final String toggle) {
+    if (toggle == null || toggle.isEmpty()) {
+      setDataToggle((Toggle) null);
+      return;
     }
+    for (final Toggle candidate : Toggle.values()) {
+      if (candidate.getToggle().equals(toggle)) {
+        setDataToggle(candidate);
+        return;
+      }
+    }
+    getElement().setAttribute(Attributes.DATA_TOGGLE, toggle);
+  }
 
-    @Override
-    protected Element createElement() {
-        return Document.get().createPushButtonElement().cast();
-    }
+  @Override
+  protected Element createElement() {
+    return Document.get().createPushButtonElement().cast();
+  }
 }

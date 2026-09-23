@@ -30,38 +30,37 @@ import jsinterop.base.Js;
  */
 final class TextAreaSelection {
 
-    private TextAreaSelection() {
-    }
+  private TextAreaSelection() {}
 
-    static int start(final TextAreaElement element) {
-        return view(element).getSelectionStart();
-    }
+  static int start(final TextAreaElement element) {
+    return view(element).getSelectionStart();
+  }
 
-    static int end(final TextAreaElement element) {
-        return view(element).getSelectionEnd();
-    }
+  static int end(final TextAreaElement element) {
+    return view(element).getSelectionEnd();
+  }
 
-    static void focusAndSelect(final TextAreaElement element, final int start, final int length) {
-        final Selectable area = view(element);
-        area.focus();
-        area.setSelectionRange(start, start + length);
-    }
+  static void focusAndSelect(final TextAreaElement element, final int start, final int length) {
+    final Selectable area = view(element);
+    area.focus();
+    area.setSelectionRange(start, start + length);
+  }
 
-    private static Selectable view(final TextAreaElement element) {
-        return Js.uncheckedCast(Js.asAny(element));
-    }
+  private static Selectable view(final TextAreaElement element) {
+    return Js.uncheckedCast(Js.asAny(element));
+  }
 
-    /** The native text area, as far as selection goes. */
-    @JsType(isNative = true)
-    interface Selectable {
-        @JsProperty
-        int getSelectionStart();
+  /** The native text area, as far as selection goes. */
+  @JsType(isNative = true)
+  interface Selectable {
+    @JsProperty
+    int getSelectionStart();
 
-        @JsProperty
-        int getSelectionEnd();
+    @JsProperty
+    int getSelectionEnd();
 
-        void focus();
+    void focus();
 
-        void setSelectionRange(int start, int end);
-    }
+    void setSelectionRange(int start, int end);
+  }
 }

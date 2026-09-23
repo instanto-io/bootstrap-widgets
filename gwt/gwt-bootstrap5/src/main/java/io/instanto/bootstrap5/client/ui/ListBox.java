@@ -28,29 +28,27 @@ package io.instanto.bootstrap5.client.ui;
 import io.instanto.bootstrap5.client.ui.base.HasId;
 import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
 
-
 public class ListBox extends com.google.gwt.user.client.ui.ListBox implements HasId {
 
-    public ListBox() {
-        super();
-        addStyleName("form-select");
-    }
+  public ListBox() {
+    super();
+    addStyleName("form-select");
+  }
 
-    public ListBox(boolean isMultipleSelect) {
-        this();
-        setMultipleSelect(isMultipleSelect);
-    }
+  public ListBox(boolean isMultipleSelect) {
+    this();
+    setMultipleSelect(isMultipleSelect);
+  }
 
-    private final IdMixin<ListBox> idMixin = new IdMixin<ListBox>(this);
+  private final IdMixin<ListBox> idMixin = new IdMixin<ListBox>(this);
 
-    @Override
-    public void setId(final String id) {
-        idMixin.setId(id);
-    }
+  @Override
+  public void setId(final String id) {
+    idMixin.setId(id);
+  }
 
-    @Override
-    public String getId() {
-        return idMixin.getId();
-    }
-
+  @Override
+  public String getId() {
+    return idMixin.getId();
+  }
 }

@@ -20,32 +20,31 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
+import com.google.gwt.user.client.ui.UIObject;
 import io.instanto.bootstrap5.client.ui.base.HasDataParent;
 import io.instanto.bootstrap5.client.ui.constants.Attributes;
-
-import com.google.gwt.user.client.ui.UIObject;
 
 /**
  * @author Grant Slender
  */
-public class DataParentMixin<T extends UIObject & HasDataParent> extends AbstractMixin implements HasDataParent {
+public class DataParentMixin<T extends UIObject & HasDataParent> extends AbstractMixin
+    implements HasDataParent {
 
-    public DataParentMixin(final T uiObject) {
-        super(uiObject);
+  public DataParentMixin(final T uiObject) {
+    super(uiObject);
+  }
+
+  @Override
+  public void setDataParent(final String dataParent) {
+    if (dataParent != null) {
+      uiObject.getElement().setAttribute(Attributes.DATA_PARENT, dataParent);
+    } else {
+      uiObject.getElement().removeAttribute(Attributes.DATA_PARENT);
     }
+  }
 
-    @Override
-    public void setDataParent(final String dataParent) {
-        if (dataParent != null) {
-            uiObject.getElement().setAttribute(Attributes.DATA_PARENT, dataParent);
-        } else {
-            uiObject.getElement().removeAttribute(Attributes.DATA_PARENT);
-        }
-    }
-
-    @Override
-    public String getDataParent() {
-        return uiObject.getElement().getAttribute(Attributes.DATA_PARENT);
-    }
-
+  @Override
+  public String getDataParent() {
+    return uiObject.getElement().getAttribute(Attributes.DATA_PARENT);
+  }
 }

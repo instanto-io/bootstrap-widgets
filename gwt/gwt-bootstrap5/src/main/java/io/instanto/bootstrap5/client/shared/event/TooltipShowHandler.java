@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Pontus Enmark
  */
 public interface TooltipShowHandler extends EventHandler {
-    void onShow(final TooltipShowEvent evt);
+  void onShow(final TooltipShowEvent evt);
 }

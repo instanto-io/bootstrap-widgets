@@ -20,16 +20,14 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
-import java.util.List;
-
+import com.google.gwt.editor.client.EditorError;
+import com.google.gwt.editor.client.HasEditorErrors;
+import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.form.error.DefaultErrorHandler;
 import io.instanto.bootstrap5.client.ui.form.error.ErrorHandler;
 import io.instanto.bootstrap5.client.ui.form.error.ErrorHandlerType;
 import io.instanto.bootstrap5.client.ui.form.error.HasErrorHandler;
-
-import com.google.gwt.editor.client.EditorError;
-import com.google.gwt.editor.client.HasEditorErrors;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
 
 /**
  * Mixin to handle error handler support.
@@ -38,76 +36,73 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ErrorHandlerMixin<V> implements HasEditorErrors<V>, HasErrorHandler {
 
-    private ErrorHandler errorHandler;
+  private ErrorHandler errorHandler;
 
-    private ErrorHandlerType errorHandlerType = ErrorHandlerType.DEFAULT;
+  private ErrorHandlerType errorHandlerType = ErrorHandlerType.DEFAULT;
 
-    private Widget inputWidget = null;
+  private Widget inputWidget = null;
 
-    /**
-     * Mixin for the {@link ErrorHandler} implementation.
-     *
-     * @param widget the widget
-     */
-    public ErrorHandlerMixin(Widget widget) {
-        inputWidget = widget;
+  /**
+   * Mixin for the {@link ErrorHandler} implementation.
+   *
+   * @param widget the widget
+   */
+  public ErrorHandlerMixin(Widget widget) {
+    inputWidget = widget;
+    errorHandler = new DefaultErrorHandler(inputWidget);
+  }
+
+  /** Clear the errors. */
+  public void clearErrors() {
+    if (errorHandler != null) {
+      errorHandler.clearErrors();
+    }
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public ErrorHandler getErrorHandler() {
+    return errorHandler;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public ErrorHandlerType getErrorHandlerType() {
+    return errorHandlerType;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void setErrorHandler(ErrorHandler handler) {
+    errorHandlerType = null;
+    errorHandler = handler;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void setErrorHandlerType(ErrorHandlerType type) {
+    if (errorHandler != null) {
+      errorHandler.cleanup();
+    }
+    errorHandlerType = type == null ? ErrorHandlerType.DEFAULT : type;
+    switch (errorHandlerType) {
+      case NONE:
+        errorHandler = null;
+        break;
+      case DEFAULT:
         errorHandler = new DefaultErrorHandler(inputWidget);
     }
+  }
 
-    /**
-     * Clear the errors.
-     */
-    public void clearErrors() {
-        if (errorHandler != null) {
-            errorHandler.clearErrors();
-        }
+  /** {@inheritDoc} */
+  @Override
+  public void showErrors(List<EditorError> errors) {
+    if (errorHandler != null) {
+      if (errors == null || errors.isEmpty()) {
+        errorHandler.clearErrors();
+        return;
+      }
+      errorHandler.showErrors(errors);
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public ErrorHandler getErrorHandler() {
-        return errorHandler;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ErrorHandlerType getErrorHandlerType() {
-        return errorHandlerType;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setErrorHandler(ErrorHandler handler) {
-        errorHandlerType = null;
-        errorHandler = handler;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setErrorHandlerType(ErrorHandlerType type) {
-        if (errorHandler != null) {
-            errorHandler.cleanup();
-        }
-        errorHandlerType = type == null ? ErrorHandlerType.DEFAULT : type;
-        switch (errorHandlerType) {
-        case NONE:
-            errorHandler = null;
-            break;
-        case DEFAULT:
-            errorHandler = new DefaultErrorHandler(inputWidget);
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void showErrors(List<EditorError> errors) {
-        if (errorHandler != null) {
-            if (errors == null || errors.isEmpty()) {
-                errorHandler.clearErrors();
-                return;
-            }
-            errorHandler.showErrors(errors);
-        }
-    }
-
+  }
 }

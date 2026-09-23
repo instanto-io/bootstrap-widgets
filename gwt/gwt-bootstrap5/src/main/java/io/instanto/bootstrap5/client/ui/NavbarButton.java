@@ -29,18 +29,18 @@ import io.instanto.bootstrap5.client.ui.constants.ButtonType;
 
 public class NavbarButton extends AnchorButton {
 
-    public NavbarButton() {
-        this("");
-    }
+  public NavbarButton() {
+    this("");
+  }
 
-    public NavbarButton(String text) {
-        super(ButtonType.DEFAULT);
-        setText(text);
-        addStyleName("navbar-btn");
-    }
+  public NavbarButton(String text) {
+    super(ButtonType.DEFAULT);
+    setText(text);
+    addStyleName("navbar-btn");
+  }
 
-    public NavbarButton(String text, String href) {
-        this(text);
-        setHref(href);
-    }
+  public NavbarButton(String text, String href) {
+    this(text);
+    setHref(href);
+  }
 }

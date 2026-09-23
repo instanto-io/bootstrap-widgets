@@ -32,17 +32,17 @@ import jsinterop.base.Js;
 /** Injects noUiSlider unless the page already provides it. */
 public class SliderEntryPoint implements EntryPoint {
 
-    @Override
-    public void onModuleLoad() {
-        if (isLoaded()) {
-            return;
-        }
-        ScriptInjector.fromString(SliderClientBundle.INSTANCE.noUiSlider().getText())
-                .setWindow(ScriptInjector.TOP_WINDOW)
-                .inject();
+  @Override
+  public void onModuleLoad() {
+    if (isLoaded()) {
+      return;
     }
+    ScriptInjector.fromString(SliderClientBundle.INSTANCE.noUiSlider().getText())
+        .setWindow(ScriptInjector.TOP_WINDOW)
+        .inject();
+  }
 
-    private static boolean isLoaded() {
-        return Js.global().get("noUiSlider") != null;
-    }
+  private static boolean isLoaded() {
+    return Js.global().get("noUiSlider") != null;
+  }
 }

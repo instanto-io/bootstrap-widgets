@@ -1,5 +1,6 @@
 /**
- * Widgets representing core HTML elements which have been added for convenience or are used by Bootstrap widgets.
+ * Widgets representing core HTML elements which have been added for convenience or are used by
+ * Bootstrap widgets.
  */
 package io.instanto.bootstrap5.client.ui.html;
 

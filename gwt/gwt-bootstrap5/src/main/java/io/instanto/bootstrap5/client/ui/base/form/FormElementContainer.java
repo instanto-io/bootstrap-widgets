@@ -20,48 +20,46 @@ package io.instanto.bootstrap5.client.ui.base.form;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
-import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
-import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
-import io.instanto.bootstrap5.client.ui.constants.Styles;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
+import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
+import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
+import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 /**
- * Base class for {@link io.instanto.bootstrap5.client.ui.Form} related
- * widgets that may contain form input elements.
- * <p/>
- * Input elements styleName is adjusted during
- * {@link #add(com.google.gwt.user.client.ui.Widget)}.
+ * Base class for {@link io.instanto.bootstrap5.client.ui.Form} related widgets that may contain
+ * form input elements.
+ *
+ * <p>Input elements styleName is adjusted during {@link
+ * #add(com.google.gwt.user.client.ui.Widget)}.
  *
  * @author Sven Jacobs
  * @author Joshua Godi
  */
 public abstract class FormElementContainer extends ComplexPanel implements HasResponsiveness {
 
-    /** {@inheritDoc} */
-    @Override
-    public void add(final Widget w) {
-        if (w instanceof ListBox || w instanceof FileUpload) {
-            w.addStyleName(Styles.FORM_CONTROL);
-        }
-        add(w, (Element) getElement());
+  /** {@inheritDoc} */
+  @Override
+  public void add(final Widget w) {
+    if (w instanceof ListBox || w instanceof FileUpload) {
+      w.addStyleName(Styles.FORM_CONTROL);
     }
+    add(w, (Element) getElement());
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public void setVisibleOn(final DeviceSize deviceSize) {
-        StyleHelper.setVisibleOn(this, deviceSize);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void setVisibleOn(final DeviceSize deviceSize) {
+    StyleHelper.setVisibleOn(this, deviceSize);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public void setHiddenOn(final DeviceSize deviceSize) {
-        StyleHelper.setHiddenOn(this, deviceSize);
-    }
-
+  /** {@inheritDoc} */
+  @Override
+  public void setHiddenOn(final DeviceSize deviceSize) {
+    StyleHelper.setHiddenOn(this, deviceSize);
+  }
 }

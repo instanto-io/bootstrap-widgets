@@ -20,47 +20,46 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.Modal;
-
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.Modal;
 
 /**
  * @author Sven Jacobs
  */
 public class ModalShownEvent extends GwtEvent<ModalShownHandler> implements ModalEvent {
 
-    private static final Type<ModalShownHandler> TYPE = new Type<ModalShownHandler>();
+  private static final Type<ModalShownHandler> TYPE = new Type<ModalShownHandler>();
 
-    private final Modal modal;
-    private final Event nativeEvent;
+  private final Modal modal;
+  private final Event nativeEvent;
 
-    public static Type<ModalShownHandler> getType() {
-        return TYPE;
-    }
+  public static Type<ModalShownHandler> getType() {
+    return TYPE;
+  }
 
-    public ModalShownEvent(final Modal modal, final Event nativeEvent) {
-        this.modal = modal;
-        this.nativeEvent = nativeEvent;
-    }
+  public ModalShownEvent(final Modal modal, final Event nativeEvent) {
+    this.modal = modal;
+    this.nativeEvent = nativeEvent;
+  }
 
-    @Override
-    public Modal getModal() {
-        return modal;
-    }
+  @Override
+  public Modal getModal() {
+    return modal;
+  }
 
-    @Override
-    public Event getNativeEvent() {
-        return nativeEvent;
-    }
+  @Override
+  public Event getNativeEvent() {
+    return nativeEvent;
+  }
 
-    @Override
-    public Type<ModalShownHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public Type<ModalShownHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final ModalShownHandler handler) {
-        handler.onShown(this);
-    }
+  @Override
+  protected void dispatch(final ModalShownHandler handler) {
+    handler.onShown(this);
+  }
 }

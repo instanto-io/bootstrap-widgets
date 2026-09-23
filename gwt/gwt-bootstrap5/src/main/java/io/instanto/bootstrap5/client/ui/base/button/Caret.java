@@ -20,13 +20,12 @@ package io.instanto.bootstrap5.client.ui.base.button;
  * #L%
  */
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Sven Jacobs
@@ -34,18 +33,18 @@ import com.google.gwt.user.client.ui.Widget;
  */
 class Caret extends Widget implements HasResponsiveness {
 
-    public Caret() {
-        setElement(Document.get().createSpanElement());
-        setStyleName(Styles.CARET);
-    }
+  public Caret() {
+    setElement(Document.get().createSpanElement());
+    setStyleName(Styles.CARET);
+  }
 
-    @Override
-    public void setVisibleOn(final DeviceSize deviceSize) {
-        StyleHelper.setVisibleOn(this, deviceSize);
-    }
+  @Override
+  public void setVisibleOn(final DeviceSize deviceSize) {
+    StyleHelper.setVisibleOn(this, deviceSize);
+  }
 
-    @Override
-    public void setHiddenOn(final DeviceSize deviceSize) {
-        StyleHelper.setHiddenOn(this, deviceSize);
-    }
+  @Override
+  public void setHiddenOn(final DeviceSize deviceSize) {
+    StyleHelper.setHiddenOn(this, deviceSize);
+  }
 }

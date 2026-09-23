@@ -1,5 +1,6 @@
 package io.instanto.bootstrap5.client.ui.html;
 
+import com.google.gwt.dom.client.ParagraphElement;
 import io.instanto.bootstrap5.client.ui.base.HasAlignment;
 import io.instanto.bootstrap5.client.ui.base.HasEmphasis;
 import io.instanto.bootstrap5.client.ui.base.HasPull;
@@ -10,8 +11,6 @@ import io.instanto.bootstrap5.client.ui.constants.Alignment;
 import io.instanto.bootstrap5.client.ui.constants.Emphasis;
 import io.instanto.bootstrap5.client.ui.constants.Pull;
 import io.instanto.bootstrap5.client.ui.gwt.HTMLPanel;
-
-import com.google.gwt.dom.client.ParagraphElement;
 
 /*
  * #%L
@@ -38,63 +37,62 @@ import com.google.gwt.dom.client.ParagraphElement;
  */
 public class Paragraph extends HTMLPanel implements HasAlignment, HasEmphasis, HasPull {
 
-    private final HTMLMixin<Paragraph> textMixin = new HTMLMixin<Paragraph>(this);
+  private final HTMLMixin<Paragraph> textMixin = new HTMLMixin<Paragraph>(this);
 
-    public Paragraph() {
-        this("");
-    }
+  public Paragraph() {
+    this("");
+  }
 
-    public Paragraph(final String html) {
-        super(ParagraphElement.TAG, html);
-        setHTML(html);
-    }
+  public Paragraph(final String html) {
+    super(ParagraphElement.TAG, html);
+    setHTML(html);
+  }
 
-    public void setText(final String text) {
-        textMixin.setText(text);
-    }
+  public void setText(final String text) {
+    textMixin.setText(text);
+  }
 
-    public String getText() {
-        return textMixin.getText();
-    }
+  public String getText() {
+    return textMixin.getText();
+  }
 
-    public String getHTML() {
-        return textMixin.getHTML();
-    }
+  public String getHTML() {
+    return textMixin.getHTML();
+  }
 
-    public void setHTML(final String html) {
-        textMixin.setHTML(html);
-    }
+  public void setHTML(final String html) {
+    textMixin.setHTML(html);
+  }
 
-    @Override
-    public void setAlignment(final Alignment alignment) {
-        StyleHelper.addUniqueEnumStyleName(this, Alignment.class, alignment);
-    }
+  @Override
+  public void setAlignment(final Alignment alignment) {
+    StyleHelper.addUniqueEnumStyleName(this, Alignment.class, alignment);
+  }
 
-    @Override
-    public Alignment getAlignment() {
-        return Alignment.fromStyleName(getStyleName());
-    }
+  @Override
+  public Alignment getAlignment() {
+    return Alignment.fromStyleName(getStyleName());
+  }
 
-    @Override
-    public void setEmphasis(final Emphasis emphasis) {
-        StyleHelper.addUniqueEnumStyleName(this, Emphasis.class, emphasis);
-    }
+  @Override
+  public void setEmphasis(final Emphasis emphasis) {
+    StyleHelper.addUniqueEnumStyleName(this, Emphasis.class, emphasis);
+  }
 
-    @Override
-    public Emphasis getEmphasis() {
-        return Emphasis.fromStyleName(getStyleName());
-    }
+  @Override
+  public Emphasis getEmphasis() {
+    return Emphasis.fromStyleName(getStyleName());
+  }
 
-    private final PullMixin<Paragraph> pullMixin = new PullMixin<Paragraph>(this);
+  private final PullMixin<Paragraph> pullMixin = new PullMixin<Paragraph>(this);
 
-    @Override
-    public void setPull(final Pull pull) {
-        pullMixin.setPull(pull);
-    }
+  @Override
+  public void setPull(final Pull pull) {
+    pullMixin.setPull(pull);
+  }
 
-    @Override
-    public Pull getPull() {
-        return pullMixin.getPull();
-    }
-
+  @Override
+  public Pull getPull() {
+    return pullMixin.getPull();
+  }
 }

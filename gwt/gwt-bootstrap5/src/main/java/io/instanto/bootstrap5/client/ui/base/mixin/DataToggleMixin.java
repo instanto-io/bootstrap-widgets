@@ -20,41 +20,41 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
+import com.google.gwt.user.client.ui.UIObject;
 import io.instanto.bootstrap5.client.ui.base.HasDataToggle;
 import io.instanto.bootstrap5.client.ui.constants.Attributes;
 import io.instanto.bootstrap5.client.ui.constants.Toggle;
 
-import com.google.gwt.user.client.ui.UIObject;
-
 /**
  * @author Sven Jacobs
  */
-public class DataToggleMixin<T extends UIObject & HasDataToggle> extends AbstractMixin implements HasDataToggle {
+public class DataToggleMixin<T extends UIObject & HasDataToggle> extends AbstractMixin
+    implements HasDataToggle {
 
-    public DataToggleMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public DataToggleMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    @Override
-    public void setDataToggle(final Toggle toggle) {
-        if (toggle != null) {
-            uiObject.getElement().setAttribute(Attributes.DATA_TOGGLE, toggle.getToggle());
-        } else {
-            uiObject.getElement().removeAttribute(Attributes.DATA_TOGGLE);
-        }
+  @Override
+  public void setDataToggle(final Toggle toggle) {
+    if (toggle != null) {
+      uiObject.getElement().setAttribute(Attributes.DATA_TOGGLE, toggle.getToggle());
+    } else {
+      uiObject.getElement().removeAttribute(Attributes.DATA_TOGGLE);
     }
+  }
 
-    @Override
-    public Toggle getDataToggle() {
-        final String toggle = uiObject.getElement().getAttribute(Attributes.DATA_TOGGLE);
-        if (toggle == null || toggle.isEmpty()) {
-            return null;
-        }
-        for (Toggle candidate : Toggle.values()) {
-            if (candidate.getToggle().equals(toggle)) {
-                return candidate;
-            }
-        }
-        return null;
+  @Override
+  public Toggle getDataToggle() {
+    final String toggle = uiObject.getElement().getAttribute(Attributes.DATA_TOGGLE);
+    if (toggle == null || toggle.isEmpty()) {
+      return null;
     }
+    for (Toggle candidate : Toggle.values()) {
+      if (candidate.getToggle().equals(toggle)) {
+        return candidate;
+      }
+    }
+    return null;
+  }
 }

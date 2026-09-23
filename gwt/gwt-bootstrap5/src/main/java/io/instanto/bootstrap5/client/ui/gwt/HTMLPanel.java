@@ -20,8 +20,9 @@ package io.instanto.bootstrap5.client.ui.gwt;
  * #L%
  */
 
-import java.util.List;
-
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.base.HasContextualBackground;
 import io.instanto.bootstrap5.client.ui.base.HasDataSpy;
 import io.instanto.bootstrap5.client.ui.base.HasDataTarget;
@@ -35,145 +36,142 @@ import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
 import io.instanto.bootstrap5.client.ui.constants.ContextualBackground;
 import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
 import io.instanto.bootstrap5.client.ui.constants.Spy;
-
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
 
 /**
  * @author Sven Jacobs
  * @author Grant Slender
  * @author David Buhler
  */
-public class HTMLPanel extends com.google.gwt.user.client.ui.HTMLPanel implements HasId, HasDataSpy, HasDataTarget, HasResponsiveness, HasInlineStyle, HasContextualBackground {
+public class HTMLPanel extends com.google.gwt.user.client.ui.HTMLPanel
+    implements HasId,
+        HasDataSpy,
+        HasDataTarget,
+        HasResponsiveness,
+        HasInlineStyle,
+        HasContextualBackground {
 
-    private final DataSpyMixin<HTMLPanel> spyMixin = new DataSpyMixin<HTMLPanel>(this);
-    private final DataTargetMixin<HTMLPanel> targetMixin = new DataTargetMixin<HTMLPanel>(this);
-    private final IdMixin<HTMLPanel> idMixin = new IdMixin<HTMLPanel>(this);
+  private final DataSpyMixin<HTMLPanel> spyMixin = new DataSpyMixin<HTMLPanel>(this);
+  private final DataTargetMixin<HTMLPanel> targetMixin = new DataTargetMixin<HTMLPanel>(this);
+  private final IdMixin<HTMLPanel> idMixin = new IdMixin<HTMLPanel>(this);
 
-    public HTMLPanel(final String html) {
-        super(html);
-    }
+  public HTMLPanel(final String html) {
+    super(html);
+  }
 
-    public HTMLPanel(final SafeHtml safeHtml) {
-        super(safeHtml);
-    }
+  public HTMLPanel(final SafeHtml safeHtml) {
+    super(safeHtml);
+  }
 
-    public HTMLPanel(final String tag, final String html) {
-        super(tag, html);
-    }
+  public HTMLPanel(final String tag, final String html) {
+    super(tag, html);
+  }
 
-    @Override
-    public void setId(final String id) {
-        idMixin.setId(id);
-    }
+  @Override
+  public void setId(final String id) {
+    idMixin.setId(id);
+  }
 
-    @Override
-    public String getId() {
-        return idMixin.getId();
-    }
+  @Override
+  public String getId() {
+    return idMixin.getId();
+  }
 
-    @Override
-    public void setDataSpy(final Spy spy) {
-        spyMixin.setDataSpy(spy);
-    }
+  @Override
+  public void setDataSpy(final Spy spy) {
+    spyMixin.setDataSpy(spy);
+  }
 
-    @Override
-    public Spy getDataSpy() {
-        return spyMixin.getDataSpy();
-    }
+  @Override
+  public Spy getDataSpy() {
+    return spyMixin.getDataSpy();
+  }
 
-    @Override
-    public void setDataTargetWidgets(final List<Widget> widgets) {
-        targetMixin.setDataTargetWidgets(widgets);
-    }
+  @Override
+  public void setDataTargetWidgets(final List<Widget> widgets) {
+    targetMixin.setDataTargetWidgets(widgets);
+  }
 
-    @Override
-    public void setDataTargetWidget(final Widget widget) {
-        targetMixin.setDataTargetWidget(widget);
-    }
+  @Override
+  public void setDataTargetWidget(final Widget widget) {
+    targetMixin.setDataTargetWidget(widget);
+  }
 
-    @Override
-    public void setDataTarget(final String dataTarget) {
-        targetMixin.setDataTarget(dataTarget);
-    }
+  @Override
+  public void setDataTarget(final String dataTarget) {
+    targetMixin.setDataTarget(dataTarget);
+  }
 
-    @Override
-    public String getDataTarget() {
-        return targetMixin.getDataTarget();
-    }
+  @Override
+  public String getDataTarget() {
+    return targetMixin.getDataTarget();
+  }
 
-    @Override
-    public void setVisibleOn(final DeviceSize deviceSize) {
-        StyleHelper.setVisibleOn(this, deviceSize);
-    }
+  @Override
+  public void setVisibleOn(final DeviceSize deviceSize) {
+    StyleHelper.setVisibleOn(this, deviceSize);
+  }
 
-    @Override
-    public void setHiddenOn(final DeviceSize deviceSize) {
-        StyleHelper.setHiddenOn(this, deviceSize);
-    }
+  @Override
+  public void setHiddenOn(final DeviceSize deviceSize) {
+    StyleHelper.setHiddenOn(this, deviceSize);
+  }
 
-    @Override
-    public void setMarginTop(final double margin) {
-        getElement().getStyle().setMarginTop(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginTop(final double margin) {
+    getElement().getStyle().setMarginTop(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setMarginLeft(final double margin) {
-        getElement().getStyle().setMarginLeft(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginLeft(final double margin) {
+    getElement().getStyle().setMarginLeft(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setMarginRight(final double margin) {
-        getElement().getStyle().setMarginRight(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginRight(final double margin) {
+    getElement().getStyle().setMarginRight(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setMarginBottom(final double margin) {
-        getElement().getStyle().setMarginBottom(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginBottom(final double margin) {
+    getElement().getStyle().setMarginBottom(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingTop(final double padding) {
-        getElement().getStyle().setPaddingTop(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingTop(final double padding) {
+    getElement().getStyle().setPaddingTop(padding, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingLeft(final double padding) {
-        getElement().getStyle().setPaddingLeft(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingLeft(final double padding) {
+    getElement().getStyle().setPaddingLeft(padding, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingRight(final double padding) {
-        getElement().getStyle().setPaddingRight(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingRight(final double padding) {
+    getElement().getStyle().setPaddingRight(padding, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingBottom(final double padding) {
-        getElement().getStyle().setPaddingBottom(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingBottom(final double padding) {
+    getElement().getStyle().setPaddingBottom(padding, Style.Unit.PX);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setColor(String color) {
-        getElement().getStyle().setColor(color);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void setColor(String color) {
+    getElement().getStyle().setColor(color);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setContextualBackground(ContextualBackground contextualBackground) {
-        StyleHelper.addUniqueEnumStyleName(this, ContextualBackground.class, contextualBackground);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void setContextualBackground(ContextualBackground contextualBackground) {
+    StyleHelper.addUniqueEnumStyleName(this, ContextualBackground.class, contextualBackground);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContextualBackground getContextualBackground() {
-        return ContextualBackground.fromStyleName(getStyleName());
-    }
+  /** {@inheritDoc} */
+  @Override
+  public ContextualBackground getContextualBackground() {
+    return ContextualBackground.fromStyleName(getStyleName());
+  }
 }

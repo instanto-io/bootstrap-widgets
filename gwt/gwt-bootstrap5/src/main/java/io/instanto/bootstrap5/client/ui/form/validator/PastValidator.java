@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
-import java.util.Date;
-
 import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
+import java.util.Date;
 
 /**
  * Validator for checking if a date is in the past.
@@ -32,25 +31,26 @@ import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
  */
 public class PastValidator extends AbstractValidator<Date> {
 
-    public PastValidator() {
-        super(Keys.PAST, new Object[0]);
-    }
+  public PastValidator() {
+    super(Keys.PAST, new Object[0]);
+  }
 
-    public PastValidator(String invalidMessageOverride) {
-        super(invalidMessageOverride);
-    }
+  public PastValidator(String invalidMessageOverride) {
+    super(invalidMessageOverride);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public int getPriority() {
-        return Priority.MEDIUM;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public int getPriority() {
+    return Priority.MEDIUM;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(Date value) {
-        if (value != null) { return value.before(new Date()); }
-        return true;
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(Date value) {
+    if (value != null) {
+      return value.before(new Date());
     }
-
+    return true;
+  }
 }

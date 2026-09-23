@@ -27,12 +27,12 @@ package io.instanto.bootstrap5.client.ui;
 
 public class Lead extends Paragraph {
 
-    public Lead() {
-        addStyleName("lead");
-    }
+  public Lead() {
+    addStyleName("lead");
+  }
 
-    public Lead(String text) {
-        this();
-        setText(text);
-    }
+  public Lead(String text) {
+    this();
+    setText(text);
+  }
 }

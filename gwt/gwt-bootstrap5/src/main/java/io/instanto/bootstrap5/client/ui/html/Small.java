@@ -20,10 +20,9 @@ package io.instanto.bootstrap5.client.ui.html;
  * #L%
  */
 
+import com.google.gwt.dom.client.Document;
 import io.instanto.bootstrap5.client.ui.base.AbstractTextWidget;
 import io.instanto.bootstrap5.client.ui.constants.ElementTags;
-
-import com.google.gwt.dom.client.Document;
 
 /**
  * Simple {@code <small>} tag to de-emphasize words
@@ -32,12 +31,12 @@ import com.google.gwt.dom.client.Document;
  */
 public class Small extends AbstractTextWidget {
 
-    public Small() {
-        super(Document.get().createElement(ElementTags.SMALL));
-    }
+  public Small() {
+    super(Document.get().createElement(ElementTags.SMALL));
+  }
 
-    public Small(final String text) {
-        this();
-        setHTML(text);
-    }
+  public Small(final String text) {
+    this();
+    setHTML(text);
+  }
 }

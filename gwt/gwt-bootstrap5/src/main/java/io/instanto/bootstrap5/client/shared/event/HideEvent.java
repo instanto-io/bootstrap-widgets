@@ -27,38 +27,38 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author Joshua Godi
  */
 public class HideEvent extends GwtEvent<HideHandler> {
-    private static final Type<HideHandler> TYPE = new Type<HideHandler>();
-    private final NativeEvent nativeEvent;
+  private static final Type<HideHandler> TYPE = new Type<HideHandler>();
+  private final NativeEvent nativeEvent;
 
-    public static Type<HideHandler> getType() {
-        return TYPE;
-    }
+  public static Type<HideHandler> getType() {
+    return TYPE;
+  }
 
-    public HideEvent() {
-        this(null);
-    }
+  public HideEvent() {
+    this(null);
+  }
 
-    public HideEvent(final NativeEvent nativeEvent) {
-        this.nativeEvent = nativeEvent;
-    }
+  public HideEvent(final NativeEvent nativeEvent) {
+    this.nativeEvent = nativeEvent;
+  }
 
-    @Override
-    public final Type<HideHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public final Type<HideHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final HideHandler handler) {
-        handler.onHide(this);
-    }
+  @Override
+  protected void dispatch(final HideHandler handler) {
+    handler.onHide(this);
+  }
 
-    public final void preventDefault() {
-        if (nativeEvent == null) return;
-        nativeEvent.preventDefault();
-    }
+  public final void preventDefault() {
+    if (nativeEvent == null) return;
+    nativeEvent.preventDefault();
+  }
 
-    public final void stopPropagation() {
-        if (nativeEvent == null) return;
-        nativeEvent.stopPropagation();
-    }
+  public final void stopPropagation() {
+    if (nativeEvent == null) return;
+    nativeEvent.stopPropagation();
+  }
 }

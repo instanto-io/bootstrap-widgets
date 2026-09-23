@@ -20,47 +20,46 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.Carousel;
-
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.Carousel;
 
 /**
  * @author Joshua Godi
  */
 public class CarouselSlideEvent extends GwtEvent<CarouselSlideHandler> implements CarouselEvent {
 
-    private static final Type<CarouselSlideHandler> TYPE = new Type<CarouselSlideHandler>();
+  private static final Type<CarouselSlideHandler> TYPE = new Type<CarouselSlideHandler>();
 
-    private final Carousel carousel;
-    private final Event nativeEvent;
+  private final Carousel carousel;
+  private final Event nativeEvent;
 
-    public static Type<CarouselSlideHandler> getType() {
-        return TYPE;
-    }
+  public static Type<CarouselSlideHandler> getType() {
+    return TYPE;
+  }
 
-    public CarouselSlideEvent(final Carousel carousel, final Event nativeEvent) {
-        this.carousel = carousel;
-        this.nativeEvent = nativeEvent;
-    }
+  public CarouselSlideEvent(final Carousel carousel, final Event nativeEvent) {
+    this.carousel = carousel;
+    this.nativeEvent = nativeEvent;
+  }
 
-    @Override
-    public Carousel getCarousel() {
-        return carousel;
-    }
+  @Override
+  public Carousel getCarousel() {
+    return carousel;
+  }
 
-    @Override
-    public Event getNativeEvent() {
-        return nativeEvent;
-    }
+  @Override
+  public Event getNativeEvent() {
+    return nativeEvent;
+  }
 
-    @Override
-    public Type<CarouselSlideHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public Type<CarouselSlideHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final CarouselSlideHandler handler) {
-        handler.onSlide(this);
-    }
+  @Override
+  protected void dispatch(final CarouselSlideHandler handler) {
+    handler.onSlide(this);
+  }
 }

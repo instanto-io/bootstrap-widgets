@@ -29,30 +29,29 @@ import io.instanto.bootstrap5.client.ui.base.HasSize;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.WellSize;
 
-
 public class Well extends ElementPanel implements HasSize<WellSize> {
 
-    public Well() {
-        super("div");
-        setStyleName("rounded bg-body-tertiary border");
-        setSize(WellSize.DEFAULT);
-    }
+  public Well() {
+    super("div");
+    setStyleName("rounded bg-body-tertiary border");
+    setSize(WellSize.DEFAULT);
+  }
 
-    private WellSize size = WellSize.DEFAULT;
+  private WellSize size = WellSize.DEFAULT;
 
-    /**
-     * Bootstrap 5 removed .well-lg and .well-sm; WellSize names the padding
-     * utilities that replace them.
-     */
-    @Override
-    public void setSize(final WellSize size) {
-        StyleHelper.addUniqueEnumStyleName(this, WellSize.class, size == null ? WellSize.DEFAULT : size);
-        this.size = size == null ? WellSize.DEFAULT : size;
-    }
+  /**
+   * Bootstrap 5 removed .well-lg and .well-sm; WellSize names the padding utilities that replace
+   * them.
+   */
+  @Override
+  public void setSize(final WellSize size) {
+    StyleHelper.addUniqueEnumStyleName(
+        this, WellSize.class, size == null ? WellSize.DEFAULT : size);
+    this.size = size == null ? WellSize.DEFAULT : size;
+  }
 
-    @Override
-    public WellSize getSize() {
-        return size;
-    }
-
+  @Override
+  public WellSize getSize() {
+    return size;
+  }
 }

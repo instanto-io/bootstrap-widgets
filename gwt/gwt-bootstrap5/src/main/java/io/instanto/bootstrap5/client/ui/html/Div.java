@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.html;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.base.ComplexWidget;
-
 import com.google.gwt.dom.client.Document;
+import io.instanto.bootstrap5.client.ui.base.ComplexWidget;
 
 /**
  * Simple {@code <div>} tag
@@ -31,7 +30,7 @@ import com.google.gwt.dom.client.Document;
  */
 public class Div extends ComplexWidget {
 
-    public Div() {
-        setElement(Document.get().createDivElement());
-    }
+  public Div() {
+    setElement(Document.get().createDivElement());
+  }
 }

@@ -9,9 +9,9 @@ package io.instanto.bootstrap5.client.ui.base;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,42 +32,41 @@ import io.instanto.bootstrap5.client.ui.constants.IconType;
  * @author Joshua Godi
  */
 public interface HasIcon {
-    void setIcon(IconType iconType);
+  void setIcon(IconType iconType);
 
-    IconType getIcon();
+  IconType getIcon();
 
-    void setIconSize(IconSize iconSize);
+  void setIconSize(IconSize iconSize);
 
-    IconSize getIconSize();
+  IconSize getIconSize();
 
-    void setIconFlip(IconFlip iconFlip);
+  void setIconFlip(IconFlip iconFlip);
 
-    IconFlip getIconFlip();
+  IconFlip getIconFlip();
 
-    void setIconRotate(IconRotate iconRotate);
+  void setIconRotate(IconRotate iconRotate);
 
-    IconRotate getIconRotate();
+  IconRotate getIconRotate();
 
-    void setIconBordered(boolean iconBordered);
+  void setIconBordered(boolean iconBordered);
 
-    boolean isIconBordered();
+  boolean isIconBordered();
 
-    void setIconInverse(boolean iconInverse);
+  void setIconInverse(boolean iconInverse);
 
-    boolean isIconInverse();
+  boolean isIconInverse();
 
-    void setIconSpin(boolean iconSpin);
+  void setIconSpin(boolean iconSpin);
 
-    boolean isIconSpin();
+  boolean isIconSpin();
 
-    void setIconPulse(boolean iconPulse);
+  void setIconPulse(boolean iconPulse);
 
-    boolean isIconPulse();
+  boolean isIconPulse();
 
-    void setIconFixedWidth(boolean iconFixedWidth);
+  void setIconFixedWidth(boolean iconFixedWidth);
 
-    boolean isIconFixedWidth();
+  boolean isIconFixedWidth();
 
-    void setIconColor(String iconColor);
-
+  void setIconColor(String iconColor);
 }

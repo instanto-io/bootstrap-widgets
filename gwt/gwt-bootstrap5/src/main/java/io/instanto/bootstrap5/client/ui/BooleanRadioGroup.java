@@ -29,21 +29,21 @@ import com.google.gwt.uibinder.client.UiConstructor;
 
 public class BooleanRadioGroup extends StringRadioGroup {
 
-    @UiConstructor
-    public BooleanRadioGroup(String name) {
-        super(name);
-    }
+  @UiConstructor
+  public BooleanRadioGroup(String name) {
+    super(name);
+  }
 
-    public Radio addRadio(Boolean value, String label) {
-        return super.addRadio(value == null ? null : value.toString(), label);
-    }
+  public Radio addRadio(Boolean value, String label) {
+    return super.addRadio(value == null ? null : value.toString(), label);
+  }
 
-    public Boolean getBooleanValue() {
-        String value = getValue();
-        return value == null || value.isEmpty() ? null : Boolean.valueOf(value);
-    }
+  public Boolean getBooleanValue() {
+    String value = getValue();
+    return value == null || value.isEmpty() ? null : Boolean.valueOf(value);
+  }
 
-    public void setValue(Boolean value) {
-        super.setValue(value == null ? null : value.toString());
-    }
+  public void setValue(Boolean value) {
+    super.setValue(value == null ? null : value.toString());
+  }
 }

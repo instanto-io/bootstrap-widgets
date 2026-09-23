@@ -27,25 +27,23 @@ package io.instanto.bootstrap5.client.ui;
 
 import com.google.gwt.user.client.ui.HasEnabled;
 
-
 public class FieldSet extends ElementPanel implements HasEnabled {
 
-    public FieldSet() {
-        super("fieldset");
-    }
+  public FieldSet() {
+    super("fieldset");
+  }
 
-    @Override
-    public void setEnabled(final boolean enabled) {
-        if (enabled) {
-            getElement().removeAttribute("disabled");
-        } else {
-            getElement().setAttribute("disabled", "disabled");
-        }
+  @Override
+  public void setEnabled(final boolean enabled) {
+    if (enabled) {
+      getElement().removeAttribute("disabled");
+    } else {
+      getElement().setAttribute("disabled", "disabled");
     }
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return !getElement().hasAttribute("disabled");
-    }
-
+  @Override
+  public boolean isEnabled() {
+    return !getElement().hasAttribute("disabled");
+  }
 }

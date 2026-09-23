@@ -20,16 +20,15 @@ package io.instanto.bootstrap5.client.ui.html;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.base.ComplexWidget;
-
 import com.google.gwt.dom.client.Document;
+import io.instanto.bootstrap5.client.ui.base.ComplexWidget;
 
 /**
  * @author Joshua Godi
  */
 public class Br extends ComplexWidget {
 
-    public Br() {
-        setElement(Document.get().createBRElement());
-    }
+  public Br() {
+    setElement(Document.get().createBRElement());
+  }
 }

@@ -25,189 +25,190 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
-import io.instanto.bootstrap5.client.ui.base.HasId;
-import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
-import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
-import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
-import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-
-import io.instanto.bootstrap5.client.ui.base.InputEvents;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasValue;
+import io.instanto.bootstrap5.client.ui.base.HasId;
+import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
+import io.instanto.bootstrap5.client.ui.base.InputEvents;
+import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
+import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
+import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
 
 /**
  * A slider, as a native range input styled by Bootstrap 5.
  *
- * <p>GwtBootstrap3 got its slider from bootstrap-slider, a jQuery plugin.
- * Bootstrap 5 styles {@code <input type="range">} itself through
- * {@code .form-range}, so for a single value there is nothing to wrap and no
- * library to ship. Reach for a third-party slider only for what the native
- * control genuinely cannot do -- two handles, non-linear scales, pips.</p>
+ * <p>GwtBootstrap3 got its slider from bootstrap-slider, a jQuery plugin. Bootstrap 5 styles {@code
+ * <input type="range">} itself through {@code .form-range}, so for a single value there is nothing
+ * to wrap and no library to ship. Reach for a third-party slider only for what the native control
+ * genuinely cannot do -- two handles, non-linear scales, pips.
  *
- * <p>Value changes fire on {@code change}, so dragging reports once the handle
- * is released rather than on every pixel; {@link #setContinuous(boolean)}
- * switches to reporting throughout the drag.</p>
+ * <p>Value changes fire on {@code change}, so dragging reports once the handle is released rather
+ * than on every pixel; {@link #setContinuous(boolean)} switches to reporting throughout the drag.
  */
-public class Range extends FocusWidget implements HasId, HasName, HasResponsiveness,
-        HasValue<Double>, com.google.gwt.event.logical.shared.HasValueChangeHandlers<Double> {
+public class Range extends FocusWidget
+    implements HasId,
+        HasName,
+        HasResponsiveness,
+        HasValue<Double>,
+        com.google.gwt.event.logical.shared.HasValueChangeHandlers<Double> {
 
-    private final IdMixin<Range> idMixin = new IdMixin<Range>(this);
+  private final IdMixin<Range> idMixin = new IdMixin<Range>(this);
 
-    private boolean continuous;
+  private boolean continuous;
 
-    public Range() {
-        final InputElement element = InputElement.as(Document.get().createElement("input"));
-        element.setAttribute("type", "range");
-        setElement(element);
-        setStyleName("form-range");
-        setMin(0);
-        setMax(100);
-        setStep(1);
+  public Range() {
+    final InputElement element = InputElement.as(Document.get().createElement("input"));
+    element.setAttribute("type", "range");
+    setElement(element);
+    setStyleName("form-range");
+    setMin(0);
+    setMax(100);
+    setStep(1);
 
-        addDomHandler(new ChangeHandler() {
-            @Override
-            public void onChange(final ChangeEvent event) {
-                ValueChangeEvent.fire(Range.this, getValue());
-            }
-        }, ChangeEvent.getType());
+    addDomHandler(
+        new ChangeHandler() {
+          @Override
+          public void onChange(final ChangeEvent event) {
+            ValueChangeEvent.fire(Range.this, getValue());
+          }
+        },
+        ChangeEvent.getType());
+  }
+
+  public Range(final double min, final double max) {
+    this();
+    setMin(min);
+    setMax(max);
+  }
+
+  public void setMin(final double min) {
+    input().setAttribute("min", trim(min));
+  }
+
+  public double getMin() {
+    return parse(input().getAttribute("min"), 0);
+  }
+
+  public void setMax(final double max) {
+    input().setAttribute("max", trim(max));
+  }
+
+  public double getMax() {
+    return parse(input().getAttribute("max"), 100);
+  }
+
+  public void setStep(final double step) {
+    input().setAttribute("step", trim(step));
+  }
+
+  public double getStep() {
+    return parse(input().getAttribute("step"), 1);
+  }
+
+  /**
+   * Reports value changes throughout the drag rather than only when the handle is released.
+   *
+   * <p>This GWT has no {@code InputEvent} type, so the native {@code input} event is listened for
+   * directly.
+   */
+  public void setContinuous(final boolean continuous) {
+    if (this.continuous == continuous) {
+      return;
     }
-
-    public Range(final double min, final double max) {
-        this();
-        setMin(min);
-        setMax(max);
+    this.continuous = continuous;
+    if (continuous) {
+      InputEvents.listen(getElement(), this::onNativeInput);
     }
+  }
 
-    public void setMin(final double min) {
-        input().setAttribute("min", trim(min));
-    }
+  public boolean isContinuous() {
+    return continuous;
+  }
 
-    public double getMin() {
-        return parse(input().getAttribute("min"), 0);
+  /** Called from the native input listener while dragging. */
+  private void onNativeInput() {
+    if (continuous) {
+      ValueChangeEvent.fire(this, getValue());
     }
+  }
 
-    public void setMax(final double max) {
-        input().setAttribute("max", trim(max));
-    }
+  @Override
+  public Double getValue() {
+    return parse(input().getValue(), getMin());
+  }
 
-    public double getMax() {
-        return parse(input().getAttribute("max"), 100);
-    }
+  @Override
+  public void setValue(final Double value) {
+    setValue(value, false);
+  }
 
-    public void setStep(final double step) {
-        input().setAttribute("step", trim(step));
+  @Override
+  public void setValue(final Double value, final boolean fireEvents) {
+    input().setValue(value == null ? trim(getMin()) : trim(value));
+    if (fireEvents) {
+      ValueChangeEvent.fire(this, getValue());
     }
+  }
 
-    public double getStep() {
-        return parse(input().getAttribute("step"), 1);
-    }
+  @Override
+  public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Double> handler) {
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
 
-    /**
-     * Reports value changes throughout the drag rather than only when the handle
-     * is released.
-     *
-     * <p>This GWT has no {@code InputEvent} type, so the native {@code input}
-     * event is listened for directly.</p>
-     */
-    public void setContinuous(final boolean continuous) {
-        if (this.continuous == continuous) {
-            return;
-        }
-        this.continuous = continuous;
-        if (continuous) {
-            InputEvents.listen(getElement(), this::onNativeInput);
-        }
-    }
+  @Override
+  public void setName(final String name) {
+    input().setName(name == null ? "" : name);
+  }
 
-    public boolean isContinuous() {
-        return continuous;
-    }
+  @Override
+  public String getName() {
+    return input().getName();
+  }
 
-    /** Called from the native input listener while dragging. */
-    private void onNativeInput() {
-        if (continuous) {
-            ValueChangeEvent.fire(this, getValue());
-        }
-    }
+  @Override
+  public void setId(final String id) {
+    idMixin.setId(id);
+  }
 
-    @Override
-    public Double getValue() {
-        return parse(input().getValue(), getMin());
-    }
+  @Override
+  public String getId() {
+    return idMixin.getId();
+  }
 
-    @Override
-    public void setValue(final Double value) {
-        setValue(value, false);
-    }
+  @Override
+  public void setVisibleOn(final DeviceSize deviceSize) {
+    StyleHelper.setVisibleOn(this, deviceSize);
+  }
 
-    @Override
-    public void setValue(final Double value, final boolean fireEvents) {
-        input().setValue(value == null ? trim(getMin()) : trim(value));
-        if (fireEvents) {
-            ValueChangeEvent.fire(this, getValue());
-        }
-    }
+  @Override
+  public void setHiddenOn(final DeviceSize deviceSize) {
+    StyleHelper.setHiddenOn(this, deviceSize);
+  }
 
-    @Override
-    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Double> handler) {
-        return addHandler(handler, ValueChangeEvent.getType());
-    }
+  private InputElement input() {
+    return InputElement.as(getElement());
+  }
 
-    @Override
-    public void setName(final String name) {
-        input().setName(name == null ? "" : name);
-    }
+  private static String trim(final double value) {
+    return value == Math.rint(value) ? String.valueOf((long) value) : String.valueOf(value);
+  }
 
-    @Override
-    public String getName() {
-        return input().getName();
+  private static double parse(final String value, final double fallback) {
+    if (value == null || value.isEmpty()) {
+      return fallback;
     }
-
-    @Override
-    public void setId(final String id) {
-        idMixin.setId(id);
+    try {
+      return Double.parseDouble(value);
+    } catch (final NumberFormatException e) {
+      return fallback;
     }
-
-    @Override
-    public String getId() {
-        return idMixin.getId();
-    }
-
-    @Override
-    public void setVisibleOn(final DeviceSize deviceSize) {
-        StyleHelper.setVisibleOn(this, deviceSize);
-    }
-
-    @Override
-    public void setHiddenOn(final DeviceSize deviceSize) {
-        StyleHelper.setHiddenOn(this, deviceSize);
-    }
-
-    private InputElement input() {
-        return InputElement.as(getElement());
-    }
-
-    private static String trim(final double value) {
-        return value == Math.rint(value) ? String.valueOf((long) value) : String.valueOf(value);
-    }
-
-    private static double parse(final String value, final double fallback) {
-        if (value == null || value.isEmpty()) {
-            return fallback;
-        }
-        try {
-            return Double.parseDouble(value);
-        } catch (final NumberFormatException e) {
-            return fallback;
-        }
-    }
+  }
 }

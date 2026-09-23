@@ -22,20 +22,19 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
+import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.base.AbstractButtonGroup;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
-
-import com.google.gwt.user.client.ui.Widget;
 
 /** Vertical Bootstrap 5 button group retaining the Bootstrap 3 API. */
 public class VerticalButtonGroup extends AbstractButtonGroup {
 
-    public VerticalButtonGroup() {
-        super(Styles.BTN_GROUP_VERTICAL);
-        getElement().setAttribute("role", "group");
-    }
+  public VerticalButtonGroup() {
+    super(Styles.BTN_GROUP_VERTICAL);
+    getElement().setAttribute("role", "group");
+  }
 
-    public void addButton(Widget button) {
-        add(button);
-    }
+  public void addButton(Widget button) {
+    add(button);
+  }
 }

@@ -29,25 +29,24 @@ import io.instanto.bootstrap5.client.ui.form.error.ErrorHandler;
  *
  * @param <W> the widget type
  * @param <V> the value type
- *
  * @author Steven Jardine
  */
-public class RadioGroupBlankValidatorMixin<W extends RadioGroupBase<V>, V> extends BlankValidatorMixin<W, V> {
+public class RadioGroupBlankValidatorMixin<W extends RadioGroupBase<V>, V>
+    extends BlankValidatorMixin<W, V> {
 
-    /**
-     * Constructor.
-     *
-     * @param inputWidget the input widget
-     * @param errorHandler the error handler
-     */
-    public RadioGroupBlankValidatorMixin(final W inputWidget, final ErrorHandler errorHandler) {
-        super(inputWidget, errorHandler);
-    }
+  /**
+   * Constructor.
+   *
+   * @param inputWidget the input widget
+   * @param errorHandler the error handler
+   */
+  public RadioGroupBlankValidatorMixin(final W inputWidget, final ErrorHandler errorHandler) {
+    super(inputWidget, errorHandler);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    protected BlankValidator<V> createBlankValidator() {
-        return new RadioGroupBlankValidator<V>(getInputWidget());
-    }
-
+  /** {@inheritDoc} */
+  @Override
+  protected BlankValidator<V> createBlankValidator() {
+    return new RadioGroupBlankValidator<V>(getInputWidget());
+  }
 }

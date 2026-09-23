@@ -25,73 +25,78 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.ui.HTML;
 import io.instanto.bootstrap5.client.ui.base.HasDataSpy;
 import io.instanto.bootstrap5.client.ui.base.mixin.DataSpyMixin;
 import io.instanto.bootstrap5.client.ui.constants.Spy;
 
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.user.client.ui.HTML;
-
 public class ModalHeader extends ElementPanel implements HasDataSpy {
 
-    private final HTML titleWidget = new HTML();
-    private final HTML closeButton = new HTML("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
+  private final HTML titleWidget = new HTML();
+  private final HTML closeButton =
+      new HTML(
+          "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
 
-    public ModalHeader() {
-        super("div");
-        addStyleName("modal-header");
-        titleWidget.addStyleName("modal-title h5");
-        titleWidget.getElement().setId(Document.get().createUniqueId());
-        add(titleWidget);
+  public ModalHeader() {
+    super("div");
+    addStyleName("modal-header");
+    titleWidget.addStyleName("modal-title h5");
+    titleWidget.getElement().setId(Document.get().createUniqueId());
+    add(titleWidget);
+  }
+
+  public ModalHeader(String title) {
+    this();
+    setTitle(title);
+    addCloseButton();
+  }
+
+  public void setTitle(String title) {
+    titleWidget.setHTML(escape(title));
+  }
+
+  public String getTitleId() {
+    return titleWidget.getElement().getId();
+  }
+
+  public void addCloseButton() {
+    setClosable(true);
+  }
+
+  public void setClosable(boolean closable) {
+    if (closable) {
+      if (closeButton.getParent() == null) {
+        add(closeButton);
+      }
+    } else {
+      closeButton.removeFromParent();
     }
+  }
 
-    public ModalHeader(String title) {
-        this();
-        setTitle(title);
-        addCloseButton();
-    }
+  public boolean isClosable() {
+    return closeButton.getParent() != null;
+  }
 
-    public void setTitle(String title) {
-        titleWidget.setHTML(escape(title));
-    }
+  private String escape(String value) {
+    return value == null
+        ? ""
+        : value
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\"", "&quot;");
+  }
 
-    public String getTitleId() {
-        return titleWidget.getElement().getId();
-    }
+  private final DataSpyMixin<ModalHeader> dataSpyMixin = new DataSpyMixin<ModalHeader>(this);
 
-    public void addCloseButton() {
-        setClosable(true);
-    }
+  @Override
+  public void setDataSpy(final Spy spy) {
+    dataSpyMixin.setDataSpy(spy);
+  }
 
-    public void setClosable(boolean closable) {
-        if (closable) {
-            if (closeButton.getParent() == null) {
-                add(closeButton);
-            }
-        } else {
-            closeButton.removeFromParent();
-        }
-    }
-
-    public boolean isClosable() {
-        return closeButton.getParent() != null;
-    }
-
-    private String escape(String value) {
-        return value == null ? "" : value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
-    }
-
-    private final DataSpyMixin<ModalHeader> dataSpyMixin = new DataSpyMixin<ModalHeader>(this);
-
-    @Override
-    public void setDataSpy(final Spy spy) {
-        dataSpyMixin.setDataSpy(spy);
-    }
-
-    @Override
-    public Spy getDataSpy() {
-        return dataSpyMixin.getDataSpy();
-    }
-
+  @Override
+  public Spy getDataSpy() {
+    return dataSpyMixin.getDataSpy();
+  }
 }

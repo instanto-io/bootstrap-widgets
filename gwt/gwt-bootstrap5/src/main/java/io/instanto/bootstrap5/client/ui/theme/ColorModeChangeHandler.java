@@ -21,5 +21,5 @@ package io.instanto.bootstrap5.client.ui.theme;
 
 /** Notified after the colour mode changes. */
 public interface ColorModeChangeHandler {
-    void onColorModeChanged(ColorMode mode);
+  void onColorModeChanged(ColorMode mode);
 }

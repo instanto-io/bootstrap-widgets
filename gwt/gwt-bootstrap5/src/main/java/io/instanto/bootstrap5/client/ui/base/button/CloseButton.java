@@ -20,26 +20,26 @@ package io.instanto.bootstrap5.client.ui.base.button;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.constants.Styles;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 /**
- * Button that represents a close ("x") icon, usually used within an {@link io.instanto.bootstrap5.client.ui.Alert}.
+ * Button that represents a close ("x") icon, usually used within an {@link
+ * io.instanto.bootstrap5.client.ui.Alert}.
  *
  * @author Sven Jacobs
  * @see io.instanto.bootstrap5.client.ui.Alert
  */
 public class CloseButton extends AbstractButton {
 
-    public CloseButton() {
-        setStyleName(Styles.CLOSE);
-        getElement().setInnerHTML("&times;");
-    }
+  public CloseButton() {
+    setStyleName(Styles.CLOSE);
+    getElement().setInnerHTML("&times;");
+  }
 
-    @Override
-    protected Element createElement() {
-        return Document.get().createPushButtonElement().cast();
-    }
+  @Override
+  protected Element createElement() {
+    return Document.get().createPushButtonElement().cast();
+  }
 }

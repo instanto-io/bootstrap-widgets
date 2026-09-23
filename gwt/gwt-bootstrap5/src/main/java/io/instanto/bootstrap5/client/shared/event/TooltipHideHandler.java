@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Pontus Enmark
  */
 public interface TooltipHideHandler extends EventHandler {
-    void onHide(final TooltipHideEvent evt);
+  void onHide(final TooltipHideEvent evt);
 }

@@ -7,6 +7,13 @@ package io.instanto.bootstrap5.client.ui;
 
 /** A toast body that accepts text, HTML or child widgets like the existing body widgets. */
 public class ToastBody extends ElementPanel {
-    public ToastBody() { super("div"); addStyleName("toast-body"); }
-    public ToastBody(String text) { this(); setText(text); }
+  public ToastBody() {
+    super("div");
+    addStyleName("toast-body");
+  }
+
+  public ToastBody(String text) {
+    this();
+    setText(text);
+  }
 }

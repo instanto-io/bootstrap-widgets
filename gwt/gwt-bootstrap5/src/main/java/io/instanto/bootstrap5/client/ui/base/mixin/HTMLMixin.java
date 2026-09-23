@@ -27,16 +27,15 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 public class HTMLMixin<T extends UIObject> extends TextMixin<T> {
 
-    public HTMLMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public HTMLMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    public String getHTML() {
-        return uiObject.getElement().getInnerHTML();
-    }
+  public String getHTML() {
+    return uiObject.getElement().getInnerHTML();
+  }
 
-    public void setHTML(final String html) {
-        uiObject.getElement().setInnerHTML(html);
-    }
-
+  public void setHTML(final String html) {
+    uiObject.getElement().setInnerHTML(html);
+  }
 }

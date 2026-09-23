@@ -1,8 +1,7 @@
 package io.instanto.bootstrap5.client.ui.form.error;
 
-import java.util.List;
-
 import com.google.gwt.editor.client.EditorError;
+import java.util.List;
 
 /*
  * #%L
@@ -31,21 +30,16 @@ import com.google.gwt.editor.client.EditorError;
  */
 public interface ErrorHandler {
 
-    /**
-     * Clean up the handler if necessary.
-     */
-    void cleanup();
+  /** Clean up the handler if necessary. */
+  void cleanup();
 
-    /**
-     * Clear any errors.
-     */
-    void clearErrors();
+  /** Clear any errors. */
+  void clearErrors();
 
-    /**
-     * Show the errors on the input screen.
-     *
-     * @param errors the errors to display.
-     */
-    void showErrors(List<EditorError> errors);
-
+  /**
+   * Show the errors on the input screen.
+   *
+   * @param errors the errors to display.
+   */
+  void showErrors(List<EditorError> errors);
 }

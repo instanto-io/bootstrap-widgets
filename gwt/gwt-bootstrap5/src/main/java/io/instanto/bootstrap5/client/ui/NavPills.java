@@ -27,7 +27,7 @@ package io.instanto.bootstrap5.client.ui;
 
 public class NavPills extends Nav {
 
-    public NavPills() {
-        addStyleName("nav-pills");
-    }
+  public NavPills() {
+    addStyleName("nav-pills");
+  }
 }

@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
-
 import com.google.gwt.user.client.ui.HasValue;
+import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
 
 /**
  * Validator for matching with another field.
@@ -32,52 +31,51 @@ import com.google.gwt.user.client.ui.HasValue;
  */
 public class FieldMatchValidator<T> extends AbstractValidator<T> {
 
-    private final HasValue<T> verifyField;
+  private final HasValue<T> verifyField;
 
-    /**
-     * Constructor.
-     *
-     * @param verifyField the verify field
-     */
-    public FieldMatchValidator(final HasValue<T> verifyField) {
-        this(verifyField, new Object[0]);
-    }
+  /**
+   * Constructor.
+   *
+   * @param verifyField the verify field
+   */
+  public FieldMatchValidator(final HasValue<T> verifyField) {
+    this(verifyField, new Object[0]);
+  }
 
-    /**
-     * Constructor.
-     *
-     * @param verifyField the verify field
-     * @param invalidMessageArgs the invalid message args
-     */
-    public FieldMatchValidator(final HasValue<T> verifyField, final Object... invalidMessageArgs) {
-        super(Keys.FIELD_MATCH, invalidMessageArgs);
-        this.verifyField = verifyField;
-        assert this.verifyField != null;
-    }
+  /**
+   * Constructor.
+   *
+   * @param verifyField the verify field
+   * @param invalidMessageArgs the invalid message args
+   */
+  public FieldMatchValidator(final HasValue<T> verifyField, final Object... invalidMessageArgs) {
+    super(Keys.FIELD_MATCH, invalidMessageArgs);
+    this.verifyField = verifyField;
+    assert this.verifyField != null;
+  }
 
-    /**
-     * Constructor.
-     *
-     * @param verifyField the field to verify matches with this one.
-     * @param invalidMessageOverride the invalid message override
-     */
-    public FieldMatchValidator(final HasValue<T> verifyField, final String invalidMessageOverride) {
-        super(invalidMessageOverride);
-        this.verifyField = verifyField;
-        assert this.verifyField != null;
-    }
+  /**
+   * Constructor.
+   *
+   * @param verifyField the field to verify matches with this one.
+   * @param invalidMessageOverride the invalid message override
+   */
+  public FieldMatchValidator(final HasValue<T> verifyField, final String invalidMessageOverride) {
+    super(invalidMessageOverride);
+    this.verifyField = verifyField;
+    assert this.verifyField != null;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public int getPriority() {
-        return Priority.HIGH;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public int getPriority() {
+    return Priority.HIGH;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(T value) {
-        T verifyValue = verifyField.getValue();
-        return value == null ? verifyValue == null : value.equals(verifyValue);
-    }
-
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(T value) {
+    T verifyValue = verifyField.getValue();
+    return value == null ? verifyValue == null : value.equals(verifyValue);
+  }
 }

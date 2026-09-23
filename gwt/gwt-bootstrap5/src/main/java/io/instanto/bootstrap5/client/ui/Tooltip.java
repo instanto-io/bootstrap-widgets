@@ -21,37 +21,37 @@ import io.instanto.bootstrap5.client.ui.base.AbstractTooltip;
 /** Bootstrap 5 tooltip preserving the GwtBootstrap3 controller API. */
 public class Tooltip extends AbstractTooltip {
 
-    public Tooltip() {
-        super("tooltip");
-    }
+  public Tooltip() {
+    super("tooltip");
+  }
 
-    public Tooltip(String title) {
-        this();
-        setTitle(title);
-    }
+  public Tooltip(String title) {
+    this();
+    setTitle(title);
+  }
 
-    public Tooltip(Widget widget) {
-        this();
-        setWidget(widget);
-    }
+  public Tooltip(Widget widget) {
+    this();
+    setWidget(widget);
+  }
 
-    public Tooltip(Widget widget, String title) {
-        this(widget);
-        setTitle(title);
-    }
+  public Tooltip(Widget widget, String title) {
+    this(widget);
+    setTitle(title);
+  }
 
-    @Override
-    public void init() {
-        initializePlugin(null);
-    }
+  @Override
+  public void init() {
+    initializePlugin(null);
+  }
 
-    @Override
-    protected void call(String method) {
-        invokePlugin(method);
-    }
+  @Override
+  protected void call(String method) {
+    invokePlugin(method);
+  }
 
-    @Override
-    protected String getBootstrapPluginName() {
-        return "Tooltip";
-    }
+  @Override
+  protected String getBootstrapPluginName() {
+    return "Tooltip";
+  }
 }

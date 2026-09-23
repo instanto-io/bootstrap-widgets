@@ -32,8 +32,8 @@ import com.google.gwt.resources.client.TextResource;
 /** The noUiSlider build this module injects. */
 public interface SliderClientBundle extends ClientBundle {
 
-    SliderClientBundle INSTANCE = GWT.create(SliderClientBundle.class);
+  SliderClientBundle INSTANCE = GWT.create(SliderClientBundle.class);
 
-    @Source("resource/js/nouislider-15.8.1.min.cache.js")
-    TextResource noUiSlider();
+  @Source("resource/js/nouislider-15.8.1.min.cache.js")
+  TextResource noUiSlider();
 }

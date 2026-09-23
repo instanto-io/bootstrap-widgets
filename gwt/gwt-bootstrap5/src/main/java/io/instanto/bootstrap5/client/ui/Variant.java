@@ -20,23 +20,23 @@
 package io.instanto.bootstrap5.client.ui;
 
 public enum Variant {
-    PRIMARY("primary"),
-    SECONDARY("secondary"),
-    SUCCESS("success"),
-    DANGER("danger"),
-    WARNING("warning"),
-    INFO("info"),
-    LIGHT("light"),
-    DARK("dark"),
-    LINK("link");
+  PRIMARY("primary"),
+  SECONDARY("secondary"),
+  SUCCESS("success"),
+  DANGER("danger"),
+  WARNING("warning"),
+  INFO("info"),
+  LIGHT("light"),
+  DARK("dark"),
+  LINK("link");
 
-    private final String cssName;
+  private final String cssName;
 
-    Variant(String cssName) {
-        this.cssName = cssName;
-    }
+  Variant(String cssName) {
+    this.cssName = cssName;
+  }
 
-    public String cssName() {
-        return cssName;
-    }
+  public String cssName() {
+    return cssName;
+  }
 }

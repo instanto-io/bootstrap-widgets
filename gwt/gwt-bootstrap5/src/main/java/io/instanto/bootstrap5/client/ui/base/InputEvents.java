@@ -28,34 +28,34 @@ import jsinterop.base.Js;
 /**
  * The DOM {@code input} event, which this GWT release has no {@code InputEvent} type for.
  *
- * <p>Reached through JsInterop, so GWT and TeaVM compile this one source. A widget wanting
- * the event implements {@link Handler} rather than touching the DOM itself.</p>
+ * <p>Reached through JsInterop, so GWT and TeaVM compile this one source. A widget wanting the
+ * event implements {@link Handler} rather than touching the DOM itself.
  */
 public final class InputEvents {
 
-    /** Notified on every {@code input} event, which for a range fires while dragging. */
-    public interface Handler {
-        void onInput();
-    }
+  /** Notified on every {@code input} event, which for a range fires while dragging. */
+  public interface Handler {
+    void onInput();
+  }
 
-    private InputEvents() {
-    }
+  private InputEvents() {}
 
-    /** Calls {@code handler} whenever {@code element} raises {@code input}. */
-    public static void listen(final Element element, final Handler handler) {
-        if (element == null || handler == null) {
-            return;
-        }
-        Js.<EventTarget>uncheckedCast(Js.asAny(element)).addEventListener("input", event -> handler.onInput());
+  /** Calls {@code handler} whenever {@code element} raises {@code input}. */
+  public static void listen(final Element element, final Handler handler) {
+    if (element == null || handler == null) {
+      return;
     }
+    Js.<EventTarget>uncheckedCast(Js.asAny(element))
+        .addEventListener("input", event -> handler.onInput());
+  }
 
-    @JsFunction
-    interface Listener {
-        void handle(Any event);
-    }
+  @JsFunction
+  interface Listener {
+    void handle(Any event);
+  }
 
-    @JsType(isNative = true)
-    interface EventTarget {
-        void addEventListener(String type, Listener listener);
-    }
+  @JsType(isNative = true)
+  interface EventTarget {
+    void addEventListener(String type, Listener listener);
+  }
 }

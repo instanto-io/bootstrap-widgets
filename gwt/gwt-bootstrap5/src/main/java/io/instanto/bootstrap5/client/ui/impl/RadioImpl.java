@@ -20,30 +20,27 @@ package io.instanto.bootstrap5.client.ui.impl;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.Radio;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.Radio;
 
 public class RadioImpl {
 
-    public void ensureDomEventHandlers(final Radio radio) {
-        radio.addChangeHandler(new ChangeHandler() {
+  public void ensureDomEventHandlers(final Radio radio) {
+    radio.addChangeHandler(
+        new ChangeHandler() {
 
-            @Override
-            public void onChange(ChangeEvent event) {
-                ValueChangeEvent.fire(radio, radio.getValue());
-            }
-
+          @Override
+          public void onChange(ChangeEvent event) {
+            ValueChangeEvent.fire(radio, radio.getValue());
+          }
         });
-    }
+  }
 
-    public void sinkEvents(int eventBitsToAdd, Element inputElem, Element labelElem) {
-        Event.sinkEvents(inputElem,
-                eventBitsToAdd | Event.getEventsSunk(inputElem));
-    }
-
+  public void sinkEvents(int eventBitsToAdd, Element inputElem, Element labelElem) {
+    Event.sinkEvents(inputElem, eventBitsToAdd | Event.getEventsSunk(inputElem));
+  }
 }

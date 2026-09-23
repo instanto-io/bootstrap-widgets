@@ -27,9 +27,9 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 abstract class AbstractMixin {
 
-    UIObject uiObject;
+  UIObject uiObject;
 
-    AbstractMixin(final UIObject uiObject) {
-        this.uiObject = uiObject;
-    }
+  AbstractMixin(final UIObject uiObject) {
+    this.uiObject = uiObject;
+  }
 }

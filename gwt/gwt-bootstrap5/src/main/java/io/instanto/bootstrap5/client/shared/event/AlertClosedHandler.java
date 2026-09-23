@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Sven Jacobs
  */
 public interface AlertClosedHandler extends EventHandler {
-    void onClosed(final AlertClosedEvent evt);
+  void onClosed(final AlertClosedEvent evt);
 }

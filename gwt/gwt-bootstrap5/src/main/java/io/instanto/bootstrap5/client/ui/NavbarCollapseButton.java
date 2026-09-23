@@ -27,27 +27,27 @@ package io.instanto.bootstrap5.client.ui;
 
 public class NavbarCollapseButton extends Button {
 
-    public NavbarCollapseButton() {
-        this("");
-    }
+  public NavbarCollapseButton() {
+    this("");
+  }
 
-    public NavbarCollapseButton(String targetId) {
-        super("");
-        setStyleName("navbar-toggler");
-        getElement().setAttribute("type", "button");
-        getElement().setAttribute("data-bs-toggle", "collapse");
-        setTarget(targetId);
-        ElementPanel icon = new ElementPanel("span");
-        icon.addStyleName("navbar-toggler-icon");
-        add(icon);
-    }
+  public NavbarCollapseButton(String targetId) {
+    super("");
+    setStyleName("navbar-toggler");
+    getElement().setAttribute("type", "button");
+    getElement().setAttribute("data-bs-toggle", "collapse");
+    setTarget(targetId);
+    ElementPanel icon = new ElementPanel("span");
+    icon.addStyleName("navbar-toggler-icon");
+    add(icon);
+  }
 
-    public void setTarget(String targetId) {
-        if (targetId != null && !targetId.isEmpty()) {
-            getElement().setAttribute("data-bs-target", "#" + targetId);
-            getElement().setAttribute("aria-controls", targetId);
-        }
-        getElement().setAttribute("aria-expanded", "false");
-        getElement().setAttribute("aria-label", "Toggle navigation");
+  public void setTarget(String targetId) {
+    if (targetId != null && !targetId.isEmpty()) {
+      getElement().setAttribute("data-bs-target", "#" + targetId);
+      getElement().setAttribute("aria-controls", targetId);
     }
+    getElement().setAttribute("aria-expanded", "false");
+    getElement().setAttribute("aria-label", "Toggle navigation");
+  }
 }

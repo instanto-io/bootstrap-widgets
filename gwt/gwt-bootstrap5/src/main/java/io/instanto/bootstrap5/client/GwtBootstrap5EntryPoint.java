@@ -26,17 +26,17 @@ import jsinterop.base.Js;
 /** Injects Bootstrap 5 JavaScript when the host page has not already supplied it. */
 public class GwtBootstrap5EntryPoint implements EntryPoint {
 
-    private boolean isBootstrapLoaded() {
-        final Object bootstrap = Js.global().get("bootstrap");
-        return bootstrap != null && Js.asPropertyMap(bootstrap).get("Modal") != null;
-    }
+  private boolean isBootstrapLoaded() {
+    final Object bootstrap = Js.global().get("bootstrap");
+    return bootstrap != null && Js.asPropertyMap(bootstrap).get("Modal") != null;
+  }
 
-    @Override
-    public void onModuleLoad() {
-        if (!isBootstrapLoaded()) {
-            ScriptInjector.fromString(GwtBootstrap5ClientBundle.INSTANCE.bootstrap().getText())
-                    .setWindow(ScriptInjector.TOP_WINDOW)
-                    .inject();
-        }
+  @Override
+  public void onModuleLoad() {
+    if (!isBootstrapLoaded()) {
+      ScriptInjector.fromString(GwtBootstrap5ClientBundle.INSTANCE.bootstrap().getText())
+          .setWindow(ScriptInjector.TOP_WINDOW)
+          .inject();
     }
+  }
 }

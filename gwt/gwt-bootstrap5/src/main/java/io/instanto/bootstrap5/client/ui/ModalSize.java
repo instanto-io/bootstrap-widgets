@@ -25,33 +25,31 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
-import io.instanto.bootstrap5.client.ui.base.helper.EnumHelper;
 import com.google.gwt.dom.client.Style;
-
+import io.instanto.bootstrap5.client.ui.base.helper.EnumHelper;
 
 public enum ModalSize implements Style.HasCssName {
-    SMALL("modal-sm"),
-    DEFAULT(""),
-    LARGE("modal-lg"),
-    EXTRA_LARGE("modal-xl");
+  SMALL("modal-sm"),
+  DEFAULT(""),
+  LARGE("modal-lg"),
+  EXTRA_LARGE("modal-xl");
 
-    private final String cssName;
+  private final String cssName;
 
-    ModalSize(String cssName) {
-        this.cssName = cssName;
-    }
+  ModalSize(String cssName) {
+    this.cssName = cssName;
+  }
 
-    public String cssName() {
-        return cssName;
-    }
+  public String cssName() {
+    return cssName;
+  }
 
-    @Override
-    public String getCssName() {
-        return cssName;
-    }
+  @Override
+  public String getCssName() {
+    return cssName;
+  }
 
-    public static ModalSize fromStyleName(final String styleName) {
-        return EnumHelper.fromStyleName(styleName, ModalSize.class, DEFAULT);
-    }
-
+  public static ModalSize fromStyleName(final String styleName) {
+    return EnumHelper.fromStyleName(styleName, ModalSize.class, DEFAULT);
+  }
 }

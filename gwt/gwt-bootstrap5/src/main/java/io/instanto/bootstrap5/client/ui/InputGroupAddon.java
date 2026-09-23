@@ -25,6 +25,7 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
+import com.google.gwt.user.client.ui.HasText;
 import io.instanto.bootstrap5.client.ui.base.HasBadge;
 import io.instanto.bootstrap5.client.ui.base.HasIcon;
 import io.instanto.bootstrap5.client.ui.base.HasIconPosition;
@@ -35,164 +36,164 @@ import io.instanto.bootstrap5.client.ui.constants.IconPosition;
 import io.instanto.bootstrap5.client.ui.constants.IconRotate;
 import io.instanto.bootstrap5.client.ui.constants.IconSize;
 import io.instanto.bootstrap5.client.ui.constants.IconType;
-import com.google.gwt.user.client.ui.HasText;
 
 /**
  * The text or icon segment of an {@link InputGroup}.
  *
- * <p>Carries the same icon and badge surface as the Bootstrap 3 addon, through
- * {@link IconTextMixin}. Bootstrap 5 renders it as a single
- * {@code span.input-group-text} rather than wrapping buttons separately, so the
- * mixin composes onto this widget rather than arriving through a shared
- * superclass.</p>
+ * <p>Carries the same icon and badge surface as the Bootstrap 3 addon, through {@link
+ * IconTextMixin}. Bootstrap 5 renders it as a single {@code span.input-group-text} rather than
+ * wrapping buttons separately, so the mixin composes onto this widget rather than arriving through
+ * a shared superclass.
  */
-public class InputGroupAddon extends ElementPanel implements HasText, HasIcon, HasIconPosition, HasBadge {
+public class InputGroupAddon extends ElementPanel
+    implements HasText, HasIcon, HasIconPosition, HasBadge {
 
-    private final IconTextMixin<InputGroupAddon> iconTextMixin = new IconTextMixin<InputGroupAddon>(this);
+  private final IconTextMixin<InputGroupAddon> iconTextMixin =
+      new IconTextMixin<InputGroupAddon>(this);
 
-    public InputGroupAddon() {
-        this("");
-    }
+  public InputGroupAddon() {
+    this("");
+  }
 
-    public InputGroupAddon(final String text) {
-        super("span");
-        addStyleName("input-group-text");
-        iconTextMixin.addTextWidgetToParent();
-        setText(text);
-    }
+  public InputGroupAddon(final String text) {
+    super("span");
+    addStyleName("input-group-text");
+    iconTextMixin.addTextWidgetToParent();
+    setText(text);
+  }
 
-    @Override
-    public void setText(final String text) {
-        iconTextMixin.setText(text);
-    }
+  @Override
+  public void setText(final String text) {
+    iconTextMixin.setText(text);
+  }
 
-    @Override
-    public String getText() {
-        return iconTextMixin.getText();
-    }
+  @Override
+  public String getText() {
+    return iconTextMixin.getText();
+  }
 
-    @Override
-    public void setIcon(final IconType iconType) {
-        iconTextMixin.setIcon(iconType);
-    }
+  @Override
+  public void setIcon(final IconType iconType) {
+    iconTextMixin.setIcon(iconType);
+  }
 
-    @Override
-    public IconType getIcon() {
-        return iconTextMixin.getIcon();
-    }
+  @Override
+  public IconType getIcon() {
+    return iconTextMixin.getIcon();
+  }
 
-    @Override
-    public void setIconPosition(final IconPosition iconPosition) {
-        iconTextMixin.setIconPosition(iconPosition);
-    }
+  @Override
+  public void setIconPosition(final IconPosition iconPosition) {
+    iconTextMixin.setIconPosition(iconPosition);
+  }
 
-    @Override
-    public IconPosition getIconPosition() {
-        return iconTextMixin.getIconPosition();
-    }
+  @Override
+  public IconPosition getIconPosition() {
+    return iconTextMixin.getIconPosition();
+  }
 
-    @Override
-    public void setIconSize(final IconSize iconSize) {
-        iconTextMixin.setIconSize(iconSize);
-    }
+  @Override
+  public void setIconSize(final IconSize iconSize) {
+    iconTextMixin.setIconSize(iconSize);
+  }
 
-    @Override
-    public IconSize getIconSize() {
-        return iconTextMixin.getIconSize();
-    }
+  @Override
+  public IconSize getIconSize() {
+    return iconTextMixin.getIconSize();
+  }
 
-    @Override
-    public void setIconFlip(final IconFlip iconFlip) {
-        iconTextMixin.setIconFlip(iconFlip);
-    }
+  @Override
+  public void setIconFlip(final IconFlip iconFlip) {
+    iconTextMixin.setIconFlip(iconFlip);
+  }
 
-    @Override
-    public IconFlip getIconFlip() {
-        return iconTextMixin.getIconFlip();
-    }
+  @Override
+  public IconFlip getIconFlip() {
+    return iconTextMixin.getIconFlip();
+  }
 
-    @Override
-    public void setIconRotate(final IconRotate iconRotate) {
-        iconTextMixin.setIconRotate(iconRotate);
-    }
+  @Override
+  public void setIconRotate(final IconRotate iconRotate) {
+    iconTextMixin.setIconRotate(iconRotate);
+  }
 
-    @Override
-    public IconRotate getIconRotate() {
-        return iconTextMixin.getIconRotate();
-    }
+  @Override
+  public IconRotate getIconRotate() {
+    return iconTextMixin.getIconRotate();
+  }
 
-    @Override
-    public void setIconBordered(final boolean iconBordered) {
-        iconTextMixin.setIconBordered(iconBordered);
-    }
+  @Override
+  public void setIconBordered(final boolean iconBordered) {
+    iconTextMixin.setIconBordered(iconBordered);
+  }
 
-    @Override
-    public boolean isIconBordered() {
-        return iconTextMixin.isIconBordered();
-    }
+  @Override
+  public boolean isIconBordered() {
+    return iconTextMixin.isIconBordered();
+  }
 
-    @Override
-    public void setIconInverse(final boolean iconInverse) {
-        iconTextMixin.setIconInverse(iconInverse);
-    }
+  @Override
+  public void setIconInverse(final boolean iconInverse) {
+    iconTextMixin.setIconInverse(iconInverse);
+  }
 
-    @Override
-    public boolean isIconInverse() {
-        return iconTextMixin.isIconInverse();
-    }
+  @Override
+  public boolean isIconInverse() {
+    return iconTextMixin.isIconInverse();
+  }
 
-    @Override
-    public void setIconSpin(final boolean iconSpin) {
-        iconTextMixin.setIconSpin(iconSpin);
-    }
+  @Override
+  public void setIconSpin(final boolean iconSpin) {
+    iconTextMixin.setIconSpin(iconSpin);
+  }
 
-    @Override
-    public boolean isIconSpin() {
-        return iconTextMixin.isIconSpin();
-    }
+  @Override
+  public boolean isIconSpin() {
+    return iconTextMixin.isIconSpin();
+  }
 
-    @Override
-    public void setIconPulse(final boolean iconPulse) {
-        iconTextMixin.setIconPulse(iconPulse);
-    }
+  @Override
+  public void setIconPulse(final boolean iconPulse) {
+    iconTextMixin.setIconPulse(iconPulse);
+  }
 
-    @Override
-    public boolean isIconPulse() {
-        return iconTextMixin.isIconPulse();
-    }
+  @Override
+  public boolean isIconPulse() {
+    return iconTextMixin.isIconPulse();
+  }
 
-    @Override
-    public void setIconFixedWidth(final boolean iconFixedWidth) {
-        iconTextMixin.setIconFixedWidth(iconFixedWidth);
-    }
+  @Override
+  public void setIconFixedWidth(final boolean iconFixedWidth) {
+    iconTextMixin.setIconFixedWidth(iconFixedWidth);
+  }
 
-    @Override
-    public boolean isIconFixedWidth() {
-        return iconTextMixin.isIconFixedWidth();
-    }
+  @Override
+  public boolean isIconFixedWidth() {
+    return iconTextMixin.isIconFixedWidth();
+  }
 
-    @Override
-    public void setIconColor(final String iconColor) {
-        iconTextMixin.setIconColor(iconColor);
-    }
+  @Override
+  public void setIconColor(final String iconColor) {
+    iconTextMixin.setIconColor(iconColor);
+  }
 
-    @Override
-    public void setBadgeText(final String badgeText) {
-        iconTextMixin.setBadgeText(badgeText);
-    }
+  @Override
+  public void setBadgeText(final String badgeText) {
+    iconTextMixin.setBadgeText(badgeText);
+  }
 
-    @Override
-    public String getBadgeText() {
-        return iconTextMixin.getBadgeText();
-    }
+  @Override
+  public String getBadgeText() {
+    return iconTextMixin.getBadgeText();
+  }
 
-    @Override
-    public void setBadgePosition(final BadgePosition badgePosition) {
-        iconTextMixin.setBadgePosition(badgePosition);
-    }
+  @Override
+  public void setBadgePosition(final BadgePosition badgePosition) {
+    iconTextMixin.setBadgePosition(badgePosition);
+  }
 
-    @Override
-    public BadgePosition getBadgePosition() {
-        return iconTextMixin.getBadgePosition();
-    }
+  @Override
+  public BadgePosition getBadgePosition() {
+    return iconTextMixin.getBadgePosition();
+  }
 }

@@ -20,48 +20,44 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
+import com.google.gwt.core.client.GWT;
 import java.util.MissingResourceException;
 
-import com.google.gwt.core.client.GWT;
-
 /**
- * Default implementation of the validator message mixin. This can be replaced with your own version by using
- * a "replace-with" statment in the gwt module file.
+ * Default implementation of the validator message mixin. This can be replaced with your own version
+ * by using a "replace-with" statment in the gwt module file.
  *
- * Example:
+ * <p>Example:
  *
- * <pre>
- * {@code
+ * <pre>{@code
  * <replace-with class="...CustomValidatorMessageMixin">
  *     <when-type-is class="io.instanto.bootstrap5.client.ui.form.validator.ValidatorMessageMixin" />
  * </replace-with>
- * }
- * </pre>
+ * }</pre>
  *
  * @author Steven Jardine
  */
 public class DefaultValidatorMessageMixin implements ValidatorMessageMixin {
 
-    protected ValidationMessages messages = GWT.create(ValidationMessages.class);
+  protected ValidationMessages messages = GWT.create(ValidationMessages.class);
 
-    /** {@inheritDoc} */
-    public String lookup(String key) {
-        try {
-            // Replace "." with "_" in the key.
-            return key == null ? null : messages.getString(key.replace(".", "_"));
-        } catch (MissingResourceException e) {
-            return null;
-        }
+  /** {@inheritDoc} */
+  public String lookup(String key) {
+    try {
+      // Replace "." with "_" in the key.
+      return key == null ? null : messages.getString(key.replace(".", "_"));
+    } catch (MissingResourceException e) {
+      return null;
     }
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public String lookup(String key, Object[] msgValues) {
-        String msg = lookup(key);
-        if (msg != null) {
-            msg = MessageFormat.format(msg, msgValues);
-        }
-        return msg;
+  /** {@inheritDoc} */
+  @Override
+  public String lookup(String key, Object[] msgValues) {
+    String msg = lookup(key);
+    if (msg != null) {
+      msg = MessageFormat.format(msg, msgValues);
     }
-
+    return msg;
+  }
 }

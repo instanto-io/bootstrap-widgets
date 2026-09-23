@@ -20,43 +20,40 @@ package io.instanto.bootstrap5.client.ui.html;
  * #L%
  */
 
+import com.google.gwt.dom.client.Document;
 import io.instanto.bootstrap5.client.ui.base.AbstractListItem;
 import io.instanto.bootstrap5.client.ui.base.ComplexWidget;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
-
-import com.google.gwt.dom.client.Document;
 
 /**
  * @author Joshua Godi
  */
 public class OrderedList extends ComplexWidget {
 
-    /**
-     * Creates an empty list.
-     */
-    public OrderedList() {
-        setElement(Document.get().createOLElement());
-    }
+  /** Creates an empty list. */
+  public OrderedList() {
+    setElement(Document.get().createOLElement());
+  }
 
-    /**
-     * Creates a list and adds the given widgets.
-     *
-     * @param widgets widgets to be added
-     */
-    public OrderedList(final AbstractListItem... widgets) {
-        this();
-        for (final AbstractListItem li : widgets) {
-            add(li);
-        }
+  /**
+   * Creates a list and adds the given widgets.
+   *
+   * @param widgets widgets to be added
+   */
+  public OrderedList(final AbstractListItem... widgets) {
+    this();
+    for (final AbstractListItem li : widgets) {
+      add(li);
     }
+  }
 
-    public void setUnstyled(final boolean unstyled) {
-        setStyleName(Styles.UNSTYLED, unstyled);
-    }
+  public void setUnstyled(final boolean unstyled) {
+    setStyleName(Styles.UNSTYLED, unstyled);
+  }
 
-    public void setInline(final boolean inline) {
-        if (inline) {
-            addStyleName(Styles.LIST_INLINE);
-        }
+  public void setInline(final boolean inline) {
+    if (inline) {
+      addStyleName(Styles.LIST_INLINE);
     }
+  }
 }

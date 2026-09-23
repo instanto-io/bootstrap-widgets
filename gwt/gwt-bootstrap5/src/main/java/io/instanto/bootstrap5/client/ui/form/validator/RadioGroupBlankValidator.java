@@ -27,31 +27,29 @@ import io.instanto.bootstrap5.client.ui.base.RadioGroupBase;
  * Radio group blank validator.
  *
  * @param <T> the generic type
- *
  * @author Steven Jardine
  */
 public class RadioGroupBlankValidator<T> extends BlankValidator<T> {
 
-    private RadioGroupBase<T> inputWidget = null;
+  private RadioGroupBase<T> inputWidget = null;
 
-    /**
-     * Constructor.
-     *
-     * @param inputWidget the input widget
-     */
-    public RadioGroupBlankValidator(final RadioGroupBase<T> inputWidget) {
-        super();
-        this.inputWidget = inputWidget;
+  /**
+   * Constructor.
+   *
+   * @param inputWidget the input widget
+   */
+  public RadioGroupBlankValidator(final RadioGroupBase<T> inputWidget) {
+    super();
+    this.inputWidget = inputWidget;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(final T value) {
+    boolean valid = false;
+    for (Radio child : inputWidget.getRadioChildren()) {
+      valid |= child.getValue();
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(final T value) {
-        boolean valid = false;
-        for (Radio child : inputWidget.getRadioChildren()) {
-            valid |= child.getValue();
-        }
-        return valid;
-    }
-
+    return valid;
+  }
 }

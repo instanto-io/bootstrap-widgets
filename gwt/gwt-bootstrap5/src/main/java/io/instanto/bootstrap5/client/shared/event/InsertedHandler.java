@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Steven Jardine
  */
 public interface InsertedHandler extends EventHandler {
-    void onInserted(InsertedEvent event);
+  void onInserted(InsertedEvent event);
 }

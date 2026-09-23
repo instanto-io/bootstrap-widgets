@@ -20,108 +20,110 @@ package io.instanto.bootstrap5.client.ui.gwt;
  * #L%
  */
 
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
+import com.google.gwt.user.client.ui.HasEnabled;
 import io.instanto.bootstrap5.client.ui.constants.ButtonSize;
 import io.instanto.bootstrap5.client.ui.constants.ButtonType;
 import io.instanto.bootstrap5.client.ui.constants.IconType;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
-import com.google.gwt.user.client.ui.HasEnabled;
-
 public class ButtonCell extends com.google.gwt.cell.client.ButtonCell implements HasEnabled {
 
-    private IconType icon;
+  private IconType icon;
 
-    private ButtonType type = ButtonType.DEFAULT;
+  private ButtonType type = ButtonType.DEFAULT;
 
-    private ButtonSize size = ButtonSize.DEFAULT;
+  private ButtonSize size = ButtonSize.DEFAULT;
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    public ButtonCell() {
-        super(SimpleSafeHtmlRenderer.getInstance());
+  public ButtonCell() {
+    super(SimpleSafeHtmlRenderer.getInstance());
+  }
+
+  public ButtonCell(ButtonType type) {
+    this();
+    this.type = type;
+  }
+
+  public ButtonCell(IconType icon) {
+    this();
+    this.icon = icon;
+  }
+
+  public ButtonCell(ButtonSize size) {
+    this();
+    this.size = size;
+  }
+
+  public ButtonCell(ButtonType type, IconType icon) {
+    this();
+    this.type = type;
+    this.icon = icon;
+  }
+
+  public ButtonCell(ButtonType type, ButtonSize size) {
+    this();
+    this.type = type;
+    this.size = size;
+  }
+
+  public ButtonCell(IconType icon, ButtonSize size) {
+    this();
+    this.icon = icon;
+    this.size = size;
+  }
+
+  public ButtonCell(IconType icon, ButtonType type, ButtonSize size) {
+    this();
+    this.icon = icon;
+    this.type = type;
+    this.size = size;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  @Override
+  public void render(
+      com.google.gwt.cell.client.Cell.Context context, SafeHtml data, SafeHtmlBuilder sb) {
+    String cssClasses =
+        new StringBuilder("btn") //
+            .append(" ") //
+            .append(type.getCssName()) //
+            .append(" ") //
+            .append(size.getCssName()) //
+            .toString();
+
+    String disabled = "";
+    if (!enabled) {
+      disabled = " disabled=\"disabled\"";
     }
 
-    public ButtonCell(ButtonType type) {
-        this();
-        this.type = type;
+    sb.appendHtmlConstant(
+        "<button type=\"button\" class=\"" + cssClasses + "\" tabindex=\"-1\"" + disabled + ">");
+    if (icon != null) {
+      String iconHtml =
+          new StringBuilder("<i class=\"") //
+              .append(Styles.FONT_AWESOME_BASE) //
+              .append(" ") //
+              .append(icon.getCssName()) //
+              .append("\"></i> ") //
+              .toString();
+      sb.appendHtmlConstant(iconHtml);
     }
-
-    public ButtonCell(IconType icon) {
-        this();
-        this.icon = icon;
+    if (data != null) {
+      sb.append(data);
     }
-
-    public ButtonCell(ButtonSize size) {
-        this();
-        this.size = size;
-    }
-
-    public ButtonCell(ButtonType type, IconType icon) {
-        this();
-        this.type = type;
-        this.icon = icon;
-    }
-
-    public ButtonCell(ButtonType type, ButtonSize size) {
-        this();
-        this.type = type;
-        this.size = size;
-    }
-
-    public ButtonCell(IconType icon, ButtonSize size) {
-        this();
-        this.icon = icon;
-        this.size = size;
-    }
-
-    public ButtonCell(IconType icon, ButtonType type, ButtonSize size) {
-        this();
-        this.icon = icon;
-        this.type = type;
-        this.size = size;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public void render(com.google.gwt.cell.client.Cell.Context context, SafeHtml data, SafeHtmlBuilder sb) {
-        String cssClasses = new StringBuilder("btn") //
-                .append(" ") //
-                .append(type.getCssName()) //
-                .append(" ") //
-                .append(size.getCssName()) //
-                .toString();
-
-        String disabled = "";
-        if (!enabled) {
-            disabled = " disabled=\"disabled\"";
-        }
-
-        sb.appendHtmlConstant("<button type=\"button\" class=\"" + cssClasses + "\" tabindex=\"-1\"" + disabled + ">");
-        if (icon != null) {
-            String iconHtml = new StringBuilder("<i class=\"") //
-                    .append(Styles.FONT_AWESOME_BASE) //
-                    .append(" ") //
-                    .append(icon.getCssName()) //
-                    .append("\"></i> ") //
-                    .toString();
-            sb.appendHtmlConstant(iconHtml);
-        }
-        if (data != null) {
-            sb.append(data);
-        }
-        sb.appendHtmlConstant("</button>");
-    }
-
+    sb.appendHtmlConstant("</button>");
+  }
 }

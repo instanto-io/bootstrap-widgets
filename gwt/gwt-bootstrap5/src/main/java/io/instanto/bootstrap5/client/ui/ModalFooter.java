@@ -29,24 +29,22 @@ import io.instanto.bootstrap5.client.ui.base.HasDataSpy;
 import io.instanto.bootstrap5.client.ui.base.mixin.DataSpyMixin;
 import io.instanto.bootstrap5.client.ui.constants.Spy;
 
-
 public class ModalFooter extends ElementPanel implements HasDataSpy {
 
-    public ModalFooter() {
-        super("div");
-        addStyleName("modal-footer");
-    }
+  public ModalFooter() {
+    super("div");
+    addStyleName("modal-footer");
+  }
 
-    private final DataSpyMixin<ModalFooter> dataSpyMixin = new DataSpyMixin<ModalFooter>(this);
+  private final DataSpyMixin<ModalFooter> dataSpyMixin = new DataSpyMixin<ModalFooter>(this);
 
-    @Override
-    public void setDataSpy(final Spy spy) {
-        dataSpyMixin.setDataSpy(spy);
-    }
+  @Override
+  public void setDataSpy(final Spy spy) {
+    dataSpyMixin.setDataSpy(spy);
+  }
 
-    @Override
-    public Spy getDataSpy() {
-        return dataSpyMixin.getDataSpy();
-    }
-
+  @Override
+  public Spy getDataSpy() {
+    return dataSpyMixin.getDataSpy();
+  }
 }

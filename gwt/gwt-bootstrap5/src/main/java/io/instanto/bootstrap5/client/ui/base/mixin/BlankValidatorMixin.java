@@ -20,76 +20,74 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.form.error.ErrorHandler;
-import io.instanto.bootstrap5.client.ui.form.validator.BlankValidator;
-import io.instanto.bootstrap5.client.ui.form.validator.Validator;
-
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
+import io.instanto.bootstrap5.client.ui.form.error.ErrorHandler;
+import io.instanto.bootstrap5.client.ui.form.validator.BlankValidator;
+import io.instanto.bootstrap5.client.ui.form.validator.Validator;
 
 /**
  * Mixin that provides the allowBlank functionality for input fields.
  *
  * @param <W> the generic type
  * @param <V> the value type
- *
  * @author Steven Jardine
  */
-public class BlankValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V> extends DefaultValidatorMixin<W, V> {
+public class BlankValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V>
+    extends DefaultValidatorMixin<W, V> {
 
-    private boolean allowBlank = true;
+  private boolean allowBlank = true;
 
-    private BlankValidator<V> blankValidator;
+  private BlankValidator<V> blankValidator;
 
-    /**
-     * Constructor.
-     *
-     * @param inputWidget the input widget
-     * @param errorHandler the error handler
-     */
-    public BlankValidatorMixin(W inputWidget, ErrorHandler errorHandler) {
-        super(inputWidget, errorHandler);
+  /**
+   * Constructor.
+   *
+   * @param inputWidget the input widget
+   * @param errorHandler the error handler
+   */
+  public BlankValidatorMixin(W inputWidget, ErrorHandler errorHandler) {
+    super(inputWidget, errorHandler);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void addValidator(Validator<V> validator) {
+    if (validator instanceof BlankValidator) {
+      allowBlank = false;
     }
+    super.addValidator(validator);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public void addValidator(Validator<V> validator) {
-        if (validator instanceof BlankValidator) {
-            allowBlank = false;
-        }
-        super.addValidator(validator);
+  /**
+   * Hook for custom blank validators.
+   *
+   * @return the blank validator
+   */
+  protected BlankValidator<V> createBlankValidator() {
+    return new BlankValidator<V>();
+  }
+
+  /**
+   * @return the allow blank
+   */
+  public boolean getAllowBlank() {
+    return allowBlank;
+  }
+
+  /**
+   * @param allowBlank the new allow blank
+   */
+  public void setAllowBlank(boolean allowBlank) {
+    if (blankValidator == null) {
+      blankValidator = createBlankValidator();
     }
-
-    /**
-     * Hook for custom blank validators.
-     *
-     * @return the blank validator
-     */
-    protected BlankValidator<V> createBlankValidator() {
-        return new BlankValidator<V>();
+    this.allowBlank = allowBlank;
+    if (!allowBlank) {
+      addValidator(blankValidator);
+    } else {
+      removeValidator(blankValidator);
     }
-
-    /**
-     * @return the allow blank
-     */
-    public boolean getAllowBlank() {
-        return allowBlank;
-    }
-
-    /**
-     * @param allowBlank the new allow blank
-     */
-    public void setAllowBlank(boolean allowBlank) {
-        if (blankValidator == null) {
-            blankValidator = createBlankValidator();
-        }
-        this.allowBlank = allowBlank;
-        if (!allowBlank) {
-            addValidator(blankValidator);
-        } else {
-            removeValidator(blankValidator);
-        }
-    }
-
+  }
 }

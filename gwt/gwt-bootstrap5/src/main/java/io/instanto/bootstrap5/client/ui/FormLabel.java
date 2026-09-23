@@ -29,91 +29,94 @@ import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.ui.client.adapters.HasTextEditor;
 
-
 /** A semantic HTML label styled with Bootstrap 5's form-label class. */
 public class FormLabel extends ElementPanel implements IsEditor<LeafValueEditor<String>> {
 
-    private boolean showRequiredIndicator;
-    private String text = "";
-    private boolean html;
+  private boolean showRequiredIndicator;
+  private String text = "";
+  private boolean html;
 
-    public FormLabel() {
-        super("label");
-        addStyleName("form-label");
+  public FormLabel() {
+    super("label");
+    addStyleName("form-label");
+  }
+
+  public FormLabel(String text) {
+    this();
+    setText(text);
+  }
+
+  @Override
+  public void setText(String text) {
+    this.text = text == null ? "" : text;
+    html = false;
+    render();
+  }
+
+  @Override
+  public String getText() {
+    return text;
+  }
+
+  @Override
+  public void setHTML(String html) {
+    this.text = html == null ? "" : html;
+    this.html = true;
+    render();
+  }
+
+  @Override
+  public String getHTML() {
+    return getElement().getInnerHTML();
+  }
+
+  public void setFor(String targetId) {
+    if (targetId == null || targetId.isEmpty()) {
+      getElement().removeAttribute("for");
+    } else {
+      getElement().setAttribute("for", targetId);
     }
+  }
 
-    public FormLabel(String text) {
-        this();
-        setText(text);
+  public void setShowRequiredIndicator(boolean showRequiredIndicator) {
+    this.showRequiredIndicator = showRequiredIndicator;
+    render();
+  }
+
+  public boolean getShowRequiredIndicator() {
+    return showRequiredIndicator;
+  }
+
+  private void render() {
+    String value = html ? text : escape(text);
+    if (showRequiredIndicator && !value.isEmpty()) {
+      value += " <sup class=\"text-danger\">*</sup>";
     }
+    getElement().setInnerHTML(value);
+  }
 
-    @Override
-    public void setText(String text) {
-        this.text = text == null ? "" : text;
-        html = false;
-        render();
+  private String escape(String value) {
+    return value == null
+        ? ""
+        : value
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\"", "&quot;");
+  }
+
+  private LeafValueEditor<String> editor;
+
+  /**
+   * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a panel rather than a
+   * leaf so that it can hold an icon or nested markup, so the editor is composed in rather than
+   * inherited.
+   */
+  @Override
+  public LeafValueEditor<String> asEditor() {
+    if (editor == null) {
+      editor = HasTextEditor.of(this);
     }
-
-    @Override
-    public String getText() {
-        return text;
-    }
-
-    @Override
-    public void setHTML(String html) {
-        this.text = html == null ? "" : html;
-        this.html = true;
-        render();
-    }
-
-    @Override
-    public String getHTML() {
-        return getElement().getInnerHTML();
-    }
-
-    public void setFor(String targetId) {
-        if (targetId == null || targetId.isEmpty()) {
-            getElement().removeAttribute("for");
-        } else {
-            getElement().setAttribute("for", targetId);
-        }
-    }
-
-    public void setShowRequiredIndicator(boolean showRequiredIndicator) {
-        this.showRequiredIndicator = showRequiredIndicator;
-        render();
-    }
-
-    public boolean getShowRequiredIndicator() {
-        return showRequiredIndicator;
-    }
-
-    private void render() {
-        String value = html ? text : escape(text);
-        if (showRequiredIndicator && !value.isEmpty()) {
-            value += " <sup class=\"text-danger\">*</sup>";
-        }
-        getElement().setInnerHTML(value);
-    }
-
-    private String escape(String value) {
-        return value == null ? "" : value.replace("&", "&amp;").replace("<", "&lt;")
-                .replace(">", "&gt;").replace("\"", "&quot;");
-    }
-
-    private LeafValueEditor<String> editor;
-
-    /**
-     * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a
-     * panel rather than a leaf so that it can hold an icon or nested markup, so
-     * the editor is composed in rather than inherited.
-     */
-    @Override
-    public LeafValueEditor<String> asEditor() {
-        if (editor == null) {
-            editor = HasTextEditor.of(this);
-        }
-        return editor;
-    }
-
+    return editor;
+  }
 }

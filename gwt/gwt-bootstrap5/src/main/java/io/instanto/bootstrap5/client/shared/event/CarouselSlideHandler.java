@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Joshua Godi
  */
 public interface CarouselSlideHandler extends EventHandler {
-    void onSlide(CarouselSlideEvent carouselSlideEvent);
+  void onSlide(CarouselSlideEvent carouselSlideEvent);
 }

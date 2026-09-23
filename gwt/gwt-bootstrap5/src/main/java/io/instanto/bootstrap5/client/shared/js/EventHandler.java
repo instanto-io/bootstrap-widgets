@@ -21,19 +21,16 @@ package io.instanto.bootstrap5.client.shared.js;
  */
 
 import com.google.gwt.user.client.Event;
-
 import jsinterop.annotations.JsFunction;
 
 /**
- * EventHandler helper functional interface to trigger
- * Java event functions inside JavaScript
- * @author Thiago Ricciardi
+ * EventHandler helper functional interface to trigger Java event functions inside JavaScript
  *
+ * @author Thiago Ricciardi
  */
 @JsFunction
 @FunctionalInterface
 public interface EventHandler {
 
-    void callEventHandler(Event event);
-
+  void callEventHandler(Event event);
 }

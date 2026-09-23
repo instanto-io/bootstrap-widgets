@@ -20,33 +20,33 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
+import com.google.gwt.user.client.ui.UIObject;
 import io.instanto.bootstrap5.client.ui.base.HasDataSpy;
 import io.instanto.bootstrap5.client.ui.constants.Attributes;
 import io.instanto.bootstrap5.client.ui.constants.Spy;
 
-import com.google.gwt.user.client.ui.UIObject;
-
 /**
  * @author Sven Jacobs
  */
-public class DataSpyMixin<T extends UIObject & HasDataSpy> extends AbstractMixin implements HasDataSpy {
+public class DataSpyMixin<T extends UIObject & HasDataSpy> extends AbstractMixin
+    implements HasDataSpy {
 
-    public DataSpyMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public DataSpyMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    @Override
-    public void setDataSpy(final Spy spy) {
-        if (spy != null) {
-            uiObject.getElement().setAttribute(Attributes.DATA_SPY, spy.getSpy());
-        } else {
-            uiObject.getElement().removeAttribute(Attributes.DATA_SPY);
-        }
+  @Override
+  public void setDataSpy(final Spy spy) {
+    if (spy != null) {
+      uiObject.getElement().setAttribute(Attributes.DATA_SPY, spy.getSpy());
+    } else {
+      uiObject.getElement().removeAttribute(Attributes.DATA_SPY);
     }
+  }
 
-    @Override
-    public Spy getDataSpy() {
-        final String spy = uiObject.getElement().getAttribute(Attributes.DATA_SPY);
-        return spy != null ? Spy.valueOf(spy) : null;
-    }
+  @Override
+  public Spy getDataSpy() {
+    final String spy = uiObject.getElement().getAttribute(Attributes.DATA_SPY);
+    return spy != null ? Spy.valueOf(spy) : null;
+  }
 }

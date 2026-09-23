@@ -20,15 +20,14 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.Modal;
-
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.Modal;
 
 /**
  * @author Sven Jacobs
  */
 public interface ModalEvent {
-    Modal getModal();
+  Modal getModal();
 
-    Event getNativeEvent();
+  Event getNativeEvent();
 }

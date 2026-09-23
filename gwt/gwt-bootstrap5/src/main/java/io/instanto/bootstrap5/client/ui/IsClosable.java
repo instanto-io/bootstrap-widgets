@@ -26,7 +26,7 @@
 package io.instanto.bootstrap5.client.ui;
 
 public interface IsClosable {
-    void setClosable(boolean closable);
+  void setClosable(boolean closable);
 
-    boolean isClosable();
+  boolean isClosable();
 }

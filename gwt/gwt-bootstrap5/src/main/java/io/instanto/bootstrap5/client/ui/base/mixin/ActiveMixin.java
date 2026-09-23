@@ -20,32 +20,32 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
+import com.google.gwt.user.client.ui.UIObject;
 import io.instanto.bootstrap5.client.ui.base.HasActive;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
 
-import com.google.gwt.user.client.ui.UIObject;
-
 /**
  * @author Sven Jacobs
  */
-public class ActiveMixin<T extends UIObject & HasActive> extends AbstractMixin implements HasActive {
+public class ActiveMixin<T extends UIObject & HasActive> extends AbstractMixin
+    implements HasActive {
 
-    public ActiveMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public ActiveMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    @Override
-    public void setActive(final boolean active) {
-        if (active) {
-            uiObject.addStyleName(Styles.ACTIVE);
-        } else {
-            uiObject.removeStyleName(Styles.ACTIVE);
-        }
+  @Override
+  public void setActive(final boolean active) {
+    if (active) {
+      uiObject.addStyleName(Styles.ACTIVE);
+    } else {
+      uiObject.removeStyleName(Styles.ACTIVE);
     }
+  }
 
-    @Override
-    public boolean isActive() {
-        return StyleHelper.containsStyle(uiObject.getStyleName(), Styles.ACTIVE);
-    }
+  @Override
+  public boolean isActive() {
+    return StyleHelper.containsStyle(uiObject.getStyleName(), Styles.ACTIVE);
+  }
 }

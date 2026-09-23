@@ -27,7 +27,7 @@ package io.instanto.bootstrap5.client.ui;
 
 public class ThumbnailPanel extends Card {
 
-    public ThumbnailPanel() {
-        super();
-    }
+  public ThumbnailPanel() {
+    super();
+  }
 }

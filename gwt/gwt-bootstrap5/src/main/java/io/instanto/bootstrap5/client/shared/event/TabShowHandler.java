@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Joshua Godi
  */
 public interface TabShowHandler extends EventHandler {
-    void onShow(final TabShowEvent event);
+  void onShow(final TabShowEvent event);
 }

@@ -29,21 +29,21 @@ import com.google.gwt.uibinder.client.UiConstructor;
 
 public class IntegerRadioGroup extends StringRadioGroup {
 
-    @UiConstructor
-    public IntegerRadioGroup(String name) {
-        super(name);
-    }
+  @UiConstructor
+  public IntegerRadioGroup(String name) {
+    super(name);
+  }
 
-    public Radio addRadio(Integer value, String label) {
-        return super.addRadio(value == null ? null : value.toString(), label);
-    }
+  public Radio addRadio(Integer value, String label) {
+    return super.addRadio(value == null ? null : value.toString(), label);
+  }
 
-    public Integer getIntegerValue() {
-        String value = getValue();
-        return value == null || value.isEmpty() ? null : Integer.valueOf(value);
-    }
+  public Integer getIntegerValue() {
+    String value = getValue();
+    return value == null || value.isEmpty() ? null : Integer.valueOf(value);
+  }
 
-    public void setValue(Integer value) {
-        super.setValue(value == null ? null : value.toString());
-    }
+  public void setValue(Integer value) {
+    super.setValue(value == null ? null : value.toString());
+  }
 }

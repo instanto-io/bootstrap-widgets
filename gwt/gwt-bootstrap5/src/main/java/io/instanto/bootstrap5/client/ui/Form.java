@@ -33,39 +33,38 @@ import io.instanto.bootstrap5.client.ui.constants.FormType;
 /**
  * A Bootstrap 5 form.
  *
- * <p>Extends {@link AbstractForm}, so it carries GWT's form submission
- * behaviour -- action, method, encoding, {@code submit()} and the submit
- * handlers -- along with the validation the widget library layers on top of it.
- * Bootstrap 5 removed the {@code .form-inline} and {@code .form-horizontal}
- * classes; {@link FormType} now names the library classes that reproduce those
- * layouts with grid and flex utilities.</p>
+ * <p>Extends {@link AbstractForm}, so it carries GWT's form submission behaviour -- action, method,
+ * encoding, {@code submit()} and the submit handlers -- along with the validation the widget
+ * library layers on top of it. Bootstrap 5 removed the {@code .form-inline} and {@code
+ * .form-horizontal} classes; {@link FormType} now names the library classes that reproduce those
+ * layouts with grid and flex utilities.
  */
 public class Form extends AbstractForm implements HasType<FormType> {
 
-    public Form() {
-        this(FormType.DEFAULT);
-    }
+  public Form() {
+    this(FormType.DEFAULT);
+  }
 
-    public Form(final FormType type) {
-        setType(type);
-    }
+  public Form(final FormType type) {
+    setType(type);
+  }
 
-    @Override
-    public void setType(final FormType type) {
-        StyleHelper.addUniqueEnumStyleName(this, FormType.class, type);
-    }
+  @Override
+  public void setType(final FormType type) {
+    StyleHelper.addUniqueEnumStyleName(this, FormType.class, type);
+  }
 
-    @Override
-    public FormType getType() {
-        return FormType.fromStyleName(getStyleName());
-    }
+  @Override
+  public FormType getType() {
+    return FormType.fromStyleName(getStyleName());
+  }
 
-    /** Equivalent to {@code setType(FormType.INLINE)} / {@code FormType.DEFAULT}. */
-    public void setInline(final boolean inline) {
-        setType(inline ? FormType.INLINE : FormType.DEFAULT);
-    }
+  /** Equivalent to {@code setType(FormType.INLINE)} / {@code FormType.DEFAULT}. */
+  public void setInline(final boolean inline) {
+    setType(inline ? FormType.INLINE : FormType.DEFAULT);
+  }
 
-    public boolean isInline() {
-        return FormType.INLINE == getType();
-    }
+  public boolean isInline() {
+    return FormType.INLINE == getType();
+  }
 }

@@ -27,38 +27,38 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author Joshua Godi
  */
 public class ShowEvent extends GwtEvent<ShowHandler> {
-    private static final Type<ShowHandler> TYPE = new Type<ShowHandler>();
-    private final NativeEvent nativeEvent;
+  private static final Type<ShowHandler> TYPE = new Type<ShowHandler>();
+  private final NativeEvent nativeEvent;
 
-    public static Type<ShowHandler> getType() {
-        return TYPE;
-    }
+  public static Type<ShowHandler> getType() {
+    return TYPE;
+  }
 
-    public ShowEvent() {
-        this(null);
-    }
+  public ShowEvent() {
+    this(null);
+  }
 
-    public ShowEvent(final NativeEvent nativeEvent) {
-        this.nativeEvent = nativeEvent;
-    }
+  public ShowEvent(final NativeEvent nativeEvent) {
+    this.nativeEvent = nativeEvent;
+  }
 
-    @Override
-    public final Type<ShowHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public final Type<ShowHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final ShowHandler handler) {
-        handler.onShow(this);
-    }
+  @Override
+  protected void dispatch(final ShowHandler handler) {
+    handler.onShow(this);
+  }
 
-    public final void preventDefault() {
-        if (nativeEvent == null) return;
-        nativeEvent.preventDefault();
-    }
+  public final void preventDefault() {
+    if (nativeEvent == null) return;
+    nativeEvent.preventDefault();
+  }
 
-    public final void stopPropagation() {
-        if (nativeEvent == null) return;
-        nativeEvent.stopPropagation();
-    }
+  public final void stopPropagation() {
+    if (nativeEvent == null) return;
+    nativeEvent.stopPropagation();
+  }
 }

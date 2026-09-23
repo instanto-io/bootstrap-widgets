@@ -8,46 +8,68 @@ import io.instanto.bootstrap5.client.ui.html.Div;
  * @param <P> the extra's handle on its plugin instance
  */
 public abstract class PluginWidget<P> extends Div {
-    private P plugin;
-    private int generation;
+  private P plugin;
+  private int generation;
 
-    protected abstract void whenReady(Runnable action);
-    protected abstract P createPlugin();
-    protected abstract void destroyPlugin(P plugin);
-    protected void captureState() { }
-    protected void afterCreate() { }
-    protected final P plugin() { return plugin; }
-    public final boolean isReady() { return plugin != null; }
+  protected abstract void whenReady(Runnable action);
 
-    @Override protected void onLoad() {
-        super.onLoad();
-        final int request = ++generation;
-        whenReady(() -> {
-            if (isAttached() && request == generation && plugin == null) {
-                plugin = createPlugin();
-                try {
-                    afterCreate();
-                } catch (RuntimeException failure) {
-                    try { destroyPlugin(plugin); } finally { plugin = null; }
-                    throw failure;
-                }
+  protected abstract P createPlugin();
+
+  protected abstract void destroyPlugin(P plugin);
+
+  protected void captureState() {}
+
+  protected void afterCreate() {}
+
+  protected final P plugin() {
+    return plugin;
+  }
+
+  public final boolean isReady() {
+    return plugin != null;
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    final int request = ++generation;
+    whenReady(
+        () -> {
+          if (isAttached() && request == generation && plugin == null) {
+            plugin = createPlugin();
+            try {
+              afterCreate();
+            } catch (RuntimeException failure) {
+              try {
+                destroyPlugin(plugin);
+              } finally {
+                plugin = null;
+              }
+              throw failure;
             }
+          }
         });
-    }
+  }
 
-    @Override protected void onUnload() {
-        ++generation;
+  @Override
+  protected void onUnload() {
+    ++generation;
+    try {
+      if (plugin != null) {
         try {
-            if (plugin != null) {
-                try { captureState(); } finally { destroyPlugin(plugin); }
-            }
+          captureState();
         } finally {
-            plugin = null;
-            super.onUnload();
+          destroyPlugin(plugin);
         }
+      }
+    } finally {
+      plugin = null;
+      super.onUnload();
     }
+  }
 
-    protected final void requireDetached() {
-        if (isAttached()) throw new IllegalStateException("Configure this option before attaching the widget");
-    }
+  protected final void requireDetached() {
+    if (isAttached())
+      throw new IllegalStateException("Configure this option before attaching the widget");
+  }
 }

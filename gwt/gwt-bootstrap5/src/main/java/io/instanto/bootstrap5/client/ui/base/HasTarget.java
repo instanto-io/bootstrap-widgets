@@ -9,9 +9,9 @@ package io.instanto.bootstrap5.client.ui.base;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ package io.instanto.bootstrap5.client.ui.base;
  * #L%
  */
 
-
 /**
  * Simple interface that will set/get the objects 'target' attribute
  *
@@ -28,19 +27,19 @@ package io.instanto.bootstrap5.client.ui.base;
  * @see io.instanto.bootstrap5.client.ui.constants.Attributes
  */
 public interface HasTarget {
-    public static final String BLANK = "_blank";
+  public static final String BLANK = "_blank";
 
-    /**
-     * Set the target attribute of the object
-     *
-     * @param target target attribute
-     */
-    void setTarget(String target);
+  /**
+   * Set the target attribute of the object
+   *
+   * @param target target attribute
+   */
+  void setTarget(String target);
 
-    /**
-     * Get the target attribute of the object
-     *
-     * @return target attribute
-     */
-    String getTarget();
+  /**
+   * Get the target attribute of the object
+   *
+   * @return target attribute
+   */
+  String getTarget();
 }

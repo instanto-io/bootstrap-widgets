@@ -31,9 +31,9 @@ import io.instanto.bootstrap5.client.ui.base.BootstrapComponent;
 
 /** Loads the generated module declaration and the library's packaged assets on TeaVM. */
 public class TeaVmBootstrap5EntryPoint implements EntryPoint {
-    @Override
-    public void onModuleLoad() {
-        Bootstrap5Resources.ensureInjected();
-        NoThemeResourcesResources.whenReady(BootstrapComponent::isLoaded, () -> { });
-    }
+  @Override
+  public void onModuleLoad() {
+    Bootstrap5Resources.ensureInjected();
+    NoThemeResourcesResources.whenReady(BootstrapComponent::isLoaded, () -> {});
+  }
 }

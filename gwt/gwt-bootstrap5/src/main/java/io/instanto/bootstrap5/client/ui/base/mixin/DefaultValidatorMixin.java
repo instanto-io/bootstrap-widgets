@@ -20,18 +20,6 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import io.instanto.bootstrap5.client.ui.form.error.ErrorHandler;
-import io.instanto.bootstrap5.client.ui.form.validator.HasValidators;
-import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent;
-import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent.ValidationChangedHandler;
-import io.instanto.bootstrap5.client.ui.form.validator.Validator;
-import io.instanto.bootstrap5.client.ui.form.validator.ValidatorWrapper;
-
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -44,165 +32,180 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.google.web.bindery.event.shared.SimpleEventBus;
+import io.instanto.bootstrap5.client.ui.form.error.ErrorHandler;
+import io.instanto.bootstrap5.client.ui.form.validator.HasValidators;
+import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent;
+import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent.ValidationChangedHandler;
+import io.instanto.bootstrap5.client.ui.form.validator.Validator;
+import io.instanto.bootstrap5.client.ui.form.validator.ValidatorWrapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Abstract validator mixin. Contains all of the validation logic.
  *
  * @param <W> the generic type
  * @param <V> the value type
- *
  * @author Steven Jardine
  */
-public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V> implements HasValidators<V> {
+public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V>
+    implements HasValidators<V> {
 
-    protected ErrorHandler errorHandler;
+  protected ErrorHandler errorHandler;
 
-    private EventBus eventBus;
+  private EventBus eventBus;
 
-    private W inputWidget;
+  private W inputWidget;
 
-    private Boolean valid = null;
+  private Boolean valid = null;
 
-    private boolean validateOnBlur;
+  private boolean validateOnBlur;
 
-    protected Set<ValidatorWrapper<V>> validators = new TreeSet<ValidatorWrapper<V>>();
+  protected Set<ValidatorWrapper<V>> validators = new TreeSet<ValidatorWrapper<V>>();
 
-    /**
-     * Instantiates a new abstract validator mixin.
-     *
-     * @param inputWidget the input widget
-     * @param errorHandler the error handler
-     */
-    public DefaultValidatorMixin(W inputWidget, ErrorHandler errorHandler) {
-        this.inputWidget = inputWidget;
-        this.errorHandler = errorHandler;
-        eventBus = new SimpleEventBus();
+  /**
+   * Instantiates a new abstract validator mixin.
+   *
+   * @param inputWidget the input widget
+   * @param errorHandler the error handler
+   */
+  public DefaultValidatorMixin(W inputWidget, ErrorHandler errorHandler) {
+    this.inputWidget = inputWidget;
+    this.errorHandler = errorHandler;
+    eventBus = new SimpleEventBus();
 
-        setupBlurValidation();
-        setupValueChangeValidation();
+    setupBlurValidation();
+    setupValueChangeValidation();
+  }
+
+  protected HandlerRegistration setupBlurValidation() {
+    return inputWidget.addDomHandler(
+        new BlurHandler() {
+          @Override
+          public void onBlur(BlurEvent event) {
+            validate(validateOnBlur);
+          }
+        },
+        BlurEvent.getType());
+  }
+
+  protected HandlerRegistration setupValueChangeValidation() {
+    return inputWidget.addHandler(
+        new ValueChangeHandler<V>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<V> event) {
+            validate(false);
+          }
+        },
+        ValueChangeEvent.getType());
+  }
+
+  @Override
+  public HandlerRegistration addValidationChangedHandler(ValidationChangedHandler handler) {
+    return eventBus.addHandler(ValidationChangedEvent.getType(), handler);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void addValidator(Validator<V> validator) {
+    validators.add(new ValidatorWrapper<V>(validator, validators.size()));
+  }
+
+  @Override
+  public void fireEvent(GwtEvent<?> event) {
+    eventBus.fireEvent(event);
+  }
+
+  /**
+   * @return the inputWidget
+   */
+  public W getInputWidget() {
+    return inputWidget;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean getValidateOnBlur() {
+    return validateOnBlur;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean removeValidator(Validator<V> validator) {
+    for (ValidatorWrapper<V> wrapper : validators) {
+      if (wrapper.getValidator().equals(validator)) {
+        return validators.remove(wrapper);
+      }
     }
+    return false;
+  }
 
-    protected HandlerRegistration setupBlurValidation() {
-        return inputWidget.addDomHandler(new BlurHandler() {
-            @Override
-            public void onBlur(BlurEvent event) {
-                validate(validateOnBlur);
-            }
-        }, BlurEvent.getType());
+  /** {@inheritDoc} */
+  @Override
+  public void reset() {
+    if (errorHandler != null) {
+      errorHandler.clearErrors();
     }
+  }
 
-    protected HandlerRegistration setupValueChangeValidation() {
-        return inputWidget.addHandler(new ValueChangeHandler<V>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<V> event) {
-                validate(false);
-            }
-        }, ValueChangeEvent.getType());
+  /**
+   * Sets the error handler.
+   *
+   * @param errorHandler the new error handler
+   */
+  public void setErrorHandler(ErrorHandler errorHandler) {
+    this.errorHandler = errorHandler;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void setValidateOnBlur(boolean vob) {
+    validateOnBlur = vob;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void setValidators(@SuppressWarnings("unchecked") Validator<V>... newValidators) {
+    validators.clear();
+    for (Validator<V> validator : newValidators) {
+      addValidator(validator);
     }
+  }
 
-    @Override
-    public HandlerRegistration addValidationChangedHandler(ValidationChangedHandler handler) {
-        return eventBus.addHandler(ValidationChangedEvent.getType(), handler);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public boolean validate() {
+    return validate(true);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public void addValidator(Validator<V> validator) {
-        validators.add(new ValidatorWrapper<V>(validator, validators.size()));
-    }
-
-    @Override
-    public void fireEvent(GwtEvent<?> event) {
-        eventBus.fireEvent(event);
-    }
-
-    /**
-     * @return the inputWidget
-     */
-    public W getInputWidget() {
-        return inputWidget;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean getValidateOnBlur() {
-        return validateOnBlur;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean removeValidator(Validator<V> validator) {
-        for (ValidatorWrapper<V> wrapper : validators) {
-            if (wrapper.getValidator().equals(validator)) { return validators.remove(wrapper); }
+  /** {@inheritDoc} */
+  @Override
+  public boolean validate(boolean show) {
+    Boolean oldValid = valid;
+    valid = true;
+    if (errorHandler != null && !validators.isEmpty()) {
+      List<EditorError> errors = new ArrayList<EditorError>();
+      for (ValidatorWrapper<V> wrapper : validators) {
+        Validator<V> validator = wrapper.getValidator();
+        List<EditorError> result = validator.validate(inputWidget, inputWidget.getValue());
+        if (result != null && !result.isEmpty()) {
+          errors.addAll(result);
+          valid = false;
         }
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void reset() {
-        if (errorHandler != null) {
-            errorHandler.clearErrors();
+      }
+      if (show) {
+        if (errors.size() > 0) {
+          errorHandler.showErrors(errors);
+        } else {
+          errorHandler.clearErrors();
         }
+      }
     }
-
-    /**
-     * Sets the error handler.
-     *
-     * @param errorHandler the new error handler
-     */
-    public void setErrorHandler(ErrorHandler errorHandler) {
-        this.errorHandler = errorHandler;
+    if (valid != oldValid) {
+      eventBus.fireEvent(new ValidationChangedEvent(valid));
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setValidateOnBlur(boolean vob) {
-        validateOnBlur = vob;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setValidators(@SuppressWarnings("unchecked") Validator<V>... newValidators) {
-        validators.clear();
-        for (Validator<V> validator : newValidators) {
-            addValidator(validator);
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean validate() {
-        return validate(true);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean validate(boolean show) {
-        Boolean oldValid = valid;
-        valid = true;
-        if (errorHandler != null && !validators.isEmpty()) {
-            List<EditorError> errors = new ArrayList<EditorError>();
-            for (ValidatorWrapper<V> wrapper : validators) {
-                Validator<V> validator = wrapper.getValidator();
-                List<EditorError> result = validator.validate(inputWidget, inputWidget.getValue());
-                if (result != null && !result.isEmpty()) {
-                    errors.addAll(result);
-                    valid = false;
-                }
-            }
-            if (show) {
-                if (errors.size() > 0) {
-                    errorHandler.showErrors(errors);
-                } else {
-                    errorHandler.clearErrors();
-                }
-            }
-        }
-        if (valid != oldValid) {
-            eventBus.fireEvent(new ValidationChangedEvent(valid));
-        }
-        return valid;
-    }
-
+    return valid;
+  }
 }

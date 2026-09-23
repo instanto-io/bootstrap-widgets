@@ -20,28 +20,27 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
+import com.google.gwt.user.client.ui.UIObject;
 import io.instanto.bootstrap5.client.ui.base.HasPull;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.Pull;
-
-import com.google.gwt.user.client.ui.UIObject;
 
 /**
  * @author Sven Jacobs
  */
 public class PullMixin<T extends UIObject & HasPull> extends AbstractMixin implements HasPull {
 
-    public PullMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public PullMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    @Override
-    public void setPull(final Pull pull) {
-        StyleHelper.addUniqueEnumStyleName(uiObject, Pull.class, pull);
-    }
+  @Override
+  public void setPull(final Pull pull) {
+    StyleHelper.addUniqueEnumStyleName(uiObject, Pull.class, pull);
+  }
 
-    @Override
-    public Pull getPull() {
-        return Pull.fromStyleName(uiObject.getStyleName());
-    }
+  @Override
+  public Pull getPull() {
+    return Pull.fromStyleName(uiObject.getStyleName());
+  }
 }

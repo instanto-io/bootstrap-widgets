@@ -34,46 +34,49 @@ import io.instanto.bootstrap5.client.ui.constants.Toggle;
  */
 public abstract class AbstractToggleButton extends AbstractIconButton implements HasDataToggle {
 
-    private final DataToggleMixin<AbstractToggleButton> toggleMixin = new DataToggleMixin<AbstractToggleButton>(this);
+  private final DataToggleMixin<AbstractToggleButton> toggleMixin =
+      new DataToggleMixin<AbstractToggleButton>(this);
 
-    protected AbstractToggleButton() {
-        this(ButtonType.DEFAULT);
-    }
+  protected AbstractToggleButton() {
+    this(ButtonType.DEFAULT);
+  }
 
-    protected AbstractToggleButton(final ButtonType type) {
-        setType(type);
-        iconTextMixin.addTextWidgetToParent();
-    }
+  protected AbstractToggleButton(final ButtonType type) {
+    setType(type);
+    iconTextMixin.addTextWidgetToParent();
+  }
 
-    /**
-     * Toggles the display of the caret for the button
-     * @param toggleCaret show/hide the caret for the button
-     */
-    public void setToggleCaret(final boolean toggleCaret) {
-        setStyleName("dropdown-toggle-no-caret", !toggleCaret);
-    }
+  /**
+   * Toggles the display of the caret for the button
+   *
+   * @param toggleCaret show/hide the caret for the button
+   */
+  public void setToggleCaret(final boolean toggleCaret) {
+    setStyleName("dropdown-toggle-no-caret", !toggleCaret);
+  }
 
-    /**
-     * Specifies that this button acts as a toggle, for instance for a parent {@link io.instanto.bootstrap5.client.ui.DropDown}
-     * or {@link io.instanto.bootstrap5.client.ui.ButtonGroup}
-     * <p/>
-     * Adds a {@link Caret} as a child widget.
-     *
-     * @param toggle Kind of toggle
-     */
-    @Override
-    public void setDataToggle(final Toggle toggle) {
-        toggleMixin.setDataToggle(toggle);
-        setStyleName("dropdown-toggle", toggle == Toggle.DROPDOWN);
-        if (toggle == Toggle.BUTTON) {
-            getElement().setAttribute("aria-pressed", Boolean.toString(isActive()));
-        } else {
-            getElement().removeAttribute("aria-pressed");
-        }
+  /**
+   * Specifies that this button acts as a toggle, for instance for a parent {@link
+   * io.instanto.bootstrap5.client.ui.DropDown} or {@link
+   * io.instanto.bootstrap5.client.ui.ButtonGroup}
+   *
+   * <p>Adds a {@link Caret} as a child widget.
+   *
+   * @param toggle Kind of toggle
+   */
+  @Override
+  public void setDataToggle(final Toggle toggle) {
+    toggleMixin.setDataToggle(toggle);
+    setStyleName("dropdown-toggle", toggle == Toggle.DROPDOWN);
+    if (toggle == Toggle.BUTTON) {
+      getElement().setAttribute("aria-pressed", Boolean.toString(isActive()));
+    } else {
+      getElement().removeAttribute("aria-pressed");
     }
+  }
 
-    @Override
-    public Toggle getDataToggle() {
-        return toggleMixin.getDataToggle();
-    }
+  @Override
+  public Toggle getDataToggle() {
+    return toggleMixin.getDataToggle();
+  }
 }

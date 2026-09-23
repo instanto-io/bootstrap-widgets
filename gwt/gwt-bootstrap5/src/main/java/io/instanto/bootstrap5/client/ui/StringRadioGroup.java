@@ -9,9 +9,9 @@ package io.instanto.bootstrap5.client.ui;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,33 +20,31 @@ package io.instanto.bootstrap5.client.ui;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.base.RadioGroupBase;
-
 import com.google.gwt.text.shared.testing.PassthroughParser;
 import com.google.gwt.uibinder.client.UiConstructor;
+import io.instanto.bootstrap5.client.ui.base.RadioGroupBase;
 
 /**
  * A radio group that returns a string value.
- * 
+ *
  * @author Steven Jardine
  */
 public class StringRadioGroup extends RadioGroupBase<String> {
 
-    /**
-     * Constructor.
-     * 
-     * @param name the name.
-     */
-    @UiConstructor
-    public StringRadioGroup(final String name) {
-        super(name, PassthroughParser.instance());
-    }
+  /**
+   * Constructor.
+   *
+   * @param name the name.
+   */
+  @UiConstructor
+  public StringRadioGroup(final String name) {
+    super(name, PassthroughParser.instance());
+  }
 
-    public Radio addRadio(String value, String label) {
-        Radio radio = new Radio(getName(), label);
-        radio.setFormValue(value);
-        add(radio);
-        return radio;
-    }
-
+  public Radio addRadio(String value, String label) {
+    Radio radio = new Radio(getName(), label);
+    radio.setFormValue(value);
+    add(radio);
+    return radio;
+  }
 }

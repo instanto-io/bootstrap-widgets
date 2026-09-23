@@ -27,5 +27,4 @@ package io.instanto.bootstrap5.client.ui.base;
  * @see io.instanto.bootstrap5.client.ui.DescriptionTitle
  * @see io.instanto.bootstrap5.client.ui.DescriptionData
  */
-public interface DescriptionComponent {
-}
+public interface DescriptionComponent {}

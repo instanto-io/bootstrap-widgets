@@ -32,11 +32,11 @@ import com.google.gwt.resources.client.TextResource;
 /** The Tempus Dominus build this module injects, and the Popper it needs. */
 public interface DatePickerClientBundle extends ClientBundle {
 
-    DatePickerClientBundle INSTANCE = GWT.create(DatePickerClientBundle.class);
+  DatePickerClientBundle INSTANCE = GWT.create(DatePickerClientBundle.class);
 
-    @Source("resource/js/popper-2.11.8.min.cache.js")
-    TextResource popper();
+  @Source("resource/js/popper-2.11.8.min.cache.js")
+  TextResource popper();
 
-    @Source("resource/js/tempus-dominus-6.10.4.min.cache.js")
-    TextResource tempusDominus();
+  @Source("resource/js/tempus-dominus-6.10.4.min.cache.js")
+  TextResource tempusDominus();
 }

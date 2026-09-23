@@ -29,31 +29,29 @@ import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.ui.client.adapters.HasTextEditor;
 
-
 public class DescriptionData extends ElementPanel implements IsEditor<LeafValueEditor<String>> {
 
-    public DescriptionData() {
-        this("");
+  public DescriptionData() {
+    this("");
+  }
+
+  public DescriptionData(String text) {
+    super("dd");
+    setText(text);
+  }
+
+  private LeafValueEditor<String> editor;
+
+  /**
+   * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a panel rather than a
+   * leaf so that it can hold an icon or nested markup, so the editor is composed in rather than
+   * inherited.
+   */
+  @Override
+  public LeafValueEditor<String> asEditor() {
+    if (editor == null) {
+      editor = HasTextEditor.of(this);
     }
-
-    public DescriptionData(String text) {
-        super("dd");
-        setText(text);
-    }
-
-    private LeafValueEditor<String> editor;
-
-    /**
-     * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a
-     * panel rather than a leaf so that it can hold an icon or nested markup, so
-     * the editor is composed in rather than inherited.
-     */
-    @Override
-    public LeafValueEditor<String> asEditor() {
-        if (editor == null) {
-            editor = HasTextEditor.of(this);
-        }
-        return editor;
-    }
-
+    return editor;
+  }
 }

@@ -27,17 +27,17 @@ package io.instanto.bootstrap5.client.ui;
 
 public class PanelCollapse extends Collapse {
 
-    public PanelCollapse() {
-        super();
-        addStyleName("card-collapse");
-        setToggle(false);
-    }
+  public PanelCollapse() {
+    super();
+    addStyleName("card-collapse");
+    setToggle(false);
+  }
 
-    /**
-     * @deprecated use {@link #isShown()} instead.
-     */
-    @Deprecated
-    public boolean isIn() {
-        return isShown();
-    }
+  /**
+   * @deprecated use {@link #isShown()} instead.
+   */
+  @Deprecated
+  public boolean isIn() {
+    return isShown();
+  }
 }

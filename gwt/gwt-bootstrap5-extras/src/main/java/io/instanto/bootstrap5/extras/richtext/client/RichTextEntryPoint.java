@@ -32,17 +32,17 @@ import jsinterop.base.Js;
 /** Injects Quill unless the page already provides it. */
 public class RichTextEntryPoint implements EntryPoint {
 
-    @Override
-    public void onModuleLoad() {
-        if (isLoaded()) {
-            return;
-        }
-        ScriptInjector.fromString(RichTextClientBundle.INSTANCE.quill().getText())
-                .setWindow(ScriptInjector.TOP_WINDOW)
-                .inject();
+  @Override
+  public void onModuleLoad() {
+    if (isLoaded()) {
+      return;
     }
+    ScriptInjector.fromString(RichTextClientBundle.INSTANCE.quill().getText())
+        .setWindow(ScriptInjector.TOP_WINDOW)
+        .inject();
+  }
 
-    private static boolean isLoaded() {
-        return Js.global().get("Quill") != null;
-    }
+  private static boolean isLoaded() {
+    return Js.global().get("Quill") != null;
+  }
 }

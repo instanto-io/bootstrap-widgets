@@ -27,38 +27,38 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author Steven Jardine
  */
 public class InsertedEvent extends GwtEvent<InsertedHandler> {
-    private static final Type<InsertedHandler> TYPE = new Type<InsertedHandler>();
-    private final NativeEvent nativeEvent;
+  private static final Type<InsertedHandler> TYPE = new Type<InsertedHandler>();
+  private final NativeEvent nativeEvent;
 
-    public static Type<InsertedHandler> getType() {
-        return TYPE;
-    }
+  public static Type<InsertedHandler> getType() {
+    return TYPE;
+  }
 
-    public InsertedEvent() {
-        this(null);
-    }
+  public InsertedEvent() {
+    this(null);
+  }
 
-    public InsertedEvent(final NativeEvent nativeEvent) {
-        this.nativeEvent = nativeEvent;
-    }
+  public InsertedEvent(final NativeEvent nativeEvent) {
+    this.nativeEvent = nativeEvent;
+  }
 
-    @Override
-    public final Type<InsertedHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public final Type<InsertedHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final InsertedHandler handler) {
-        handler.onInserted(this);
-    }
+  @Override
+  protected void dispatch(final InsertedHandler handler) {
+    handler.onInserted(this);
+  }
 
-    public final void preventDefault() {
-        if (nativeEvent == null) return;
-        nativeEvent.preventDefault();
-    }
+  public final void preventDefault() {
+    if (nativeEvent == null) return;
+    nativeEvent.preventDefault();
+  }
 
-    public final void stopPropagation() {
-        if (nativeEvent == null) return;
-        nativeEvent.stopPropagation();
-    }
+  public final void stopPropagation() {
+    if (nativeEvent == null) return;
+    nativeEvent.stopPropagation();
+  }
 }

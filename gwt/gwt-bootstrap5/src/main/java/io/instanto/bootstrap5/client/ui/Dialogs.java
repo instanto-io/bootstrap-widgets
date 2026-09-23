@@ -25,181 +25,186 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
-import io.instanto.bootstrap5.client.shared.event.ModalHiddenEvent;
-import io.instanto.bootstrap5.client.shared.event.ModalHiddenHandler;
-import io.instanto.bootstrap5.client.ui.constants.ButtonType;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.RootPanel;
+import io.instanto.bootstrap5.client.shared.event.ModalHiddenEvent;
+import io.instanto.bootstrap5.client.shared.event.ModalHiddenHandler;
+import io.instanto.bootstrap5.client.ui.constants.ButtonType;
 
 /**
  * Alert, confirm and prompt dialogs, built on {@link Modal}.
  *
- * <p>GwtBootstrap3 got these from Bootbox, a jQuery plugin. Bootstrap 5 has its
- * own JavaScript and no jQuery bridge, so wrapping Bootbox meant shipping jQuery
- * and re-registering Bootstrap's components as jQuery plugins to satisfy it.
- * That is a lot of machinery for three dialogs that {@link Modal} can already
- * draw, so they are built here instead and the library stays jQuery-free.</p>
+ * <p>GwtBootstrap3 got these from Bootbox, a jQuery plugin. Bootstrap 5 has its own JavaScript and
+ * no jQuery bridge, so wrapping Bootbox meant shipping jQuery and re-registering Bootstrap's
+ * components as jQuery plugins to satisfy it. That is a lot of machinery for three dialogs that
+ * {@link Modal} can already draw, so they are built here instead and the library stays jQuery-free.
  *
- * <p>Each dialog is created on demand, shown, and removed from the DOM once it
- * has closed.</p>
+ * <p>Each dialog is created on demand, shown, and removed from the DOM once it has closed.
  */
 public final class Dialogs {
 
-    /** Notified when an alert is dismissed. */
-    public interface SimpleCallback {
-        void callback();
-    }
+  /** Notified when an alert is dismissed. */
+  public interface SimpleCallback {
+    void callback();
+  }
 
-    /** Notified with the answer to a confirm. */
-    public interface ConfirmCallback {
-        void callback(boolean confirmed);
-    }
+  /** Notified with the answer to a confirm. */
+  public interface ConfirmCallback {
+    void callback(boolean confirmed);
+  }
 
-    /** Notified with the entered text, or null if the prompt was cancelled. */
-    public interface PromptCallback {
-        void callback(String value);
-    }
+  /** Notified with the entered text, or null if the prompt was cancelled. */
+  public interface PromptCallback {
+    void callback(String value);
+  }
 
-    private static String okLabel = "OK";
+  private static String okLabel = "OK";
 
-    private static String cancelLabel = "Cancel";
+  private static String cancelLabel = "Cancel";
 
-    private Dialogs() {
-    }
+  private Dialogs() {}
 
-    /** Sets the button labels used by every dialog, for applications that translate. */
-    public static void setLabels(final String ok, final String cancel) {
-        okLabel = ok == null ? "OK" : ok;
-        cancelLabel = cancel == null ? "Cancel" : cancel;
-    }
+  /** Sets the button labels used by every dialog, for applications that translate. */
+  public static void setLabels(final String ok, final String cancel) {
+    okLabel = ok == null ? "OK" : ok;
+    cancelLabel = cancel == null ? "Cancel" : cancel;
+  }
 
-    public static void alert(final String message) {
-        alert(message, null);
-    }
+  public static void alert(final String message) {
+    alert(message, null);
+  }
 
-    public static void alert(final String message, final SimpleCallback callback) {
-        final Modal modal = dialog(message);
-        final ModalFooter footer = new ModalFooter();
-        footer.add(closingButton(okLabel, ButtonType.PRIMARY, modal));
-        modal.addFooter(footer);
-        modal.addHiddenHandler(new ModalHiddenHandler() {
-            @Override
-            public void onHidden(final ModalHiddenEvent event) {
-                if (callback != null) {
-                    callback.callback();
-                }
+  public static void alert(final String message, final SimpleCallback callback) {
+    final Modal modal = dialog(message);
+    final ModalFooter footer = new ModalFooter();
+    footer.add(closingButton(okLabel, ButtonType.PRIMARY, modal));
+    modal.addFooter(footer);
+    modal.addHiddenHandler(
+        new ModalHiddenHandler() {
+          @Override
+          public void onHidden(final ModalHiddenEvent event) {
+            if (callback != null) {
+              callback.callback();
             }
+          }
         });
-        open(modal);
-    }
+    open(modal);
+  }
 
-    public static void confirm(final String message, final ConfirmCallback callback) {
-        final Modal modal = dialog(message);
-        final boolean[] confirmed = new boolean[1];
+  public static void confirm(final String message, final ConfirmCallback callback) {
+    final Modal modal = dialog(message);
+    final boolean[] confirmed = new boolean[1];
 
-        final Button ok = new Button(okLabel, ButtonType.PRIMARY);
-        ok.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                confirmed[0] = true;
-                modal.hide();
-            }
-        });
-
-        final ModalFooter footer = new ModalFooter();
-        footer.add(closingButton(cancelLabel, ButtonType.DEFAULT, modal));
-        footer.add(ok);
-        modal.addFooter(footer);
-
-        modal.addHiddenHandler(new ModalHiddenHandler() {
-            @Override
-            public void onHidden(final ModalHiddenEvent event) {
-                if (callback != null) {
-                    callback.callback(confirmed[0]);
-                }
-            }
-        });
-        open(modal);
-    }
-
-    public static void prompt(final String message, final PromptCallback callback) {
-        prompt(message, "", callback);
-    }
-
-    public static void prompt(final String message, final String initialValue,
-            final PromptCallback callback) {
-        final Modal modal = dialog(message);
-        final boolean[] accepted = new boolean[1];
-
-        final TextBox input = new TextBox();
-        input.setValue(initialValue == null ? "" : initialValue);
-        modal.addToBody(input);
-
-        final Button ok = new Button(okLabel, ButtonType.PRIMARY);
-        ok.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                accepted[0] = true;
-                modal.hide();
-            }
-        });
-        input.addKeyUpHandler(new KeyUpHandler() {
-            @Override
-            public void onKeyUp(final KeyUpEvent event) {
-                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-                    accepted[0] = true;
-                    modal.hide();
-                }
-            }
+    final Button ok = new Button(okLabel, ButtonType.PRIMARY);
+    ok.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            confirmed[0] = true;
+            modal.hide();
+          }
         });
 
-        final ModalFooter footer = new ModalFooter();
-        footer.add(closingButton(cancelLabel, ButtonType.DEFAULT, modal));
-        footer.add(ok);
-        modal.addFooter(footer);
+    final ModalFooter footer = new ModalFooter();
+    footer.add(closingButton(cancelLabel, ButtonType.DEFAULT, modal));
+    footer.add(ok);
+    modal.addFooter(footer);
 
-        modal.addShownHandler(new io.instanto.bootstrap5.client.shared.event.ModalShownHandler() {
-            @Override
-            public void onShown(final io.instanto.bootstrap5.client.shared.event.ModalShownEvent event) {
-                input.setFocus(true);
+    modal.addHiddenHandler(
+        new ModalHiddenHandler() {
+          @Override
+          public void onHidden(final ModalHiddenEvent event) {
+            if (callback != null) {
+              callback.callback(confirmed[0]);
             }
+          }
         });
-        modal.addHiddenHandler(new ModalHiddenHandler() {
-            @Override
-            public void onHidden(final ModalHiddenEvent event) {
-                if (callback != null) {
-                    callback.callback(accepted[0] ? input.getValue() : null);
-                }
+    open(modal);
+  }
+
+  public static void prompt(final String message, final PromptCallback callback) {
+    prompt(message, "", callback);
+  }
+
+  public static void prompt(
+      final String message, final String initialValue, final PromptCallback callback) {
+    final Modal modal = dialog(message);
+    final boolean[] accepted = new boolean[1];
+
+    final TextBox input = new TextBox();
+    input.setValue(initialValue == null ? "" : initialValue);
+    modal.addToBody(input);
+
+    final Button ok = new Button(okLabel, ButtonType.PRIMARY);
+    ok.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            accepted[0] = true;
+            modal.hide();
+          }
+        });
+    input.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(final KeyUpEvent event) {
+            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+              accepted[0] = true;
+              modal.hide();
             }
+          }
         });
-        open(modal);
-    }
 
-    private static Modal dialog(final String message) {
-        final Modal modal = new Modal();
-        modal.setRemoveOnHide(true);
-        modal.addToBody(new Paragraph(message == null ? "" : message));
-        return modal;
-    }
+    final ModalFooter footer = new ModalFooter();
+    footer.add(closingButton(cancelLabel, ButtonType.DEFAULT, modal));
+    footer.add(ok);
+    modal.addFooter(footer);
 
-    private static Button closingButton(final String text, final ButtonType type, final Modal modal) {
-        final Button button = new Button(text, type);
-        button.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                modal.hide();
+    modal.addShownHandler(
+        new io.instanto.bootstrap5.client.shared.event.ModalShownHandler() {
+          @Override
+          public void onShown(
+              final io.instanto.bootstrap5.client.shared.event.ModalShownEvent event) {
+            input.setFocus(true);
+          }
+        });
+    modal.addHiddenHandler(
+        new ModalHiddenHandler() {
+          @Override
+          public void onHidden(final ModalHiddenEvent event) {
+            if (callback != null) {
+              callback.callback(accepted[0] ? input.getValue() : null);
             }
+          }
         });
-        return button;
-    }
+    open(modal);
+  }
 
-    private static void open(final Modal modal) {
-        RootPanel.get().add(modal);
-        modal.show();
-    }
+  private static Modal dialog(final String message) {
+    final Modal modal = new Modal();
+    modal.setRemoveOnHide(true);
+    modal.addToBody(new Paragraph(message == null ? "" : message));
+    return modal;
+  }
+
+  private static Button closingButton(final String text, final ButtonType type, final Modal modal) {
+    final Button button = new Button(text, type);
+    button.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            modal.hide();
+          }
+        });
+    return button;
+  }
+
+  private static void open(final Modal modal) {
+    RootPanel.get().add(modal);
+    modal.show();
+  }
 }

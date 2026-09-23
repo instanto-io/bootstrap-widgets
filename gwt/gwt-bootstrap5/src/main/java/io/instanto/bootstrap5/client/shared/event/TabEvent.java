@@ -20,15 +20,14 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.TabListItem;
-
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.TabListItem;
 
 /**
  * @author Joshua Godi
  */
 public interface TabEvent {
-    TabListItem getTab();
+  TabListItem getTab();
 
-    Event getNativeEvent();
+  Event getNativeEvent();
 }

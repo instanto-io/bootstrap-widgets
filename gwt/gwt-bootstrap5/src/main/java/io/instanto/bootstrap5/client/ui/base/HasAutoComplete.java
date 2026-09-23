@@ -9,9 +9,9 @@ package io.instanto.bootstrap5.client.ui.base;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,21 +21,21 @@ package io.instanto.bootstrap5.client.ui.base;
  */
 
 public interface HasAutoComplete {
-    public static final String AUTO_COMPLETE = "autocomplete";
-    public static final String ON = "on";
-    public static final String OFF = "off";
+  public static final String AUTO_COMPLETE = "autocomplete";
+  public static final String ON = "on";
+  public static final String OFF = "off";
 
-    /**
-     * Sets the auto complete property on the widget
-     *
-     * @param autoComplete auto complete setting for the widget
-     */
-    void setAutoComplete(boolean autoComplete);
+  /**
+   * Sets the auto complete property on the widget
+   *
+   * @param autoComplete auto complete setting for the widget
+   */
+  void setAutoComplete(boolean autoComplete);
 
-    /**
-     * Get the auto complete attribute from the widget
-     *
-     * @return auto complete attribute
-     */
-    String getAutoComplete();
+  /**
+   * Get the auto complete attribute from the widget
+   *
+   * @return auto complete attribute
+   */
+  String getAutoComplete();
 }

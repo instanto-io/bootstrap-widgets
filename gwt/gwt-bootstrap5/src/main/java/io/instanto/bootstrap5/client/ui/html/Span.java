@@ -1,9 +1,8 @@
 package io.instanto.bootstrap5.client.ui.html;
 
+import com.google.gwt.dom.client.SpanElement;
 import io.instanto.bootstrap5.client.ui.base.mixin.HTMLMixin;
 import io.instanto.bootstrap5.client.ui.gwt.HTMLPanel;
-
-import com.google.gwt.dom.client.SpanElement;
 
 /*
  * #%L
@@ -31,30 +30,30 @@ import com.google.gwt.dom.client.SpanElement;
  */
 public class Span extends HTMLPanel {
 
-    private final HTMLMixin<Span> textMixin = new HTMLMixin<Span>(this);
+  private final HTMLMixin<Span> textMixin = new HTMLMixin<Span>(this);
 
-    public Span() {
-        super(SpanElement.TAG, "");
-    }
+  public Span() {
+    super(SpanElement.TAG, "");
+  }
 
-    public Span(final String html) {
-        this();
-        setHTML(html);
-    }
+  public Span(final String html) {
+    this();
+    setHTML(html);
+  }
 
-    public void setText(final String text) {
-        textMixin.setText(text);
-    }
+  public void setText(final String text) {
+    textMixin.setText(text);
+  }
 
-    public String getText() {
-        return textMixin.getText();
-    }
+  public String getText() {
+    return textMixin.getText();
+  }
 
-    public String getHTML() {
-        return textMixin.getHTML();
-    }
+  public String getHTML() {
+    return textMixin.getHTML();
+  }
 
-    public void setHTML(final String html) {
-        textMixin.setHTML(html);
-    }
+  public void setHTML(final String html) {
+    textMixin.setHTML(html);
+  }
 }

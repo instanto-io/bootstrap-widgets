@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.base;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.constants.Styles;
-
 import com.google.gwt.dom.client.Element;
+import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 /**
  * @author Sven Jacobs
@@ -30,8 +29,8 @@ import com.google.gwt.dom.client.Element;
  */
 public class AbstractDropDown extends ComplexWidget {
 
-    public AbstractDropDown(final Element element) {
-        setElement(element);
-        setStyleName(Styles.DROPDOWN);
-    }
+  public AbstractDropDown(final Element element) {
+    setElement(element);
+    setStyleName(Styles.DROPDOWN);
+  }
 }

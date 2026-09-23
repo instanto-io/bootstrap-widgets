@@ -20,15 +20,14 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.Carousel;
-
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.Carousel;
 
 /**
  * @author Joshua Godi
  */
 public interface CarouselEvent {
-    Carousel getCarousel();
+  Carousel getCarousel();
 
-    Event getNativeEvent();
+  Event getNativeEvent();
 }

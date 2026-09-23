@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Sven Jacobs
  */
 public interface ModalShownHandler extends EventHandler {
-    void onShown(final ModalShownEvent evt);
+  void onShown(final ModalShownEvent evt);
 }

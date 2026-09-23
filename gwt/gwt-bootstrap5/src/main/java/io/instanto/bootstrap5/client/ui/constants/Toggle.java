@@ -9,9 +9,9 @@ package io.instanto.bootstrap5.client.ui.constants;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,20 +24,20 @@ package io.instanto.bootstrap5.client.ui.constants;
  * @author Sven Jacobs
  */
 public enum Toggle {
-    BUTTON("button"),
-    BUTTONS("buttons"),
-    COLLAPSE("collapse"),
-    DROPDOWN("dropdown"),
-    TAB("tab"),
-    MODAL("modal");
+  BUTTON("button"),
+  BUTTONS("buttons"),
+  COLLAPSE("collapse"),
+  DROPDOWN("dropdown"),
+  TAB("tab"),
+  MODAL("modal");
 
-    private final String toggle;
+  private final String toggle;
 
-    private Toggle(final String toggle) {
-        this.toggle = toggle;
-    }
+  private Toggle(final String toggle) {
+    this.toggle = toggle;
+  }
 
-    public String getToggle() {
-        return toggle;
-    }
+  public String getToggle() {
+    return toggle;
+  }
 }

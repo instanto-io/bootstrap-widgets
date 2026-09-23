@@ -1,6 +1,4 @@
-/**
- * Base classes and widgets that should only be used internally!
- */
+/** Base classes and widgets that should only be used internally! */
 package io.instanto.bootstrap5.client.ui.base;
 
 /*

@@ -20,17 +20,14 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent.ValidationChangedHandler;
-
-import com.google.gwt.editor.client.Editor;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.google.web.bindery.event.shared.SimpleEventBus;
+import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent.ValidationChangedHandler;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Useful for validating a group of fields that implement the {@link HasValidators} interface.
@@ -39,113 +36,113 @@ import com.google.web.bindery.event.shared.SimpleEventBus;
  */
 public class GroupValidator implements ValidationChangedEvent.HasValidationChangedHandlers {
 
-    private final SimpleEventBus eventBus;
+  private final SimpleEventBus eventBus;
 
-    private boolean fireEvents = false;
+  private boolean fireEvents = false;
 
-    private final Map<HasValidators<?>, Boolean> fields;
+  private final Map<HasValidators<?>, Boolean> fields;
 
-    private final Map<HasValidators<?>, HandlerRegistration> registrations;
+  private final Map<HasValidators<?>, HandlerRegistration> registrations;
 
-    private Boolean groupValid = null;
+  private Boolean groupValid = null;
 
-    /**
-     * Constructor.
-     */
-    public GroupValidator() {
-        fields = new LinkedHashMap<HasValidators<?>, Boolean>();
-        registrations = new LinkedHashMap<HasValidators<?>, HandlerRegistration>();
-        eventBus = new SimpleEventBus();
+  /** Constructor. */
+  public GroupValidator() {
+    fields = new LinkedHashMap<HasValidators<?>, Boolean>();
+    registrations = new LinkedHashMap<HasValidators<?>, HandlerRegistration>();
+    eventBus = new SimpleEventBus();
+  }
+
+  /**
+   * Adds a field to the group.
+   *
+   * @param <T> the generic type
+   * @param field the field
+   */
+  public <T extends Widget & HasValidators<?>> void add(final T field) {
+    fields.put(field, field.validate(false));
+    if (field.isAttached()) {
+      updateStateAndNotify();
     }
-
-    /**
-     * Adds a field to the group.
-     *
-     * @param <T> the generic type
-     * @param field the field
-     */
-    public <T extends Widget & HasValidators<?>> void add(final T field) {
-        fields.put(field, field.validate(false));
-        if (field.isAttached()) {
-            updateStateAndNotify();
-        }
-        registrations.put(field, field.addValidationChangedHandler(new ValidationChangedHandler() {
-            @Override
-            public void onValidationChanged(ValidationChangedEvent event) {
+    registrations.put(
+        field,
+        field.addValidationChangedHandler(
+            new ValidationChangedHandler() {
+              @Override
+              public void onValidationChanged(ValidationChangedEvent event) {
                 fields.put(field, event.isValid());
                 if (fireEvents) {
-                    updateStateAndNotify();
+                  updateStateAndNotify();
                 }
-            }
-        }));
-    }
+              }
+            }));
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public HandlerRegistration addValidationChangedHandler(ValidationChangedHandler handler) {
-        return eventBus.addHandler(ValidationChangedEvent.getType(), handler);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public HandlerRegistration addValidationChangedHandler(ValidationChangedHandler handler) {
+    return eventBus.addHandler(ValidationChangedEvent.getType(), handler);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public void fireEvent(GwtEvent<?> event) {
-        eventBus.fireEvent(event);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void fireEvent(GwtEvent<?> event) {
+    eventBus.fireEvent(event);
+  }
 
-    /**
-     * Removes a field from the validation group.
-     *
-     * @param <T> the generic type
-     * @param field the field
-     * @return true, if successful
-     */
-    public <T extends Widget & HasValidators<?>> boolean remove(final T field) {
-        fields.remove((HasValidators<?>) field);
-        HandlerRegistration reg = registrations.remove((HasValidators<?>) field);
-        if (reg != null) {
-            reg.removeHandler();
-            return true;
-        }
-        return false;
+  /**
+   * Removes a field from the validation group.
+   *
+   * @param <T> the generic type
+   * @param field the field
+   * @return true, if successful
+   */
+  public <T extends Widget & HasValidators<?>> boolean remove(final T field) {
+    fields.remove((HasValidators<?>) field);
+    HandlerRegistration reg = registrations.remove((HasValidators<?>) field);
+    if (reg != null) {
+      reg.removeHandler();
+      return true;
     }
+    return false;
+  }
 
-    /**
-     * Update the state of the validator and notify via {@link EventBus} any changed handlers.
-     */
-    private void updateStateAndNotify() {
-        Boolean oldGroupValid = groupValid;
-        groupValid = true;
-        for (Boolean valid : fields.values()) {
-            groupValid &= valid;
-        }
-        if (groupValid != oldGroupValid) {
-            eventBus.fireEvent(new ValidationChangedEvent(groupValid));
-        }
+  /** Update the state of the validator and notify via {@link EventBus} any changed handlers. */
+  private void updateStateAndNotify() {
+    Boolean oldGroupValid = groupValid;
+    groupValid = true;
+    for (Boolean valid : fields.values()) {
+      groupValid &= valid;
     }
-
-    /**
-     * Validate the group. This calls {@link Validator #validate(Editor, Object)} on each field in the group.
-     *
-     * @return true, if successful
-     */
-    public boolean validate() {
-        return validate(true);
+    if (groupValid != oldGroupValid) {
+      eventBus.fireEvent(new ValidationChangedEvent(groupValid));
     }
+  }
 
-    /**
-     * Validate the group. This calls {@link Validator #validate(Editor, Object)} on each field in the group.
-     *
-     * @param show do we want to show the user the result of the validate via ui marks?
-     * @return true, if successful
-     */
-    public boolean validate(boolean show) {
-        fireEvents = false;
-        for (HasValidators<?> field : fields.keySet()) {
-            field.validate(show);
-        }
-        fireEvents = true;
-        updateStateAndNotify();
-        return groupValid;
+  /**
+   * Validate the group. This calls {@link Validator #validate(Editor, Object)} on each field in the
+   * group.
+   *
+   * @return true, if successful
+   */
+  public boolean validate() {
+    return validate(true);
+  }
+
+  /**
+   * Validate the group. This calls {@link Validator #validate(Editor, Object)} on each field in the
+   * group.
+   *
+   * @param show do we want to show the user the result of the validate via ui marks?
+   * @return true, if successful
+   */
+  public boolean validate(boolean show) {
+    fireEvents = false;
+    for (HasValidators<?> field : fields.keySet()) {
+      field.validate(show);
     }
-
+    fireEvents = true;
+    updateStateAndNotify();
+    return groupValid;
+  }
 }

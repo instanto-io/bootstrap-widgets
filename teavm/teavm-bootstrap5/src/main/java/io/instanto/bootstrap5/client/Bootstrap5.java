@@ -21,21 +21,24 @@ package io.instanto.bootstrap5.client;
 
 import io.instanto.bootstrap5.client.ui.base.BootstrapComponent;
 
-/** Initialises the library's packaged module resources before mounting widgets through RootPanel. */
+/**
+ * Initialises the library's packaged module resources before mounting widgets through RootPanel.
+ */
 public final class Bootstrap5 {
-    private static boolean initialised;
-    private Bootstrap5() { }
+  private static boolean initialised;
 
-    /** Starts resource loading; use the callback overload before calling Bootstrap plugins. */
-    public static void initialise() {
-        if (initialised) return;
-        initialised = true;
-        new TeaVmBootstrap5EntryPoint().onModuleLoad();
-    }
+  private Bootstrap5() {}
 
-    /** Runs once the scripts declared by the library's module are usable. */
-    public static void initialise(Runnable ready) {
-        initialise();
-        NoThemeResourcesResources.whenReady(BootstrapComponent::isLoaded, ready);
-    }
+  /** Starts resource loading; use the callback overload before calling Bootstrap plugins. */
+  public static void initialise() {
+    if (initialised) return;
+    initialised = true;
+    new TeaVmBootstrap5EntryPoint().onModuleLoad();
+  }
+
+  /** Runs once the scripts declared by the library's module are usable. */
+  public static void initialise(Runnable ready) {
+    initialise();
+    NoThemeResourcesResources.whenReady(BootstrapComponent::isLoaded, ready);
+  }
 }

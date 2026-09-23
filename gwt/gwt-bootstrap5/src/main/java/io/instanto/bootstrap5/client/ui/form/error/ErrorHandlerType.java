@@ -20,12 +20,8 @@ package io.instanto.bootstrap5.client.ui.form.error;
  * #L%
  */
 
-/**
- * The type of error handler to use.
- */
+/** The type of error handler to use. */
 public enum ErrorHandlerType {
-
-    NONE,
-    DEFAULT,
-
+  NONE,
+  DEFAULT,
 }

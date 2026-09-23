@@ -25,48 +25,43 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
-import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
-
-
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.ui.client.adapters.HasTextEditor;
-
+import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 
 public class Pre extends ElementPanel implements IsEditor<LeafValueEditor<String>> {
 
-    public Pre() {
-        this("");
+  public Pre() {
+    this("");
+  }
+
+  public Pre(String text) {
+    super("pre");
+    setText(text);
+  }
+
+  private LeafValueEditor<String> editor;
+
+  /**
+   * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a panel rather than a
+   * leaf so that it can hold an icon or nested markup, so the editor is composed in rather than
+   * inherited.
+   */
+  @Override
+  public LeafValueEditor<String> asEditor() {
+    if (editor == null) {
+      editor = HasTextEditor.of(this);
     }
+    return editor;
+  }
 
-    public Pre(String text) {
-        super("pre");
-        setText(text);
-    }
+  /** Constrains height and scrolls, as .pre-scrollable did in Bootstrap 3. */
+  public void setScrollable(final boolean scrollable) {
+    setStyleName("gbm-pre-scrollable", scrollable);
+  }
 
-    private LeafValueEditor<String> editor;
-
-    /**
-     * Bootstrap 3 got this from AbstractTextWidget. The Bootstrap 5 widget is a
-     * panel rather than a leaf so that it can hold an icon or nested markup, so
-     * the editor is composed in rather than inherited.
-     */
-    @Override
-    public LeafValueEditor<String> asEditor() {
-        if (editor == null) {
-            editor = HasTextEditor.of(this);
-        }
-        return editor;
-    }
-
-
-    /** Constrains height and scrolls, as .pre-scrollable did in Bootstrap 3. */
-    public void setScrollable(final boolean scrollable) {
-        setStyleName("gbm-pre-scrollable", scrollable);
-    }
-
-    public boolean isScrollable() {
-        return StyleHelper.containsStyle(getStyleName(), "gbm-pre-scrollable");
-    }
-
+  public boolean isScrollable() {
+    return StyleHelper.containsStyle(getStyleName(), "gbm-pre-scrollable");
+  }
 }

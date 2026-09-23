@@ -25,42 +25,39 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
+import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
-import com.google.gwt.user.client.ui.Widget;
-
 
 public class NavbarNav extends ElementPanel {
 
-    public NavbarNav() {
-        super("ul");
-        setStyleName("navbar-nav me-auto mb-2 mb-lg-0");
-    }
+  public NavbarNav() {
+    super("ul");
+    setStyleName("navbar-nav me-auto mb-2 mb-lg-0");
+  }
 
-    public void setEndAligned(boolean endAligned) {
-        setStyleName(endAligned ? "navbar-nav ms-auto mb-2 mb-lg-0" : "navbar-nav me-auto mb-2 mb-lg-0");
-    }
+  public void setEndAligned(boolean endAligned) {
+    setStyleName(
+        endAligned ? "navbar-nav ms-auto mb-2 mb-lg-0" : "navbar-nav me-auto mb-2 mb-lg-0");
+  }
 
-    /**
-     * Bootstrap 5 keeps .list-inline, and marks each child .list-inline-item.
-     */
-    public void setInline(final boolean inline) {
-        setStyleName(Styles.LIST_INLINE, inline);
-        for (final Widget child : getChildren()) {
-            child.setStyleName(Styles.LIST_INLINE_ITEM, inline);
-        }
+  /** Bootstrap 5 keeps .list-inline, and marks each child .list-inline-item. */
+  public void setInline(final boolean inline) {
+    setStyleName(Styles.LIST_INLINE, inline);
+    for (final Widget child : getChildren()) {
+      child.setStyleName(Styles.LIST_INLINE_ITEM, inline);
     }
+  }
 
-    public boolean isInline() {
-        return StyleHelper.containsStyle(getStyleName(), Styles.LIST_INLINE);
-    }
+  public boolean isInline() {
+    return StyleHelper.containsStyle(getStyleName(), Styles.LIST_INLINE);
+  }
 
-    public void setUnstyled(final boolean unstyled) {
-        setStyleName(Styles.LIST_UNSTYLED, unstyled);
-    }
+  public void setUnstyled(final boolean unstyled) {
+    setStyleName(Styles.LIST_UNSTYLED, unstyled);
+  }
 
-    public boolean isUnstyled() {
-        return StyleHelper.containsStyle(getStyleName(), Styles.LIST_UNSTYLED);
-    }
-
+  public boolean isUnstyled() {
+    return StyleHelper.containsStyle(getStyleName(), Styles.LIST_UNSTYLED);
+  }
 }

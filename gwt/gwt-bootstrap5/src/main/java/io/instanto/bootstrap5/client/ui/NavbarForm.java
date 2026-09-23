@@ -29,25 +29,23 @@ import io.instanto.bootstrap5.client.ui.base.HasPull;
 import io.instanto.bootstrap5.client.ui.base.mixin.PullMixin;
 import io.instanto.bootstrap5.client.ui.constants.Pull;
 
-
 public class NavbarForm extends Form implements HasPull {
 
-    public NavbarForm() {
-        super();
-        setStyleName("d-flex");
-        getElement().setAttribute("role", "search");
-    }
+  public NavbarForm() {
+    super();
+    setStyleName("d-flex");
+    getElement().setAttribute("role", "search");
+  }
 
-    private final PullMixin<NavbarForm> pullMixin = new PullMixin<NavbarForm>(this);
+  private final PullMixin<NavbarForm> pullMixin = new PullMixin<NavbarForm>(this);
 
-    @Override
-    public void setPull(final Pull pull) {
-        pullMixin.setPull(pull);
-    }
+  @Override
+  public void setPull(final Pull pull) {
+    pullMixin.setPull(pull);
+  }
 
-    @Override
-    public Pull getPull() {
-        return pullMixin.getPull();
-    }
-
+  @Override
+  public Pull getPull() {
+    return pullMixin.getPull();
+  }
 }

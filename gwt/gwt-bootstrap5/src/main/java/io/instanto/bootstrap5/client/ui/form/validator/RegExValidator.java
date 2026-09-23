@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
-
 import com.google.gwt.regexp.shared.RegExp;
+import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
 
 /**
  * Validator for checking value matches a regular expression.
@@ -32,28 +31,27 @@ import com.google.gwt.regexp.shared.RegExp;
  */
 public class RegExValidator extends AbstractValidator<String> {
 
-    private RegExp regex;
+  private RegExp regex;
 
-    public RegExValidator(String pattern) {
-        super(Keys.REGEX, new Object[0]);
-        regex = RegExp.compile(pattern);
-    }
+  public RegExValidator(String pattern) {
+    super(Keys.REGEX, new Object[0]);
+    regex = RegExp.compile(pattern);
+  }
 
-    public RegExValidator(String pattern, String invalidMessageOverride) {
-        super(invalidMessageOverride);
-        regex = RegExp.compile(pattern);
-    }
+  public RegExValidator(String pattern, String invalidMessageOverride) {
+    super(invalidMessageOverride);
+    regex = RegExp.compile(pattern);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public int getPriority() {
-        return Priority.MEDIUM;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public int getPriority() {
+    return Priority.MEDIUM;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(String value) {
-        return value == null || regex.test(value);
-    }
-
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(String value) {
+    return value == null || regex.test(value);
+  }
 }

@@ -20,26 +20,25 @@ package io.instanto.bootstrap5.client.ui.base.mixin;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.base.HasId;
-
 import com.google.gwt.user.client.ui.UIObject;
+import io.instanto.bootstrap5.client.ui.base.HasId;
 
 /**
  * @author Sven Jacobs
  */
 public class IdMixin<T extends UIObject & HasId> extends AbstractMixin implements HasId {
 
-    public IdMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public IdMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    @Override
-    public void setId(final String id) {
-        uiObject.getElement().setId(id);
-    }
+  @Override
+  public void setId(final String id) {
+    uiObject.getElement().setId(id);
+  }
 
-    @Override
-    public String getId() {
-        return uiObject.getElement().getId();
-    }
+  @Override
+  public String getId() {
+    return uiObject.getElement().getId();
+  }
 }

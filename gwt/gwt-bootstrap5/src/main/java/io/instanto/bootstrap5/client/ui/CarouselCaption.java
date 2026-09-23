@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class CarouselCaption extends ElementPanel {
 
-    public CarouselCaption() {
-        super("div");
-        setStyleName("carousel-caption d-none d-md-block");
-    }
+  public CarouselCaption() {
+    super("div");
+    setStyleName("carousel-caption d-none d-md-block");
+  }
 }

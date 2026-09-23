@@ -20,47 +20,46 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.TabListItem;
-
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.TabListItem;
 
 /**
  * @author Joshua Godi
  */
 public class TabShowEvent extends GwtEvent<TabShowHandler> implements TabEvent {
 
-    private static final Type<TabShowHandler> TYPE = new Type<TabShowHandler>();
+  private static final Type<TabShowHandler> TYPE = new Type<TabShowHandler>();
 
-    private final TabListItem tab;
-    private final Event nativeEvent;
+  private final TabListItem tab;
+  private final Event nativeEvent;
 
-    public static Type<TabShowHandler> getType() {
-        return TYPE;
-    }
+  public static Type<TabShowHandler> getType() {
+    return TYPE;
+  }
 
-    public TabShowEvent(final TabListItem tab, final Event nativeEvent) {
-        this.tab = tab;
-        this.nativeEvent = nativeEvent;
-    }
+  public TabShowEvent(final TabListItem tab, final Event nativeEvent) {
+    this.tab = tab;
+    this.nativeEvent = nativeEvent;
+  }
 
-    @Override
-    public TabListItem getTab() {
-        return tab;
-    }
+  @Override
+  public TabListItem getTab() {
+    return tab;
+  }
 
-    @Override
-    public Event getNativeEvent() {
-        return nativeEvent;
-    }
+  @Override
+  public Event getNativeEvent() {
+    return nativeEvent;
+  }
 
-    @Override
-    public Type<TabShowHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public Type<TabShowHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final TabShowHandler handler) {
-        handler.onShow(this);
-    }
+  @Override
+  protected void dispatch(final TabShowHandler handler) {
+    handler.onShow(this);
+  }
 }

@@ -23,8 +23,8 @@ package io.instanto.bootstrap5.client.ui.base;
 import com.google.gwt.dom.client.Document;
 
 /**
- * Base class for {@link io.instanto.bootstrap5.client.ui.InputGroupAddon}
- * and {@link io.instanto.bootstrap5.client.ui.InputGroupButton}
+ * Base class for {@link io.instanto.bootstrap5.client.ui.InputGroupAddon} and {@link
+ * io.instanto.bootstrap5.client.ui.InputGroupButton}
  *
  * @author Sven Jacobs
  * @author Joshua Godi
@@ -33,8 +33,8 @@ import com.google.gwt.dom.client.Document;
  */
 public abstract class AbstractInputGroupAddon extends ComplexWidget {
 
-    protected AbstractInputGroupAddon(final String styleName) {
-        setElement(Document.get().createSpanElement());
-        setStyleName(styleName);
-    }
+  protected AbstractInputGroupAddon(final String styleName) {
+    setElement(Document.get().createSpanElement());
+    setStyleName(styleName);
+  }
 }

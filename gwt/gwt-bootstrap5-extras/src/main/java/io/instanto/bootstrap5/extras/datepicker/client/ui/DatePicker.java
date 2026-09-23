@@ -25,15 +25,6 @@
  */
 package io.instanto.bootstrap5.extras.datepicker.client.ui;
 
-import java.util.Date;
-
-import io.instanto.bootstrap5.client.ui.TextBox;
-import io.instanto.bootstrap5.client.ui.base.HasId;
-import io.instanto.bootstrap5.client.ui.base.HasPlaceholder;
-import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
-import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
-import io.instanto.bootstrap5.client.ui.html.Div;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -42,19 +33,25 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasValue;
+import io.instanto.bootstrap5.client.ui.TextBox;
+import io.instanto.bootstrap5.client.ui.base.HasId;
+import io.instanto.bootstrap5.client.ui.base.HasPlaceholder;
+import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
+import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
+import io.instanto.bootstrap5.client.ui.html.Div;
+import java.util.Date;
 
 /**
  * A date picker backed by Tempus Dominus 6.
  *
- * <p>This is a replacement rather than a port. GwtBootstrap3 wrapped
- * bootstrap-datepicker and bootstrap-datetimepicker, both of which render
- * Bootstrap 3 markup, and the latter has been unmaintained for years. Tempus
- * Dominus is the maintained successor, targets Bootstrap 5 and needs no jQuery.
- * The property names that carry over -- placeholder, id, name, enabled, the
- * responsive helpers, {@code show()} and {@code hide()} -- keep the Bootstrap 3
- * spelling, so most calling code reads the same.</p>
+ * <p>This is a replacement rather than a port. GwtBootstrap3 wrapped bootstrap-datepicker and
+ * bootstrap-datetimepicker, both of which render Bootstrap 3 markup, and the latter has been
+ * unmaintained for years. Tempus Dominus is the maintained successor, targets Bootstrap 5 and needs
+ * no jQuery. The property names that carry over -- placeholder, id, name, enabled, the responsive
+ * helpers, {@code show()} and {@code hide()} -- keep the Bootstrap 3 spelling, so most calling code
+ * reads the same.
  *
- * <p>The widget renders the input-group wrapper Tempus Dominus expects:</p>
+ * <p>The widget renders the input-group wrapper Tempus Dominus expects:
  *
  * <pre>
  * &lt;div class="input-group" id="..." data-td-target-input="nearest"&gt;
@@ -63,232 +60,239 @@ import com.google.gwt.user.client.ui.HasValue;
  * &lt;/div&gt;
  * </pre>
  */
-public class DatePicker extends Div implements HasEnabled, HasId, HasName, HasPlaceholder,
-        HasResponsiveness, HasValue<Date>, HasValueChangeHandlers<Date> {
+public class DatePicker extends Div
+    implements HasEnabled,
+        HasId,
+        HasName,
+        HasPlaceholder,
+        HasResponsiveness,
+        HasValue<Date>,
+        HasValueChangeHandlers<Date> {
 
-    private final TextBox input = new TextBox();
+  private final TextBox input = new TextBox();
 
-    private final Div toggle = new Div();
+  private final Div toggle = new Div();
 
-    private final String wrapperId;
+  private final String wrapperId;
 
-    private DatePickerJs.TempusDominus picker;
+  private DatePickerJs.TempusDominus picker;
 
-    private String format;
+  private String format;
 
-    private boolean sideBySide;
+  private boolean sideBySide;
 
-    private boolean showClear = true;
+  private boolean showClear = true;
 
-    private boolean showClose = true;
+  private boolean showClose = true;
 
-    public DatePicker() {
-        wrapperId = Document.get().createUniqueId();
-        addStyleName("input-group");
-        getElement().setId(wrapperId);
-        getElement().setAttribute("data-td-target-input", "nearest");
-        getElement().setAttribute("data-td-target-toggle", "nearest");
+  public DatePicker() {
+    wrapperId = Document.get().createUniqueId();
+    addStyleName("input-group");
+    getElement().setId(wrapperId);
+    getElement().setAttribute("data-td-target-input", "nearest");
+    getElement().setAttribute("data-td-target-toggle", "nearest");
 
-        input.getElement().setAttribute("data-td-target", "#" + wrapperId);
-        add(input);
+    input.getElement().setAttribute("data-td-target", "#" + wrapperId);
+    add(input);
 
-        toggle.setStyleName("input-group-text");
-        toggle.getElement().setAttribute("data-td-target", "#" + wrapperId);
-        toggle.getElement().setAttribute("data-td-toggle", "datetimepicker");
-        toggle.getElement().setInnerHTML("<i class=\"bi bi-calendar\"></i>");
-        add(toggle);
-    }
+    toggle.setStyleName("input-group-text");
+    toggle.getElement().setAttribute("data-td-target", "#" + wrapperId);
+    toggle.getElement().setAttribute("data-td-toggle", "datetimepicker");
+    toggle.getElement().setInnerHTML("<i class=\"bi bi-calendar\"></i>");
+    add(toggle);
+  }
 
-    public DatePicker(final String placeholder) {
-        this();
-        setPlaceholder(placeholder);
-    }
+  public DatePicker(final String placeholder) {
+    this();
+    setPlaceholder(placeholder);
+  }
 
-    /** The text box the picker writes into. */
-    public TextBox getTextBox() {
-        return input;
-    }
+  /** The text box the picker writes into. */
+  public TextBox getTextBox() {
+    return input;
+  }
 
-    /**
-     * The display and parse format, in Tempus Dominus terms, e.g. {@code yyyy-MM-dd}.
-     * Must be set before attach to take effect.
-     */
-    public void setFormat(final String format) {
-        this.format = format;
-    }
+  /**
+   * The display and parse format, in Tempus Dominus terms, e.g. {@code yyyy-MM-dd}. Must be set
+   * before attach to take effect.
+   */
+  public void setFormat(final String format) {
+    this.format = format;
+  }
 
-    public String getFormat() {
-        return format;
-    }
+  public String getFormat() {
+    return format;
+  }
 
-    /** Shows the date and clock panels together rather than switching between them. */
-    public void setSideBySide(final boolean sideBySide) {
-        this.sideBySide = sideBySide;
-    }
+  /** Shows the date and clock panels together rather than switching between them. */
+  public void setSideBySide(final boolean sideBySide) {
+    this.sideBySide = sideBySide;
+  }
 
-    public void setShowClear(final boolean showClear) {
-        this.showClear = showClear;
-    }
+  public void setShowClear(final boolean showClear) {
+    this.showClear = showClear;
+  }
 
-    public void setShowClose(final boolean showClose) {
-        this.showClose = showClose;
-    }
+  public void setShowClose(final boolean showClose) {
+    this.showClose = showClose;
+  }
 
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-        initialise();
-    }
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    initialise();
+  }
 
-    /**
-     * Builds the picker, waiting for Tempus Dominus if it has not arrived yet. The GWT
-     * module injects it as inline script text before the application runs; the TeaVM
-     * backend fetches it by URL, and a picker attached during startup would otherwise
-     * stay an inert input.
-     */
-    /**
-     * Builds the widget once the date picker is usable.
-     *
-     * <p>Which backend this is no longer matters here. GWT compiles the library into the
-     * module, so the action runs immediately; TeaVM fetches it and runs the action when
-     * it arrives. Either way this asks the module instead of polling for a global to
-     * appear, and a module that cannot load reports it rather than letting the widget
-     * wait out a timeout and give up in silence.</p>
-     */
-    private void initialise() {
-        DatePickerJs.whenReady(new Runnable() {
-            @Override
-            public void run() {
-                if (isAttached()) {
-                    build();
-                }
+  /**
+   * Builds the picker, waiting for Tempus Dominus if it has not arrived yet. The GWT module injects
+   * it as inline script text before the application runs; the TeaVM backend fetches it by URL, and
+   * a picker attached during startup would otherwise stay an inert input.
+   */
+  /**
+   * Builds the widget once the date picker is usable.
+   *
+   * <p>Which backend this is no longer matters here. GWT compiles the library into the module, so
+   * the action runs immediately; TeaVM fetches it and runs the action when it arrives. Either way
+   * this asks the module instead of polling for a global to appear, and a module that cannot load
+   * reports it rather than letting the widget wait out a timeout and give up in silence.
+   */
+  private void initialise() {
+    DatePickerJs.whenReady(
+        new Runnable() {
+          @Override
+          public void run() {
+            if (isAttached()) {
+              build();
             }
+          }
         });
-    }
+  }
 
-    private void build() {
-        picker = DatePickerJs.create(getElement(), format, sideBySide, showClear, showClose);
-        DatePickerJs.bindChange(picker, new DatePickerJs.ChangeHandler() {
-            @Override
-            public void onDateChange(final double millis) {
-                onPickerChange(millis);
-            }
+  private void build() {
+    picker = DatePickerJs.create(getElement(), format, sideBySide, showClear, showClose);
+    DatePickerJs.bindChange(
+        picker,
+        new DatePickerJs.ChangeHandler() {
+          @Override
+          public void onDateChange(final double millis) {
+            onPickerChange(millis);
+          }
         });
+  }
+
+  @Override
+  protected void onUnload() {
+    if (picker != null) {
+      DatePickerJs.dispose(picker);
+      picker = null;
     }
+    super.onUnload();
+  }
 
-    @Override
-    protected void onUnload() {
-        if (picker != null) {
-            DatePickerJs.dispose(picker);
-            picker = null;
-        }
-        super.onUnload();
+  public void show() {
+    if (picker != null) {
+      DatePickerJs.invoke(picker, "show");
     }
+  }
 
-    public void show() {
-        if (picker != null) {
-            DatePickerJs.invoke(picker, "show");
-        }
+  public void hide() {
+    if (picker != null) {
+      DatePickerJs.invoke(picker, "hide");
     }
+  }
 
-    public void hide() {
-        if (picker != null) {
-            DatePickerJs.invoke(picker, "hide");
-        }
+  public void toggle() {
+    if (picker != null) {
+      DatePickerJs.invoke(picker, "toggle");
     }
+  }
 
-    public void toggle() {
-        if (picker != null) {
-            DatePickerJs.invoke(picker, "toggle");
-        }
+  public void clear() {
+    setValue(null, true);
+  }
+
+  @Override
+  public Date getValue() {
+    final double millis = picker == null ? -1 : DatePickerJs.readValue(picker);
+    return millis < 0 ? null : new Date((long) millis);
+  }
+
+  @Override
+  public void setValue(final Date value) {
+    setValue(value, false);
+  }
+
+  @Override
+  public void setValue(final Date value, final boolean fireEvents) {
+    if (picker != null) {
+      DatePickerJs.writeValue(picker, value == null ? -1 : value.getTime());
     }
-
-    public void clear() {
-        setValue(null, true);
+    if (fireEvents) {
+      ValueChangeEvent.fire(this, value);
     }
+  }
 
-    @Override
-    public Date getValue() {
-        final double millis = picker == null ? -1 : DatePickerJs.readValue(picker);
-        return millis < 0 ? null : new Date((long) millis);
-    }
+  @Override
+  public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Date> handler) {
+    return addHandler(handler, ValueChangeEvent.getType());
+  }
 
-    @Override
-    public void setValue(final Date value) {
-        setValue(value, false);
-    }
+  /** Called from the Tempus Dominus change subscription. */
+  void onPickerChange(final double millis) {
+    ValueChangeEvent.fire(this, millis < 0 ? null : new Date((long) millis));
+  }
 
-    @Override
-    public void setValue(final Date value, final boolean fireEvents) {
-        if (picker != null) {
-            DatePickerJs.writeValue(picker, value == null ? -1 : value.getTime());
-        }
-        if (fireEvents) {
-            ValueChangeEvent.fire(this, value);
-        }
-    }
+  // ---- the familiar Bootstrap 3 surface -----------------------------------
 
-    @Override
-    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Date> handler) {
-        return addHandler(handler, ValueChangeEvent.getType());
-    }
+  @Override
+  public void setPlaceholder(final String placeholder) {
+    input.setPlaceholder(placeholder);
+  }
 
-    /** Called from the Tempus Dominus change subscription. */
-    void onPickerChange(final double millis) {
-        ValueChangeEvent.fire(this, millis < 0 ? null : new Date((long) millis));
-    }
+  @Override
+  public String getPlaceholder() {
+    return input.getPlaceholder();
+  }
 
-    // ---- the familiar Bootstrap 3 surface -----------------------------------
+  @Override
+  public void setEnabled(final boolean enabled) {
+    input.setEnabled(enabled);
+  }
 
-    @Override
-    public void setPlaceholder(final String placeholder) {
-        input.setPlaceholder(placeholder);
-    }
+  @Override
+  public boolean isEnabled() {
+    return input.isEnabled();
+  }
 
-    @Override
-    public String getPlaceholder() {
-        return input.getPlaceholder();
-    }
+  @Override
+  public void setName(final String name) {
+    input.setName(name);
+  }
 
-    @Override
-    public void setEnabled(final boolean enabled) {
-        input.setEnabled(enabled);
-    }
+  @Override
+  public String getName() {
+    return input.getName();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return input.isEnabled();
-    }
+  @Override
+  public void setId(final String id) {
+    input.setId(id);
+  }
 
-    @Override
-    public void setName(final String name) {
-        input.setName(name);
-    }
+  @Override
+  public String getId() {
+    return input.getId();
+  }
 
-    @Override
-    public String getName() {
-        return input.getName();
-    }
+  @Override
+  public void setVisibleOn(final DeviceSize deviceSize) {
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.setVisibleOn(this, deviceSize);
+  }
 
-    @Override
-    public void setId(final String id) {
-        input.setId(id);
-    }
+  @Override
+  public void setHiddenOn(final DeviceSize deviceSize) {
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.setHiddenOn(this, deviceSize);
+  }
 
-    @Override
-    public String getId() {
-        return input.getId();
-    }
-
-    @Override
-    public void setVisibleOn(final DeviceSize deviceSize) {
-        io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.setVisibleOn(this, deviceSize);
-    }
-
-    @Override
-    public void setHiddenOn(final DeviceSize deviceSize) {
-        io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.setHiddenOn(this, deviceSize);
-    }
-
-    // ---- Tempus Dominus ------------------------------------------------------
+  // ---- Tempus Dominus ------------------------------------------------------
 }

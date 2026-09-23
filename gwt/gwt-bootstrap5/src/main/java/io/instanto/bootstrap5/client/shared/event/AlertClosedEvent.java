@@ -28,29 +28,29 @@ import com.google.gwt.user.client.Event;
  */
 public class AlertClosedEvent extends GwtEvent<AlertClosedHandler> {
 
-    private static final Type<AlertClosedHandler> TYPE = new Type<AlertClosedHandler>();
+  private static final Type<AlertClosedHandler> TYPE = new Type<AlertClosedHandler>();
 
-    private final Event nativeEvent;
+  private final Event nativeEvent;
 
-    public static Type<AlertClosedHandler> getType() {
-        return TYPE;
-    }
+  public static Type<AlertClosedHandler> getType() {
+    return TYPE;
+  }
 
-    public AlertClosedEvent(final Event nativeEvent) {
-        this.nativeEvent = nativeEvent;
-    }
+  public AlertClosedEvent(final Event nativeEvent) {
+    this.nativeEvent = nativeEvent;
+  }
 
-    public Event getNativeEvent() {
-        return nativeEvent;
-    }
+  public Event getNativeEvent() {
+    return nativeEvent;
+  }
 
-    @Override
-    public Type<AlertClosedHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public Type<AlertClosedHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final AlertClosedHandler handler) {
-        handler.onClosed(this);
-    }
+  @Override
+  protected void dispatch(final AlertClosedHandler handler) {
+    handler.onClosed(this);
+  }
 }

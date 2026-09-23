@@ -27,7 +27,7 @@ import io.instanto.bootstrap5.client.ui.constants.Styles;
  */
 public class ClearFix extends Div {
 
-    public ClearFix() {
-        addStyleName(Styles.CLEARFIX);
-    }
+  public ClearFix() {
+    addStyleName(Styles.CLEARFIX);
+  }
 }

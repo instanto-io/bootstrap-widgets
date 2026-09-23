@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
-import java.text.ParseException;
-
 import com.google.gwt.text.shared.Parser;
+import java.text.ParseException;
 
 /**
  * Parses boolean values from a {@link CharSequence}.
@@ -31,40 +30,37 @@ import com.google.gwt.text.shared.Parser;
  */
 public class BooleanParser implements Parser<Boolean> {
 
-    private static BooleanParser instance;
+  private static BooleanParser instance;
 
-    /**
-     * @return the instance of the {@link BooleanRenderer}.
-     */
-    public static Parser<Boolean> instance() {
-        if (instance == null) {
-            instance = new BooleanParser();
-        }
-        return instance;
+  /**
+   * @return the instance of the {@link BooleanRenderer}.
+   */
+  public static Parser<Boolean> instance() {
+    if (instance == null) {
+      instance = new BooleanParser();
     }
+    return instance;
+  }
 
-    /**
-     * Constructor.
-     */
-    protected BooleanParser() {
-        super();
+  /** Constructor. */
+  protected BooleanParser() {
+    super();
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public Boolean parse(final CharSequence text) throws ParseException {
+    if (text != null) {
+      String value = text.toString();
+      if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("Yes")) {
+        return true;
+      }
+      try {
+        Integer i = Integer.valueOf(value);
+        return i != 0;
+      } catch (Exception e) {
+      }
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public Boolean parse(final CharSequence text) throws ParseException {
-        if (text != null) {
-            String value = text.toString();
-            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("Yes")) {
-                return true;
-            }
-            try {
-                Integer i = Integer.valueOf(value);
-                return i != 0;
-            } catch (Exception e) {
-            }
-        }
-        return false;
-    }
-
+    return false;
+  }
 }

@@ -28,14 +28,13 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  */
 public interface HasBlankValidator<T> {
 
-    /**
-     * @return the allow blank
-     */
-    boolean getAllowBlank();
+  /**
+   * @return the allow blank
+   */
+  boolean getAllowBlank();
 
-    /**
-     * @param allowBlank the new allow blank
-     */
-    void setAllowBlank(boolean allowBlank);
-
+  /**
+   * @param allowBlank the new allow blank
+   */
+  void setAllowBlank(boolean allowBlank);
 }

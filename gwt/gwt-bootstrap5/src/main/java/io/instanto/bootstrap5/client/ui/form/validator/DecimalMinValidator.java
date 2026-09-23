@@ -30,44 +30,45 @@ import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
  */
 public class DecimalMinValidator<T extends Number> extends AbstractValidator<T> {
 
-    private Number minValue;
+  private Number minValue;
 
-    /**
-     * Constructor.
-     *
-     * @param minValue the min value
-     */
-    public DecimalMinValidator(Number minValue) {
-        super(Keys.DECIMAL_MIN, new Object[] { minValue.toString() });
-        this.minValue = minValue;
+  /**
+   * Constructor.
+   *
+   * @param minValue the min value
+   */
+  public DecimalMinValidator(Number minValue) {
+    super(Keys.DECIMAL_MIN, new Object[] {minValue.toString()});
+    this.minValue = minValue;
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param minValue the min value
+   * @param invalidMessageOverride the invalid message override
+   */
+  public DecimalMinValidator(Number minValue, String invalidMessageOverride) {
+    super(invalidMessageOverride);
+    this.minValue = minValue;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public int getPriority() {
+    return Priority.MEDIUM;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(T value) {
+    if (value == null) {
+      return true;
     }
-
-    /**
-     * Constructor.
-     *
-     * @param minValue the min value
-     * @param invalidMessageOverride the invalid message override
-     */
-    public DecimalMinValidator(Number minValue, String invalidMessageOverride) {
-        super(invalidMessageOverride);
-        this.minValue = minValue;
+    if (value instanceof Number) {
+      return ((Number) value).doubleValue() >= minValue.doubleValue();
+    } else {
+      return Double.parseDouble(value.toString()) >= minValue.doubleValue();
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getPriority() {
-        return Priority.MEDIUM;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(T value) {
-        if (value == null) { return true; }
-        if (value instanceof Number) {
-            return ((Number) value).doubleValue() >= minValue.doubleValue();
-        } else {
-            return Double.parseDouble(value.toString()) >= minValue.doubleValue();
-        }
-    }
-
+  }
 }

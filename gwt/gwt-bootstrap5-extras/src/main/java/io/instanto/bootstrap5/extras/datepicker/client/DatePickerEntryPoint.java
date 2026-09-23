@@ -32,33 +32,32 @@ import jsinterop.base.Js;
 /**
  * Injects Popper, then Tempus Dominus, in that order.
  *
- * <p>Tempus Dominus reads {@code window.Popper} when it opens its popup and only
- * falls back to a dynamic import if the global is missing, which a compiled GWT
- * application cannot resolve. Bootstrap 5's bundle keeps its own Popper private,
- * so the global is supplied here. Both injections leave an existing copy
- * alone.</p>
+ * <p>Tempus Dominus reads {@code window.Popper} when it opens its popup and only falls back to a
+ * dynamic import if the global is missing, which a compiled GWT application cannot resolve.
+ * Bootstrap 5's bundle keeps its own Popper private, so the global is supplied here. Both
+ * injections leave an existing copy alone.
  */
 public class DatePickerEntryPoint implements EntryPoint {
 
-    @Override
-    public void onModuleLoad() {
-        if (!isPopperLoaded()) {
-            ScriptInjector.fromString(DatePickerClientBundle.INSTANCE.popper().getText())
-                    .setWindow(ScriptInjector.TOP_WINDOW)
-                    .inject();
-        }
-        if (!isTempusDominusLoaded()) {
-            ScriptInjector.fromString(DatePickerClientBundle.INSTANCE.tempusDominus().getText())
-                    .setWindow(ScriptInjector.TOP_WINDOW)
-                    .inject();
-        }
+  @Override
+  public void onModuleLoad() {
+    if (!isPopperLoaded()) {
+      ScriptInjector.fromString(DatePickerClientBundle.INSTANCE.popper().getText())
+          .setWindow(ScriptInjector.TOP_WINDOW)
+          .inject();
     }
+    if (!isTempusDominusLoaded()) {
+      ScriptInjector.fromString(DatePickerClientBundle.INSTANCE.tempusDominus().getText())
+          .setWindow(ScriptInjector.TOP_WINDOW)
+          .inject();
+    }
+  }
 
-    private static boolean isPopperLoaded() {
-        return Js.global().get("Popper") != null;
-    }
+  private static boolean isPopperLoaded() {
+    return Js.global().get("Popper") != null;
+  }
 
-    private static boolean isTempusDominusLoaded() {
-        return Js.global().get("tempusDominus") != null;
-    }
+  private static boolean isTempusDominusLoaded() {
+    return Js.global().get("tempusDominus") != null;
+  }
 }

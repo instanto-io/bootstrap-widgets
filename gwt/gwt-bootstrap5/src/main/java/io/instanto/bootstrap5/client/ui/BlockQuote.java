@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class BlockQuote extends ElementPanel {
 
-    public BlockQuote() {
-        super("blockquote");
-        addStyleName("blockquote");
-    }
+  public BlockQuote() {
+    super("blockquote");
+    addStyleName("blockquote");
+  }
 }

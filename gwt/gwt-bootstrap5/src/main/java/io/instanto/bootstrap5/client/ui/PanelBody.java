@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class PanelBody extends ElementPanel {
 
-    public PanelBody() {
-        super("div");
-        addStyleName("card-body");
-    }
+  public PanelBody() {
+    super("div");
+    addStyleName("card-body");
+  }
 }

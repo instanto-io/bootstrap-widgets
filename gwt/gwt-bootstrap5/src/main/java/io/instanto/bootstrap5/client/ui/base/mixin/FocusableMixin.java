@@ -32,42 +32,42 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 public class FocusableMixin<T extends UIObject & Focusable> implements Focusable {
 
-    private final T uiObject;
+  private final T uiObject;
 
-    public FocusableMixin(final T uiObject) {
-        this.uiObject = uiObject;
+  public FocusableMixin(final T uiObject) {
+    this.uiObject = uiObject;
+  }
+
+  @Override
+  public int getTabIndex() {
+    return uiObject.getElement().getTabIndex();
+  }
+
+  @Override
+  public void setTabIndex(final int index) {
+    uiObject.getElement().setTabIndex(index);
+  }
+
+  @Override
+  public void setAccessKey(final char key) {
+    final Element element = uiObject.getElement();
+    final String accessKey = Character.toString(key);
+
+    if (AnchorElement.is(element)) {
+      AnchorElement.as(element).setAccessKey(accessKey);
+    } else if (ButtonElement.is(element)) {
+      ButtonElement.as(element).setAccessKey(accessKey);
+    } else if (InputElement.is(element)) {
+      InputElement.as(element).setAccessKey(accessKey);
     }
+  }
 
-    @Override
-    public int getTabIndex() {
-        return uiObject.getElement().getTabIndex();
+  @Override
+  public void setFocus(final boolean focused) {
+    if (focused) {
+      uiObject.getElement().focus();
+    } else {
+      uiObject.getElement().blur();
     }
-
-    @Override
-    public void setTabIndex(final int index) {
-        uiObject.getElement().setTabIndex(index);
-    }
-
-    @Override
-    public void setAccessKey(final char key) {
-        final Element element = uiObject.getElement();
-        final String accessKey = Character.toString(key);
-
-        if (AnchorElement.is(element)) {
-            AnchorElement.as(element).setAccessKey(accessKey);
-        } else if (ButtonElement.is(element)) {
-            ButtonElement.as(element).setAccessKey(accessKey);
-        } else if (InputElement.is(element)) {
-            InputElement.as(element).setAccessKey(accessKey);
-        }
-    }
-
-    @Override
-    public void setFocus(final boolean focused) {
-        if (focused) {
-            uiObject.getElement().focus();
-        } else {
-            uiObject.getElement().blur();
-        }
-    }
+  }
 }

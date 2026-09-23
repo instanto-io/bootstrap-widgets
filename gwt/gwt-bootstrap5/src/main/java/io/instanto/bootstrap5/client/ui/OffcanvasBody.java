@@ -6,6 +6,13 @@
 package io.instanto.bootstrap5.client.ui;
 
 public class OffcanvasBody extends ElementPanel {
-    public OffcanvasBody() { super("div"); addStyleName("offcanvas-body"); }
-    public OffcanvasBody(String text) { this(); setText(text); }
+  public OffcanvasBody() {
+    super("div");
+    addStyleName("offcanvas-body");
+  }
+
+  public OffcanvasBody(String text) {
+    this();
+    setText(text);
+  }
 }

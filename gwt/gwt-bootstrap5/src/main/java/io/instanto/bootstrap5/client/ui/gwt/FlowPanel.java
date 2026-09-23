@@ -20,8 +20,7 @@ package io.instanto.bootstrap5.client.ui.gwt;
  * #L%
  */
 
-import java.util.List;
-
+import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.base.HasDataSpy;
 import io.instanto.bootstrap5.client.ui.base.HasDataTarget;
 import io.instanto.bootstrap5.client.ui.base.HasId;
@@ -32,65 +31,65 @@ import io.instanto.bootstrap5.client.ui.base.mixin.DataTargetMixin;
 import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
 import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
 import io.instanto.bootstrap5.client.ui.constants.Spy;
-
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
 
 /**
  * @author Sven Jacobs
  */
-public class FlowPanel extends com.google.gwt.user.client.ui.FlowPanel implements HasDataSpy, HasId, HasDataTarget, HasResponsiveness {
+public class FlowPanel extends com.google.gwt.user.client.ui.FlowPanel
+    implements HasDataSpy, HasId, HasDataTarget, HasResponsiveness {
 
-    private final DataSpyMixin<FlowPanel> spyMixin = new DataSpyMixin<FlowPanel>(this);
-    private final IdMixin<FlowPanel> idMixin = new IdMixin<FlowPanel>(this);
-    private final DataTargetMixin<FlowPanel> targetMixin = new DataTargetMixin<FlowPanel>(this);
+  private final DataSpyMixin<FlowPanel> spyMixin = new DataSpyMixin<FlowPanel>(this);
+  private final IdMixin<FlowPanel> idMixin = new IdMixin<FlowPanel>(this);
+  private final DataTargetMixin<FlowPanel> targetMixin = new DataTargetMixin<FlowPanel>(this);
 
-    @Override
-    public void setDataSpy(final Spy spy) {
-        spyMixin.setDataSpy(spy);
-    }
+  @Override
+  public void setDataSpy(final Spy spy) {
+    spyMixin.setDataSpy(spy);
+  }
 
-    @Override
-    public Spy getDataSpy() {
-        return spyMixin.getDataSpy();
-    }
+  @Override
+  public Spy getDataSpy() {
+    return spyMixin.getDataSpy();
+  }
 
-    @Override
-    public void setDataTargetWidgets(final List<Widget> widgets) {
-        targetMixin.setDataTargetWidgets(widgets);
-    }
+  @Override
+  public void setDataTargetWidgets(final List<Widget> widgets) {
+    targetMixin.setDataTargetWidgets(widgets);
+  }
 
-    @Override
-    public void setDataTargetWidget(final Widget widget) {
-        targetMixin.setDataTargetWidget(widget);
-    }
+  @Override
+  public void setDataTargetWidget(final Widget widget) {
+    targetMixin.setDataTargetWidget(widget);
+  }
 
-    @Override
-    public void setDataTarget(final String dataTarget) {
-        targetMixin.setDataTarget(dataTarget);
-    }
+  @Override
+  public void setDataTarget(final String dataTarget) {
+    targetMixin.setDataTarget(dataTarget);
+  }
 
-    @Override
-    public String getDataTarget() {
-        return targetMixin.getDataTarget();
-    }
+  @Override
+  public String getDataTarget() {
+    return targetMixin.getDataTarget();
+  }
 
-    @Override
-    public void setId(final String id) {
-        idMixin.setId(id);
-    }
+  @Override
+  public void setId(final String id) {
+    idMixin.setId(id);
+  }
 
-    @Override
-    public String getId() {
-        return idMixin.getId();
-    }
+  @Override
+  public String getId() {
+    return idMixin.getId();
+  }
 
-    @Override
-    public void setVisibleOn(final DeviceSize deviceSize) {
-        StyleHelper.setVisibleOn(this, deviceSize);
-    }
+  @Override
+  public void setVisibleOn(final DeviceSize deviceSize) {
+    StyleHelper.setVisibleOn(this, deviceSize);
+  }
 
-    @Override
-    public void setHiddenOn(final DeviceSize deviceSize) {
-        StyleHelper.setHiddenOn(this, deviceSize);
-    }
+  @Override
+  public void setHiddenOn(final DeviceSize deviceSize) {
+    StyleHelper.setHiddenOn(this, deviceSize);
+  }
 }

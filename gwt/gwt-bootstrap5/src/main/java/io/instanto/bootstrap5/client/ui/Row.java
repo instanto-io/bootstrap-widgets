@@ -29,7 +29,7 @@ import io.instanto.bootstrap5.client.ui.html.Div;
 
 public class Row extends Div {
 
-    public Row() {
-        addStyleName("row");
-    }
+  public Row() {
+    addStyleName("row");
+  }
 }

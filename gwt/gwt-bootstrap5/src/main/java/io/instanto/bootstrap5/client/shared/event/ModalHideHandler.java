@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Sven Jacobs
  */
 public interface ModalHideHandler extends EventHandler {
-    void onHide(final ModalHideEvent evt);
+  void onHide(final ModalHideEvent evt);
 }

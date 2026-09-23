@@ -9,9 +9,9 @@ package io.instanto.bootstrap5.client.ui.base;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,17 +24,17 @@ package io.instanto.bootstrap5.client.ui.base;
  * @author Sven Jacobs
  */
 public interface HasActive {
-    /**
-     * Sets the widget with the active styles or not
-     *
-     * @param active true=gets active styles, false=removes active styles
-     */
-    void setActive(boolean active);
+  /**
+   * Sets the widget with the active styles or not
+   *
+   * @param active true=gets active styles, false=removes active styles
+   */
+  void setActive(boolean active);
 
-    /**
-     * Gets whether or not the widget has the active styles
-     *
-     * @return true=has active styles, false=does not have active styles
-     */
-    boolean isActive();
+  /**
+   * Gets whether or not the widget has the active styles
+   *
+   * @return true=has active styles, false=does not have active styles
+   */
+  boolean isActive();
 }

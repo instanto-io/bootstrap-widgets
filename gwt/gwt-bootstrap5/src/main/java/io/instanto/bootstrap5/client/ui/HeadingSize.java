@@ -20,20 +20,20 @@
 package io.instanto.bootstrap5.client.ui;
 
 public enum HeadingSize {
-    H1(1),
-    H2(2),
-    H3(3),
-    H4(4),
-    H5(5),
-    H6(6);
+  H1(1),
+  H2(2),
+  H3(3),
+  H4(4),
+  H5(5),
+  H6(6);
 
-    private final int size;
+  private final int size;
 
-    HeadingSize(int size) {
-        this.size = size;
-    }
+  HeadingSize(int size) {
+    this.size = size;
+  }
 
-    public int size() {
-        return size;
-    }
+  public int size() {
+    return size;
+  }
 }

@@ -21,5 +21,5 @@ package io.instanto.bootstrap5.client.ui.theme;
 
 /** Notified after the active theme changes. */
 public interface ThemeChangeHandler {
-    void onThemeChanged(Theme theme);
+  void onThemeChanged(Theme theme);
 }

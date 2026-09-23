@@ -28,77 +28,72 @@ package io.instanto.bootstrap5.client.ui;
 import com.google.gwt.uibinder.client.UiConstructor;
 import io.instanto.bootstrap5.client.ui.base.HasAlignment;
 import io.instanto.bootstrap5.client.ui.base.HasEmphasis;
+import io.instanto.bootstrap5.client.ui.base.HasSubText;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.Alignment;
 import io.instanto.bootstrap5.client.ui.constants.Emphasis;
-
-
-import io.instanto.bootstrap5.client.ui.base.HasSubText;
 import io.instanto.bootstrap5.client.ui.html.Small;
 
 public class Heading extends ElementPanel implements HasSubText, HasAlignment, HasEmphasis {
 
-    public Heading(int size) {
-        super("h" + clamp(size));
-    }
+  public Heading(int size) {
+    super("h" + clamp(size));
+  }
 
-    public Heading(int size, String text) {
-        this(size);
-        setText(text);
-    }
+  public Heading(int size, String text) {
+    this(size);
+    setText(text);
+  }
 
-    @UiConstructor
-    public Heading(HeadingSize size) {
-        this(size == null ? 1 : size.size());
-    }
+  @UiConstructor
+  public Heading(HeadingSize size) {
+    this(size == null ? 1 : size.size());
+  }
 
-    public Heading(HeadingSize size, String text) {
-        this(size);
-        setText(text);
-    }
+  public Heading(HeadingSize size, String text) {
+    this(size);
+    setText(text);
+  }
 
-    private static int clamp(int size) {
-        return Math.max(1, Math.min(6, size));
-    }
+  private static int clamp(int size) {
+    return Math.max(1, Math.min(6, size));
+  }
 
-    private final Small subText = new Small();
+  private final Small subText = new Small();
 
-    /**
-     * Bootstrap 3 styled heading subtext with .small; Bootstrap 5 needs the
-     * muted colour spelled out, so the element also carries
-     * .text-body-secondary.
-     */
-    @Override
-    public void setSubText(final String subText) {
-        this.subText.setText(" " + (subText == null ? "" : subText));
-        this.subText.addStyleName("text-body-secondary");
-        add(this.subText);
-    }
+  /**
+   * Bootstrap 3 styled heading subtext with .small; Bootstrap 5 needs the muted colour spelled out,
+   * so the element also carries .text-body-secondary.
+   */
+  @Override
+  public void setSubText(final String subText) {
+    this.subText.setText(" " + (subText == null ? "" : subText));
+    this.subText.addStyleName("text-body-secondary");
+    add(this.subText);
+  }
 
-    @Override
-    public String getSubText() {
-        return subText.getText();
-    }
+  @Override
+  public String getSubText() {
+    return subText.getText();
+  }
 
+  @Override
+  public void setAlignment(final Alignment alignment) {
+    StyleHelper.addUniqueEnumStyleName(this, Alignment.class, alignment);
+  }
 
-    @Override
-    public void setAlignment(final Alignment alignment) {
-        StyleHelper.addUniqueEnumStyleName(this, Alignment.class, alignment);
-    }
+  @Override
+  public Alignment getAlignment() {
+    return Alignment.fromStyleName(getStyleName());
+  }
 
-    @Override
-    public Alignment getAlignment() {
-        return Alignment.fromStyleName(getStyleName());
-    }
+  @Override
+  public void setEmphasis(final Emphasis emphasis) {
+    StyleHelper.addUniqueEnumStyleName(this, Emphasis.class, emphasis);
+  }
 
-    @Override
-    public void setEmphasis(final Emphasis emphasis) {
-        StyleHelper.addUniqueEnumStyleName(this, Emphasis.class, emphasis);
-    }
-
-    @Override
-    public Emphasis getEmphasis() {
-        return Emphasis.fromStyleName(getStyleName());
-    }
-
+  @Override
+  public Emphasis getEmphasis() {
+    return Emphasis.fromStyleName(getStyleName());
+  }
 }

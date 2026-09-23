@@ -20,24 +20,21 @@ package io.instanto.bootstrap5.client.ui.impl;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.SimpleRadioButton;
-
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import io.instanto.bootstrap5.client.ui.SimpleRadioButton;
 
 public class SimpleRadioButtonImpl {
 
-    public void ensureDomEventHandlers(final SimpleRadioButton simpleRadioButton) {
-        simpleRadioButton.addChangeHandler(new ChangeHandler() {
+  public void ensureDomEventHandlers(final SimpleRadioButton simpleRadioButton) {
+    simpleRadioButton.addChangeHandler(
+        new ChangeHandler() {
 
-            @Override
-            public void onChange(ChangeEvent event) {
-                ValueChangeEvent.fire(simpleRadioButton,
-                        simpleRadioButton.getValue());
-            }
-
+          @Override
+          public void onChange(ChangeEvent event) {
+            ValueChangeEvent.fire(simpleRadioButton, simpleRadioButton.getValue());
+          }
         });
-    }
-
+  }
 }

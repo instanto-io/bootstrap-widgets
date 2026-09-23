@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class Divider extends ElementPanel {
 
-    public Divider() {
-        super("li");
-        setHTML("<hr class=\"dropdown-divider\">");
-    }
+  public Divider() {
+    super("li");
+    setHTML("<hr class=\"dropdown-divider\">");
+  }
 }

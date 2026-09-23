@@ -21,12 +21,12 @@ package io.instanto.bootstrap5.client.ui;
 
 public class Paragraph extends ElementPanel {
 
-    public Paragraph() {
-        super("p");
-    }
+  public Paragraph() {
+    super("p");
+  }
 
-    public Paragraph(String text) {
-        this();
-        setText(text);
-    }
+  public Paragraph(String text) {
+    this();
+    setText(text);
+  }
 }

@@ -30,44 +30,45 @@ import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
  */
 public class DecimalMaxValidator<T> extends AbstractValidator<T> {
 
-    private Number maxValue;
+  private Number maxValue;
 
-    /**
-     * Constructor.
-     *
-     * @param maxValue the max value
-     */
-    public DecimalMaxValidator(Number maxValue) {
-        super(Keys.DECIMAL_MAX, new Object[] { maxValue.toString() });
-        this.maxValue = maxValue;
+  /**
+   * Constructor.
+   *
+   * @param maxValue the max value
+   */
+  public DecimalMaxValidator(Number maxValue) {
+    super(Keys.DECIMAL_MAX, new Object[] {maxValue.toString()});
+    this.maxValue = maxValue;
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param maxValue the max value
+   * @param invalidMessageOverride the invalid message override
+   */
+  public DecimalMaxValidator(Number maxValue, String invalidMessageOverride) {
+    super(invalidMessageOverride);
+    this.maxValue = maxValue;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public int getPriority() {
+    return Priority.MEDIUM;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(T value) {
+    if (value == null) {
+      return true;
     }
-
-    /**
-     * Constructor.
-     *
-     * @param maxValue the max value
-     * @param invalidMessageOverride the invalid message override
-     */
-    public DecimalMaxValidator(Number maxValue, String invalidMessageOverride) {
-        super(invalidMessageOverride);
-        this.maxValue = maxValue;
+    if (value instanceof Number) {
+      return ((Number) value).doubleValue() <= maxValue.doubleValue();
+    } else {
+      return Double.parseDouble(value.toString()) <= maxValue.doubleValue();
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getPriority() {
-        return Priority.MEDIUM;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(T value) {
-        if (value == null) { return true; }
-        if (value instanceof Number) {
-            return ((Number) value).doubleValue() <= maxValue.doubleValue();
-        } else {
-            return Double.parseDouble(value.toString()) <= maxValue.doubleValue();
-        }
-    }
-
+  }
 }

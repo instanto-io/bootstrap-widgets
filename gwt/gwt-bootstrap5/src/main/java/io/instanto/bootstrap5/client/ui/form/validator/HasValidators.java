@@ -30,61 +30,57 @@ import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent.Ha
  */
 public interface HasValidators<T> extends HasValidationChangedHandlers {
 
-    /**
-     * Adds the validator.
-     *
-     * @param validator the validator
-     */
-    void addValidator(Validator<T> validator);
+  /**
+   * Adds the validator.
+   *
+   * @param validator the validator
+   */
+  void addValidator(Validator<T> validator);
 
-    /**
-     * Gets the validate on blur.
-     *
-     * @return the validate on blur
-     */
-    boolean getValidateOnBlur();
+  /**
+   * Gets the validate on blur.
+   *
+   * @return the validate on blur
+   */
+  boolean getValidateOnBlur();
 
+  /**
+   * Removes the validator.
+   *
+   * @param validator the validator
+   * @return true, if successful
+   */
+  boolean removeValidator(Validator<T> validator);
 
-    /**
-     * Removes the validator.
-     *
-     * @param validator the validator
-     * @return true, if successful
-     */
-    boolean removeValidator(Validator<T> validator);
+  /** Reset the form element to blank and clear error messages. */
+  void reset();
 
-    /**
-     * Reset the form element to blank and clear error messages.
-     */
-    void reset();
+  /**
+   * Sets the validate on blur.
+   *
+   * @param validateOnBlur the new validate on blur
+   */
+  void setValidateOnBlur(boolean validateOnBlur);
 
-    /**
-     * Sets the validate on blur.
-     *
-     * @param validateOnBlur the new validate on blur
-     */
-    void setValidateOnBlur(boolean validateOnBlur);
+  /**
+   * The validators used to validate this object.
+   *
+   * @param validators the new validators
+   */
+  void setValidators(@SuppressWarnings("unchecked") Validator<T>... validators);
 
-    /**
-     * The validators used to validate this object.
-     *
-     * @param validators the new validators
-     */
-    void setValidators(@SuppressWarnings("unchecked") Validator<T>... validators);
+  /**
+   * Validate the field's value using the supplied validators.
+   *
+   * @return true, if valid
+   */
+  boolean validate();
 
-    /**
-     * Validate the field's value using the supplied validators.
-     *
-     * @return true, if valid
-     */
-    boolean validate();
-
-    /**
-     * Validate the field's value using the supplied validators.
-     *
-     * @param show the error to the user.
-     * @return true, if valid
-     */
-    boolean validate(boolean show);
-
+  /**
+   * Validate the field's value using the supplied validators.
+   *
+   * @param show the error to the user.
+   * @return true, if valid
+   */
+  boolean validate(boolean show);
 }

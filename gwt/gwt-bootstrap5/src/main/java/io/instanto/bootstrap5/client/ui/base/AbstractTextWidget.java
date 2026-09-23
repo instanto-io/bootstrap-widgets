@@ -20,12 +20,6 @@ package io.instanto.bootstrap5.client.ui.base;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
-import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
-import io.instanto.bootstrap5.client.ui.base.mixin.PullMixin;
-import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
-import io.instanto.bootstrap5.client.ui.constants.Pull;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.editor.client.IsEditor;
@@ -33,6 +27,11 @@ import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.ui.client.adapters.HasTextEditor;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.Widget;
+import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
+import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
+import io.instanto.bootstrap5.client.ui.base.mixin.PullMixin;
+import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
+import io.instanto.bootstrap5.client.ui.constants.Pull;
 
 /**
  * Base class for {@link Widget} that just contains text.
@@ -40,124 +39,124 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Sven Jacobs
  * @author Joshua Godi
  */
-public abstract class AbstractTextWidget extends Widget implements HasId, HasHTML, HasResponsiveness, HasInlineStyle, IsEditor<LeafValueEditor<String>>, HasPull {
-    private final PullMixin<AbstractTextWidget> pullMixin = new PullMixin<AbstractTextWidget>(this);
-    private final IdMixin<AbstractTextWidget> idMixin = new IdMixin<AbstractTextWidget>(this);
-    private LeafValueEditor<String> editor;
+public abstract class AbstractTextWidget extends Widget
+    implements HasId,
+        HasHTML,
+        HasResponsiveness,
+        HasInlineStyle,
+        IsEditor<LeafValueEditor<String>>,
+        HasPull {
+  private final PullMixin<AbstractTextWidget> pullMixin = new PullMixin<AbstractTextWidget>(this);
+  private final IdMixin<AbstractTextWidget> idMixin = new IdMixin<AbstractTextWidget>(this);
+  private LeafValueEditor<String> editor;
 
-    protected AbstractTextWidget(final Element element) {
-        setElement(element);
-    }
+  protected AbstractTextWidget(final Element element) {
+    setElement(element);
+  }
 
-    @Override
-    public void setId(final String id) {
-        idMixin.setId(id);
-    }
+  @Override
+  public void setId(final String id) {
+    idMixin.setId(id);
+  }
 
-    @Override
-    public String getId() {
-        return idMixin.getId();
-    }
+  @Override
+  public String getId() {
+    return idMixin.getId();
+  }
 
-    @Override
-    public void setText(final String text) {
-        getElement().setInnerText(text);
-    }
+  @Override
+  public void setText(final String text) {
+    getElement().setInnerText(text);
+  }
 
-    @Override
-    public String getText() {
-        return getElement().getInnerText();
-    }
+  @Override
+  public String getText() {
+    return getElement().getInnerText();
+  }
 
-    @Override
-    public String getHTML() {
-        return getElement().getInnerHTML();
-    }
+  @Override
+  public String getHTML() {
+    return getElement().getInnerHTML();
+  }
 
-    @Override
-    public void setHTML(final String html) {
-        getElement().setInnerHTML(html);
-    }
+  @Override
+  public void setHTML(final String html) {
+    getElement().setInnerHTML(html);
+  }
 
-    @Override
-    public void setVisibleOn(final DeviceSize deviceSize) {
-        StyleHelper.setVisibleOn(this, deviceSize);
-    }
+  @Override
+  public void setVisibleOn(final DeviceSize deviceSize) {
+    StyleHelper.setVisibleOn(this, deviceSize);
+  }
 
-    @Override
-    public void setHiddenOn(final DeviceSize deviceSize) {
-        StyleHelper.setHiddenOn(this, deviceSize);
-    }
+  @Override
+  public void setHiddenOn(final DeviceSize deviceSize) {
+    StyleHelper.setHiddenOn(this, deviceSize);
+  }
 
-    @Override
-    public void setMarginTop(final double margin) {
-        getElement().getStyle().setMarginTop(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginTop(final double margin) {
+    getElement().getStyle().setMarginTop(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setMarginLeft(final double margin) {
-        getElement().getStyle().setMarginLeft(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginLeft(final double margin) {
+    getElement().getStyle().setMarginLeft(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setMarginRight(final double margin) {
-        getElement().getStyle().setMarginRight(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginRight(final double margin) {
+    getElement().getStyle().setMarginRight(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setMarginBottom(final double margin) {
-        getElement().getStyle().setMarginBottom(margin, Style.Unit.PX);
-    }
+  @Override
+  public void setMarginBottom(final double margin) {
+    getElement().getStyle().setMarginBottom(margin, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingTop(final double padding) {
-        getElement().getStyle().setPaddingTop(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingTop(final double padding) {
+    getElement().getStyle().setPaddingTop(padding, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingLeft(final double padding) {
-        getElement().getStyle().setPaddingLeft(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingLeft(final double padding) {
+    getElement().getStyle().setPaddingLeft(padding, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingRight(final double padding) {
-        getElement().getStyle().setPaddingRight(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingRight(final double padding) {
+    getElement().getStyle().setPaddingRight(padding, Style.Unit.PX);
+  }
 
-    @Override
-    public void setPaddingBottom(final double padding) {
-        getElement().getStyle().setPaddingBottom(padding, Style.Unit.PX);
-    }
+  @Override
+  public void setPaddingBottom(final double padding) {
+    getElement().getStyle().setPaddingBottom(padding, Style.Unit.PX);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setColor(String color) {
-        getElement().getStyle().setColor(color);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void setColor(String color) {
+    getElement().getStyle().setColor(color);
+  }
 
-    @Override
-    public LeafValueEditor<String> asEditor() {
-        if (editor == null) {
-            editor = HasTextEditor.of(this);
-        }
-        return editor;
+  @Override
+  public LeafValueEditor<String> asEditor() {
+    if (editor == null) {
+      editor = HasTextEditor.of(this);
     }
+    return editor;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setPull(final Pull pull) {
-        pullMixin.setPull(pull);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void setPull(final Pull pull) {
+    pullMixin.setPull(pull);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Pull getPull() {
-        return pullMixin.getPull();
-    }
+  /** {@inheritDoc} */
+  @Override
+  public Pull getPull() {
+    return pullMixin.getPull();
+  }
 }

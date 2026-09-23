@@ -9,9 +9,9 @@ package io.instanto.bootstrap5.client.ui.base;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,23 +23,23 @@ package io.instanto.bootstrap5.client.ui.base;
 import io.instanto.bootstrap5.client.ui.constants.Emphasis;
 
 /**
- * An object that implements this interface has emphasis, which can be set and
- * retrieved using these methods.
+ * An object that implements this interface has emphasis, which can be set and retrieved using these
+ * methods.
  *
  * @author Joshua Godi
  */
 public interface HasEmphasis {
-    /**
-     * Sets the object's emphasis.
-     *
-     * @param emphasis the object's new emphasis
-     */
-    void setEmphasis(Emphasis emphasis);
+  /**
+   * Sets the object's emphasis.
+   *
+   * @param emphasis the object's new emphasis
+   */
+  void setEmphasis(Emphasis emphasis);
 
-    /**
-     * Get the object's emphasis.
-     *
-     * @return the object's emphasis
-     */
-    Emphasis getEmphasis();
+  /**
+   * Get the object's emphasis.
+   *
+   * @return the object's emphasis
+   */
+  Emphasis getEmphasis();
 }

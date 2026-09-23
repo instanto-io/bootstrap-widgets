@@ -25,29 +25,26 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
-import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
-
-
 import com.google.gwt.user.client.ui.Widget;
+import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 
 public class CarouselSlide extends ElementPanel {
 
-    public CarouselSlide() {
-        super("div");
-        addStyleName("carousel-item");
-    }
+  public CarouselSlide() {
+    super("div");
+    addStyleName("carousel-item");
+  }
 
-    public CarouselSlide(Widget child) {
-        this();
-        add(child);
-    }
+  public CarouselSlide(Widget child) {
+    this();
+    add(child);
+  }
 
-    public void setActive(boolean active) {
-        setStyleName("active", active);
-    }
+  public void setActive(boolean active) {
+    setStyleName("active", active);
+  }
 
-    public boolean isActive() {
-        return StyleHelper.containsStyle(getStyleName(), "active");
-    }
-
+  public boolean isActive() {
+    return StyleHelper.containsStyle(getStyleName(), "active");
+  }
 }

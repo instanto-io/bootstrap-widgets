@@ -25,18 +25,17 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
-
 public class InlineHelpBlock extends HelpBlock {
 
-    public InlineHelpBlock() {
-        this("");
-    }
+  public InlineHelpBlock() {
+    this("");
+  }
 
-    public InlineHelpBlock(String text) {
-        super(text);
-        addStyleName("d-inline-block");
-        addStyleName("w-auto");
-        addStyleName("ms-2");
-        addStyleName("mb-0");
-    }
+  public InlineHelpBlock(String text) {
+    super(text);
+    addStyleName("d-inline-block");
+    addStyleName("w-auto");
+    addStyleName("ms-2");
+    addStyleName("mb-0");
+  }
 }

@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class TabContent extends ElementPanel {
 
-    public TabContent() {
-        super("div");
-        addStyleName("tab-content");
-    }
+  public TabContent() {
+    super("div");
+    addStyleName("tab-content");
+  }
 }

@@ -29,24 +29,22 @@ import io.instanto.bootstrap5.client.ui.base.HasDataSpy;
 import io.instanto.bootstrap5.client.ui.base.mixin.DataSpyMixin;
 import io.instanto.bootstrap5.client.ui.constants.Spy;
 
-
 public class NavbarHeader extends ElementPanel implements HasDataSpy {
 
-    public NavbarHeader() {
-        super("div");
-        addStyleName("d-flex align-items-center gap-2");
-    }
+  public NavbarHeader() {
+    super("div");
+    addStyleName("d-flex align-items-center gap-2");
+  }
 
-    private final DataSpyMixin<NavbarHeader> dataSpyMixin = new DataSpyMixin<NavbarHeader>(this);
+  private final DataSpyMixin<NavbarHeader> dataSpyMixin = new DataSpyMixin<NavbarHeader>(this);
 
-    @Override
-    public void setDataSpy(final Spy spy) {
-        dataSpyMixin.setDataSpy(spy);
-    }
+  @Override
+  public void setDataSpy(final Spy spy) {
+    dataSpyMixin.setDataSpy(spy);
+  }
 
-    @Override
-    public Spy getDataSpy() {
-        return dataSpyMixin.getDataSpy();
-    }
-
+  @Override
+  public Spy getDataSpy() {
+    return dataSpyMixin.getDataSpy();
+  }
 }

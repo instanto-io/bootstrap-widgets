@@ -27,21 +27,20 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  */
 public class MessageFormat {
 
-    /**
-     * Format the message using the pattern and the arguments.
-     *
-     * @param pattern the pattern in the format of "{1} this is a {2}"
-     * @param arguments the arguments.
-     * @return the formatted result.
-     */
-    public static String format(String pattern, Object... arguments) {
-        String msg = pattern;
-        if (arguments != null) {
-            for (int index = 0; index < arguments.length; index++) {
-                msg = msg.replaceAll("\\{" + (index + 1) + "\\}", String.valueOf(arguments[index]));
-            }
-        }
-        return msg;
+  /**
+   * Format the message using the pattern and the arguments.
+   *
+   * @param pattern the pattern in the format of "{1} this is a {2}"
+   * @param arguments the arguments.
+   * @return the formatted result.
+   */
+  public static String format(String pattern, Object... arguments) {
+    String msg = pattern;
+    if (arguments != null) {
+      for (int index = 0; index < arguments.length; index++) {
+        msg = msg.replaceAll("\\{" + (index + 1) + "\\}", String.valueOf(arguments[index]));
+      }
     }
-
+    return msg;
+  }
 }

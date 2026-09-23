@@ -20,7 +20,6 @@ package io.instanto.bootstrap5.client.ui.base.helper;
  * #L%
  */
 
-
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -30,24 +29,25 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
  */
 public final class SourceCodeHelper {
 
-    /**
-     * If source code contains "\n" it will be replaced by a {@code <br>} element and "\s" will be replaced by a whitespace.
-     *
-     * @param code Unformatted source code
-     * @return Formatted source code in HTML for use in {@link io.instanto.bootstrap5.client.ui.Pre} or {@link io.instanto.bootstrap5.client.ui.Code}
-     */
-    public static SafeHtml parseCode(final String code) {
-        final SafeHtmlBuilder builder = new SafeHtmlBuilder();
-        final String[] splitted = code.replaceAll("\\\\s", " ").split("\\\\n\\s?");
+  /**
+   * If source code contains "\n" it will be replaced by a {@code <br>} element and "\s" will be
+   * replaced by a whitespace.
+   *
+   * @param code Unformatted source code
+   * @return Formatted source code in HTML for use in {@link io.instanto.bootstrap5.client.ui.Pre}
+   *     or {@link io.instanto.bootstrap5.client.ui.Code}
+   */
+  public static SafeHtml parseCode(final String code) {
+    final SafeHtmlBuilder builder = new SafeHtmlBuilder();
+    final String[] splitted = code.replaceAll("\\\\s", " ").split("\\\\n\\s?");
 
-        for (final String s : splitted) {
-            builder.append(SafeHtmlUtils.fromTrustedString(SafeHtmlUtils.htmlEscapeAllowEntities(s)));
-            builder.appendHtmlConstant("<br>");
-        }
-
-        return builder.toSafeHtml();
+    for (final String s : splitted) {
+      builder.append(SafeHtmlUtils.fromTrustedString(SafeHtmlUtils.htmlEscapeAllowEntities(s)));
+      builder.appendHtmlConstant("<br>");
     }
 
-    private SourceCodeHelper() {
-    }
+    return builder.toSafeHtml();
+  }
+
+  private SourceCodeHelper() {}
 }

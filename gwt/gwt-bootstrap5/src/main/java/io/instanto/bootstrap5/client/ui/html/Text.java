@@ -27,53 +27,49 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Simple text node.
- * <p/>
+ *
+ * <p>
+ *
  * <h3>UiBinder example</h3>
- * <p/>
- * <pre>
- * {@code
+ *
+ * <p>
+ *
+ * <pre>{@code
  * <b:Text>
  *    ...
  * </b:Text>
- * }
- * </pre>
+ * }</pre>
  *
  * @author Sven Jacobs
  */
 public class Text extends Widget implements HasText {
 
-    private final com.google.gwt.dom.client.Text text;
+  private final com.google.gwt.dom.client.Text text;
 
-    /**
-     * Creates the default text node with empty text
-     */
-    public Text() {
-        this("");
-    }
+  /** Creates the default text node with empty text */
+  public Text() {
+    this("");
+  }
 
-    /**
-     * Creates a text node with the desired text
-     *
-     * @param txt String text to display
-     */
-    public Text(final String txt) {
-        text = Document.get().createTextNode(txt);
-        setElement(text.<Element>cast());
-    }
+  /**
+   * Creates a text node with the desired text
+   *
+   * @param txt String text to display
+   */
+  public Text(final String txt) {
+    text = Document.get().createTextNode(txt);
+    setElement(text.<Element>cast());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setText(final String txt) {
-        text.setData(txt);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void setText(final String txt) {
+    text.setData(txt);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getText() {
-        return text.getData();
-    }
+  /** {@inheritDoc} */
+  @Override
+  public String getText() {
+    return text.getData();
+  }
 }

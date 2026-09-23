@@ -29,12 +29,12 @@ import io.instanto.bootstrap5.client.ui.html.Div;
 
 public class Container extends Div {
 
-    public Container() {
-        setFluid(false);
-    }
+  public Container() {
+    setFluid(false);
+  }
 
-    public void setFluid(boolean fluid) {
-        removeStyleName(fluid ? "container" : "container-fluid");
-        addStyleName(fluid ? "container-fluid" : "container");
-    }
+  public void setFluid(boolean fluid) {
+    removeStyleName(fluid ? "container" : "container-fluid");
+    addStyleName(fluid ? "container-fluid" : "container");
+  }
 }

@@ -23,79 +23,76 @@ package io.instanto.bootstrap5.client.ui.form.error;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 
-/**
- * Basic {@link EditorError} implementation.
- */
+/** Basic {@link EditorError} implementation. */
 public class BasicEditorError implements EditorError {
 
-    protected boolean consumed = false;
+  protected boolean consumed = false;
 
-    protected Editor<?> editor = null;
+  protected Editor<?> editor = null;
 
-    protected String message = null;
+  protected String message = null;
 
-    protected Object value = null;
+  protected Object value = null;
 
-    /**
-     * Create an new error.
-     *
-     * @param editor the editor
-     * @param value the value
-     * @param message the message
-     */
-    public BasicEditorError(Editor<?> editor, Object value, String message) {
-        this.editor = editor;
-        this.value = value;
-        this.message = message;
-    }
+  /**
+   * Create an new error.
+   *
+   * @param editor the editor
+   * @param value the value
+   * @param message the message
+   */
+  public BasicEditorError(Editor<?> editor, Object value, String message) {
+    this.editor = editor;
+    this.value = value;
+    this.message = message;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public String getAbsolutePath() {
-        return null;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public String getAbsolutePath() {
+    return null;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public Editor<?> getEditor() {
-        return editor;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public Editor<?> getEditor() {
+    return editor;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        // TODO We may need to format the message using MessageFormat.
-        return message;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public String getMessage() {
+    // TODO We may need to format the message using MessageFormat.
+    return message;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public String getPath() {
-        return null;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public String getPath() {
+    return null;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public Object getUserData() {
-        return null;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public Object getUserData() {
+    return null;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public Object getValue() {
-        return value;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public Object getValue() {
+    return value;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isConsumed() {
-        return consumed;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public boolean isConsumed() {
+    return consumed;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public void setConsumed(boolean consumed) {
-        this.consumed = consumed;
-    }
-
+  /** {@inheritDoc} */
+  @Override
+  public void setConsumed(boolean consumed) {
+    this.consumed = consumed;
+  }
 }

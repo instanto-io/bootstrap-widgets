@@ -24,49 +24,44 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * Mixin for looking up validation messages. This can be replaced with your own version by using a
  * "replace-with" statment in the gwt module file.
  *
- * Example:
+ * <p>Example:
  *
- * <pre>
- * {@code
+ * <pre>{@code
  * <replace-with class="...CustomValidatorMessageMixin">
  *     <when-type-is class="io.instanto.bootstrap5.client.ui.form.validator.ValidatorMessageMixin" />
  * </replace-with>
- * }
- * </pre>
+ * }</pre>
  *
  * @author Steven Jardine
  */
 public interface ValidatorMessageMixin {
 
-    /**
-     * Lookup the message using the supplied key.
-     *
-     * @param key the key.
-     * @return the message associated with the given key.
-     */
-    String lookup(String key);
+  /**
+   * Lookup the message using the supplied key.
+   *
+   * @param key the key.
+   * @return the message associated with the given key.
+   */
+  String lookup(String key);
 
-    /**
-     * Lookup a message using the given key and replace the arguments in the given message with the supplied
-     * values.
-     *
-     * <pre>
-     * {@code
-     * Message:
-     * {1} is a {2}
-     *
-     * Call:
-     * lookup("key", "This", "test.");
-     *
-     * Returns:
-     * This is a test.
-     * }
-     * </pre>
-     *
-     * @param key the key
-     * @param msgValues the values used in the message.
-     * @return the message associated with the given key with the message values replaced.
-     */
-    String lookup(String key, Object[] msgValues);
-
+  /**
+   * Lookup a message using the given key and replace the arguments in the given message with the
+   * supplied values.
+   *
+   * <pre>{@code
+   * Message:
+   * {1} is a {2}
+   *
+   * Call:
+   * lookup("key", "This", "test.");
+   *
+   * Returns:
+   * This is a test.
+   * }</pre>
+   *
+   * @param key the key
+   * @param msgValues the values used in the message.
+   * @return the message associated with the given key with the message values replaced.
+   */
+  String lookup(String key, Object[] msgValues);
 }

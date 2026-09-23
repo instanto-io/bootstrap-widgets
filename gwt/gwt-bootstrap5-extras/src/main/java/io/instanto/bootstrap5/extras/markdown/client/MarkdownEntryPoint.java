@@ -32,26 +32,26 @@ import jsinterop.base.Js;
 /** Injects marked and DOMPurify unless the page already provides them. */
 public class MarkdownEntryPoint implements EntryPoint {
 
-    @Override
-    public void onModuleLoad() {
-        if (!isMarkedLoaded()) {
-            ScriptInjector.fromString(MarkdownClientBundle.INSTANCE.marked().getText())
-                    .setWindow(ScriptInjector.TOP_WINDOW)
-                    .inject();
-        }
-        if (!isPurifyLoaded()) {
-            ScriptInjector.fromString(MarkdownClientBundle.INSTANCE.domPurify().getText())
-                    .setWindow(ScriptInjector.TOP_WINDOW)
-                    .inject();
-        }
-        Markdown.configure();
+  @Override
+  public void onModuleLoad() {
+    if (!isMarkedLoaded()) {
+      ScriptInjector.fromString(MarkdownClientBundle.INSTANCE.marked().getText())
+          .setWindow(ScriptInjector.TOP_WINDOW)
+          .inject();
     }
+    if (!isPurifyLoaded()) {
+      ScriptInjector.fromString(MarkdownClientBundle.INSTANCE.domPurify().getText())
+          .setWindow(ScriptInjector.TOP_WINDOW)
+          .inject();
+    }
+    Markdown.configure();
+  }
 
-    private static boolean isMarkedLoaded() {
-        return Js.global().get("marked") != null;
-    }
+  private static boolean isMarkedLoaded() {
+    return Js.global().get("marked") != null;
+  }
 
-    private static boolean isPurifyLoaded() {
-        return Js.global().get("DOMPurify") != null;
-    }
+  private static boolean isPurifyLoaded() {
+    return Js.global().get("DOMPurify") != null;
+  }
 }

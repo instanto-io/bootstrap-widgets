@@ -33,60 +33,59 @@ import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 public class Nav extends ElementPanel implements HasJustified, HasStacked {
 
-    public Nav() {
-        super("ul");
-        addStyleName("nav");
-    }
+  public Nav() {
+    super("ul");
+    addStyleName("nav");
+  }
 
-    public void addItem(Widget child) {
-        ElementPanel item = new ElementPanel("li");
-        item.addStyleName("nav-item");
-        item.add(child);
-        add(item);
-    }
+  public void addItem(Widget child) {
+    ElementPanel item = new ElementPanel("li");
+    item.addStyleName("nav-item");
+    item.add(child);
+    add(item);
+  }
 
-    public Anchor addLink(String text, String href) {
-        Anchor link = new Anchor(text, href);
-        link.addStyleName("nav-link");
-        addItem(link);
-        return link;
-    }
+  public Anchor addLink(String text, String href) {
+    Anchor link = new Anchor(text, href);
+    link.addStyleName("nav-link");
+    addItem(link);
+    return link;
+  }
 
-    @Override
-    public void setJustified(final boolean justified) {
-        setStyleName(Styles.NAV_JUSTIFIED, justified);
-    }
+  @Override
+  public void setJustified(final boolean justified) {
+    setStyleName(Styles.NAV_JUSTIFIED, justified);
+  }
 
-    @Override
-    public boolean isJustified() {
-        return StyleHelper.containsStyle(getStyleName(), Styles.NAV_JUSTIFIED);
-    }
+  @Override
+  public boolean isJustified() {
+    return StyleHelper.containsStyle(getStyleName(), Styles.NAV_JUSTIFIED);
+  }
 
-    /** Bootstrap 5 has no .nav-stacked; a stacked nav is a flex column. */
-    @Override
-    public void setStacked(final boolean stacked) {
-        setStyleName(Styles.NAV_STACKED, stacked);
-    }
+  /** Bootstrap 5 has no .nav-stacked; a stacked nav is a flex column. */
+  @Override
+  public void setStacked(final boolean stacked) {
+    setStyleName(Styles.NAV_STACKED, stacked);
+  }
 
-    @Override
-    public boolean isStacked() {
-        return StyleHelper.containsStyle(getStyleName(), Styles.NAV_STACKED);
-    }
+  @Override
+  public boolean isStacked() {
+    return StyleHelper.containsStyle(getStyleName(), Styles.NAV_STACKED);
+  }
 
-    public void setInline(final boolean inline) {
-        setStyleName(Styles.LIST_INLINE, inline);
-    }
+  public void setInline(final boolean inline) {
+    setStyleName(Styles.LIST_INLINE, inline);
+  }
 
-    public boolean isInline() {
-        return StyleHelper.containsStyle(getStyleName(), Styles.LIST_INLINE);
-    }
+  public boolean isInline() {
+    return StyleHelper.containsStyle(getStyleName(), Styles.LIST_INLINE);
+  }
 
-    public void setUnstyled(final boolean unstyled) {
-        setStyleName(Styles.LIST_UNSTYLED, unstyled);
-    }
+  public void setUnstyled(final boolean unstyled) {
+    setStyleName(Styles.LIST_UNSTYLED, unstyled);
+  }
 
-    public boolean isUnstyled() {
-        return StyleHelper.containsStyle(getStyleName(), Styles.LIST_UNSTYLED);
-    }
-
+  public boolean isUnstyled() {
+    return StyleHelper.containsStyle(getStyleName(), Styles.LIST_UNSTYLED);
+  }
 }

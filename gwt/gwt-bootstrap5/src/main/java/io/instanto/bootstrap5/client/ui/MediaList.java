@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class MediaList extends ElementPanel {
 
-    public MediaList() {
-        super("div");
-        addStyleName("d-flex align-items-start gap-3");
-    }
+  public MediaList() {
+    super("div");
+    addStyleName("d-flex align-items-start gap-3");
+  }
 }

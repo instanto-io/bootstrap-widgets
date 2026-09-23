@@ -20,88 +20,88 @@ package io.instanto.bootstrap5.client.ui.html;
  * #L%
  */
 
+import com.google.gwt.dom.client.Document;
 import io.instanto.bootstrap5.client.ui.ListItem;
 import io.instanto.bootstrap5.client.ui.base.ComplexWidget;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
 
-import com.google.gwt.dom.client.Document;
-
 /**
  * Widget representing an Unordered List
- * <p/>
- * ** Children must be of type ListItem
- * <p/>
- * <p/>
+ *
+ * <p>** Children must be of type ListItem
+ *
+ * <p>
+ *
+ * <p>
+ *
  * <h3>UiBinder example</h3>
- * <p/>
- * <pre>
- * {@code
+ *
+ * <p>
+ *
+ * <pre>{@code
  * <b:UnorderedList>
  *    ... [ListItems]
  * </b:UnorderedList>
- * }
- * </pre>
+ * }</pre>
  *
  * @author Joshua Godi
  * @see io.instanto.bootstrap5.client.ui.ListItem
  */
 public class UnorderedList extends ComplexWidget {
 
-    /**
-     * Creates an empty list.
-     */
-    public UnorderedList() {
-        setElement(Document.get().createULElement());
-    }
+  /** Creates an empty list. */
+  public UnorderedList() {
+    setElement(Document.get().createULElement());
+  }
 
-    /**
-     * Creates a list and adds the given widgets.
-     *
-     * @param widgets widgets to be added
-     */
-    public UnorderedList(final ListItem... widgets) {
-        this();
+  /**
+   * Creates a list and adds the given widgets.
+   *
+   * @param widgets widgets to be added
+   */
+  public UnorderedList(final ListItem... widgets) {
+    this();
 
-        // Add all the list items to the widget
-        for (final ListItem li : widgets) {
-            add(li);
-        }
+    // Add all the list items to the widget
+    for (final ListItem li : widgets) {
+      add(li);
     }
+  }
 
-    /**
-     * Sets the UnorderedList to be unstyled
-     *
-     * @param unstyled boolean true/false to make unstyled
-     */
-    public void setUnstyled(final boolean unstyled) {
-        setStyleName(Styles.UNSTYLED, unstyled);
-    }
+  /**
+   * Sets the UnorderedList to be unstyled
+   *
+   * @param unstyled boolean true/false to make unstyled
+   */
+  public void setUnstyled(final boolean unstyled) {
+    setStyleName(Styles.UNSTYLED, unstyled);
+  }
 
-    /**
-     * Returns a boolean of whether or not the UnorderedList is unstyled
-     *
-     * @return true/false for unstyled or not
-     */
-    public boolean isUnstyled() {
-        return StyleHelper.containsStyle(Styles.UNSTYLED, getStyleName());
-    }
+  /**
+   * Returns a boolean of whether or not the UnorderedList is unstyled
+   *
+   * @return true/false for unstyled or not
+   */
+  public boolean isUnstyled() {
+    return StyleHelper.containsStyle(Styles.UNSTYLED, getStyleName());
+  }
 
-    /**
-     * Sets the UnorderedList to appear inline rather then stacked
-     *
-     * @param inline true/false for inline or not
-     */
-    public void setInline(final boolean inline) {
-        StyleHelper.toggleStyleName(this, inline, Styles.LIST_INLINE);
-    }
+  /**
+   * Sets the UnorderedList to appear inline rather then stacked
+   *
+   * @param inline true/false for inline or not
+   */
+  public void setInline(final boolean inline) {
+    StyleHelper.toggleStyleName(this, inline, Styles.LIST_INLINE);
+  }
 
-    /**
-     * Returns a boolean of whether or not the UnorderedList in inline
-     *
-     * @return true/false for inline or not
-     */
-    public boolean isInline() {
-        return StyleHelper.containsStyle(Styles.LIST_INLINE, getStyleName());
-    }
+  /**
+   * Returns a boolean of whether or not the UnorderedList in inline
+   *
+   * @return true/false for inline or not
+   */
+  public boolean isInline() {
+    return StyleHelper.containsStyle(Styles.LIST_INLINE, getStyleName());
+  }
 }

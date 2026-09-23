@@ -20,10 +20,9 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
-import java.util.List;
-
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
+import java.util.List;
 
 /**
  * An input validator.
@@ -33,41 +32,38 @@ import com.google.gwt.editor.client.EditorError;
  */
 public interface Validator<T> {
 
-    /**
-     * Represents the priority of a validator.
-     */
-    public static class Priority {
+  /** Represents the priority of a validator. */
+  public static class Priority {
 
-        /** HIGHEST priority */
-        public static final int HIGHEST = 0;
+    /** HIGHEST priority */
+    public static final int HIGHEST = 0;
 
-        /** HIGH priority */
-        public static final int HIGH = 25;
+    /** HIGH priority */
+    public static final int HIGH = 25;
 
-        /** MEDIUM priority */
-        public static final int MEDIUM = 50;
+    /** MEDIUM priority */
+    public static final int MEDIUM = 50;
 
-        /** LOW priority */
-        public static final int LOW = 75;
+    /** LOW priority */
+    public static final int LOW = 75;
 
-        /** LOWEST priority */
-        public static final int LOWEST = 100;
+    /** LOWEST priority */
+    public static final int LOWEST = 100;
+  }
 
-    }
+  /**
+   * Priority value for this validator. Lower the number, higher the priority.
+   *
+   * @return the priority.
+   */
+  int getPriority();
 
-    /**
-     * Priority value for this validator. Lower the number, higher the priority.
-     * @return the priority.
-     */
-    int getPriority();
-
-    /**
-     * Validate the field.
-     *
-     * @param editor the {@link Editor}.
-     * @param value the value
-     * @return the list
-     */
-    List<EditorError> validate(Editor<T> editor, T value);
-
+  /**
+   * Validate the field.
+   *
+   * @param editor the {@link Editor}.
+   * @param value the value
+   * @return the list
+   */
+  List<EditorError> validate(Editor<T> editor, T value);
 }

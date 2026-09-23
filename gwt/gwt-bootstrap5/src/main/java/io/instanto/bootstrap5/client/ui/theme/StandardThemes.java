@@ -19,47 +19,45 @@
  */
 package io.instanto.bootstrap5.client.ui.theme;
 
+import com.google.gwt.core.client.GWT;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-
 /**
- * The stylesheet this module ships, offered as a {@link Theme} so an
- * application can always get back to stock Bootstrap.
+ * The stylesheet this module ships, offered as a {@link Theme} so an application can always get
+ * back to stock Bootstrap.
  *
- * <p>Bootstrap 3 had two of these -- the base stylesheet and the optional
- * bootstrap-theme overlay. Bootstrap 5 dropped the overlay, so there is one.</p>
+ * <p>Bootstrap 3 had two of these -- the base stylesheet and the optional bootstrap-theme overlay.
+ * Bootstrap 5 dropped the overlay, so there is one.
  */
 public final class StandardThemes {
 
-    public static final String BOOTSTRAP = "bootstrap";
+  public static final String BOOTSTRAP = "bootstrap";
 
-    private StandardThemes() {
-    }
+  private StandardThemes() {}
 
-    /** Stock Bootstrap, served from this module's own resources. */
-    public static List<Theme> all() {
-        return all(GWT.getModuleBaseURL() + "css/");
-    }
+  /** Stock Bootstrap, served from this module's own resources. */
+  public static List<Theme> all() {
+    return all(GWT.getModuleBaseURL() + "css/");
+  }
 
-    public static List<Theme> all(final String basePath) {
-        return new ArrayList<Theme>(Arrays.asList(bootstrap(basePath)));
-    }
+  public static List<Theme> all(final String basePath) {
+    return new ArrayList<Theme>(Arrays.asList(bootstrap(basePath)));
+  }
 
-    public static Theme bootstrap(final String basePath) {
-        return new Theme(BOOTSTRAP, "Bootstrap", base(basePath), null, false);
-    }
+  public static Theme bootstrap(final String basePath) {
+    return new Theme(BOOTSTRAP, "Bootstrap", base(basePath), null, false);
+  }
 
-    private static String base(final String basePath) {
-        return normalise(basePath) + "bootstrap-5.3.8.min.cache.css";
-    }
+  private static String base(final String basePath) {
+    return normalise(basePath) + "bootstrap-5.3.8.min.cache.css";
+  }
 
-    private static String normalise(final String basePath) {
-        if (basePath == null || basePath.isEmpty()) {
-            return "";
-        }
-        return basePath.endsWith("/") ? basePath : basePath + "/";
+  private static String normalise(final String basePath) {
+    if (basePath == null || basePath.isEmpty()) {
+      return "";
     }
+    return basePath.endsWith("/") ? basePath : basePath + "/";
+  }
 }

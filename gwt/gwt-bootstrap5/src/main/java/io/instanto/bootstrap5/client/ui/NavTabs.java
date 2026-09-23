@@ -27,7 +27,7 @@ package io.instanto.bootstrap5.client.ui;
 
 public class NavTabs extends Nav {
 
-    public NavTabs() {
-        addStyleName("nav-tabs");
-    }
+  public NavTabs() {
+    addStyleName("nav-tabs");
+  }
 }

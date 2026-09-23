@@ -27,8 +27,8 @@ package io.instanto.bootstrap5.client.ui;
 
 public class PanelGroup extends ElementPanel {
 
-    public PanelGroup() {
-        super("div");
-        addStyleName("accordion");
-    }
+  public PanelGroup() {
+    super("div");
+    addStyleName("accordion");
+  }
 }

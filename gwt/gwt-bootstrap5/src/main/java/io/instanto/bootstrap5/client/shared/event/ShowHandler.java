@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Joshua Godi
  */
 public interface ShowHandler extends EventHandler {
-    void onShow(ShowEvent showEvent);
+  void onShow(ShowEvent showEvent);
 }

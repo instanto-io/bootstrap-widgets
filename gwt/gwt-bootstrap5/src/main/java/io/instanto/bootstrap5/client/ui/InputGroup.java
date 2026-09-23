@@ -26,57 +26,55 @@
 package io.instanto.bootstrap5.client.ui;
 
 import io.instanto.bootstrap5.client.ui.base.HasDataSpy;
-import io.instanto.bootstrap5.client.ui.base.mixin.DataSpyMixin;
-import io.instanto.bootstrap5.client.ui.constants.Spy;
-
-
 import io.instanto.bootstrap5.client.ui.base.HasSize;
 import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
+import io.instanto.bootstrap5.client.ui.base.mixin.DataSpyMixin;
 import io.instanto.bootstrap5.client.ui.constants.InputGroupSize;
+import io.instanto.bootstrap5.client.ui.constants.Spy;
 
 public class InputGroup extends ElementPanel implements HasSize<InputGroupSize>, HasDataSpy {
 
-    public InputGroup() {
-        super("div");
-        addStyleName("input-group");
-    }
+  public InputGroup() {
+    super("div");
+    addStyleName("input-group");
+  }
 
-    @Override
-    public void setSize(InputGroupSize size) {
-        StyleHelper.addUniqueEnumStyleName(this, InputGroupSize.class, size == null ? InputGroupSize.DEFAULT : size);
-    }
+  @Override
+  public void setSize(InputGroupSize size) {
+    StyleHelper.addUniqueEnumStyleName(
+        this, InputGroupSize.class, size == null ? InputGroupSize.DEFAULT : size);
+  }
 
-    @Override
-    public InputGroupSize getSize() {
-        return InputGroupSize.fromStyleName(getStyleName());
-    }
+  @Override
+  public InputGroupSize getSize() {
+    return InputGroupSize.fromStyleName(getStyleName());
+  }
 
-    public void setLarge(boolean large) {
-        setSize(large ? InputGroupSize.LARGE : InputGroupSize.DEFAULT);
-    }
+  public void setLarge(boolean large) {
+    setSize(large ? InputGroupSize.LARGE : InputGroupSize.DEFAULT);
+  }
 
-    public void setSmall(boolean small) {
-        setSize(small ? InputGroupSize.SMALL : InputGroupSize.DEFAULT);
-    }
+  public void setSmall(boolean small) {
+    setSize(small ? InputGroupSize.SMALL : InputGroupSize.DEFAULT);
+  }
 
-    public boolean isLarge() {
-        return getSize() == InputGroupSize.LARGE;
-    }
+  public boolean isLarge() {
+    return getSize() == InputGroupSize.LARGE;
+  }
 
-    public boolean isSmall() {
-        return getSize() == InputGroupSize.SMALL;
-    }
+  public boolean isSmall() {
+    return getSize() == InputGroupSize.SMALL;
+  }
 
-    private final DataSpyMixin<InputGroup> dataSpyMixin = new DataSpyMixin<InputGroup>(this);
+  private final DataSpyMixin<InputGroup> dataSpyMixin = new DataSpyMixin<InputGroup>(this);
 
-    @Override
-    public void setDataSpy(final Spy spy) {
-        dataSpyMixin.setDataSpy(spy);
-    }
+  @Override
+  public void setDataSpy(final Spy spy) {
+    dataSpyMixin.setDataSpy(spy);
+  }
 
-    @Override
-    public Spy getDataSpy() {
-        return dataSpyMixin.getDataSpy();
-    }
-
+  @Override
+  public Spy getDataSpy() {
+    return dataSpyMixin.getDataSpy();
+  }
 }

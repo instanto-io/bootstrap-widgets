@@ -32,90 +32,88 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Renders Markdown to HTML, in the dialect a flexmark-java server produces.
  *
- * <p>Configured for GitHub Flavoured Markdown: tables, strikethrough and task
- * lists, which are the extensions flexmark is typically built with. Tables are
- * given the Bootstrap table classes so they land styled.</p>
+ * <p>Configured for GitHub Flavoured Markdown: tables, strikethrough and task lists, which are the
+ * extensions flexmark is typically built with. Tables are given the Bootstrap table classes so they
+ * land styled.
  *
- * <p>Everything is passed through DOMPurify on the way out. Markdown permits raw
- * HTML and marked does not sanitise, by design, so rendering user input without
- * this would be an injection route.</p>
+ * <p>Everything is passed through DOMPurify on the way out. Markdown permits raw HTML and marked
+ * does not sanitise, by design, so rendering user input without this would be an injection route.
  *
- * <p>The libraries are reached through JsInterop, so this one source serves GWT and
- * TeaVM alike. Only how the scripts arrive differs, and that is
- * {@link MarkdownResources}'s concern.</p>
+ * <p>The libraries are reached through JsInterop, so this one source serves GWT and TeaVM alike.
+ * Only how the scripts arrive differs, and that is {@link MarkdownResources}'s concern.
  */
 public final class Markdown {
 
-    private Markdown() {
-    }
+  private Markdown() {}
 
-    /** Runs an action once the parser is usable, immediately if it already is. */
-    public static void whenReady(final Runnable action) {
-        MarkdownResources.whenReady(Markdown::isReady, action);
-    }
+  /** Runs an action once the parser is usable, immediately if it already is. */
+  public static void whenReady(final Runnable action) {
+    MarkdownResources.whenReady(Markdown::isReady, action);
+  }
 
-    /** Starts loading the parser if that has not already begun. */
-    public static void ensureResources() {
-        MarkdownResources.ensureInjected();
-    }
+  /** Starts loading the parser if that has not already begun. */
+  public static void ensureResources() {
+    MarkdownResources.ensureInjected();
+  }
 
-    /** Applies the GFM options. Called once the scripts have loaded. */
-    public static void configure() {
-        final Marked marked = marked();
-        if (marked != null && Js.asPropertyMap(marked).has("setOptions")) {
-            marked.setOptions(options());
-        }
+  /** Applies the GFM options. Called once the scripts have loaded. */
+  public static void configure() {
+    final Marked marked = marked();
+    if (marked != null && Js.asPropertyMap(marked).has("setOptions")) {
+      marked.setOptions(options());
     }
+  }
 
-    /** Renders {@code markdown} to sanitised HTML. */
-    public static String toHtml(final String markdown) {
-        return markdown == null || markdown.isEmpty() ? "" : render(markdown);
+  /** Renders {@code markdown} to sanitised HTML. */
+  public static String toHtml(final String markdown) {
+    return markdown == null || markdown.isEmpty() ? "" : render(markdown);
+  }
+
+  /** Whether the parser and sanitiser have finished loading. */
+  public static boolean isReady() {
+    return marked() != null && purifier() != null;
+  }
+
+  private static String render(final String markdown) {
+    final Marked marked = marked();
+    if (marked == null) {
+      return markdown;
     }
-
-    /** Whether the parser and sanitiser have finished loading. */
-    public static boolean isReady() {
-        return marked() != null && purifier() != null;
+    String html = marked.parse(markdown, options());
+    final DomPurify purifier = purifier();
+    if (purifier != null) {
+      html =
+          purifier.sanitize(
+              html, JsPropertyMap.<Object>of("USE_PROFILES", JsPropertyMap.of("html", true)));
     }
+    // flexmark is usually configured to put the Bootstrap table classes on
+    // rendered tables; do the same so a preview matches the server.
+    return html.replace("<table>", "<table class=\"table table-striped table-bordered\">");
+  }
 
-    private static String render(final String markdown) {
-        final Marked marked = marked();
-        if (marked == null) {
-            return markdown;
-        }
-        String html = marked.parse(markdown, options());
-        final DomPurify purifier = purifier();
-        if (purifier != null) {
-            html = purifier.sanitize(html,
-                    JsPropertyMap.<Object>of("USE_PROFILES", JsPropertyMap.of("html", true)));
-        }
-        // flexmark is usually configured to put the Bootstrap table classes on
-        // rendered tables; do the same so a preview matches the server.
-        return html.replace("<table>", "<table class=\"table table-striped table-bordered\">");
-    }
+  private static JsPropertyMap<Object> options() {
+    return JsPropertyMap.<Object>of("gfm", true, "breaks", false);
+  }
 
-    private static JsPropertyMap<Object> options() {
-        return JsPropertyMap.<Object>of("gfm", true, "breaks", false);
-    }
+  private static Marked marked() {
+    return Js.uncheckedCast(Js.global().get("marked"));
+  }
 
-    private static Marked marked() {
-        return Js.uncheckedCast(Js.global().get("marked"));
-    }
+  private static DomPurify purifier() {
+    return Js.uncheckedCast(Js.global().get("DOMPurify"));
+  }
 
-    private static DomPurify purifier() {
-        return Js.uncheckedCast(Js.global().get("DOMPurify"));
-    }
+  /** The {@code marked} global. */
+  @JsType(isNative = true)
+  interface Marked {
+    String parse(String markdown, JsPropertyMap<Object> options);
 
-    /** The {@code marked} global. */
-    @JsType(isNative = true)
-    interface Marked {
-        String parse(String markdown, JsPropertyMap<Object> options);
+    void setOptions(JsPropertyMap<Object> options);
+  }
 
-        void setOptions(JsPropertyMap<Object> options);
-    }
-
-    /** The {@code DOMPurify} global. */
-    @JsType(isNative = true)
-    interface DomPurify {
-        String sanitize(String html, JsPropertyMap<Object> options);
-    }
+  /** The {@code DOMPurify} global. */
+  @JsType(isNative = true)
+  interface DomPurify {
+    String sanitize(String html, JsPropertyMap<Object> options);
+  }
 }

@@ -22,34 +22,33 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
+import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.base.AbstractButtonGroup;
 import io.instanto.bootstrap5.client.ui.constants.ButtonGroupSize;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
 
-import com.google.gwt.user.client.ui.Widget;
-
 /** A Bootstrap 5 button group with the original GwtBootstrap3 contracts. */
 public class ButtonGroup extends AbstractButtonGroup {
 
-    public ButtonGroup() {
-        super(Styles.BTN_GROUP);
-        getElement().setAttribute("role", "group");
-    }
+  public ButtonGroup() {
+    super(Styles.BTN_GROUP);
+    getElement().setAttribute("role", "group");
+  }
 
-    public void setVertical(boolean vertical) {
-        setStyleName(Styles.BTN_GROUP_VERTICAL, vertical);
-        setStyleName(Styles.BTN_GROUP, !vertical);
-    }
+  public void setVertical(boolean vertical) {
+    setStyleName(Styles.BTN_GROUP_VERTICAL, vertical);
+    setStyleName(Styles.BTN_GROUP, !vertical);
+  }
 
-    public void setLarge(boolean large) {
-        setSize(large ? ButtonGroupSize.LARGE : ButtonGroupSize.DEFAULT);
-    }
+  public void setLarge(boolean large) {
+    setSize(large ? ButtonGroupSize.LARGE : ButtonGroupSize.DEFAULT);
+  }
 
-    public void setSmall(boolean small) {
-        setSize(small ? ButtonGroupSize.SMALL : ButtonGroupSize.DEFAULT);
-    }
+  public void setSmall(boolean small) {
+    setSize(small ? ButtonGroupSize.SMALL : ButtonGroupSize.DEFAULT);
+  }
 
-    public void addButton(Widget button) {
-        add(button);
-    }
+  public void addButton(Widget button) {
+    add(button);
+  }
 }

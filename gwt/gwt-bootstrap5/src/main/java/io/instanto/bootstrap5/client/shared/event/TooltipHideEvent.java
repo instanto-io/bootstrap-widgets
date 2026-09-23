@@ -20,47 +20,46 @@ package io.instanto.bootstrap5.client.shared.event;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.Tooltip;
-
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Event;
+import io.instanto.bootstrap5.client.ui.Tooltip;
 
 /**
  * @author Pontus Enmark
  */
 public class TooltipHideEvent extends GwtEvent<TooltipHideHandler> implements TooltipEvent {
 
-    private static final Type<TooltipHideHandler> TYPE = new Type<TooltipHideHandler>();
+  private static final Type<TooltipHideHandler> TYPE = new Type<TooltipHideHandler>();
 
-    private final Tooltip tooltip;
-    private final Event nativeEvent;
+  private final Tooltip tooltip;
+  private final Event nativeEvent;
 
-    public static Type<TooltipHideHandler> getType() {
-        return TYPE;
-    }
+  public static Type<TooltipHideHandler> getType() {
+    return TYPE;
+  }
 
-    public TooltipHideEvent(final Tooltip tooltip, final Event nativeEvent) {
-        this.tooltip = tooltip;
-        this.nativeEvent = nativeEvent;
-    }
+  public TooltipHideEvent(final Tooltip tooltip, final Event nativeEvent) {
+    this.tooltip = tooltip;
+    this.nativeEvent = nativeEvent;
+  }
 
-    @Override
-    public Tooltip getTooltip() {
-        return tooltip;
-    }
+  @Override
+  public Tooltip getTooltip() {
+    return tooltip;
+  }
 
-    @Override
-    public Event getNativeEvent() {
-        return nativeEvent;
-    }
+  @Override
+  public Event getNativeEvent() {
+    return nativeEvent;
+  }
 
-    @Override
-    public Type<TooltipHideHandler> getAssociatedType() {
-        return TYPE;
-    }
+  @Override
+  public Type<TooltipHideHandler> getAssociatedType() {
+    return TYPE;
+  }
 
-    @Override
-    protected void dispatch(final TooltipHideHandler handler) {
-        handler.onHide(this);
-    }
+  @Override
+  protected void dispatch(final TooltipHideHandler handler) {
+    handler.onHide(this);
+  }
 }

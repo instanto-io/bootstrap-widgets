@@ -22,41 +22,41 @@ package io.instanto.bootstrap5.client.ui.theme;
 /**
  * Bootstrap 5's colour modes.
  *
- * <p>Bootstrap 5.3 carries light and dark in the one stylesheet, selected by the
- * {@code data-bs-theme} attribute, so switching is an attribute change rather than the
- * stylesheet swap the Bootstrap 3 track needs. {@link #AUTO} removes the attribute and
- * lets the CSS follow the operating system.</p>
+ * <p>Bootstrap 5.3 carries light and dark in the one stylesheet, selected by the {@code
+ * data-bs-theme} attribute, so switching is an attribute change rather than the stylesheet swap the
+ * Bootstrap 3 track needs. {@link #AUTO} removes the attribute and lets the CSS follow the
+ * operating system.
  */
 public enum ColorMode {
 
-    /** Follow the operating system's preference. */
-    AUTO(null),
+  /** Follow the operating system's preference. */
+  AUTO(null),
 
-    LIGHT("light"),
+  LIGHT("light"),
 
-    DARK("dark");
+  DARK("dark");
 
-    private final String attributeValue;
+  private final String attributeValue;
 
-    ColorMode(final String attributeValue) {
-        this.attributeValue = attributeValue;
+  ColorMode(final String attributeValue) {
+    this.attributeValue = attributeValue;
+  }
+
+  /** The {@code data-bs-theme} value, or null for {@link #AUTO}. */
+  public String getAttributeValue() {
+    return attributeValue;
+  }
+
+  /** The mode for a {@code data-bs-theme} value; {@link #AUTO} when absent. */
+  public static ColorMode fromAttributeValue(final String value) {
+    if (value == null || value.isEmpty()) {
+      return AUTO;
     }
-
-    /** The {@code data-bs-theme} value, or null for {@link #AUTO}. */
-    public String getAttributeValue() {
-        return attributeValue;
+    for (final ColorMode mode : values()) {
+      if (value.equals(mode.attributeValue)) {
+        return mode;
+      }
     }
-
-    /** The mode for a {@code data-bs-theme} value; {@link #AUTO} when absent. */
-    public static ColorMode fromAttributeValue(final String value) {
-        if (value == null || value.isEmpty()) {
-            return AUTO;
-        }
-        for (final ColorMode mode : values()) {
-            if (value.equals(mode.attributeValue)) {
-                return mode;
-            }
-        }
-        return AUTO;
-    }
+    return AUTO;
+  }
 }

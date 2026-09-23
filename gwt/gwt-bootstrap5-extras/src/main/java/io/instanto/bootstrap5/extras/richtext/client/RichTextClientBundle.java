@@ -32,8 +32,8 @@ import com.google.gwt.resources.client.TextResource;
 /** The Quill build this module injects. */
 public interface RichTextClientBundle extends ClientBundle {
 
-    RichTextClientBundle INSTANCE = GWT.create(RichTextClientBundle.class);
+  RichTextClientBundle INSTANCE = GWT.create(RichTextClientBundle.class);
 
-    @Source("resource/js/quill-2.0.3.min.cache.js")
-    TextResource quill();
+  @Source("resource/js/quill-2.0.3.min.cache.js")
+  TextResource quill();
 }

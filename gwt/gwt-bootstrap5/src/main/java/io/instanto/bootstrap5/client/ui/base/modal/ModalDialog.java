@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.base.modal;
  * #L%
  */
 
-import io.instanto.bootstrap5.client.ui.constants.Styles;
-
 import com.google.gwt.user.client.ui.FlowPanel;
+import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 /**
  * @author Sven Jacobs
@@ -30,7 +29,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class ModalDialog extends FlowPanel {
 
-    public ModalDialog() {
-        setStyleName(Styles.MODAL_DIALOG);
-    }
+  public ModalDialog() {
+    setStyleName(Styles.MODAL_DIALOG);
+  }
 }

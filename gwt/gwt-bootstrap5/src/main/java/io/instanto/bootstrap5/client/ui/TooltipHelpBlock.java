@@ -1,7 +1,5 @@
 package io.instanto.bootstrap5.client.ui;
 
-
-
 /*
  * #%L
  * GwtBootstrap3
@@ -24,50 +22,49 @@ import io.instanto.bootstrap5.client.ui.constants.Placement;
 /** Inline validation help rendered through a Bootstrap 5 tooltip. */
 public class TooltipHelpBlock extends Tooltip {
 
-    private final Icon icon = new Icon();
-    private final InlineLabel label = new InlineLabel();
-    private final ElementPanel help = new ElementPanel("span");
+  private final Icon icon = new Icon();
+  private final InlineLabel label = new InlineLabel();
+  private final ElementPanel help = new ElementPanel("span");
 
-    public TooltipHelpBlock() {
-        help.addStyleName("form-text d-inline-flex align-items-center gap-1");
-        help.add(icon);
-        help.add(label);
-        setWidget(help);
-        setPlacement(Placement.RIGHT);
-        addTooltipClassName("tooltip-danger");
-        setIconType(IconType.EXCLAMATION_TRIANGLE);
-    }
+  public TooltipHelpBlock() {
+    help.addStyleName("form-text d-inline-flex align-items-center gap-1");
+    help.add(icon);
+    help.add(label);
+    setWidget(help);
+    setPlacement(Placement.RIGHT);
+    addTooltipClassName("tooltip-danger");
+    setIconType(IconType.EXCLAMATION_TRIANGLE);
+  }
 
-    public TooltipHelpBlock(String text) {
-        this();
-        setText(text);
-    }
+  public TooltipHelpBlock(String text) {
+    this();
+    setText(text);
+  }
 
-    public IconType getIconType() {
-        return icon.getType();
-    }
+  public IconType getIconType() {
+    return icon.getType();
+  }
 
-    public String getText() {
-        return getTitle();
-    }
+  public String getText() {
+    return getTitle();
+  }
 
-    @Override
-    public void setText(String text) {
-        String effectiveText = text == null ? "" : text;
-        label.setText(effectiveText);
-        setTitle(effectiveText);
-    }
+  @Override
+  public void setText(String text) {
+    String effectiveText = text == null ? "" : text;
+    label.setText(effectiveText);
+    setTitle(effectiveText);
+  }
 
-    public void setIconType(IconType iconType) {
-        icon.setType(iconType);
-    }
+  public void setIconType(IconType iconType) {
+    icon.setType(iconType);
+  }
 
-    public void setHTML(final String html) {
-        getWidget().getElement().setInnerHTML(html == null ? "" : html);
-    }
+  public void setHTML(final String html) {
+    getWidget().getElement().setInnerHTML(html == null ? "" : html);
+  }
 
-    public String getHTML() {
-        return getWidget().getElement().getInnerHTML();
-    }
-
+  public String getHTML() {
+    return getWidget().getElement().getInnerHTML();
+  }
 }

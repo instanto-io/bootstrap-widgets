@@ -26,5 +26,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Joshua Godi
  */
 public interface HideHandler extends EventHandler {
-    void onHide(HideEvent hideEvent);
+  void onHide(HideEvent hideEvent);
 }

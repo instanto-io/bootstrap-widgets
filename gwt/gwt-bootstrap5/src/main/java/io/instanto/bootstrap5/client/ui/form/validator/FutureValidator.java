@@ -20,9 +20,8 @@ package io.instanto.bootstrap5.client.ui.form.validator;
  * #L%
  */
 
-import java.util.Date;
-
 import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
+import java.util.Date;
 
 /**
  * Validator for checking if date is in the future.
@@ -31,32 +30,29 @@ import io.instanto.bootstrap5.client.ui.form.validator.ValidationMessages.Keys;
  */
 public class FutureValidator extends AbstractValidator<Date> {
 
-    /**
-     * Constructor.
-     */
-    public FutureValidator() {
-        super(Keys.FUTURE, new Object[0]);
-    }
+  /** Constructor. */
+  public FutureValidator() {
+    super(Keys.FUTURE, new Object[0]);
+  }
 
-    /**
-     * Constructor.
-     *
-     * @param invalidMessageOverride the invalid message override
-     */
-    public FutureValidator(String invalidMessageOverride) {
-        super(invalidMessageOverride);
-    }
+  /**
+   * Constructor.
+   *
+   * @param invalidMessageOverride the invalid message override
+   */
+  public FutureValidator(String invalidMessageOverride) {
+    super(invalidMessageOverride);
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public int getPriority() {
-        return Priority.MEDIUM;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public int getPriority() {
+    return Priority.MEDIUM;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isValid(Date value) {
-        return value == null || value.after(new Date());
-    }
-
+  /** {@inheritDoc} */
+  @Override
+  public boolean isValid(Date value) {
+    return value == null || value.after(new Date());
+  }
 }

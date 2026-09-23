@@ -27,15 +27,15 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 public class TextMixin<T extends UIObject> extends AbstractMixin {
 
-    public TextMixin(final T uiObject) {
-        super(uiObject);
-    }
+  public TextMixin(final T uiObject) {
+    super(uiObject);
+  }
 
-    public String getText() {
-        return uiObject.getElement().getInnerText();
-    }
+  public String getText() {
+    return uiObject.getElement().getInnerText();
+  }
 
-    public void setText(final String text) {
-        uiObject.getElement().setInnerText(text);
-    }
+  public void setText(final String text) {
+    uiObject.getElement().setInnerText(text);
+  }
 }
