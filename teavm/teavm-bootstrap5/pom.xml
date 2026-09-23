@@ -312,8 +312,6 @@
               <targetDirectory>${project.build.directory}/teavm</targetDirectory>
               <targetFileName>teavm-bootstrap5-smoke.js</targetFileName>
               <minifying>true</minifying>
-              <sourceMapsGenerated>true</sourceMapsGenerated>
-              <sourceFilesCopied>true</sourceFilesCopied>
             </configuration>
           </execution>
         </executions>
