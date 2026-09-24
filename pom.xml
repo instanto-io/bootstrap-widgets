@@ -33,7 +33,7 @@
 
   <repositories>
     <repository>
-      <id>forgejo</id>
+      <id>forgejo-instanto</id>
       <name>Instanto snapshots</name>
       <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
       <releases><enabled>false</enabled></releases>
@@ -87,7 +87,7 @@
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>forgejo</id>
+      <id>forgejo-instanto</id>
       <name>Instanto snapshot build plugins</name>
       <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
       <releases><enabled>false</enabled></releases>

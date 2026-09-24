@@ -44,7 +44,7 @@ jobs:
           <settings>
             <servers>
               <server>
-                <id>forgejo</id>
+                <id>forgejo-instanto</id>
                 <username>${env.FORGEJO_PACKAGE_USER}</username>
                 <password>${env.FORGEJO_PACKAGE_TOKEN}</password>
               </server>
