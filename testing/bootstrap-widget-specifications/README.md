@@ -22,8 +22,6 @@ the scenario is required there, and the corresponding `@unsupported-gwt3`,
 library deliberately does not supply that feature. Omitting a target is an
 inventory error, not an implicit unsupported declaration.
 
-The authoritative tag and fixture-state definitions are in the
-[testing plan](../../TESTING-PLAN.md#tag-vocabulary). In particular,
 `@dom-contract` and `@style-contract` do not imply `@browser`: detached markup
 and static stylesheet rules can be inspected without a browser engine.
 

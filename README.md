@@ -318,8 +318,7 @@ The test suite includes:
 - compiled GWT and TeaVM widget fixtures;
 - real-browser showcase smoke tests and mobile touch tests.
 
-[TESTING-PLAN.md](TESTING-PLAN.md) describes the test families, tags, coverage rules, and remaining
-work.
+[TEST-ARCHITECTURE.md](TEST-ARCHITECTURE.md) describes how the tests fit together.
 
 ## Repository Layout
 
