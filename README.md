@@ -100,8 +100,8 @@ Add this Maven step to copy the widget library's browser files:
 
 The plugin is maintained in
 [teavm-compat](https://github.com/instanto-io/teavm-compat/tree/main/gwt-resources-compat-maven-plugin).
-It is published to packages.instanto.io with the other snapshots, so the
-plugin repository described under "Using published snapshots" is enough.
+It is published to packages.instanto.io; add the plugin repository shown under
+"Using published snapshots".
 
 ```xml
 <plugin>
@@ -234,15 +234,26 @@ both compilers can implement.
 
 ## Using published snapshots
 
-Add the package repository to the consuming build:
+Add the package repository to the consuming build. The second entry is needed only
+for the asset-copying Maven plugin:
 
 ```xml
-<repository>
-  <id>forgejo</id>
-  <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
-  <releases><enabled>false</enabled></releases>
-  <snapshots><enabled>true</enabled></snapshots>
-</repository>
+<repositories>
+  <repository>
+    <id>forgejo</id>
+    <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
+    <releases><enabled>false</enabled></releases>
+    <snapshots><enabled>true</enabled></snapshots>
+  </repository>
+</repositories>
+<pluginRepositories>
+  <pluginRepository>
+    <id>forgejo</id>
+    <url>https://packages.instanto.io/api/packages/instanto-io/maven</url>
+    <releases><enabled>false</enabled></releases>
+    <snapshots><enabled>true</enabled></snapshots>
+  </pluginRepository>
+</pluginRepositories>
 ```
 
 Then add the artifact for the track you want, for example:
