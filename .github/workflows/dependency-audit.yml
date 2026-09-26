@@ -19,7 +19,6 @@ jobs:
     if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     runs-on: [self-hosted, instanto-container]
     env:
-      PACKAGES_READ_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       FORGEJO_PACKAGE_USER: ${{ secrets.FORGEJO_PACKAGE_USER }}
       FORGEJO_PACKAGE_TOKEN: ${{ secrets.FORGEJO_PACKAGE_TOKEN }}
 
@@ -47,31 +46,6 @@ jobs:
                 <id>forgejo-instanto</id>
                 <username>${env.FORGEJO_PACKAGE_USER}</username>
                 <password>${env.FORGEJO_PACKAGE_TOKEN}</password>
-              </server>
-              <server>
-                <id>github-teavm-compat</id>
-                <username>${env.GITHUB_ACTOR}</username>
-                <password>${env.PACKAGES_READ_TOKEN}</password>
-              </server>
-              <server>
-                <id>github</id>
-                <username>${GITHUB_ACTOR}</username>
-                <password>${GITHUB_TOKEN}</password>
-              </server>
-              <server>
-                <id>github-cucumber-tea</id>
-                <username>${GITHUB_ACTOR}</username>
-                <password>${GITHUB_TOKEN}</password>
-              </server>
-              <server>
-                <id>github-gherkin-tea</id>
-                <username>${GITHUB_ACTOR}</username>
-                <password>${GITHUB_TOKEN}</password>
-              </server>
-              <server>
-                <id>github-mockatcha</id>
-                <username>${GITHUB_ACTOR}</username>
-                <password>${GITHUB_TOKEN}</password>
               </server>
             </servers>
           </settings>

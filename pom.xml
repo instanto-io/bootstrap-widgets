@@ -39,50 +39,6 @@
       <releases><enabled>false</enabled></releases>
       <snapshots><enabled>true</enabled></snapshots>
     </repository>
-    <repository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/cstainton/bootstrap-widgets</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>github-cucumber-tea</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/cstainton/cucumber-tea</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>github-gherkin-tea</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/cstainton/gherkin-tea</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>github-mockatcha</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/cstainton/mockatcha</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
 
   </repositories>
   <pluginRepositories>
@@ -148,7 +104,6 @@
     <junit.version>4.13.2</junit.version>
     <teavm.junit.js.runner>browser-chrome</teavm.junit.js.runner>
     <cucumber-tea.version>0.1.0-SNAPSHOT</cucumber-tea.version>
-    <mockatcha.version>0.1.0-SNAPSHOT</mockatcha.version>
     <webapp-testkit.version>0.1.0-SNAPSHOT</webapp-testkit.version>
     <teavm-compat.version>0.1.0-SNAPSHOT</teavm-compat.version>
   </properties>

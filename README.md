@@ -100,8 +100,8 @@ Add this Maven step to copy the widget library's browser files:
 
 The plugin is maintained in
 [teavm-compat](https://github.com/instanto-io/teavm-compat/tree/main/gwt-resources-compat-maven-plugin).
-Install it from that repository first, or follow its guide to configure Maven
-plugin downloads from GitHub Packages.
+It is published to packages.instanto.io with the other snapshots, so the
+plugin repository described under "Using published snapshots" is enough.
 
 ```xml
 <plugin>
@@ -255,12 +255,6 @@ Then add the artifact for the track you want, for example:
 </dependency>
 ```
 
-## Public dependency repositories
-
-Bootstrap Widgets uses `cucumber-tea`, `gherkin-tea` and `mockatcha-dom` as test dependencies.
-They are published in GitHub Packages under their companion repositories. Public source
-repositories make the code accessible, but do not remove Maven registry authentication.
-
 ## Build
 
 CI uses Java 21; the libraries target Java 17 bytecode.
@@ -291,15 +285,9 @@ JavaScript source maps and the corresponding Java source trees.
 
 ## Tests
 
-The Java/Gherkin widget suites currently need the `0.1.0-SNAPSHOT` builds of
-`cucumber-tea`, `cucumber-tea-codegen`, `gherkin-tea` and `mockatcha-dom`, either installed
-locally or downloaded from their current GitHub Packages repositories. CI uses a token with package read access;
-private companion repositories also require access to those repositories.
-
-For CI, store a classic token with `read:packages` scope in the repository's Actions
-secret `PACKAGES_READ_TOKEN`. It is used only for the companion Maven registries;
-the built-in `GITHUB_TOKEN` remains in use for this repository. Renew the package
-token before its expiry. Do not add token values to POMs, workflows or source control.
+The Java/Gherkin widget suites use the `0.1.0-SNAPSHOT` builds of `cucumber-tea`,
+`cucumber-tea-codegen`, `gherkin-tea` and `webapp-testkit-dom`, published to
+packages.instanto.io alongside this project's own snapshots.
 
 After installing the reactor, run the tests against its packaged artifacts:
 
@@ -339,8 +327,7 @@ TeaVM's GWT client adapter is now maintained and published independently in
 [teavm-compat](https://github.com/instanto-io/teavm-compat). This build imports its BOM
 and consumes `gwt-user-compat`; portable API assertions come from
 `gwt-api`. The old coordinates remain relocation POMs during migration.
-Configure Maven server `github-teavm-compat` with package read access. No sibling
-checkout is needed for published versions. For an unpublished rename, follow the
+Published versions resolve from packages.instanto.io; no sibling checkout is needed. For an unpublished rename, follow the
 [local installation instructions](gwt/gwt-user-jvm-contract-tests/README.md).
 Compatibility fixes and shared API assertions belong in that repository;
 Bootstrap-specific widget adapters and scenarios remain here.
