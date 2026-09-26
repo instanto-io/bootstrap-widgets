@@ -508,7 +508,7 @@ public class ShowcaseEntryPoint implements EntryPoint {
                     : new String[] {"../", "../teavm.html", "../teavm-bootstrap5.html"}));
     navbar
         .getNav()
-        .add(new NavbarLink("Fork on GitHub", "https://github.com/cstainton/bootstrap-widgets"));
+        .add(new NavbarLink("Fork on GitHub", "https://github.com/instanto-io/bootstrap-widgets"));
     navbar.getNav().add(new ThemeSwitcher());
     return navbar;
   }

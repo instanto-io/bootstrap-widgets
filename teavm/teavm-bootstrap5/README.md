@@ -124,9 +124,9 @@ demonstrate field binding and click handlers. Attach the resulting view through
 
 ## Try it
 
-The [TeaVM showcase](https://cstainton.github.io/bootstrap-widgets/teavm-bootstrap5.html)
+The [TeaVM showcase](https://instanto-io.github.io/bootstrap-widgets/teavm-bootstrap5.html)
 is this library running in a browser, beside the
-[GWT showcase](https://cstainton.github.io/bootstrap-widgets/bootstrap5/) built from
+[GWT showcase](https://instanto-io.github.io/bootstrap-widgets/bootstrap5/) built from
 the same source. Comparing the two is the point: where they differ, the compatibility
 layer is wrong.
 

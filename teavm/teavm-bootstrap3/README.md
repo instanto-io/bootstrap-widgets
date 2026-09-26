@@ -115,9 +115,9 @@ are a working example. Attach the resulting view through `RootPanel` inside the
 
 ## Try it
 
-The [TeaVM showcase](https://cstainton.github.io/bootstrap-widgets/teavm.html) is this
+The [TeaVM showcase](https://instanto-io.github.io/bootstrap-widgets/teavm.html) is this
 library running in a browser, beside the
-[GWT showcase](https://cstainton.github.io/bootstrap-widgets/) built from the same
+[GWT showcase](https://instanto-io.github.io/bootstrap-widgets/) built from the same
 source. Comparing the two is the point: where they differ, the compatibility layer is
 wrong.
 

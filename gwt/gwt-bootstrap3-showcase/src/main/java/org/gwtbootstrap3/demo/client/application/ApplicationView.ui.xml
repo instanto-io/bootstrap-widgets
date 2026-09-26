@@ -189,7 +189,7 @@
                             <b:AnchorListItem text="Original showcase"
                                               href="https://gwtbootstrap3.github.io/gwtbootstrap3-demo/"
                                               target="_blank"/>
-                            <b:AnchorListItem text="Fork on GitHub" href="https://github.com/cstainton/bootstrap-widgets"/>
+                            <b:AnchorListItem text="Fork on GitHub" href="https://github.com/instanto-io/bootstrap-widgets"/>
                             <theme:ThemeSwitcher ui:field="themeSwitcher"/>
                         </b:NavbarNav>
                     </b:NavbarCollapse>

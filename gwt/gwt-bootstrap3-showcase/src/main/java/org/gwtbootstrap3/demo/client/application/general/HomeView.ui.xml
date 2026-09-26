@@ -21,7 +21,7 @@
                 </b.html:Paragraph>
 
                 <b.html:Paragraph>
-                    This showcase exercises the <a href="https://github.com/cstainton/bootstrap-widgets">gwtbootstrap</a> compatibility modules: the preserved GwtBootstrap3 Java API, refreshed dependencies, and the original Bootstrap 3 widget semantics. Bootstrap 5 work is kept on a separate migration track.
+                    This showcase exercises the <a href="https://github.com/instanto-io/bootstrap-widgets">gwtbootstrap</a> compatibility modules: the preserved GwtBootstrap3 Java API, refreshed dependencies, and the original Bootstrap 3 widget semantics. Bootstrap 5 work is kept on a separate migration track.
                 </b.html:Paragraph>
             </b:Jumbotron>
         </b:Column>

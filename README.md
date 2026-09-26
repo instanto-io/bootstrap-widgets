@@ -19,18 +19,18 @@ Current core versions are GWT 2.13.1, TeaVM 0.15.0, Bootstrap 3.4.1, Bootstrap 5
 
 ## Showcases
 
-- [GWT Bootstrap 3](https://cstainton.github.io/bootstrap-widgets/)
-- [GWT Bootstrap 5](https://cstainton.github.io/bootstrap-widgets/bootstrap5/)
-- [TeaVM Bootstrap 3](https://cstainton.github.io/bootstrap-widgets/teavm.html)
-- [TeaVM Bootstrap 5](https://cstainton.github.io/bootstrap-widgets/teavm-bootstrap5.html)
+- [GWT Bootstrap 3](https://instanto-io.github.io/bootstrap-widgets/)
+- [GWT Bootstrap 5](https://instanto-io.github.io/bootstrap-widgets/bootstrap5/)
+- [TeaVM Bootstrap 3](https://instanto-io.github.io/bootstrap-widgets/teavm.html)
+- [TeaVM Bootstrap 5](https://instanto-io.github.io/bootstrap-widgets/teavm-bootstrap5.html)
 
 The GWT and TeaVM showcases use the same widget and showcase sources where possible. This makes
 differences between the compilers visible instead of hiding them behind separate demos.
 
 The Bootstrap 5 showcase groups native widgets under **Components** and **Interactive**.
-Cards, dialogs, [toasts](https://cstainton.github.io/bootstrap-widgets/bootstrap5/#toasts),
-[offcanvas panels](https://cstainton.github.io/bootstrap-widgets/bootstrap5/#offcanvas) and
-[loading placeholders](https://cstainton.github.io/bootstrap-widgets/bootstrap5/#placeholders)
+Cards, dialogs, [toasts](https://instanto-io.github.io/bootstrap-widgets/bootstrap5/#toasts),
+[offcanvas panels](https://instanto-io.github.io/bootstrap-widgets/bootstrap5/#offcanvas) and
+[loading placeholders](https://instanto-io.github.io/bootstrap-widgets/bootstrap5/#placeholders)
 belong there. **Integrations** contains third-party editors, date pickers and sliders.
 Existing showcase routes and Maven artifact names are unchanged.
 
