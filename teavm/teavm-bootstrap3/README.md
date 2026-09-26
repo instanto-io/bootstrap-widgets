@@ -5,20 +5,10 @@ Bootstrap 3 widgets for a Java web application compiled with TeaVM.
 You write ordinary GWT widget code. TeaVM compiles it to JavaScript instead of the GWT
 compiler. Nothing about your code has to know the difference.
 
-## 1. Add the dependency
+Use the TeaVM Bootstrap library with its GWT compatibility implementation.
+Keep upstream `gwt-user` off the TeaVM classpath so classes are not duplicated.
 
-```xml
-<dependency>
-  <groupId>io.instanto</groupId>
-  <artifactId>teavm-bootstrap3</artifactId>
-  <version>1.0-SNAPSHOT</version>
-</dependency>
-```
-
-Do not also add `gwt-user`. This library brings its own implementation of the GWT
-classes it needs, and having both gives you two of everything.
-
-## 2. Write your main
+## Write your main
 
 ```java
 public final class MyApp {
@@ -48,7 +38,7 @@ it instead:
 RootPanel.get("editor").add(new Panel());
 ```
 
-## 3. Publish the bundled assets
+## Publish the bundled assets
 
 The library JAR contains `META-INF/bootstrap3-assets/`, including CSS, JavaScript,
 fonts and source maps. Publish the contents alongside your application, preserving
@@ -98,7 +88,7 @@ registers its handlers. The widget looks right and does nothing.
 
 ## UiBinder templates
 
-UiBinder is supported on TeaVM through the `widget-processor` annotation processor.
+UiBinder is supported on TeaVM through the `gwt-uibinder-processor` annotation processor.
 Keep `Owner.ui.xml` beside its Java owner and use `UiBinder`, `@UiField`,
 `@UiHandler` and `GWT.create(Binder.class)` as in the shared showcase.
 The processor generates Java and a service descriptor during compilation; the
@@ -146,15 +136,3 @@ after their core dependencies, and destroy their plugin instance when detached.
 
 Other extras, including FullCalendar and the date pickers, still need their native
 browser calls ported. Bundling their assets alone does not port their widgets.
-
-## How it works, if you are curious
-
-This module compiles the same source as
-[`gwt-bootstrap3`](../../gwt/gwt-bootstrap3) against
-[`teavm-gwt-compat`](../teavm-gwt-compat), which reimplements the parts of
-`com.google.gwt.*` the widgets use.
-
-The module build reads resource declarations from `.gwt.xml` and ClientBundle
-sources, bundles those assets, and generates TeaVM module loaders. `initialise()`
-starts the core loader; extras use their generated loaders when needed. Applications
-do not need to repeat the library's script and stylesheet declarations.

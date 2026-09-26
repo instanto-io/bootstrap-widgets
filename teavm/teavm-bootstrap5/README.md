@@ -5,20 +5,10 @@ Bootstrap 5 widgets for a Java web application compiled with TeaVM.
 You write ordinary GWT widget code. TeaVM compiles it to JavaScript instead of the GWT
 compiler. Nothing about your code has to know the difference.
 
-## 1. Add the dependency
+Use the TeaVM Bootstrap library with its GWT compatibility implementation.
+Keep upstream `gwt-user` off the TeaVM classpath so classes are not duplicated.
 
-```xml
-<dependency>
-  <groupId>io.instanto</groupId>
-  <artifactId>teavm-bootstrap5</artifactId>
-  <version>1.0-SNAPSHOT</version>
-</dependency>
-```
-
-Do not also add `gwt-user`. This library brings its own implementation of the GWT
-classes it needs, and having both gives you two of everything.
-
-## 2. Write your main
+## Write your main
 
 ```java
 public final class MyApp {
@@ -47,7 +37,7 @@ it instead:
 RootPanel.get("editor").add(new Container());
 ```
 
-## 3. Publish the bundled assets
+## Publish the bundled assets
 
 Publish the library JAR's `META-INF/bootstrap5-assets/` tree alongside your application,
 preserving its directories. For a different location, set
@@ -112,7 +102,7 @@ builds itself. The widget looks right and does nothing.
 If you prefer markup to Java for laying out a screen, UiBinder templates work here.
 Keep `Owner.ui.xml` beside its Java owner and use `UiBinder`, `@UiField`,
 `@UiHandler` and `GWT.create(Binder.class)` as in the shared showcase.
-The `widget-processor` annotation processor generates Java and a service descriptor
+The `gwt-uibinder-processor` annotation processor generates Java and a service descriptor
 during compilation; the compatibility layer uses these to construct the binder.
 The showcase already configures this; a separate application needs the processor too.
 
@@ -137,15 +127,3 @@ If you want to read a working application:
 - [`ShowcaseEntryPoint`](../../gwt/gwt-bootstrap5-showcase/src/main/java/io/instanto/bootstrap5/showcase/client/ShowcaseEntryPoint.java)
   is the showcase itself — around three thousand lines of ordinary widget code,
   compiled unchanged by both compilers.
-
-## How it works, if you are curious
-
-This module compiles the same source as
-[`gwt-bootstrap5`](../../gwt/gwt-bootstrap5), its themes and its extras, against
-[`teavm-gwt-compat`](../teavm-gwt-compat), which reimplements the parts of
-`com.google.gwt.*` the widgets use.
-
-`initialise()` exists because GWT has a module system and TeaVM does not. In a GWT
-application, a `.gwt.xml` file declares the stylesheets a module needs and the
-generated bootstrap injects them before your code runs. Nothing does that here, so one
-call stands in for it.

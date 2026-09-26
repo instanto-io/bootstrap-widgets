@@ -24,7 +24,3 @@ inventory error, not an implicit unsupported declaration.
 
 `@dom-contract` and `@style-contract` do not imply `@browser`: detached markup
 and static stylesheet rules can be inspected without a browser engine.
-
-The feature files are the source of truth. The generated inventory and its Maven
-check were removed: they validated tag spelling while nothing compared the scenarios
-with the browser tests that implement them (see [TEST-ARCHITECTURE.md](../../TEST-ARCHITECTURE.md)).
