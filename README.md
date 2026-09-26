@@ -7,6 +7,11 @@ The Bootstrap 3 build is a maintained replacement for
 GWT module names, markup, and behaviour while updating the toolchain and browser dependencies. The
 Bootstrap 5 build provides a migration path with native Bootstrap 5 markup and JavaScript behaviour.
 
+> **Early stage.** The TeaVM builds are early ports of these GWT libraries to TeaVM. Many widgets
+> work, but coverage is incomplete and the API and packaging may still change. Check
+> [BOOTSTRAP5-PORTING.md](BOOTSTRAP5-PORTING.md) and [EXTRAS-INVENTORY.md](EXTRAS-INVENTORY.md)
+> before relying on a widget.
+
 | Track | Purpose | Java packages |
 |---|---|---|
 | GWT Bootstrap 3 | Drop-in maintenance build for existing applications | `org.gwtbootstrap3.*` |
@@ -367,6 +372,8 @@ GwtBootstrap3 is a separate, archived project; the Bootstrap sponsorship support
 the underlying browser framework.
 
 Using the TeaVM build? Please [support TeaVM](https://github.com/sponsors/konsoletyper).
+
+Want to see this port and more TeaVM libraries maintained? Please [sponsor this port](https://github.com/sponsors/cstainton).
 
 ## Shared build parent
 
