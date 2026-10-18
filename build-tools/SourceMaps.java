@@ -101,9 +101,11 @@ public final class SourceMaps {
   private static int requireSources(Map<String, Object> map, Path root, String what, Path mapFile) {
     Object sources = map.get("sources");
     List<?> names = sources instanceof List<?> list ? list : List.of();
-    long missing = names.stream().filter(s -> !Files.isRegularFile(root.resolve(String.valueOf(s)).normalize())).count();
-    if (names.isEmpty() || missing > 0) {
-      throw new IllegalStateException(what + " has " + missing + " unresolved of " + names.size() + " sources: " + mapFile);
+    List<String> missing = names.stream().map(String::valueOf)
+        .filter(s -> !Files.isRegularFile(root.resolve(s).normalize())).toList();
+    if (names.isEmpty() || !missing.isEmpty()) {
+      throw new IllegalStateException(what + " has " + missing.size() + " unresolved of " + names.size()
+          + " sources: " + mapFile + "; missing: " + missing.stream().limit(20).toList());
     }
     return names.size();
   }

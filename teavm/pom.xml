@@ -21,6 +21,22 @@
          a module's hand-written GWT XResources loader. Comma-separated. -->
     <shared.source.gwt.only>META-INF/**</shared.source.gwt.only>
   </properties>
+  <dependencies>
+    <!-- The JSO patch contains the complete upstream bytecode, but its sources
+         archive contains only patched classes. Supply the matching upstream
+         sources for runtime classes such as JSWrapper used by source maps.
+         Keep this source-only: the upstream binary would compete with the patch. -->
+    <dependency>
+      <groupId>org.teavm</groupId>
+      <artifactId>teavm-jso-impl</artifactId>
+      <version>${teavm.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion><groupId>*</groupId><artifactId>*</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
   <build>
     <resources>
       <resource>
