@@ -221,6 +221,8 @@ async function main() {
   const profile = mkdtempSync(join(tmpdir(), "bootstrap-widget-browser-"));
   const browser = spawn(findChrome(), [
     "--headless=new",
+    "--no-first-run",
+    "--no-default-browser-check",
     "--no-sandbox",
     "--disable-dev-shm-usage",
     "--disable-gpu",
@@ -320,6 +322,9 @@ async function main() {
       });
       const caseUrl = `${fixtureUrl}?case=${encodeURIComponent(name)}&t=${Date.now()}`;
       await cdp.send("Page.navigate", { url: caseUrl });
+      // Chrome can open an update/help tab even in a fresh headless profile.
+      // Background tabs pause the animation frames used to settle touch targets.
+      await cdp.send("Page.bringToFront");
       await waitFor(
         `new URL(location.href).searchParams.get('case') === ${JSON.stringify(name)}
           && document.body && document.body.dataset.fixturesReady === 'true'
@@ -1990,7 +1995,49 @@ async function main() {
         assert.equal(result.parentNull, "true");
       });
 
+      for (const [id, description] of [
+        ["CTOR-CORE-001", "button construction avoids subclass hooks and supports explicit elements"],
+        ["CTOR-CORE-002", "data grid constructor overloads avoid subclass table-body hooks"]
+      ]) {
+        test(id, description, async () => {
+          await waitFor("document.body.dataset.attachmentResult", "constructor regression result");
+          assert.equal(await evaluate("document.body.dataset.attachmentResult"), "ok");
+        });
+      }
+
       if (target.generation === 3) {
+        for (const [id, description] of [
+          ["TAG-001", "tags-input wrapping does not invoke subclass lifecycle during construction"],
+          ["TAG-002", "tags-input cancels stale setup and cleans only owned handlers"],
+          ["TAG-003", "tags-input values survive detach and replace correctly while detached"],
+          ["PAG-001", "pagination keeps page meanings when children change"],
+          ["PAG-002", "obsolete pagination links cannot navigate"],
+          ["PRE-001", "wrap preconditions are enforced with GWT assertions disabled"],
+          ["PRE-002", "calendar option bounds are enforced with GWT assertions disabled"],
+          ["CAL-001", "calendar formats map view names to format values"],
+          ["CAL-002", "calendar option construction avoids subclass hooks"],
+          ["CAL-003", "calendar NoResources module leaves runtime plugins untouched"],
+          ["CAL-LOAD-001", "calendar loading preserves existing Bootstrap plugins"],
+          ["CAL-LOAD-002", "calendar loading is idempotent and preserves live interactions"],
+          ["CAL-LOAD-003", "calendar and drag-resize plugins work after loading"],
+          ["CTOR-EXTRA-001", "calendar construction does not read subclass element"],
+          ["CTOR-EXTRA-002", "gallery construction does not read subclass element"],
+          ["CTOR-EXTRA-003", "gallery image construction avoids subclass hooks"],
+          ["CTOR-EXTRA-004", "markdown construction avoids subclass element and value hooks"],
+          ["CTOR-EXTRA-005", "multiple galleries share initialized controls"],
+          ["CTOR-EXTRA-006", "markdown input callbacks follow attachment without duplicates"]
+        ]) {
+          test(id, description, async () => {
+            await waitFor("document.body.dataset.attachmentResult", "attachment regression result");
+            assert.equal(await evaluate("document.body.dataset.attachmentResult"), "ok");
+          });
+        }
+        test("VAL-CTOR-001", "date picker blur validation respects popup visibility", async () => {
+          const result = await evaluate(`({date: document.body.dataset.dateBlurValidation,
+            dateTime: document.body.dataset.dateTimeBlurValidation})`);
+          assert.equal(result.date, "true,false,true,");
+          assert.equal(result.dateTime, "true,false,true,");
+        });
         test("SEL-001", "Bootstrap Select initializes in Bootstrap 3 mode", async () => {
           const result = await evaluate(`(() => {
             const select = document.querySelector(

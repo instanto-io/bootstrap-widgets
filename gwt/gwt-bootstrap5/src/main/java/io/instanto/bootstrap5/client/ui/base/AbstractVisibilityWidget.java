@@ -24,7 +24,8 @@ public abstract class AbstractVisibilityWidget extends Div {
   protected AbstractVisibilityWidget(String component, String eventSuffix, String style) {
     this.component = component;
     this.eventSuffix = eventSuffix;
-    addStyleName(style);
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), style);
   }
 
   @Override

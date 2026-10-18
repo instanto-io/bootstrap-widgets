@@ -30,7 +30,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -39,7 +38,6 @@ import com.google.gwt.user.client.ui.HasValue;
 import io.instanto.bootstrap5.client.ui.Button;
 import io.instanto.bootstrap5.client.ui.Icon;
 import io.instanto.bootstrap5.client.ui.TextArea;
-import io.instanto.bootstrap5.client.ui.base.HasId;
 import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
 import io.instanto.bootstrap5.client.ui.constants.ButtonType;
 import io.instanto.bootstrap5.client.ui.constants.IconType;
@@ -58,8 +56,7 @@ import io.instanto.bootstrap5.client.ui.html.Div;
  * <p>The value is Markdown. {@link #getValue()} returns exactly what is in the textarea; {@link
  * #getHTML()} renders it.
  */
-public class MarkdownEditor extends Div
-    implements HasEnabled, HasId, HasValue<String>, HasValueChangeHandlers<String> {
+public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> {
 
   private final IdMixin<MarkdownEditor> idMixin = new IdMixin<MarkdownEditor>(this);
 
@@ -104,15 +101,14 @@ public class MarkdownEditor extends Div
     add(preview);
 
     add(help);
-    // Nothing to read yet, so an empty editor opens ready to type.
-    showEditor();
+    // Do not dispatch to subclass overrides before their fields have initialized.
+    applyEditorMode();
   }
 
   public MarkdownEditor(final String markdown) {
     this();
-    setValue(markdown);
-    // There is something to read now, so start by reading it.
-    showRendered();
+    textArea.setValue(markdown == null ? "" : markdown);
+    applyRenderedMode();
   }
 
   private Button modeToggle() {
@@ -194,6 +190,10 @@ public class MarkdownEditor extends Div
 
   /** Shows the textarea and the syntax buttons, with an eye to go back to reading. */
   public void showEditor() {
+    applyEditorMode();
+  }
+
+  private void applyEditorMode() {
     editing = true;
     textArea.setVisible(true);
     preview.setVisible(false);
@@ -207,8 +207,12 @@ public class MarkdownEditor extends Div
    * reference go with the textarea, because neither means anything while reading.
    */
   public void showRendered() {
+    applyRenderedMode();
+  }
+
+  private void applyRenderedMode() {
     editing = false;
-    preview.setMarkdown(getValue());
+    preview.setMarkdown(textArea.getValue());
     textArea.setVisible(false);
     preview.setVisible(true);
     setToolbarVisible(false);
@@ -297,7 +301,7 @@ public class MarkdownEditor extends Div
   public void setValue(final String value, final boolean fireEvents) {
     textArea.setValue(value == null ? "" : value);
     if (!editing) {
-      preview.setMarkdown(getValue());
+      preview.setMarkdown(textArea.getValue());
     }
     if (fireEvents) {
       ValueChangeEvent.fire(this, getValue());

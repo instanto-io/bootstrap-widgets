@@ -46,7 +46,7 @@ public class IconTextMixin<T extends ComplexWidget & HasText & HasIcon & HasIcon
     implements HasText, HasIcon, HasIconPosition, HasBadge {
 
   private final T widget;
-  private final Text text = new Text();
+  private final Text text;
   private final Text separator = new Text(" ");
   private final Text badgeSeparator = new Text(" ");
   private Icon icon;
@@ -65,7 +65,13 @@ public class IconTextMixin<T extends ComplexWidget & HasText & HasIcon & HasIcon
   private String iconColor;
 
   public IconTextMixin(final T widget) {
+    this(widget, new Text());
+  }
+
+  /** Uses a text widget already owned by the caller's initialization path. */
+  public IconTextMixin(final T widget, final Text text) {
     this.widget = widget;
+    this.text = text;
   }
 
   public void addTextWidgetToParent() {

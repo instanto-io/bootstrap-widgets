@@ -25,7 +25,6 @@
  */
 package io.instanto.bootstrap5.client.ui;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickHandler;
 import io.instanto.bootstrap5.client.ui.base.button.AbstractToggleButton;
@@ -43,7 +42,7 @@ public class Button extends AbstractToggleButton {
   public Button() {}
 
   public Button(final String text) {
-    setText(text);
+    initialText.setText(text);
   }
 
   public Button(final String text, final ClickHandler handler) {
@@ -63,7 +62,7 @@ public class Button extends AbstractToggleButton {
 
   public Button(final String text, final ButtonType type) {
     super(type);
-    setText(text);
+    initialText.setText(text);
   }
 
   public void setDataToggle(final String toggle) {
@@ -80,8 +79,7 @@ public class Button extends AbstractToggleButton {
     getElement().setAttribute(Attributes.DATA_TOGGLE, toggle);
   }
 
-  @Override
-  protected Element createElement() {
-    return Document.get().createPushButtonElement().cast();
+  protected Button(final Element element) {
+    super(io.instanto.bootstrap5.client.ui.constants.ButtonType.DEFAULT, element);
   }
 }

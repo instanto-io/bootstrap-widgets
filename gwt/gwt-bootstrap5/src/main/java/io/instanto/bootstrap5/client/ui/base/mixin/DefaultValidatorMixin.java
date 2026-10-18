@@ -39,9 +39,10 @@ import io.instanto.bootstrap5.client.ui.form.validator.ValidationChangedEvent.Va
 import io.instanto.bootstrap5.client.ui.form.validator.Validator;
 import io.instanto.bootstrap5.client.ui.form.validator.ValidatorWrapper;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Abstract validator mixin. Contains all of the validation logic.
@@ -63,7 +64,7 @@ public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V
 
   private boolean validateOnBlur;
 
-  protected Set<ValidatorWrapper<V>> validators = new TreeSet<ValidatorWrapper<V>>();
+  protected Set<ValidatorWrapper<V>> validators = new LinkedHashSet<ValidatorWrapper<V>>();
 
   /**
    * Instantiates a new abstract validator mixin.
@@ -76,30 +77,56 @@ public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V
     this.errorHandler = errorHandler;
     eventBus = new SimpleEventBus();
 
-    setupBlurValidation();
-    setupValueChangeValidation();
+    bindBlurValidation();
+    bindValueChangeValidation();
   }
 
+  /**
+   * Registers an additional blur handler; construction uses a private binding path. Override
+   * onValidationBlur() to customize handling after construction.
+   */
   protected HandlerRegistration setupBlurValidation() {
+    return bindBlurValidation();
+  }
+
+  private HandlerRegistration bindBlurValidation() {
     return inputWidget.addDomHandler(
         new BlurHandler() {
           @Override
           public void onBlur(BlurEvent event) {
-            validate(validateOnBlur);
+            onValidationBlur();
           }
         },
         BlurEvent.getType());
   }
 
+  /**
+   * Registers an additional value handler; construction uses a private binding path. Override
+   * onValidationValueChange() to customize handling after construction.
+   */
   protected HandlerRegistration setupValueChangeValidation() {
+    return bindValueChangeValidation();
+  }
+
+  private HandlerRegistration bindValueChangeValidation() {
     return inputWidget.addHandler(
         new ValueChangeHandler<V>() {
           @Override
           public void onValueChange(ValueChangeEvent<V> event) {
-            validate(false);
+            onValidationValueChange();
           }
         },
         ValueChangeEvent.getType());
+  }
+
+  /** Called for blur events, after the input and mixin have been constructed. */
+  protected void onValidationBlur() {
+    validate(validateOnBlur);
+  }
+
+  /** Called for value changes, after the input and mixin have been constructed. */
+  protected void onValidationValueChange() {
+    validate(false);
   }
 
   @Override
@@ -110,7 +137,14 @@ public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V
   /** {@inheritDoc} */
   @Override
   public void addValidator(Validator<V> validator) {
-    validators.add(new ValidatorWrapper<V>(validator, validators.size()));
+    // Equality enforces one validator per type; ordering must not also decide membership.
+    if (validators.add(new ValidatorWrapper<V>(validator, validators.size()))) {
+      List<ValidatorWrapper<V>> ordered = new ArrayList<>(validators);
+      // The stable sort preserves insertion order among equal priorities, including after removal.
+      ordered.sort(Comparator.comparing(ValidatorWrapper::getPriority));
+      validators.clear();
+      validators.addAll(ordered);
+    }
   }
 
   @Override
@@ -184,27 +218,34 @@ public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V
   @Override
   public boolean validate(boolean show) {
     Boolean oldValid = valid;
-    valid = true;
-    if (errorHandler != null && !validators.isEmpty()) {
-      List<EditorError> errors = new ArrayList<EditorError>();
-      for (ValidatorWrapper<V> wrapper : validators) {
-        Validator<V> validator = wrapper.getValidator();
-        List<EditorError> result = validator.validate(inputWidget, inputWidget.getValue());
+    boolean currentValid = true;
+    List<EditorError> errors = null;
+    if (!validators.isEmpty()) {
+      V value = inputWidget.getValue();
+      // A validator may edit the rule set; apply those changes on the next pass.
+      for (ValidatorWrapper<V> wrapper : new ArrayList<>(validators)) {
+        List<EditorError> result = wrapper.getValidator().validate(inputWidget, value);
         if (result != null && !result.isEmpty()) {
-          errors.addAll(result);
-          valid = false;
-        }
-      }
-      if (show) {
-        if (errors.size() > 0) {
-          errorHandler.showErrors(errors);
-        } else {
-          errorHandler.clearErrors();
+          currentValid = false;
+          if (show && errorHandler != null) {
+            if (errors == null) {
+              errors = new ArrayList<>();
+            }
+            errors.addAll(result);
+          }
         }
       }
     }
-    if (valid != oldValid) {
-      eventBus.fireEvent(new ValidationChangedEvent(valid));
+    if (show && errorHandler != null) {
+      if (errors == null) {
+        errorHandler.clearErrors();
+      } else {
+        errorHandler.showErrors(errors);
+      }
+    }
+    valid = currentValid;
+    if (oldValid == null || oldValid.booleanValue() != currentValid) {
+      eventBus.fireEvent(new ValidationChangedEvent(currentValid));
     }
     return valid;
   }

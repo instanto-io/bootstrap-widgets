@@ -44,9 +44,9 @@ public class Navbar extends ComplexWidget implements HasType<NavbarType> {
 
     public Navbar() {
         setElement(Document.get().createElement(ElementTags.NAV));
-        setStyleName(Styles.NAVBAR);
-        setType(NavbarType.DEFAULT);
-        getElement().setAttribute(Attributes.ROLE, NAVIGATION);
+        super.getElement().setClassName(Styles.NAVBAR);
+        super.getElement().addClassName(NavbarType.DEFAULT.getCssName());
+        super.getElement().setAttribute(Attributes.ROLE, NAVIGATION);
     }
 
     @Override

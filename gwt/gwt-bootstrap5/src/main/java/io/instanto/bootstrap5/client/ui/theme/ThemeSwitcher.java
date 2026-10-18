@@ -19,8 +19,6 @@
  */
 package io.instanto.bootstrap5.client.ui.theme;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.DropDownItem;
 import io.instanto.bootstrap5.client.ui.ListDropDown;
@@ -36,6 +34,13 @@ import java.util.List;
 public class ThemeSwitcher extends ListDropDown {
 
   private final String label;
+  private final ThemeChangeHandler themeHandler =
+      theme -> {
+        if (isAttached()) {
+          markActive();
+          updateToggleText();
+        }
+      };
 
   public ThemeSwitcher() {
     this("Theme");
@@ -44,42 +49,46 @@ public class ThemeSwitcher extends ListDropDown {
   public ThemeSwitcher(final String label) {
     super(label);
     this.label = label;
-    rebuild();
-    Themes.addThemeChangeHandler(
-        new ThemeChangeHandler() {
-          @Override
-          public void onThemeChanged(final Theme theme) {
-            markActive();
-            updateToggleText();
-          }
-        });
+    rebuildMenu();
   }
 
   /** Rebuilds the menu from the current contents of the {@link Themes} registry. */
   public void rebuild() {
-    getMenu().clear();
+    rebuildMenu();
+  }
+
+  private void rebuildMenu() {
+    super.getMenu().clear();
     for (final Theme theme : Themes.getThemes()) {
       final DropDownItem item = new DropDownItem();
       item.setText(theme.getDisplayName());
       item.setHref("javascript:;");
-      item.addClickHandler(
-          new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-              Themes.apply(theme);
-            }
-          });
-      addItem(item);
+      item.addClickHandler(event -> Themes.apply(theme));
+      super.getMenu().add(item);
     }
     markActive();
     updateToggleText();
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    Themes.addThemeChangeHandler(themeHandler);
+    markActive();
+    updateToggleText();
+  }
+
+  @Override
+  protected void onUnload() {
+    Themes.removeThemeChangeHandler(themeHandler);
+    super.onUnload();
   }
 
   private void markActive() {
     final Theme current = Themes.getCurrent();
     final List<Theme> themes = Themes.getThemes();
     int index = 0;
-    for (final Widget child : getMenu()) {
+    for (final Widget child : super.getMenu()) {
       if (child instanceof DropDownItem && index < themes.size()) {
         child.setStyleName("active", themes.get(index).equals(current));
       }
@@ -89,6 +98,6 @@ public class ThemeSwitcher extends ListDropDown {
 
   private void updateToggleText() {
     final Theme current = Themes.getCurrent();
-    getToggle().setText(current == null ? label : label + ": " + current.getDisplayName());
+    super.getToggle().setText(current == null ? label : label + ": " + current.getDisplayName());
   }
 }

@@ -151,24 +151,42 @@ public class CheckBoxButton extends CheckBox
   protected CheckBoxButton(InputElement element) {
     super(DOM.createSpan(), element);
 
-    setStyleName("d-inline-block");
+    super.getElement().setClassName("d-inline-block");
     inputElem.setClassName("btn-check");
     inputElem.setAttribute("autocomplete", "off");
     inputElem.setId(Document.get().createUniqueId());
     buttonLabel.setClassName(Styles.BTN);
     buttonLabel.setHtmlFor(inputElem.getId());
-    setType(ButtonType.DEFAULT);
+    this.type = ButtonType.DEFAULT;
+    buttonLabel.addClassName(buttonStyle(this.type, false));
 
-    getElement().appendChild(inputElem);
+    super.getElement().appendChild(inputElem);
     buttonLabel.appendChild(labelElem);
-    getElement().appendChild(buttonLabel);
-    addChangeHandler(
-        new ChangeHandler() {
-          @Override
-          public void onChange(ChangeEvent event) {
-            updatePressedState();
-          }
-        });
+    super.getElement().appendChild(buttonLabel);
+  }
+
+  private com.google.gwt.event.shared.HandlerRegistration pressedStateHandler;
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    pressedStateHandler =
+        addChangeHandler(
+            new ChangeHandler() {
+              @Override
+              public void onChange(ChangeEvent event) {
+                updatePressedState();
+              }
+            });
+  }
+
+  @Override
+  protected void onUnload() {
+    if (pressedStateHandler != null) {
+      pressedStateHandler.removeHandler();
+      pressedStateHandler = null;
+    }
+    super.onUnload();
   }
 
   @Override

@@ -39,23 +39,30 @@ public class ProgressBar extends ElementPanel implements HasType<ProgressBarType
 
   public ProgressBar(int value) {
     super("div");
-    addStyleName("progress-bar");
-    getElement().setAttribute("role", "progressbar");
-    setValue(value);
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "progress-bar");
+    super.getElement().setAttribute("role", "progressbar");
+    applyValue(super.getElement(), value);
   }
 
   public ProgressBar(int value, ProgressBarType type) {
     this(value);
-    setType(type);
+    if (type != null)
+      io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+          super.getElement(), type.getCssName());
   }
 
   public void setValue(int value) {
+    applyValue(getElement(), value);
+  }
+
+  private static void applyValue(com.google.gwt.dom.client.Element element, int value) {
     int clamped = Math.max(0, Math.min(100, value));
-    getElement().getStyle().setProperty("width", clamped + "%");
-    getElement().setAttribute("aria-valuenow", String.valueOf(clamped));
-    getElement().setAttribute("aria-valuemin", "0");
-    getElement().setAttribute("aria-valuemax", "100");
-    setText(clamped + "%");
+    element.getStyle().setProperty("width", clamped + "%");
+    element.setAttribute("aria-valuenow", String.valueOf(clamped));
+    element.setAttribute("aria-valuemin", "0");
+    element.setAttribute("aria-valuemax", "100");
+    element.setInnerText(clamped + "%");
   }
 
   public void setPercent(double percent) {

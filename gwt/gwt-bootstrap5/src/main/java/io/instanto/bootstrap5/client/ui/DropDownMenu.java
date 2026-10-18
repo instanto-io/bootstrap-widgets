@@ -33,8 +33,9 @@ public class DropDownMenu extends ElementPanel {
 
   public DropDownMenu() {
     super("ul");
-    addStyleName("dropdown-menu");
-    getElement().setAttribute("role", "menu");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "dropdown-menu");
+    super.getElement().setAttribute("role", "menu");
   }
 
   public void setEndAligned(boolean endAligned) {

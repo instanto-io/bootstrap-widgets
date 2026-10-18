@@ -103,18 +103,18 @@ public class Modal extends Div implements IsClosable {
     private boolean hideOtherModals = false;
 
     public Modal() {
-        setStyleName(Styles.MODAL);
-        getElement().setAttribute(Attributes.ROLE, "dialog");
-        getElement().setAttribute("aria-modal", "true");
-        getElement().setAttribute("aria-labelledby", header.getTitleId());
+        super.getElement().setClassName(Styles.MODAL);
+        super.getElement().setAttribute(Attributes.ROLE, "dialog");
+        super.getElement().setAttribute("aria-modal", "true");
+        super.getElement().setAttribute("aria-labelledby", header.getTitleId());
         
         // Set the z-index to match bootstrap's .modal
-        getElement().getStyle().setZIndex(1050);
+        super.getElement().getStyle().setZIndex(1050);
 
         content.add(header);
         dialog.add(content);
 
-        add(dialog);
+        addInitialChild(dialog);
     }
 
     @Override

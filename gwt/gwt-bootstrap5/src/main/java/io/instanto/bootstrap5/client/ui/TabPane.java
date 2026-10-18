@@ -29,8 +29,9 @@ public class TabPane extends ElementPanel {
 
   public TabPane() {
     super("div");
-    addStyleName("tab-pane fade");
-    getElement().setAttribute("role", "tabpanel");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "tab-pane fade");
+    super.getElement().setAttribute("role", "tabpanel");
   }
 
   public void setActive(boolean active) {

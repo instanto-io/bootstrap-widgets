@@ -41,14 +41,14 @@ public class SizeValidator<T> extends AbstractValidator<T> {
 
     public SizeValidator(Integer min, Integer max) {
         super(Keys.SIZE, new Object[] { min, max });
-        setMin(min);
-        setMax(max);
+        applyMin(min);
+        applyMax(max);
     }
 
     public SizeValidator(Integer min, Integer max, String invalidMessageOverride) {
         super(invalidMessageOverride);
-        setMin(min);
-        setMax(max);
+        applyMin(min);
+        applyMax(max);
     }
 
     /** {@inheritDoc} */
@@ -77,14 +77,23 @@ public class SizeValidator<T> extends AbstractValidator<T> {
      * @param max the max to set
      */
     public void setMax(Integer max) {
+        applyMax(max);
+    }
+
+    private void applyMax(Integer max) {
+        java.util.Objects.requireNonNull(max, "max");
+        if (max < 0) throw new IllegalArgumentException("Maximum size must not be negative");
         this.maxValue = max;
-        assert maxValue > 0;
     }
 
     /**
      * @param min the min to set
      */
     public void setMin(Integer min) {
+        applyMin(min);
+    }
+
+    private void applyMin(Integer min) {
         minValue = min;
         if (minValue == null || minValue < 0) {
             minValue = 0;

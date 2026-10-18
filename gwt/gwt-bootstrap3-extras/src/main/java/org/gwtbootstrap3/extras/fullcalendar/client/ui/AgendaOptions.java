@@ -30,7 +30,7 @@ public class AgendaOptions implements IsJavaScriptObject {
     private JavaScriptObject options;
 
     public AgendaOptions() {
-        newInstance();
+        initializeOptions();
     }
 
     /**
@@ -38,7 +38,11 @@ public class AgendaOptions implements IsJavaScriptObject {
      *
      * @see http://arshaw.com/fullcalendar/docs/agenda/
      */
-    public native void newInstance() /*-{
+    public void newInstance() {
+        initializeOptions();
+    }
+
+    private native void initializeOptions() /*-{
         var theInstance = this;
         theInstance.@org.gwtbootstrap3.extras.fullcalendar.client.ui.AgendaOptions::options = {
             allDaySlot: true,
@@ -78,7 +82,9 @@ public class AgendaOptions implements IsJavaScriptObject {
     }-*/;
 
     public void setSlotDuration(final int minutes) {
-        assert minutes >= 0 && minutes <= 60;
+        if (minutes < 0 || minutes > 60) {
+            throw new IllegalArgumentException("Minutes must be between 0 and 60");
+        }
         if (minutes < 10) {
             setSlotDuration("00:0" + minutes + ":00");
         } else {
@@ -95,7 +101,9 @@ public class AgendaOptions implements IsJavaScriptObject {
     }-*/;
 
     public void setSnapDuration(final int minutes) {
-        assert minutes >= 0 && minutes <= 60;
+        if (minutes < 0 || minutes > 60) {
+            throw new IllegalArgumentException("Minutes must be between 0 and 60");
+        }
         if (minutes < 10) {
             setSnapDuration("00:0" + minutes + ":00");
         } else {

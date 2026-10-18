@@ -201,8 +201,12 @@ public class Typeahead<T> extends TextBox {
         TypeaheadSelectedEvent.fire(this, suggestion, event);
     }
 
-    public void reconfigure() {
+    public void destroy() {
         remove(getElement());
+    }
+
+    public void reconfigure() {
+        destroy();
         configure();
     }
 
@@ -270,25 +274,25 @@ public class Typeahead<T> extends TextBox {
                 minLength: minLength
             },
             datasets)
-            .on('typeahead:opened', function (e) {
+            .on('typeahead:opened.gwtTypeahead', function (e) {
                 that.@org.gwtbootstrap3.extras.typeahead.client.ui.Typeahead::onOpened(Lcom/google/gwt/user/client/Event;)(e);
             })
-            .on('typeahead:closed', function (e) {
+            .on('typeahead:closed.gwtTypeahead', function (e) {
                 that.@org.gwtbootstrap3.extras.typeahead.client.ui.Typeahead::onClosed(Lcom/google/gwt/user/client/Event;)(e);
             })
-            .on('typeahead:cursorchanged', function (e, value, datasetName) {
+            .on('typeahead:cursorchanged.gwtTypeahead', function (e, value, datasetName) {
                 that.@org.gwtbootstrap3.extras.typeahead.client.ui.Typeahead::onCursorChanged(Lcom/google/gwt/user/client/Event;Lorg/gwtbootstrap3/extras/typeahead/client/base/Suggestion;)(e, value);
             })
-            .on('typeahead:autocompleted', function (e, value, datasetName) {
+            .on('typeahead:autocompleted.gwtTypeahead', function (e, value, datasetName) {
                 that.@org.gwtbootstrap3.extras.typeahead.client.ui.Typeahead::onAutoCompleted(Lcom/google/gwt/user/client/Event;Lorg/gwtbootstrap3/extras/typeahead/client/base/Suggestion;)(e, value);
             })
-            .on('typeahead:selected', function (e, value, datasetName) {
+            .on('typeahead:selected.gwtTypeahead', function (e, value, datasetName) {
                 that.@org.gwtbootstrap3.extras.typeahead.client.ui.Typeahead::onSelected(Lcom/google/gwt/user/client/Event;Lorg/gwtbootstrap3/extras/typeahead/client/base/Suggestion;)(e, value);
             });
     }-*/;
 
     private native void remove(Element e) /*-{
-        $wnd.jQuery(e).typeahead('destroy');
+        $wnd.jQuery(e).off('.gwtTypeahead').typeahead('destroy');
     }-*/;
 
     private native void setValueNative(Element e, String value) /*-{

@@ -29,11 +29,26 @@ This fork vendors browser JS/CSS resources inside the GWT modules so downstream 
 | animate.css | 4.1.1 | `animate.css` | Uses `animate.compat.css` to preserve legacy class names. |
 | Summernote | 0.9.1 | `summernote` | Current maintained browser distribution. |
 | FullCalendar | 3.10.5 | `fullcalendar` | Last jQuery-compatible line; newer major versions are not drop-in. |
-| jQuery UI | 1.13.3 | `jquery-ui-dist` | Used by FullCalendar drag/resize support. |
+| jQuery UI | 1.13.3 | `jquery-ui` | FullCalendar loads only draggable, resizable and their dependencies, preserving Bootstrap plugins. |
 | Moment | 2.30.1 | `moment` | Used by FullCalendar 3.x. |
 | Blueimp Gallery | 3.4.0 | `blueimp-gallery` | Core gallery plugin update; legacy Bootstrap image gallery adapter retained. |
 | bootstrap-notify | 3.1.3 | `bootstrap-notify` | Latest available line, retained. |
 | bootstrap-tagsinput | 0.8.0 | upstream gwtbootstrap3-extras | Newer npm package is older than the bundled upstream asset, retained. |
+
+### Calendar interaction bundle
+
+`jquery-ui-1.13.3-drag-resize.cache.js` contains the unmodified upstream modules
+needed by draggable and resizable, in dependency order. It excludes button,
+tooltip, datepicker and the other unrelated widgets from the full distribution.
+The loader checks `jQuery.fn` for existing interactions and `window.moment` for
+Moment, and inserts its two stylesheets only once.
+
+To regenerate, extract the official `jquery-ui@1.13.3` npm package and run
+`node build-tools/vendor-calendar-interactions.mjs /path/to/extracted/package`.
+This is a maintainer step; Maven and consuming applications do not invoke Node.
+The upstream MIT license is copied beside the generated bundle. Source modules:
+[draggable](https://github.com/jquery/jquery-ui/blob/1.13.3/ui/widgets/draggable.js)
+and [resizable](https://github.com/jquery/jquery-ui/blob/1.13.3/ui/widgets/resizable.js).
 
 ## Bootstrap 3 Theme Assets
 

@@ -41,8 +41,8 @@ public class DropDownMenu extends UnorderedList implements HasPull {
     private final PullMixin<DropDownMenu> pullMixin = new PullMixin<DropDownMenu>(this);
 
     public DropDownMenu() {
-        setStyleName(Styles.DROPDOWN_MENU);
-        getElement().setAttribute(Attributes.ROLE, MENU);
+        super.getElement().setClassName(Styles.DROPDOWN_MENU);
+        super.getElement().setAttribute(Attributes.ROLE, MENU);
     }
 
     @Override

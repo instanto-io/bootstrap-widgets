@@ -52,7 +52,7 @@ public class HelpBlock extends AbstractTextWidget {
      */
     public HelpBlock() {
         super(Document.get().createSpanElement());
-        setStyleName(Styles.HELP_BLOCK);
+        super.getElement().setClassName(Styles.HELP_BLOCK);
         addHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent event) {

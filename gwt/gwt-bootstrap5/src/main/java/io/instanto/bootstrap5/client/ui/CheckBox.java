@@ -174,7 +174,7 @@ public class CheckBox extends ButtonBase
 
   public CheckBox() {
     this(DOM.createDiv(), Document.get().createCheckInputElement());
-    setStyleName("form-check");
+    super.getElement().setClassName("form-check");
 
     // Bootstrap 5 wants the input and the label as siblings inside the
     // .form-check, not the input nested inside the label as Bootstrap 3 had
@@ -189,8 +189,8 @@ public class CheckBox extends ButtonBase
     label.setHtmlFor(controlId);
     label.appendChild(labelElem);
 
-    getElement().appendChild(inputElem);
-    getElement().appendChild(label);
+    super.getElement().appendChild(inputElem);
+    super.getElement().appendChild(label);
   }
 
   protected CheckBox(Element element, InputElement inputElement) {
@@ -202,7 +202,7 @@ public class CheckBox extends ButtonBase
     // calls setTabIndex, which is overridden below. However, at the time
     // that this call is made, inputElem has not been created. So, we have
     // to call setTabIndex again, once inputElem has been created.
-    setTabIndex(0);
+    inputElem.setTabIndex(0);
   }
 
   @Override

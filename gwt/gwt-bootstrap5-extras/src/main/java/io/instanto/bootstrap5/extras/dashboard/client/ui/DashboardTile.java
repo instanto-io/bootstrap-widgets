@@ -1,5 +1,6 @@
 package io.instanto.bootstrap5.extras.dashboard.client.ui;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.html.Div;
 
@@ -10,17 +11,18 @@ public class DashboardTile extends Div {
 
   public DashboardTile(String key, int x, int y, int width, int height) {
     if (key == null || key.isEmpty()) throw new IllegalArgumentException("Tile key is required");
-    if (x < 0 || y < 0 || width < 1 || height < 1 || x + width > 12)
+    if (x < 0 || y < 0 || width < 1 || height < 1 || width > 12 - x)
       throw new IllegalArgumentException("Tile must fit the twelve-column grid");
     this.key = key;
-    setStyleName("grid-stack-item");
-    getElement().setAttribute("gs-id", key);
-    getElement().setAttribute("gs-x", String.valueOf(x));
-    getElement().setAttribute("gs-y", String.valueOf(y));
-    getElement().setAttribute("gs-w", String.valueOf(width));
-    getElement().setAttribute("gs-h", String.valueOf(height));
+    Element element = super.getElement();
+    element.setClassName("grid-stack-item");
+    element.setAttribute("gs-id", key);
+    element.setAttribute("gs-x", String.valueOf(x));
+    element.setAttribute("gs-y", String.valueOf(y));
+    element.setAttribute("gs-w", String.valueOf(width));
+    element.setAttribute("gs-h", String.valueOf(height));
     content.setStyleName("grid-stack-item-content card p-3");
-    super.add(content);
+    super.add(content, element);
   }
 
   public String getKey() {

@@ -42,6 +42,11 @@ public class ComplexWidget extends ComplexPanel implements HasId, HasResponsiven
     private final IdMixin<ComplexWidget> idMixin = new IdMixin<ComplexWidget>(this);
     private final PullMixin<ComplexWidget> pullMixin = new PullMixin<ComplexWidget>(this);
 
+    /** Adds a constructor-owned child without invoking subclass insertion hooks. */
+    protected final void addInitialChild(Widget child) {
+        super.add(child, super.getElement());
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -15,21 +15,26 @@ public class Placeholder extends ElementPanel implements HasSize<PlaceholderSize
 
   public Placeholder() {
     super("span");
-    addStyleName("placeholder col-12");
-    getElement().setAttribute("aria-hidden", "true");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "placeholder col-12");
+    super.getElement().setAttribute("aria-hidden", "true");
   }
 
   public Placeholder(int columns) {
     this();
-    setColumns(columns);
+    applyColumns(super.getElement(), columns);
   }
 
   public void setColumns(int columns) {
+    applyColumns(getElement(), columns);
+  }
+
+  private void applyColumns(com.google.gwt.dom.client.Element element, int columns) {
     if (columns < 1 || columns > 12)
       throw new IllegalArgumentException("Columns must be between 1 and 12");
-    removeStyleName("col-" + this.columns);
+    element.removeClassName("col-" + this.columns);
     this.columns = columns;
-    addStyleName("col-" + columns);
+    element.addClassName("col-" + columns);
   }
 
   public int getColumns() {

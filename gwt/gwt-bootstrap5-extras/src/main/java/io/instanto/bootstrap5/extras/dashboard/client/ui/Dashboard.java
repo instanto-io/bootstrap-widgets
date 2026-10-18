@@ -18,15 +18,30 @@ public class Dashboard extends PluginWidget<DashboardJs.GridStack>
 
   @Override
   public void add(Widget child) {
+    validateTile(child);
+    super.add(child);
+    if (isReady()) DashboardJs.add(plugin(), child.getElement());
+  }
+
+  @Override
+  public void insert(Widget child, int beforeIndex) {
+    validateTile(child);
+    super.insert(child, beforeIndex);
+    if (isReady()) DashboardJs.add(plugin(), child.getElement());
+  }
+
+  private void validateTile(Widget child) {
     if (!(child instanceof DashboardTile))
       throw new IllegalArgumentException("Expected a DashboardTile");
     DashboardTile tile = (DashboardTile) child;
     for (int i = 0; i < getWidgetCount(); i++) {
-      if (((DashboardTile) getWidget(i)).getKey().equals(tile.getKey()))
+      Widget existing = getWidget(i);
+      if (existing != child
+          && existing instanceof DashboardTile
+          && ((DashboardTile) existing).getKey().equals(tile.getKey())) {
         throw new IllegalArgumentException("Duplicate tile key: " + tile.getKey());
+      }
     }
-    super.add(child);
-    if (isReady()) DashboardJs.add(plugin(), child.getElement());
   }
 
   @Override

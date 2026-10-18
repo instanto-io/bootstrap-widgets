@@ -13,10 +13,11 @@ import io.instanto.bootstrap5.client.ui.html.Div;
  */
 public class ToastContainer extends Div {
   public ToastContainer() {
-    addStyleName("toast-container");
-    getElement().setAttribute("aria-live", "polite");
-    getElement().setAttribute("aria-atomic", "false");
-    getElement().setAttribute("aria-relevant", "additions text");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "toast-container");
+    super.getElement().setAttribute("aria-live", "polite");
+    super.getElement().setAttribute("aria-atomic", "false");
+    super.getElement().setAttribute("aria-relevant", "additions text");
   }
 
   /** Adds an independently timed notification, removing it after it is dismissed. */

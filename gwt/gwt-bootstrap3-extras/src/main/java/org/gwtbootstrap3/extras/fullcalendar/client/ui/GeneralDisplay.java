@@ -111,7 +111,7 @@ public class GeneralDisplay implements IsJavaScriptObject {
         if (days != null) {
             final JsArrayInteger intArr = (JsArrayInteger) JsArrayInteger.createArray();
             for (final int i : days) {
-                assert i >= 0 && i <= 6;
+                if (i < 0 || i > 6) throw new IllegalArgumentException("Day must be between 0 and 6");
                 intArr.push(i);
             }
             setHiddenDays(intArr);

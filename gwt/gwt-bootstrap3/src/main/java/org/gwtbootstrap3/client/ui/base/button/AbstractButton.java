@@ -120,9 +120,14 @@ public abstract class AbstractButton extends ComplexWidget implements HasEnabled
     }
 
     protected AbstractButton(final ButtonType type) {
-        setElement(createElement());
-        setStyleName(Styles.BTN);
-        setType(type);
+        this(type, Document.get().createPushButtonElement());
+    }
+
+    /** Supplies the element explicitly instead of invoking a subclass factory during construction. */
+    protected AbstractButton(final ButtonType type, final Element element) {
+        setElement(element);
+        element.setClassName(Styles.BTN);
+        if (type != null) StyleHelper.addStyleNames(element, type.getCssName());
     }
 
     @Override
@@ -306,7 +311,11 @@ public abstract class AbstractButton extends ComplexWidget implements HasEnabled
         DomEvent.fireNativeEvent(event, this);
     }
 
-    protected abstract Element createElement();
+    /** @deprecated Pass the element to the protected constructor. This hook is no longer called during construction. */
+    @Deprecated
+    protected Element createElement() {
+        return Document.get().createPushButtonElement();
+    }
 
     // @formatter:off
 

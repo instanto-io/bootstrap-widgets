@@ -1,0 +1,39 @@
+<FindBugsFilter>
+  <!-- Public Bootstrap adapters deliberately keep the GWT widget's simple name.
+       Renaming these classes would break the existing API. Restrict this exception
+       to the reviewed adapters; all other detectors and classes remain enabled. -->
+  <Match><Or>
+    <Class name="io.instanto.bootstrap5.client.ui.Image"/>
+    <Class name="io.instanto.bootstrap5.client.ui.ListBox"/>
+    <Class name="io.instanto.bootstrap5.client.ui.SimpleCheckBox"/>
+    <Class name="io.instanto.bootstrap5.client.ui.SimpleRadioButton"/>
+    <Class name="io.instanto.bootstrap5.client.ui.SuggestBox"/>
+    <Class name="io.instanto.bootstrap5.client.ui.ValueListBox"/>
+    <Class name="io.instanto.bootstrap5.client.ui.base.ValueBoxBase"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.ButtonBase"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.ButtonCell"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.CellTable"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.DataGrid"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.FlowPanel"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.FocusWidget"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.FormPanel"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.HTMLPanel"/>
+    <Class name="io.instanto.bootstrap5.client.ui.gwt.Widget"/>
+    <Class name="org.gwtbootstrap3.client.ui.Image"/>
+    <Class name="org.gwtbootstrap3.client.ui.ListBox"/>
+    <Class name="org.gwtbootstrap3.client.ui.SimpleCheckBox"/>
+    <Class name="org.gwtbootstrap3.client.ui.SimpleRadioButton"/>
+    <Class name="org.gwtbootstrap3.client.ui.SuggestBox"/>
+    <Class name="org.gwtbootstrap3.client.ui.ValueListBox"/>
+    <Class name="org.gwtbootstrap3.client.ui.base.ValueBoxBase"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.ButtonBase"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.ButtonCell"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.CellTable"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.DataGrid"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.FlowPanel"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.FocusWidget"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.FormPanel"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.HTMLPanel"/>
+    <Class name="org.gwtbootstrap3.client.ui.gwt.Widget"/>
+  </Or><Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS"/></Match>
+</FindBugsFilter>

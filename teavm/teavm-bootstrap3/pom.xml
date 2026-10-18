@@ -116,6 +116,23 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-ported-bootstrap3-extras</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <classifier>sources</classifier>
+              <includeArtifactIds>gwt-bootstrap3-extras</includeArtifactIds>
+              <includes>org/gwtbootstrap3/extras/animate/**,org/gwtbootstrap3/extras/card/**,org/gwtbootstrap3/extras/markdown/**,org/gwtbootstrap3/extras/toggleswitch/**,org/gwtbootstrap3/extras/slider/**,org/gwtbootstrap3/extras/select/**,org/gwtbootstrap3/extras/summernote/**</includes>
+              <excludes>${shared.source.gwt.only}</excludes>
+              <outputDirectory>${project.build.directory}/shared-sources</outputDirectory>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>io.instanto</groupId>
@@ -167,27 +184,6 @@
               <sourceRoot>${project.build.directory}/shared-sources</sourceRoot>
               <outputRoot>${project.build.directory}/teavm-sources</outputRoot>
               <legacyJsni>true</legacyJsni>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unpack-ported-bootstrap3-extras</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <configuration>
-              <classifier>sources</classifier>
-              <includeArtifactIds>gwt-bootstrap3-extras</includeArtifactIds>
-              <includes>org/gwtbootstrap3/extras/animate/**,org/gwtbootstrap3/extras/card/**,org/gwtbootstrap3/extras/markdown/**,org/gwtbootstrap3/extras/toggleswitch/**,org/gwtbootstrap3/extras/slider/**,org/gwtbootstrap3/extras/select/**,org/gwtbootstrap3/extras/summernote/**</includes>
-              <excludes>${shared.source.gwt.only}</excludes>
-              <outputDirectory>${project.build.directory}/shared-sources</outputDirectory>
-              <overWriteSnapshots>true</overWriteSnapshots>
             </configuration>
           </execution>
         </executions>

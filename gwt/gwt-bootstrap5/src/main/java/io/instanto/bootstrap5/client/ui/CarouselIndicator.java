@@ -29,14 +29,14 @@ public class CarouselIndicator extends ElementPanel {
 
   public CarouselIndicator() {
     super("button");
-    getElement().setAttribute("type", "button");
+    super.getElement().setAttribute("type", "button");
   }
 
   public CarouselIndicator(String targetId, int slideIndex) {
     this();
-    setDataTarget("#" + targetId);
-    setDataSlideTo(String.valueOf(slideIndex));
-    getElement().setAttribute("aria-label", "Slide " + (slideIndex + 1));
+    super.getElement().setAttribute("data-bs-target", "#" + targetId);
+    super.getElement().setAttribute("data-bs-slide-to", String.valueOf(slideIndex));
+    super.getElement().setAttribute("aria-label", "Slide " + (slideIndex + 1));
   }
 
   public void setDataSlideTo(final String dataSlideTo) {

@@ -1,5 +1,6 @@
 package io.instanto.bootstrap5.extras.sortable.client.ui;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasEnabled;
@@ -11,14 +12,13 @@ import java.util.*;
 public class SortableList extends PluginWidget<SortableJs.Sortable>
     implements HasEnabled, HasValueChangeHandlers<List<Widget>> {
   private static final Map<String, SortableList> ATTACHED = new HashMap<>();
-  private static int nextOwner;
-  private final String owner = "sortable-" + (++nextOwner);
+  private final String owner = "sortable-" + Document.get().createUniqueId();
   private String group = "";
   private boolean enabled = true;
 
   public SortableList() {
-    setStyleName("list-group");
-    getElement().setAttribute("data-sortable-owner", owner);
+    super.getElement().setClassName("list-group");
+    super.getElement().setAttribute("data-sortable-owner", owner);
   }
 
   public void setGroup(String group) {

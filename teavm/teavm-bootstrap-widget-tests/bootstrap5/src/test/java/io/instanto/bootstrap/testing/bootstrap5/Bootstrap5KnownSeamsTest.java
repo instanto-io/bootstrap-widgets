@@ -25,6 +25,29 @@ import org.teavm.junit.TeaVMTestRunner;
 @SkipJVM
 public class Bootstrap5KnownSeamsTest {
   @Test
+  public void togglingContinuousModeDoesNotAccumulateInputListeners() {
+    Range range = new Range();
+    int[] events = {0};
+    range.addValueChangeHandler(event -> events[0]++);
+    for (int i = 0; i < 3; i++) {
+      range.setContinuous(true);
+      range.setContinuous(false);
+    }
+    Dom.fire(range.getElement().unwrap(), "input");
+    assertEquals(0, events[0]);
+    range.setContinuous(true);
+    Dom.fire(range.getElement().unwrap(), "input");
+    assertEquals(1, events[0]);
+  }
+
+  @Test
+  public void rangeRetainsBoundsOutsideTheLongIntegerRange() {
+    Range range = new Range();
+    range.setMax(1e30);
+    assertEquals(1e30, range.getMax(), 0);
+  }
+
+  @Test
   public void formDeferredBindingCreatesAndRemovesItsTargetFrame() {
     Form form = new Form();
     String target = form.getTarget();

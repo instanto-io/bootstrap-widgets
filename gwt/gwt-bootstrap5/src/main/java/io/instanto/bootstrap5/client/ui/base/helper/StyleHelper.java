@@ -33,6 +33,14 @@ import io.instanto.bootstrap5.client.ui.constants.Responsiveness;
  */
 public final class StyleHelper {
 
+  /** Adds class tokens to a known element without calling widget overrides. */
+  public static void addStyleNames(com.google.gwt.dom.client.Element element, String names) {
+    if (names == null || names.isEmpty()) return;
+    for (String name : names.split("\\s+")) {
+      if (!name.isEmpty()) element.addClassName(name);
+    }
+  }
+
   /**
    * Convenience method for first removing all enum style constants and then adding the single one.
    *
@@ -104,18 +112,25 @@ public final class StyleHelper {
    */
   public static boolean containsStyle(final String styleNames, final String style) {
 
-    if (styleNames == null || style == null) {
+    if (styleNames == null || style == null || style.isEmpty()) {
       return false;
     }
-
-    final String[] styles = styleNames.split("\\s");
-
-    for (final String s : styles) {
-      if (style.equals(s)) {
+    // Match complete tokens without allocating a regex, an array and one string per class.
+    int start = 0;
+    while (start < styleNames.length()) {
+      while (start < styleNames.length() && isStyleWhitespace(styleNames.charAt(start))) {
+        start++;
+      }
+      int end = start;
+      while (end < styleNames.length() && !isStyleWhitespace(styleNames.charAt(end))) {
+        end++;
+      }
+      if (end - start == style.length()
+          && styleNames.regionMatches(start, style, 0, style.length())) {
         return true;
       }
+      start = end;
     }
-
     return false;
   }
 
@@ -205,6 +220,10 @@ public final class StyleHelper {
           break;
       }
     }
+  }
+
+  private static boolean isStyleWhitespace(char character) {
+    return character == ' ' || (character >= '\t' && character <= '\r');
   }
 
   private StyleHelper() {}

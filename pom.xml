@@ -112,9 +112,10 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.9.6.0</version>
+        <version>${spotbugs-maven-plugin.version}</version>
         <configuration>
           <effort>Max</effort>
+          <excludeFilterFile>${maven.multiModuleProjectDirectory}/spotbugs-exclude.xml</excludeFilterFile>
           <threshold>Low</threshold>
           <xmlOutput>true</xmlOutput>
           <spotbugsXmlOutputDirectory>${project.build.directory}/spotbugs</spotbugsXmlOutputDirectory>
@@ -133,6 +134,12 @@
             <goals>
               <goal>spotbugs</goal>
             </goals>
+          </execution>
+          <execution>
+            <id>spotbugs-gate</id>
+            <phase>verify</phase>
+            <goals><goal>check</goal></goals>
+            <configuration><failThreshold>High</failThreshold></configuration>
           </execution>
         </executions>
       </plugin>

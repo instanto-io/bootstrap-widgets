@@ -81,8 +81,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.editor.client.HasEditorErrors;
 import com.google.gwt.editor.client.LeafValueEditor;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -117,13 +115,8 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
         }
 
         @Override
-        protected com.google.web.bindery.event.shared.HandlerRegistration setupBlurValidation() {
-            return getInputWidget().addDomHandler(new BlurHandler() {
-                @Override
-                public void onBlur(BlurEvent event) {
-                    getInputWidget().validate(!showing && getValidateOnBlur());
-                }
-            }, BlurEvent.getType());
+        protected void onValidationBlur() {
+            getInputWidget().validate(!showing && getValidateOnBlur());
         }
 
     }

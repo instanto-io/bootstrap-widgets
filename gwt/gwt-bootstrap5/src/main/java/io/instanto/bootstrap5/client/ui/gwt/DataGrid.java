@@ -60,7 +60,7 @@ public class DataGrid<T> extends com.google.gwt.user.cellview.client.DataGrid<T>
    */
   public DataGrid(final int pageSize, final ProvidesKey<T> keyProvider) {
     super(pageSize, getDefaultResources(), keyProvider);
-    getTableBodyElement().getParentElement().addClassName(TableType.DEFAULT.getCssName());
+    super.getTableBodyElement().getParentElement().addClassName(TableType.DEFAULT.getCssName());
   }
 
   /**
@@ -71,7 +71,7 @@ public class DataGrid<T> extends com.google.gwt.user.cellview.client.DataGrid<T>
    */
   public DataGrid(final int pageSize, final DataGrid.Resources resources) {
     super(pageSize, resources, null);
-    getTableBodyElement().getParentElement().addClassName(TableType.DEFAULT.getCssName());
+    super.getTableBodyElement().getParentElement().addClassName(TableType.DEFAULT.getCssName());
   }
 
   /**
@@ -90,7 +90,7 @@ public class DataGrid<T> extends com.google.gwt.user.cellview.client.DataGrid<T>
       final ProvidesKey<T> keyProvider,
       final Widget loadingIndicator) {
     super(pageSize, resources, keyProvider, loadingIndicator);
-    getTableBodyElement().getParentElement().addClassName(TableType.DEFAULT.getCssName());
+    super.getTableBodyElement().getParentElement().addClassName(TableType.DEFAULT.getCssName());
   }
 
   /**

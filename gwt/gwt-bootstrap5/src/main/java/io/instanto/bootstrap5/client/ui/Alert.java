@@ -48,13 +48,14 @@ public class Alert extends ElementPanel implements HasType<AlertType> {
 
   public Alert() {
     super("div");
-    addStyleName("alert");
-    getElement().setAttribute("role", "alert");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "alert");
+    super.getElement().setAttribute("role", "alert");
     closeButton.setStyleName("btn-close");
     closeButton.getElement().setAttribute("type", "button");
     closeButton.getElement().setAttribute("data-bs-dismiss", "alert");
     closeButton.getElement().setAttribute("aria-label", "Close");
-    setVariant(Variant.WARNING);
+    applyVariant(super.getElement(), Variant.WARNING);
     addCloseHandler(
         new AlertCloseHandler() {
           @Override
@@ -96,17 +97,28 @@ public class Alert extends ElementPanel implements HasType<AlertType> {
 
   public Alert(String text) {
     this();
-    setText(text);
+    initializeText(text);
   }
 
   public Alert(String text, Variant variant) {
     this(text);
-    setVariant(variant);
+    applyVariant(super.getElement(), variant);
   }
 
   public Alert(String text, AlertType type) {
     this(text);
-    setType(type);
+    for (AlertType candidate : AlertType.values()) {
+      if (!candidate.getCssName().isEmpty()) {
+        super.getElement().removeClassName(candidate.getCssName());
+      }
+    }
+    StyleHelper.addStyleNames(
+        super.getElement(), (type == null ? AlertType.DEFAULT : type).getCssName());
+  }
+
+  private void initializeText(String value) {
+    text.setText(value == null ? "" : value);
+    if (value != null && !value.isEmpty()) addInitialChild(text);
   }
 
   @Override
@@ -126,11 +138,15 @@ public class Alert extends ElementPanel implements HasType<AlertType> {
   }
 
   public void setVariant(Variant variant) {
+    applyVariant(getElement(), variant);
+  }
+
+  private void applyVariant(com.google.gwt.dom.client.Element element, Variant variant) {
     if (this.variant != null) {
-      removeStyleName(styleName(this.variant));
+      element.removeClassName(styleName(this.variant));
     }
     this.variant = variant == null ? Variant.WARNING : variant;
-    addStyleName(styleName(this.variant));
+    element.addClassName(styleName(this.variant));
   }
 
   public Variant getVariant() {

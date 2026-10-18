@@ -30,9 +30,8 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasEnabled;
-import io.instanto.bootstrap5.client.ui.base.HasId;
 import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
-import io.instanto.bootstrap5.client.ui.html.Div;
+import io.instanto.bootstrap5.extras.base.client.PluginWidget;
 
 /**
  * A slider with the capabilities a native range input does not have, backed by noUiSlider 15.
@@ -45,7 +44,8 @@ import io.instanto.bootstrap5.client.ui.html.Div;
  * <p>A slider with one handle reports through {@link #getValue()}; one with two reports through
  * {@link #getLowerValue()} and {@link #getUpperValue()}.
  */
-public class Slider extends Div implements HasEnabled, HasId, HasValueChangeHandlers<Double> {
+public class Slider extends PluginWidget<SliderJs.Api>
+    implements HasEnabled, HasValueChangeHandlers<Double> {
 
   private final IdMixin<Slider> idMixin = new IdMixin<Slider>(this);
 
@@ -67,18 +67,16 @@ public class Slider extends Div implements HasEnabled, HasId, HasValueChangeHand
 
   private boolean enabled = true;
 
-  private SliderJs.Api slider;
-
   public Slider() {
-    addStyleName("gbm-slider");
-    getElement().getStyle().setProperty("margin", "1.5rem 0.5rem");
+    super.getElement().addClassName("gbm-slider");
+    super.getElement().getStyle().setProperty("margin", "1.5rem 0.5rem");
   }
 
   public Slider(final double min, final double max) {
     this();
-    setMin(min);
-    setMax(max);
-    setValue(min);
+    this.min = min;
+    this.max = max;
+    this.start = min;
   }
 
   /** Two handles rather than one. Set before attach. */
@@ -127,81 +125,62 @@ public class Slider extends Div implements HasEnabled, HasId, HasValueChangeHand
   /** The handle position of a single-handle slider. */
   public void setValue(final double value) {
     start = value;
-    if (slider != null) {
-      SliderJs.applyValues(slider, value, value);
+    if (plugin() != null) {
+      SliderJs.applyValues(plugin(), value, value);
     }
   }
 
   public double getValue() {
-    return slider == null ? start : SliderJs.readValue(slider, 0);
+    return plugin() == null ? start : SliderJs.readValue(plugin(), 0);
   }
 
   /** The handle positions of a two-handle slider. */
   public void setValues(final double lower, final double upper) {
     start = lower;
     end = upper;
-    if (slider != null) {
-      SliderJs.applyValues(slider, lower, upper);
+    if (plugin() != null) {
+      SliderJs.applyValues(plugin(), lower, upper);
     }
   }
 
   public double getLowerValue() {
-    return slider == null ? start : SliderJs.readValue(slider, 0);
+    return plugin() == null ? start : SliderJs.readValue(plugin(), 0);
   }
 
   public double getUpperValue() {
-    return slider == null ? end : SliderJs.readValue(slider, 1);
+    return plugin() == null ? end : SliderJs.readValue(plugin(), 1);
   }
 
   @Override
-  protected void onLoad() {
-    super.onLoad();
-    initialise();
+  protected void whenReady(Runnable action) {
+    SliderJs.whenReady(action);
   }
 
-  /**
-   * Builds the slider once noUiSlider is usable.
-   *
-   * <p>Which backend this is does not matter here any more. GWT compiles the library into the
-   * module, so the action runs immediately; TeaVM fetches it by URL and runs the action when it
-   * arrives. Either way the widget asks the module rather than polling for a global to appear, and
-   * a module that fails to load reports it instead of letting the widget wait out a timeout and
-   * give up silently.
-   */
-  private void initialise() {
-    SliderJs.whenReady(
-        new Runnable() {
-          @Override
-          public void run() {
-            if (isAttached()) {
-              build();
-            }
-          }
-        });
+  @Override
+  protected SliderJs.Api createPlugin() {
+    return SliderJs.create(getElement(), min, max, step, start, end, range, tooltips, pips);
   }
 
-  private void build() {
-    slider = SliderJs.create(getElement(), min, max, step, start, end, range, tooltips, pips);
+  @Override
+  protected void afterCreate() {
+    SliderJs.Api current = plugin();
     SliderJs.bindChange(
-        slider,
-        new SliderJs.UpdateHandler() {
-          @Override
-          public void onUpdate(final double value) {
-            onSliderUpdate(value);
-          }
+        current,
+        value -> {
+          if (plugin() == current && isAttached()) onSliderUpdate(value);
         });
-    if (!enabled) {
-      SliderJs.applyEnabled(getElement(), false);
-    }
+    if (!enabled) SliderJs.applyEnabled(getElement(), false);
   }
 
   @Override
-  protected void onUnload() {
-    if (slider != null) {
-      SliderJs.destroy(slider);
-      slider = null;
-    }
-    super.onUnload();
+  protected void captureState() {
+    start = SliderJs.readValue(plugin(), 0);
+    if (range) end = SliderJs.readValue(plugin(), 1);
+  }
+
+  @Override
+  protected void destroyPlugin(SliderJs.Api previous) {
+    SliderJs.destroy(previous);
   }
 
   @Override
@@ -212,7 +191,7 @@ public class Slider extends Div implements HasEnabled, HasId, HasValueChangeHand
   @Override
   public void setEnabled(final boolean enabled) {
     this.enabled = enabled;
-    if (slider != null) {
+    if (plugin() != null) {
       SliderJs.applyEnabled(getElement(), enabled);
     }
   }

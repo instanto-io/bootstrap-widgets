@@ -37,11 +37,11 @@ public class ListDropDown extends DropDown implements HasActive, HasEnabled {
   public ListDropDown(String text) {
     super("li", text);
     addStyleName("nav-item");
-    getToggle().removeStyleName("btn");
-    getToggle().removeStyleName("btn-secondary");
-    getToggle().addStyleName("nav-link");
-    getToggle().addStyleName("border-0");
-    getToggle().addStyleName("bg-transparent");
+    super.getToggle().removeStyleName("btn");
+    super.getToggle().removeStyleName("btn-secondary");
+    super.getToggle().addStyleName("nav-link");
+    super.getToggle().addStyleName("border-0");
+    super.getToggle().addStyleName("bg-transparent");
   }
 
   @Override

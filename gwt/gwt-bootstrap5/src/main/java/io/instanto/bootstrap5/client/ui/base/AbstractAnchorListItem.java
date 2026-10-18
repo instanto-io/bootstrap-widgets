@@ -66,7 +66,7 @@ public abstract class AbstractAnchorListItem extends AbstractListItem
             delegateEvent(AbstractAnchorListItem.this, event);
           }
         });
-    add(anchor, (Element) getElement());
+    add(anchor, (Element) super.getElement());
   }
 
   /** {@inheritDoc} */

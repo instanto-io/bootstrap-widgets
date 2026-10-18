@@ -35,6 +35,6 @@ public class SubmitButton extends Button {
 
   public SubmitButton(String text) {
     super(text, ButtonType.PRIMARY);
-    getElement().setAttribute("type", "submit");
+    super.getElement().setAttribute("type", "submit");
   }
 }

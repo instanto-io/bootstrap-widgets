@@ -58,7 +58,7 @@ public class Button extends AbstractToggleButton {
      * @param text Text contents of button
      */
     public Button(final String text) {
-        setText(text);
+        initialText.setText(text);
     }
 
     public Button(final String text, final ClickHandler handler) {
@@ -71,8 +71,7 @@ public class Button extends AbstractToggleButton {
         setIcon(iconType);
     }
 
-    @Override
-    protected Element createElement() {
-        return Document.get().createPushButtonElement().cast();
+    protected Button(final Element element) {
+        super(org.gwtbootstrap3.client.ui.constants.ButtonType.DEFAULT, element);
     }
 }

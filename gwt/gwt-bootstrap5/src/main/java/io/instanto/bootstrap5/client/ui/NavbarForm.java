@@ -33,8 +33,8 @@ public class NavbarForm extends Form implements HasPull {
 
   public NavbarForm() {
     super();
-    setStyleName("d-flex");
-    getElement().setAttribute("role", "search");
+    super.getElement().setClassName("d-flex");
+    super.getElement().setAttribute("role", "search");
   }
 
   private final PullMixin<NavbarForm> pullMixin = new PullMixin<NavbarForm>(this);

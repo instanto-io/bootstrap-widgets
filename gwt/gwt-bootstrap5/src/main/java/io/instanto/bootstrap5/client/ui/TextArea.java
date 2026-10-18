@@ -35,7 +35,11 @@ import io.instanto.bootstrap5.client.ui.constants.Styles;
 public class TextArea extends TextBoxBase {
 
   public static TextArea wrap(final Element element) {
-    assert Document.get().getBody().isOrHasChild(element);
+    if (element == null
+        || !Document.get().getBody().isOrHasChild(element)
+        || !"textarea".equalsIgnoreCase(element.getTagName())) {
+      throw new IllegalArgumentException("Expected an attached textarea element");
+    }
 
     final TextArea textArea = new TextArea(element);
     textArea.onAttach();

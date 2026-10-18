@@ -94,7 +94,7 @@ public class SuggestBox extends com.google.gwt.user.client.ui.SuggestBox impleme
 
         public CustomSuggestionDisplay() {
             super();
-            final PopupPanel popup = getPopupPanel();
+            final PopupPanel popup = super.getPopupPanel();
             popup.setStyleName(Styles.DROPDOWN_MENU);
             popup.getElement().getStyle().setDisplay(Display.BLOCK);
         }
@@ -205,7 +205,7 @@ public class SuggestBox extends com.google.gwt.user.client.ui.SuggestBox impleme
      */
     public SuggestBox(SuggestOracle oracle, ValueBoxBase<String> box, SuggestionDisplay suggestDisplay) {
         super(oracle, box, suggestDisplay);
-        setStyleName(Styles.FORM_CONTROL);
+        super.getElement().setClassName(Styles.FORM_CONTROL);
     }
 
     /** {@inheritDoc} */

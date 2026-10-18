@@ -51,8 +51,7 @@ public class FieldMatchValidator<T> extends AbstractValidator<T> {
      */
     public FieldMatchValidator(final HasValue<T> verifyField, final Object... invalidMessageArgs) {
         super(Keys.FIELD_MATCH, invalidMessageArgs);
-        this.verifyField = verifyField;
-        assert this.verifyField != null;
+        this.verifyField = java.util.Objects.requireNonNull(verifyField, "verifyField");
     }
 
     /**
@@ -63,8 +62,7 @@ public class FieldMatchValidator<T> extends AbstractValidator<T> {
      */
     public FieldMatchValidator(final HasValue<T> verifyField, final String invalidMessageOverride) {
         super(invalidMessageOverride);
-        this.verifyField = verifyField;
-        assert this.verifyField != null;
+        this.verifyField = java.util.Objects.requireNonNull(verifyField, "verifyField");
     }
 
     /** {@inheritDoc} */

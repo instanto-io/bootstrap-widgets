@@ -20,8 +20,6 @@ package io.instanto.bootstrap5.client.ui.base.button;
  * #L%
  */
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 /**
@@ -34,12 +32,7 @@ import io.instanto.bootstrap5.client.ui.constants.Styles;
 public class CloseButton extends AbstractButton {
 
   public CloseButton() {
-    setStyleName(Styles.CLOSE);
-    getElement().setInnerHTML("&times;");
-  }
-
-  @Override
-  protected Element createElement() {
-    return Document.get().createPushButtonElement().cast();
+    super.getElement().setClassName(Styles.CLOSE);
+    super.getElement().setInnerHTML("&times;");
   }
 }

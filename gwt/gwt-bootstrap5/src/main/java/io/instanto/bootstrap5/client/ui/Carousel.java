@@ -52,9 +52,9 @@ public class Carousel extends ElementPanel {
 
   public Carousel() {
     super("div");
-    setStyleName("carousel slide");
-    getElement().setAttribute("data-bs-ride", "carousel");
-    add(inner);
+    super.getElement().setClassName("carousel slide");
+    super.getElement().setAttribute("data-bs-ride", "carousel");
+    addInitialChild(inner);
   }
 
   public CarouselInner getInner() {

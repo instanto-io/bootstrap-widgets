@@ -36,14 +36,24 @@ public abstract class PluginWidget<P> extends Div {
     whenReady(
         () -> {
           if (isAttached() && request == generation && plugin == null) {
-            plugin = createPlugin();
+            P created = createPlugin();
+            // Creation may synchronously detach the widget, or start another mount.
+            if (!isAttached() || request != generation) {
+              destroyPlugin(created);
+              return;
+            }
+            plugin = created;
             try {
               afterCreate();
-            } catch (RuntimeException failure) {
-              try {
-                destroyPlugin(plugin);
-              } finally {
+            } catch (RuntimeException | Error failure) {
+              // afterCreate may already have detached and destroyed this instance.
+              if (plugin == created) {
                 plugin = null;
+                try {
+                  destroyPlugin(created);
+                } catch (RuntimeException | Error cleanup) {
+                  if (cleanup != failure) failure.addSuppressed(cleanup);
+                }
               }
               throw failure;
             }
@@ -55,12 +65,21 @@ public abstract class PluginWidget<P> extends Div {
   protected void onUnload() {
     ++generation;
     try {
-      if (plugin != null) {
+      P previous = plugin;
+      if (previous != null) {
         try {
           captureState();
-        } finally {
-          destroyPlugin(plugin);
+        } catch (RuntimeException | Error failure) {
+          plugin = null;
+          try {
+            destroyPlugin(previous);
+          } catch (RuntimeException | Error cleanup) {
+            if (cleanup != failure) failure.addSuppressed(cleanup);
+          }
+          throw failure;
         }
+        plugin = null;
+        destroyPlugin(previous);
       }
     } finally {
       plugin = null;

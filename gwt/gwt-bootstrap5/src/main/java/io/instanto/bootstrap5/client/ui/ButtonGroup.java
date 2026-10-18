@@ -32,7 +32,7 @@ public class ButtonGroup extends AbstractButtonGroup {
 
   public ButtonGroup() {
     super(Styles.BTN_GROUP);
-    getElement().setAttribute("role", "group");
+    super.getElement().setAttribute("role", "group");
   }
 
   public void setVertical(boolean vertical) {

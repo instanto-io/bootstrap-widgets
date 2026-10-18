@@ -28,9 +28,11 @@ import org.gwtbootstrap3.client.ui.constants.PaginationSize;
 import org.gwtbootstrap3.client.ui.constants.Styles;
 import org.gwtbootstrap3.client.ui.html.UnorderedList;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.client.ui.Widget;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Support for Bootstrap pagination (http://getbootstrap.com/components/#pagination)
@@ -38,6 +40,34 @@ import com.google.gwt.user.cellview.client.SimplePager;
  * @author Joshua Godi
  */
 public class Pagination extends UnorderedList implements HasResponsiveness, HasPaginationSize {
+
+    private PageBinding binding;
+
+    private static final class PageBinding {
+        final SimplePager pager;
+        final Map<AnchorListItem, Integer> pages = new LinkedHashMap<>();
+        AnchorListItem previous;
+        AnchorListItem next;
+
+        PageBinding(SimplePager pager) { this.pager = pager; }
+    }
+
+    @Override
+    public void clear() {
+        binding = null;
+        super.clear();
+    }
+
+    @Override
+    public boolean remove(Widget child) {
+        boolean removed = super.remove(child);
+        if (removed && binding != null) {
+            binding.pages.remove(child);
+            if (binding.previous == child) binding.previous = null;
+            if (binding.next == child) binding.next = null;
+        }
+        return removed;
+    }
 
     public Pagination() {
         setStyleName(Styles.PAGINATION);
@@ -85,75 +115,50 @@ public class Pagination extends UnorderedList implements HasResponsiveness, HasP
      * @param pager the SimplePager of the CellTable/DataGrid
      */
     public void rebuild(final SimplePager pager) {
+        Objects.requireNonNull(pager, "pager");
         clear();
+        if (pager.getPageCount() == 0) return;
 
-        if (pager.getPageCount() == 0) {
-            return;
-        }
-
-        final AnchorListItem prev = addPreviousLink();
-        prev.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                pager.previousPage();
-                updatePaginationState(pager);
-            }
+        final PageBinding current = new PageBinding(pager);
+        binding = current;
+        final AnchorListItem previous = addPreviousLink();
+        current.previous = previous;
+        previous.addClickHandler(event -> {
+            if (!owns(current, previous) || !pager.hasPreviousPage()) return;
+            pager.previousPage();
+            updatePaginationState(current);
         });
-        prev.setEnabled(pager.hasPreviousPage());
-
         for (int i = 0; i < pager.getPageCount(); i++) {
-            final int display = i + 1;
-            final AnchorListItem page = new AnchorListItem(String.valueOf(display));
-            page.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(final ClickEvent event) {
-                    pager.setPage(display - 1);
-                    updatePaginationState(pager);
-                }
+            final int pageIndex = i;
+            final AnchorListItem page = new AnchorListItem(String.valueOf(i + 1));
+            current.pages.put(page, pageIndex);
+            page.addClickHandler(event -> {
+                if (!owns(current, page)) return;
+                pager.setPage(pageIndex);
+                updatePaginationState(current);
             });
-
-            if (i == pager.getPage()) {
-                page.setActive(true);
-            }
-
             add(page);
         }
-
         final AnchorListItem next = addNextLink();
-        next.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                pager.nextPage();
-                updatePaginationState(pager);
-            }
+        current.next = next;
+        next.addClickHandler(event -> {
+            if (!owns(current, next) || !pager.hasNextPage()) return;
+            pager.nextPage();
+            updatePaginationState(current);
         });
-        next.setEnabled(pager.hasNextPage());
+        updatePaginationState(current);
     }
 
-    /**
-     * This updates the current active page, and the enabled state
-     * of the previous and next buttons in the Pagination based
-     * on the state of the given SimplePager.
-     * @param pager the SimplePager of the CellTable/DataGrid
-     */
-    private void updatePaginationState(final SimplePager pager) {
+    private boolean owns(PageBinding current, AnchorListItem link) {
+        return binding == current && link.getParent() == this;
+    }
 
-        for (int i = 0; i < getWidgetCount(); i++) {
-            if (i == 0) { //previous button
-                ((AnchorListItem)getWidget(i)).setEnabled(pager.hasPreviousPage());
-            }
-            else if (i == getWidgetCount() - 1) { //next button
-                ((AnchorListItem)getWidget(i)).setEnabled(pager.hasNextPage());
-            }
-            else {
-                int index = i - 1;
-                if (index == pager.getPage()) {
-                    ((AnchorListItem)getWidget(i)).setActive(true);
-                }
-                else {
-                    ((AnchorListItem)getWidget(i)).setActive(false);
-                }
-            }
+    private void updatePaginationState(PageBinding current) {
+        if (binding != current) return;
+        if (current.previous != null) current.previous.setEnabled(current.pager.hasPreviousPage());
+        if (current.next != null) current.next.setEnabled(current.pager.hasNextPage());
+        for (Map.Entry<AnchorListItem, Integer> page : current.pages.entrySet()) {
+            page.getKey().setActive(page.getValue() == current.pager.getPage());
         }
-   }
+    }
 }

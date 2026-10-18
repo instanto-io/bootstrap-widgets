@@ -48,8 +48,7 @@ public class SingleValueTagsInput<T> extends TagsInputBase<T> implements HasValu
 
     public SingleValueTagsInput(final Dataset<T> dataset) {
         this(Arrays.asList(dataset));
-        
-        setDatasets(dataset);
+
     }
 
     public SingleValueTagsInput(final Collection<? extends Dataset<T>> datasets) {
@@ -58,7 +57,7 @@ public class SingleValueTagsInput<T> extends TagsInputBase<T> implements HasValu
         
         setElement(tagsInput);        
         
-        setDatasets(datasets);
+        initializeDatasets(datasets);
     }
  
     public SingleValueTagsInput(final Element e) {
@@ -67,20 +66,20 @@ public class SingleValueTagsInput<T> extends TagsInputBase<T> implements HasValu
 
     public SingleValueTagsInput(final Element e, final Dataset<T> dataset) {
         this(e, Arrays.asList(dataset));
-        
-        setDatasets(dataset);
+
     }
 
+    /** Wraps the element without attaching. Call attachToDocument() after construction,
+     * or add this widget to a panel, to begin its lifecycle. */
     public SingleValueTagsInput(final Element e, final Collection<? extends Dataset<T>> datasets) {
+        if (e == null || !"input".equalsIgnoreCase(e.getTagName())) {
+            throw new IllegalArgumentException("Expected a input element");
+        }
         e.setAttribute("data-role", "tagsinput");
 
         setElement(e);
         
-        // Wrapped elements are already attached to the DOM and the onAttach method will not be called automatically,
-        // so it is called manually to correctly set attached state.
-        onAttach();
-        
-        setDatasets(datasets);
+        initializeDatasets(datasets);
     }
     
     /**

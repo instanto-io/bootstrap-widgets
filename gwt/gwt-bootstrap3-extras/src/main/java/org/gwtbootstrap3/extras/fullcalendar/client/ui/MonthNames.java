@@ -57,8 +57,12 @@ public class MonthNames implements IsJavaScriptObject {
      * @param shortNames
      */
     public void localize(final String[] longNames, final String[] shortNames) {
-        assert longNames != null && longNames.length == 12;
-        assert shortNames != null && shortNames.length == 12;
+        if (longNames == null || longNames.length != 12) {
+            throw new IllegalArgumentException("longNames must contain 12 names");
+        }
+        if (shortNames == null || shortNames.length != 12) {
+            throw new IllegalArgumentException("shortNames must contain 12 names");
+        }
         final JsArrayString longOnes = (JsArrayString) JsArrayString.createArray();
         for (final String name : longNames) {
             longOnes.push(name);

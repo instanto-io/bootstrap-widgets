@@ -38,10 +38,11 @@ public class TimeFormat extends AbstractViewOptionFormat implements IsJavaScript
     public TimeFormat(final String defaultValue, Map<ViewOptionHash, String> options) {
         newInstance(defaultValue);
         if (options == null) {
-            options = getDefaultOptions();
+            options = new java.util.HashMap<ViewOptionHash, String>();
+            populateInitialOptions(options);
         }
-        for (final ViewOptionHash option : options.keySet()) {
-            setFormat(option.name(), options.get(option));
+        for (final Map.Entry<ViewOptionHash, String> option : options.entrySet()) {
+            setFormat(option.getKey().name(), option.getValue());
         }
     }
 
@@ -50,6 +51,10 @@ public class TimeFormat extends AbstractViewOptionFormat implements IsJavaScript
      * @see http://arshaw.com/fullcalendar/docs/text/timeFormat/
      */
     protected void populateDefaultOptions(final Map<ViewOptionHash, String> options) {
+        populateInitialOptions(options);
+    }
+
+    private static void populateInitialOptions(final Map<ViewOptionHash, String> options) {
         options.put(ViewOptionHash.agenda, "h:mm{ - h:mm}");
     }
 
@@ -63,7 +68,7 @@ public class TimeFormat extends AbstractViewOptionFormat implements IsJavaScript
 
     }-*/;
 
-    private native void setFormat(String format, String viewOption) /*-{
+    private native void setFormat(String viewOption, String format) /*-{
         var theInstance = this;
         theInstance.@org.gwtbootstrap3.extras.fullcalendar.client.ui.TimeFormat::format.timeFormat[viewOption] = format;
     }-*/;

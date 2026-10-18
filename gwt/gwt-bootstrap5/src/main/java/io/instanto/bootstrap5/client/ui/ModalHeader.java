@@ -48,8 +48,8 @@ public class ModalHeader extends ElementPanel implements HasDataSpy {
 
   public ModalHeader(String title) {
     this();
-    setTitle(title);
-    addCloseButton();
+    titleWidget.setHTML(escape(title));
+    applyClosable(true);
   }
 
   public void setTitle(String title) {
@@ -65,9 +65,13 @@ public class ModalHeader extends ElementPanel implements HasDataSpy {
   }
 
   public void setClosable(boolean closable) {
+    applyClosable(closable);
+  }
+
+  private void applyClosable(boolean closable) {
     if (closable) {
       if (closeButton.getParent() == null) {
-        add(closeButton);
+        super.add(closeButton);
       }
     } else {
       closeButton.removeFromParent();

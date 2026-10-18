@@ -42,13 +42,18 @@ import com.google.gwt.user.client.ui.HasText;
  */
 public abstract class AbstractIconButton extends AbstractButton implements HasText, HasIcon, HasIconPosition, HasBadge {
 
-    IconTextMixin<AbstractIconButton> iconTextMixin = new IconTextMixin<AbstractIconButton>(this);
+    protected final org.gwtbootstrap3.client.ui.html.Text initialText = new org.gwtbootstrap3.client.ui.html.Text();
+    final IconTextMixin<AbstractIconButton> iconTextMixin = new IconTextMixin<AbstractIconButton>(this, initialText);
 
     protected AbstractIconButton() {
     }
 
     protected AbstractIconButton(final ButtonType type) {
         super(type);
+    }
+
+    protected AbstractIconButton(final ButtonType type, final com.google.gwt.dom.client.Element element) {
+        super(type, element);
     }
 
     @Override

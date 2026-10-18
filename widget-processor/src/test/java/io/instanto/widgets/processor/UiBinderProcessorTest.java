@@ -370,6 +370,17 @@ public class UiBinderProcessorTest {
     assertTrue(compiled.diagnostics(), compiled.diagnostics().contains("Missing @Source resource"));
   }
 
+  @Test
+  public void malformedTemplateFailsWithItsNameInsteadOfBeingReportedMissing() throws Exception {
+    Compilation compiled =
+        compile(sampleOwner("ClickEvent"), validTemplate().replace("</w:Panel>", "</w:Button>"));
+    assertFalse(compiled.success);
+    assertTrue(
+        compiled.diagnostics(), compiled.diagnostics().contains("Cannot parse Sample.ui.xml"));
+    assertFalse(
+        compiled.diagnostics(), compiled.diagnostics().contains("leaving its binder to GWT"));
+  }
+
   private Compilation compile(final String owner, final String template) throws Exception {
     final Path workspace = Files.createTempDirectory("uibinder-processor-test-");
     workspaces.add(workspace);

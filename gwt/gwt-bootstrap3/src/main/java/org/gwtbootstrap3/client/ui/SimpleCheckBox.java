@@ -63,8 +63,11 @@ public class SimpleCheckBox extends com.google.gwt.user.client.ui.SimpleCheckBox
      *            the element to be wrapped
      */
     public static SimpleCheckBox wrap(Element element) {
-        // Assert that the element is attached.
-        assert Document.get().getBody().isOrHasChild(element);
+        if (element == null || !Document.get().getBody().isOrHasChild(element)
+            || !"input".equalsIgnoreCase(element.getTagName())
+            || !"checkbox".equalsIgnoreCase(element.getPropertyString("type"))) {
+            throw new IllegalArgumentException("Expected an attached checkbox input element");
+        }
 
         SimpleCheckBox checkBox = new SimpleCheckBox(InputElement.as(element));
 

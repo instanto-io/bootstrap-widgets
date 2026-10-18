@@ -39,7 +39,8 @@ public class HelpBlock extends ElementPanel implements IsEditor<LeafValueEditor<
 
   public HelpBlock(String text) {
     super("div");
-    addStyleName("form-text");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "form-text");
     setText(text);
   }
 

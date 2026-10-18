@@ -108,7 +108,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
 
     public MarkdownEditor(final EditorMode initialMode) {
         this.editorMode = initialMode != null ? initialMode : EditorMode.WYSIWYG;
-        addStyleName("gbm-markdown-editor");
+        super.getElement().addClassName("gbm-markdown-editor");
 
         // Toolbar
         toolbar.addStyleName("btn-toolbar");
@@ -136,7 +136,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         rightSection.add(editorModeToggle());
         toolbar.add(rightSection);
 
-        add(toolbar);
+        addInitialChild(toolbar);
 
         // Visual Editor (WYSIWYG)
         visualEditor.addStyleName("form-control");
@@ -147,8 +147,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         visualEditor.getElement().getStyle().setProperty("minHeight", "180px");
         visualEditor.getElement().getStyle().setProperty("height", "auto");
         visualEditor.getElement().getStyle().setProperty("overflowY", "auto");
-        initInputListener(visualEditor.getElement(), this::onVisualEditorInput);
-        add(visualEditor);
+        addInitialChild(visualEditor);
 
         // Classic Textarea
         textArea.setVisibleLines(8);
@@ -158,28 +157,28 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
                 ValueChangeEvent.fire(MarkdownEditor.this, getValue());
             }
         });
-        add(textArea);
+        addInitialChild(textArea);
 
         // Preview Panel
         preview.addStyleName("well");
         preview.setVisible(false);
-        add(preview);
+        addInitialChild(preview);
 
         // Markdown Syntax Reference Help
         help.setVisible(false);
-        add(help);
+        addInitialChild(help);
 
-        applyEditorMode();
+        applyEditorMode("");
     }
 
     public MarkdownEditor(final String markdown) {
         this(EditorMode.WYSIWYG);
-        setValue(markdown);
+        applyValue(markdown);
     }
 
     public MarkdownEditor(final String markdown, final EditorMode initialMode) {
         this(initialMode);
-        setValue(markdown);
+        applyValue(markdown);
     }
 
     private Button modeToggle() {
@@ -258,6 +257,10 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
     }
 
     private void applyEditorMode() {
+        applyEditorMode(editorMode == EditorMode.CLASSIC && !editing ? getValue() : "");
+    }
+
+    private void applyEditorMode(String previewValue) {
         editorModeButton.setVisible(showModeSwitcher);
         if (editorMode == EditorMode.WYSIWYG) {
             visualEditor.setVisible(true);
@@ -282,7 +285,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
                 help.setVisible(helpVisible);
                 setModeButton(IconType.EYE, "Preview rendered markdown");
             } else {
-                preview.setMarkdown(getValue());
+                preview.setMarkdown(previewValue);
                 textArea.setVisible(false);
                 preview.setVisible(true);
                 syntaxButtons.setVisible(false);
@@ -481,15 +484,19 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
 
     @Override
     public void setValue(final String value, final boolean fireEvents) {
+        applyValue(value);
+        if (fireEvents) {
+            ValueChangeEvent.fire(this, getValue());
+        }
+    }
+
+    private void applyValue(final String value) {
         final String md = value == null ? "" : value;
         textArea.setValue(md);
         final String html = Markdown.toHtml(md);
         visualEditor.getElement().setInnerHTML(html);
         if (editorMode == EditorMode.CLASSIC && !editing) {
             preview.setMarkdown(md);
-        }
-        if (fireEvents) {
-            ValueChangeEvent.fire(this, getValue());
         }
     }
 
@@ -616,10 +623,29 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         void onInput();
     }
 
+    private InputListener inputListener;
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+        inputListener = this::onVisualEditorInput;
+        initInputListener(visualEditor.getElement(), inputListener);
+    }
+
+    @Override
+    protected void onUnload() {
+        if (inputListener != null) {
+            removeInputListener(visualEditor.getElement(), inputListener);
+            inputListener = null;
+        }
+        super.onUnload();
+    }
+
     private static native void initInputListener(Element el, InputListener listener) /*-{
-        el.addEventListener('input', function() {
-            listener();
-        });
+        el.addEventListener('input', listener);
+    }-*/;
+
+    private static native void removeInputListener(Element el, InputListener listener) /*-{
+        el.removeEventListener('input', listener);
     }-*/;
 }
-

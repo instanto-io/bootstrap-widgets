@@ -50,7 +50,7 @@ public class FullCalendar extends FlowPanel implements HasLoadHandlers {
     private CalendarConfig config;//a bunch of options and events encapsulated in one place
     private final boolean editable;//@see http://arshaw.com/fullcalendar/docs/event_ui/editable/
     private boolean loaded;
-    private static Map<String, JavaScriptObject> languageScripts;
+    private static final Map<String, JavaScriptObject> languageScripts = new HashMap<String, JavaScriptObject>();
 
     public FullCalendar(final String id, final ViewOption defaultView, final boolean editable) {
         this(id, defaultView, null, editable);
@@ -61,14 +61,11 @@ public class FullCalendar extends FlowPanel implements HasLoadHandlers {
     }
 
     public FullCalendar(final String id, final ViewOption defaultView, final CalendarConfig config, final boolean editable) {
-        getElement().setId(id);
+        super.getElement().setId(id);
         this.currentView = defaultView == null ? ViewOption.month : defaultView;
         this.config = config;
         this.editable = editable;
         loaded = false;
-        if (languageScripts == null) {
-            languageScripts = new HashMap<String, JavaScriptObject>();
-        }
     }
 
     /**

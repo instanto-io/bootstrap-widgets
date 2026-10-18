@@ -39,7 +39,7 @@ public class IconStack extends ComplexPanel implements HasSize<IconSize>, HasRes
 
     public IconStack() {
         setElement(Document.get().createSpanElement());
-        getElement().addClassName(Styles.ICON_STACK);
+        super.getElement().addClassName(Styles.ICON_STACK);
     }
 
     /**

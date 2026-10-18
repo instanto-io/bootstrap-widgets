@@ -63,7 +63,7 @@ public class DefaultErrorHandler implements ErrorHandler {
 
   public DefaultErrorHandler(final Widget widget) {
     super();
-    assert widget != null;
+    java.util.Objects.requireNonNull(widget, "widget");
     this.inputWidget = widget;
     this.inputWidget.addAttachHandler(
         new Handler() {

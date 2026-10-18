@@ -18,7 +18,7 @@ public class PlaceholderContainer extends Div {
   private Animation animation = Animation.NONE;
 
   public PlaceholderContainer() {
-    getElement().setAttribute("aria-hidden", "true");
+    super.getElement().setAttribute("aria-hidden", "true");
   }
 
   public void setAnimation(Animation animation) {

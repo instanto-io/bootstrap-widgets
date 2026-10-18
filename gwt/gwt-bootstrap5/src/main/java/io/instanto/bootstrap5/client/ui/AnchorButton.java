@@ -28,7 +28,6 @@ package io.instanto.bootstrap5.client.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
@@ -59,8 +58,8 @@ public class AnchorButton extends AbstractToggleButton implements HasHref, HasTa
   }
 
   public AnchorButton(final ButtonType type) {
-    super(type);
-    setHref(EMPTY_HREF);
+    super(type, Document.get().createAnchorElement());
+    super.getElement().setAttribute("href", EMPTY_HREF);
     sinkEvents(Event.ONCLICK);
   }
 
@@ -74,8 +73,8 @@ public class AnchorButton extends AbstractToggleButton implements HasHref, HasTa
 
   public AnchorButton(final String text, final String href, final ButtonType type) {
     this(type);
-    setText(text);
-    setHref(href);
+    initialText.setText(text);
+    super.getElement().setAttribute("href", href);
   }
 
   public AnchorButton(final String text, final String href, final Variant variant) {
@@ -126,11 +125,6 @@ public class AnchorButton extends AbstractToggleButton implements HasHref, HasTa
   /** Kept for source compatibility with the Anchor-based AnchorButton. */
   public void setButtonVariant(final Variant variant) {
     setVariant(variant);
-  }
-
-  @Override
-  protected Element createElement() {
-    return Document.get().createAnchorElement();
   }
 
   private AnchorElement getAnchorElement() {

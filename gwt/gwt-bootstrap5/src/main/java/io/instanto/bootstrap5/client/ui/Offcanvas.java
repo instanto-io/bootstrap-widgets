@@ -19,9 +19,10 @@ public class Offcanvas extends AbstractVisibilityWidget {
 
   public Offcanvas() {
     super("Offcanvas", "offcanvas", "offcanvas");
-    addStyleName(placement.getCssName());
-    getElement().setAttribute("tabindex", "-1");
-    getElement().setAttribute("aria-label", "Details");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), placement.getCssName());
+    super.getElement().setAttribute("tabindex", "-1");
+    super.getElement().setAttribute("aria-label", "Details");
   }
 
   @Override

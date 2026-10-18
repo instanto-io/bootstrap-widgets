@@ -74,7 +74,7 @@ public class TabListItem extends AnchorListItem implements HasDataTarget {
         super(text);
         setDataToggle(Toggle.TAB);
         anchor.getElement().setAttribute("role", "tab");
-        updateAriaSelected();
+        anchor.getElement().setAttribute("aria-selected", super.isActive() ? "true" : "false");
     }
 
     public TabListItem(final String text, final IconType iconType) {

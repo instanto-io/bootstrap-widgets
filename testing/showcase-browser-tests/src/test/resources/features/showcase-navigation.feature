@@ -52,6 +52,7 @@ Feature: The compiled showcase replaces pages and keeps navigation usable
     When I select "Interactive" then "Toasts"
     And I select "Components" then "<page>"
     Then section "<section>" is visible
+    And only the requested section is constructed
     And no standalone UiBinder demo remains
     And the application has no startup errors
     Examples:
@@ -71,6 +72,7 @@ Feature: The compiled showcase replaces pages and keeps navigation usable
     Then the bound field reports two clicks
     When I select "Components" then "Alerts"
     Then section "alerts" is visible
+    And only the requested section is constructed
     And no standalone UiBinder demo remains
     And the UiBinder source template is displayed as text
     Examples:
@@ -106,3 +108,12 @@ Feature: The compiled showcase replaces pages and keeps navigation usable
       | bootstrap5/index.html  |
       | teavm.html             |
       | index.html             |
+
+  Scenario Outline: Each Bootstrap 5 section constructs only its own examples
+    Given the showcase "<application>" is open
+    When I visit every Bootstrap 5 section supported by the test server
+    Then the application has no startup errors
+    Examples:
+      | application           |
+      | bootstrap5/index.html |
+      | teavm-bootstrap5.html |

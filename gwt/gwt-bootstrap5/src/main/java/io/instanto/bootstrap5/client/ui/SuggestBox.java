@@ -93,9 +93,9 @@ public class SuggestBox extends com.google.gwt.user.client.ui.SuggestBox
 
     BootstrapSuggestionDisplay() {
       super();
-      getPopupPanel().addStyleName(Styles.DROPDOWN_MENU);
-      getPopupPanel().addStyleName("d-block");
-      getPopupPanel().addStyleName("p-1");
+      super.getPopupPanel().addStyleName(Styles.DROPDOWN_MENU);
+      super.getPopupPanel().addStyleName("d-block");
+      super.getPopupPanel().addStyleName("p-1");
     }
 
     @Override
@@ -148,7 +148,8 @@ public class SuggestBox extends com.google.gwt.user.client.ui.SuggestBox
       final ValueBoxBase<String> box,
       final SuggestionDisplay suggestDisplay) {
     super(oracle, box, suggestDisplay);
-    addStyleName(Styles.FORM_CONTROL);
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), Styles.FORM_CONTROL);
   }
 
   // ---- identity, sizing, placeholder ------------------------------------

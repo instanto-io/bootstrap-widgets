@@ -30,6 +30,7 @@ import org.gwtbootstrap3.extras.typeahead.client.base.StringDataset;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.OptionElement;
+import com.google.gwt.dom.client.SelectElement;
 
 /**
  * Wrapper for Bootstrap Tags Input component with multi value support.
@@ -37,6 +38,13 @@ import com.google.gwt.dom.client.OptionElement;
  * @author Marko Nikolić <marko.nikolic@iten.rs>
  */
 public class MVTagsInput extends MultiValueTagsInput<String> {
+
+    /** Wraps an element already in the document and starts its lifecycle. */
+    public static MVTagsInput wrap(Element element) {
+        MVTagsInput widget = new MVTagsInput(element);
+        widget.attachToDocument();
+        return widget;
+    }
 
     public MVTagsInput() {
     }
@@ -61,6 +69,7 @@ public class MVTagsInput extends MultiValueTagsInput<String> {
             OptionElement option = Document.get().createOptionElement();
             option.setValue(tag);
             option.setInnerText(tag);
+            option.setSelected(true);
             getElement().appendChild(option);
         }
     }
@@ -71,15 +80,26 @@ public class MVTagsInput extends MultiValueTagsInput<String> {
             return super.getValue();
         else {
             List<String> value = new ArrayList<String>();
-            for(int i=0; i<getElement().getChildCount(); i++) {
-                value.add(getElement().getChild(i).getNodeValue());
+            SelectElement select = getElement().cast();
+            for (int i = 0; i < select.getOptions().getLength(); i++) {
+                OptionElement option = select.getOptions().getItem(i);
+                if (option.isSelected()) value.add(option.getValue());
             }
             return value;
         }
     }
 
+    @Override
+    public void removeAll() {
+        if (isAttached()) {
+            super.removeAll();
+        } else {
+            getElement().removeAllChildren();
+        }
+    }
+
     public void setValue(String value) {
         removeAll();
-        add(Arrays.asList(value.split(",")));
+        if (!value.isEmpty()) add(Arrays.asList(value.split(",")));
     }
 }

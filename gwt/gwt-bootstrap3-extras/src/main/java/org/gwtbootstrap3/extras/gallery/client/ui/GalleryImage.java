@@ -53,13 +53,13 @@ public class GalleryImage extends ComplexWidget implements HasHref, HasLoadHandl
     @UiConstructor
     public GalleryImage(String url) {
         setElement(Document.get().createAnchorElement());
-        getElement().setAttribute("data-gallery", "data-gallery");
-        getElement().getStyle().setDisplay(Display.INLINE_TABLE);
+        super.getElement().setAttribute("data-gallery", "data-gallery");
+        super.getElement().getStyle().setDisplay(Display.INLINE_TABLE);
 
-        setHref(url);
+        AnchorElement.as(super.getElement()).setHref(url);
 
         image = new Image(url);
-        add(image);
+        addInitialChild(image);
     }
 
     @Override

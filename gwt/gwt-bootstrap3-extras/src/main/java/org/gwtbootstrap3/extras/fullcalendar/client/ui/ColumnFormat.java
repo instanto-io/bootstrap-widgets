@@ -38,10 +38,11 @@ public class ColumnFormat extends AbstractViewOptionFormat implements IsJavaScri
     public ColumnFormat(Map<ViewOptionHash, String> options) {
         newInstance();
         if (options == null) {
-            options = getDefaultOptions();
+            options = new java.util.HashMap<ViewOptionHash, String>();
+            populateInitialOptions(options);
         }
-        for (final ViewOptionHash option : options.keySet()) {
-            setFormat(option.name(), options.get(option));
+        for (final Map.Entry<ViewOptionHash, String> option : options.entrySet()) {
+            setFormat(option.getKey().name(), option.getValue());
         }
     }
 
@@ -50,6 +51,10 @@ public class ColumnFormat extends AbstractViewOptionFormat implements IsJavaScri
      * @see http://arshaw.com/fullcalendar/docs/text/columnFormat/
      */
     protected void populateDefaultOptions(final Map<ViewOptionHash, String> options) {
+        populateInitialOptions(options);
+    }
+
+    private static void populateInitialOptions(final Map<ViewOptionHash, String> options) {
         options.put(ViewOptionHash.month, "ddd");
         options.put(ViewOptionHash.week, "ddd M/d");
         options.put(ViewOptionHash.day, "dddd M/d");
@@ -61,9 +66,9 @@ public class ColumnFormat extends AbstractViewOptionFormat implements IsJavaScri
         theInstance.@org.gwtbootstrap3.extras.fullcalendar.client.ui.ColumnFormat::format.columnFormat = {};
     }-*/;
 
-    private native void setFormat(String format, String viewOption) /*-{
+    private native void setFormat(String viewOption, String format) /*-{
         var theInstance = this;
-        theInstance.@org.gwtbootstrap3.extras.fullcalendar.client.ui.TimeFormat::format.columnFormat[viewOption] = format;
+        theInstance.@org.gwtbootstrap3.extras.fullcalendar.client.ui.ColumnFormat::format.columnFormat[viewOption] = format;
     }-*/;
 
     @Override

@@ -48,8 +48,8 @@ public class AnchorButton extends AbstractToggleButton implements HasHref, HasTa
     private static HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
 
     public AnchorButton(final ButtonType type) {
-        super(type);
-        setHref(EMPTY_HREF);
+        super(type, Document.get().createAnchorElement());
+        super.getElement().setAttribute("href", EMPTY_HREF);
         sinkEvents(Event.ONCLICK);
     }
 
@@ -107,11 +107,6 @@ public class AnchorButton extends AbstractToggleButton implements HasHref, HasTa
     @Override
     public String getHref() {
         return getAnchorElement().getHref();
-    }
-
-    @Override
-    protected Element createElement() {
-        return Document.get().createAnchorElement();
     }
 
     private AnchorElement getAnchorElement() {

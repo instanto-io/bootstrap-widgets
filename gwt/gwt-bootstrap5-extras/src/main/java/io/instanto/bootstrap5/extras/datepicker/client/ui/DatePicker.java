@@ -26,7 +26,7 @@
 package io.instanto.bootstrap5.extras.datepicker.client.ui;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -34,11 +34,10 @@ import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasValue;
 import io.instanto.bootstrap5.client.ui.TextBox;
-import io.instanto.bootstrap5.client.ui.base.HasId;
 import io.instanto.bootstrap5.client.ui.base.HasPlaceholder;
-import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
 import io.instanto.bootstrap5.client.ui.constants.DeviceSize;
 import io.instanto.bootstrap5.client.ui.html.Div;
+import io.instanto.bootstrap5.extras.base.client.PluginWidget;
 import java.util.Date;
 
 /**
@@ -60,14 +59,8 @@ import java.util.Date;
  * &lt;/div&gt;
  * </pre>
  */
-public class DatePicker extends Div
-    implements HasEnabled,
-        HasId,
-        HasName,
-        HasPlaceholder,
-        HasResponsiveness,
-        HasValue<Date>,
-        HasValueChangeHandlers<Date> {
+public class DatePicker extends PluginWidget<DatePickerJs.TempusDominus>
+    implements HasEnabled, HasName, HasPlaceholder, HasValue<Date> {
 
   private final TextBox input = new TextBox();
 
@@ -75,7 +68,9 @@ public class DatePicker extends Div
 
   private final String wrapperId;
 
-  private DatePickerJs.TempusDominus picker;
+  private double pendingMillis = -1;
+  private boolean hasPendingValue;
+  private boolean settingValue;
 
   private String format;
 
@@ -87,24 +82,25 @@ public class DatePicker extends Div
 
   public DatePicker() {
     wrapperId = Document.get().createUniqueId();
-    addStyleName("input-group");
-    getElement().setId(wrapperId);
-    getElement().setAttribute("data-td-target-input", "nearest");
-    getElement().setAttribute("data-td-target-toggle", "nearest");
+    Element element = super.getElement();
+    element.addClassName("input-group");
+    element.setId(wrapperId);
+    element.setAttribute("data-td-target-input", "nearest");
+    element.setAttribute("data-td-target-toggle", "nearest");
 
     input.getElement().setAttribute("data-td-target", "#" + wrapperId);
-    add(input);
+    super.add(input, element);
 
     toggle.setStyleName("input-group-text");
     toggle.getElement().setAttribute("data-td-target", "#" + wrapperId);
     toggle.getElement().setAttribute("data-td-toggle", "datetimepicker");
     toggle.getElement().setInnerHTML("<i class=\"bi bi-calendar\"></i>");
-    add(toggle);
+    super.add(toggle, element);
   }
 
   public DatePicker(final String placeholder) {
     this();
-    setPlaceholder(placeholder);
+    input.setPlaceholder(placeholder);
   }
 
   /** The text box the picker writes into. */
@@ -138,72 +134,52 @@ public class DatePicker extends Div
   }
 
   @Override
-  protected void onLoad() {
-    super.onLoad();
-    initialise();
+  protected void whenReady(Runnable action) {
+    DatePickerJs.whenReady(action);
   }
 
-  /**
-   * Builds the picker, waiting for Tempus Dominus if it has not arrived yet. The GWT module injects
-   * it as inline script text before the application runs; the TeaVM backend fetches it by URL, and
-   * a picker attached during startup would otherwise stay an inert input.
-   */
-  /**
-   * Builds the widget once the date picker is usable.
-   *
-   * <p>Which backend this is no longer matters here. GWT compiles the library into the module, so
-   * the action runs immediately; TeaVM fetches it and runs the action when it arrives. Either way
-   * this asks the module instead of polling for a global to appear, and a module that cannot load
-   * reports it rather than letting the widget wait out a timeout and give up in silence.
-   */
-  private void initialise() {
-    DatePickerJs.whenReady(
-        new Runnable() {
-          @Override
-          public void run() {
-            if (isAttached()) {
-              build();
-            }
-          }
-        });
+  @Override
+  protected DatePickerJs.TempusDominus createPlugin() {
+    return DatePickerJs.create(getElement(), format, sideBySide, showClear, showClose);
   }
 
-  private void build() {
-    picker = DatePickerJs.create(getElement(), format, sideBySide, showClear, showClose);
+  @Override
+  protected void afterCreate() {
+    DatePickerJs.TempusDominus current = plugin();
+    if (hasPendingValue) DatePickerJs.writeValue(current, pendingMillis);
     DatePickerJs.bindChange(
-        picker,
-        new DatePickerJs.ChangeHandler() {
-          @Override
-          public void onDateChange(final double millis) {
-            onPickerChange(millis);
-          }
+        current,
+        millis -> {
+          if (plugin() == current && isAttached() && !settingValue) onPickerChange(millis);
         });
   }
 
   @Override
-  protected void onUnload() {
-    if (picker != null) {
-      DatePickerJs.dispose(picker);
-      picker = null;
-    }
-    super.onUnload();
+  protected void captureState() {
+    pendingMillis = DatePickerJs.readValue(plugin());
+    hasPendingValue = true;
+  }
+
+  @Override
+  protected void destroyPlugin(DatePickerJs.TempusDominus previous) {
+    DatePickerJs.dispose(previous);
   }
 
   public void show() {
-    if (picker != null) {
-      DatePickerJs.invoke(picker, "show");
+    if (plugin() != null) {
+      DatePickerJs.invoke(plugin(), "show");
     }
   }
 
   public void hide() {
-    if (picker != null) {
-      DatePickerJs.invoke(picker, "hide");
+    if (plugin() != null) {
+      DatePickerJs.invoke(plugin(), "hide");
     }
   }
 
   public void toggle() {
-    if (picker != null) {
-      DatePickerJs.invoke(picker, "toggle");
+    if (plugin() != null) {
+      DatePickerJs.invoke(plugin(), "toggle");
     }
   }
 
@@ -213,7 +189,7 @@ public class DatePicker extends Div
 
   @Override
   public Date getValue() {
-    final double millis = picker == null ? -1 : DatePickerJs.readValue(picker);
+    final double millis = plugin() == null ? pendingMillis : DatePickerJs.readValue(plugin());
     return millis < 0 ? null : new Date((long) millis);
   }
 
@@ -224,8 +200,16 @@ public class DatePicker extends Div
 
   @Override
   public void setValue(final Date value, final boolean fireEvents) {
-    if (picker != null) {
-      DatePickerJs.writeValue(picker, value == null ? -1 : value.getTime());
+    pendingMillis = value == null ? -1 : value.getTime();
+    hasPendingValue = true;
+    if (plugin() != null) {
+      boolean previous = settingValue;
+      settingValue = true;
+      try {
+        DatePickerJs.writeValue(plugin(), pendingMillis);
+      } finally {
+        settingValue = previous;
+      }
     }
     if (fireEvents) {
       ValueChangeEvent.fire(this, value);
@@ -239,6 +223,8 @@ public class DatePicker extends Div
 
   /** Called from the Tempus Dominus change subscription. */
   void onPickerChange(final double millis) {
+    pendingMillis = millis;
+    hasPendingValue = true;
     ValueChangeEvent.fire(this, millis < 0 ? null : new Date((long) millis));
   }
 

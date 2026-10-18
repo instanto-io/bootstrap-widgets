@@ -25,15 +25,17 @@
  */
 package io.instanto.bootstrap5.extras.richtext.client.ui;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasHTML;
-import io.instanto.bootstrap5.client.ui.base.HasId;
 import io.instanto.bootstrap5.client.ui.base.mixin.IdMixin;
 import io.instanto.bootstrap5.client.ui.html.Div;
+import io.instanto.bootstrap5.extras.base.client.PluginWidget;
 
 /**
  * A rich text editor, backed by Quill 2.
@@ -45,8 +47,8 @@ import io.instanto.bootstrap5.client.ui.html.Div;
  * <p>The value is HTML. {@link #getHTML()} returns the editor's semantic HTML, which is what you
  * would store; {@link #setHTML(String)} replaces the contents.
  */
-public class RichTextEditor extends Div
-    implements HasHTML, HasEnabled, HasId, HasValueChangeHandlers<String> {
+public class RichTextEditor extends PluginWidget<QuillJs.Handle>
+    implements HasHTML, HasEnabled, HasValueChangeHandlers<String> {
 
   /** The toolbars Quill ships with. */
   public enum Toolbar {
@@ -70,8 +72,6 @@ public class RichTextEditor extends Div
 
   private boolean enabled = true;
 
-  private QuillJs.Quill quill;
-
   public RichTextEditor() {
     addStyleName("gbm-richtext");
     add(surface);
@@ -93,8 +93,8 @@ public class RichTextEditor extends Div
 
   public void setPlaceholder(final String placeholder) {
     this.placeholder = placeholder == null ? "" : placeholder;
-    if (quill != null) {
-      QuillJs.applyPlaceholder(quill, this.placeholder);
+    if (plugin() != null) {
+      QuillJs.applyPlaceholder(plugin().editor, this.placeholder);
     }
   }
 
@@ -103,81 +103,69 @@ public class RichTextEditor extends Div
   }
 
   @Override
-  protected void onLoad() {
-    super.onLoad();
-    initialise();
-  }
-
-  /**
-   * Builds the editor, waiting for Quill if it has not arrived yet. The GWT module injects Quill as
-   * inline script text before the application runs, so the first attempt succeeds there; the TeaVM
-   * backend fetches it by URL, and an editor attached during startup would otherwise stay an empty
-   * div.
-   */
-  /**
-   * Builds the widget once Quill is usable.
-   *
-   * <p>Which backend this is no longer matters here. GWT compiles the library into the module, so
-   * the action runs immediately; TeaVM fetches it and runs the action when it arrives. Either way
-   * this asks the module instead of polling for a global to appear, and a module that cannot load
-   * reports it rather than letting the widget wait out a timeout and give up in silence.
-   */
-  private void initialise() {
-    QuillJs.whenReady(
-        new Runnable() {
-          @Override
-          public void run() {
-            if (isAttached()) {
-              build();
-            }
-          }
-        });
-  }
-
-  private void build() {
-    quill = QuillJs.create(surface.getElement(), toolbarSpec(), placeholder);
-    QuillJs.bindChange(
-        quill,
-        new QuillJs.ChangeHandler() {
-          @Override
-          public void onTextChange() {
-            RichTextEditor.this.onTextChange();
-          }
-        });
-
-    if (pendingHtml != null) {
-      QuillJs.writeHtml(quill, pendingHtml);
-      pendingHtml = null;
-    }
-    if (!enabled) {
-      setEnabled(false);
-    }
+  protected void whenReady(Runnable action) {
+    QuillJs.whenReady(action);
   }
 
   @Override
-  protected void onUnload() {
-    quill = null;
-    super.onUnload();
+  protected QuillJs.Handle createPlugin() {
+    return new QuillJs.Handle(QuillJs.create(surface.getElement(), toolbarSpec(), placeholder));
+  }
+
+  @Override
+  protected void afterCreate() {
+    QuillJs.Handle current = plugin();
+    current.listener =
+        QuillJs.bindChange(
+            current.editor,
+            () -> {
+              if (plugin() == current && isAttached()) onTextChange();
+            });
+    if (pendingHtml != null) {
+      QuillJs.writeHtml(current.editor, pendingHtml);
+      pendingHtml = null;
+    }
+    QuillJs.applyEnabled(current.editor, enabled);
+  }
+
+  @Override
+  protected void captureState() {
+    pendingHtml = QuillJs.readHtml(plugin().editor);
+  }
+
+  @Override
+  protected void destroyPlugin(QuillJs.Handle previous) {
+    QuillJs.release(previous);
+    if (plugin() == null) {
+      surface.getElement().setInnerHTML("");
+      surface.removeStyleName("ql-container");
+      surface.removeStyleName("ql-snow");
+    }
   }
 
   @Override
   public String getHTML() {
-    return quill == null ? (pendingHtml == null ? "" : pendingHtml) : QuillJs.readHtml(quill);
+    return plugin() == null
+        ? (pendingHtml == null ? "" : pendingHtml)
+        : QuillJs.readHtml(plugin().editor);
   }
 
   @Override
   public void setHTML(final String html) {
     final String value = html == null ? "" : html;
-    if (quill == null) {
+    if (plugin() == null) {
       pendingHtml = value;
     } else {
-      QuillJs.writeHtml(quill, value);
+      QuillJs.writeHtml(plugin().editor, value);
     }
   }
 
   @Override
   public String getText() {
-    return quill == null ? "" : QuillJs.readText(quill);
+    if (plugin() != null) return QuillJs.readText(plugin().editor);
+    Element content = Document.get().createDivElement();
+    content.setInnerHTML(pendingHtml == null ? "" : pendingHtml);
+    return content.getInnerText();
   }
 
   @Override
@@ -194,8 +182,8 @@ public class RichTextEditor extends Div
   @Override
   public void setEnabled(final boolean enabled) {
     this.enabled = enabled;
-    if (quill != null) {
-      QuillJs.applyEnabled(quill, enabled);
+    if (plugin() != null) {
+      QuillJs.applyEnabled(plugin().editor, enabled);
     }
   }
 

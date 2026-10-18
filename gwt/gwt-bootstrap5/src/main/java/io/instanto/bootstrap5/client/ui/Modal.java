@@ -55,17 +55,18 @@ public class Modal extends ElementPanel implements IsClosable {
 
   public Modal() {
     super("div");
-    addStyleName("modal");
-    getElement().setAttribute("role", "dialog");
-    getElement().setAttribute("aria-modal", "true");
-    getElement().setAttribute("aria-labelledby", header.getTitleId());
-    getElement().setAttribute("tabindex", "-1");
+    io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
+        super.getElement(), "modal");
+    super.getElement().setAttribute("role", "dialog");
+    super.getElement().setAttribute("aria-modal", "true");
+    super.getElement().setAttribute("aria-labelledby", header.getTitleId());
+    super.getElement().setAttribute("tabindex", "-1");
     dialog.addStyleName("modal-dialog");
     content.addStyleName("modal-content");
     content.add(header);
     content.add(body);
     dialog.add(content);
-    super.add(dialog);
+    addInitialChild(dialog);
   }
 
   @Override
@@ -112,7 +113,7 @@ public class Modal extends ElementPanel implements IsClosable {
   @Override
   protected void onUnload() {
     BootstrapEventBridge.unbindAll(getElement());
-    BootstrapComponent.dispose(getElement(), "Modal");
+    BootstrapComponent.releaseVisibility(getElement(), "Modal");
     super.onUnload();
   }
 

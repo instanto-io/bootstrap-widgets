@@ -67,8 +67,13 @@ and complete otherwise. GWT Platform's MVP and GIN were removed: both reach thei
 wiring through deferred binding, which TeaVM has no equivalent for, so no application
 using them can be compiled for that backend.
 
-**Bootstrap 5** — a single ~3,000-line entry point that builds each page on demand
-from a token. It runs on both backends unmodified.
+**Bootstrap 5** — `ShowcaseEntryPoint` owns navigation and the application shell.
+`CssPages`, `ComponentPages`, `JavaScriptPages` and `IntegrationPages` create only
+the requested section; `ShowcasePanels` contains their shared layout helpers.
+Changing routes removes the previous section and its standalone modals. This avoids
+constructing, attaching and starting plugins for hidden examples in the same category.
+The factories are shared by GWT and TeaVM. Browser tests visit every section in both builds
+and require exactly one section to exist in the DOM.
 
 ## Machinery TeaVM needs that GWT provides itself
 
@@ -77,7 +82,7 @@ for. Each is replaced by something explicit.
 
 | GWT mechanism | TeaVM replacement |
 |---|---|
-| UiBinder generator | `widget-processor`, an annotation processor |
+| UiBinder generator | `gwt-uibinder-processor` from `teavm-compat` (`widget-processor` retains compatibility coordinates) |
 | `GWT.create` deferred binding | `ServiceLoader` and `META-INF/services` |
 | `<stylesheet>`, ClientBundle scripts | `gwt-resources-compat-maven-plugin` |
 | module readiness | `ScriptModule` |

@@ -2,7 +2,6 @@ package org.gwtbootstrap3.extras.tagsinput.client.ui;
 
 import java.util.Arrays;
 
-import org.gwtbootstrap3.client.ui.base.mixin.AttributeMixin;
 
 /*
  * #%L
@@ -36,6 +35,13 @@ import com.google.gwt.dom.client.Element;
  */
 public class TagsInput extends SingleValueTagsInput<String> {
     
+    /** Wraps an element already in the document and starts its lifecycle. */
+    public static TagsInput wrap(Element element) {
+        TagsInput widget = new TagsInput(element);
+        widget.attachToDocument();
+        return widget;
+    }
+
     public TagsInput() {
     }
 
@@ -51,15 +57,14 @@ public class TagsInput extends SingleValueTagsInput<String> {
         super(e, dataset);
     }
 
-    private final AttributeMixin<TagsInput> attributeMixin = new AttributeMixin<TagsInput>(this);
     
     @Override
     public void add(String tag) {
         if (isAttached())
             super.add(tag);
         else {
-            String currentValue = attributeMixin.getAttribute("value");
-            attributeMixin.setAttribute("value", (currentValue.isEmpty() ? "" : currentValue+",") + tag);
+            String currentValue = getElement().getPropertyString("value");
+            getElement().setPropertyString("value", (currentValue.isEmpty() ? "" : currentValue+",") + tag);
         }
     }
     
@@ -68,11 +73,20 @@ public class TagsInput extends SingleValueTagsInput<String> {
         if (isAttached())
             return super.getValue();
         else
-            return attributeMixin.getAttribute("value");
+            return getElement().getPropertyString("value");
+    }
+
+    @Override
+    public void removeAll() {
+        if (isAttached()) {
+            super.removeAll();
+        } else {
+            getElement().setPropertyString("value", "");
+        }
     }
 
     public void setValue(String value) {
         removeAll();
-        add(Arrays.asList(value.split(",")));
+        if (!value.isEmpty()) add(Arrays.asList(value.split(",")));
     }
 }

@@ -206,6 +206,22 @@ public final class BootstrapComponent {
     if (!Js.isTruthy(instance)) {
       return;
     }
+    if ("Modal".equals(name)) {
+      // Modal transitions run on three elements: backdrop, dialog, then the modal itself.
+      // Complete each before disposal, otherwise delayed callbacks retain a disposed instance
+      // and the body keeps its scroll lock. Use only this instance's backdrop.
+      Object backdrop = Js.asPropertyMap(instance).get("_backdrop");
+      Object backdropElement =
+          Js.isTruthy(backdrop) ? Js.asPropertyMap(backdrop).get("_element") : null;
+      finishNativeTransition(backdropElement);
+      if (el.getFirstChildElement() != null) finishTransition(el.getFirstChildElement());
+      Js.<Instance>uncheckedCast(instance).hide();
+      finishTransition(el);
+      finishNativeTransition(backdropElement);
+      Js.<Instance>uncheckedCast(instance).dispose();
+      el.removeClassName("show");
+      return;
+    }
     // Complete pending transitions before disposing: Bootstrap's dispose alone does not
     // cancel transition callbacks or restore an Offcanvas scroll lock.
     if (el.hasClassName("showing")) {
@@ -311,13 +327,17 @@ public final class BootstrapComponent {
   }
 
   private static void finishTransition(final Element el) {
+    finishNativeTransition(Js.asAny(el));
+  }
+
+  private static void finishNativeTransition(final Object element) {
+    if (!Js.isTruthy(element)) return;
     final Object window =
-        Js.asPropertyMap(Js.<Node>uncheckedCast(Js.asAny(el)).getOwnerDocument())
-            .get("defaultView");
+        Js.asPropertyMap(Js.<Node>uncheckedCast(element).getOwnerDocument()).get("defaultView");
     final Any event =
         Reflect.construct(
             Js.asAny(Js.asPropertyMap(window).get("Event")), JsArrays.of("transitionend"));
-    Js.<Node>uncheckedCast(Js.asAny(el)).dispatchEvent(event);
+    Js.<Node>uncheckedCast(element).dispatchEvent(event);
   }
 
   private static Document document() {

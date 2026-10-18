@@ -30,16 +30,13 @@ import java.text.ParseException;
  */
 public class BooleanParser implements Parser<Boolean> {
 
-  private static BooleanParser instance;
+  private static final Parser<Boolean> INSTANCE = new BooleanParser();
 
   /**
    * @return the instance of the {@link BooleanRenderer}.
    */
   public static Parser<Boolean> instance() {
-    if (instance == null) {
-      instance = new BooleanParser();
-    }
-    return instance;
+    return INSTANCE;
   }
 
   /** Constructor. */
@@ -56,9 +53,9 @@ public class BooleanParser implements Parser<Boolean> {
         return true;
       }
       try {
-        Integer i = Integer.valueOf(value);
+        int i = Integer.parseInt(value);
         return i != 0;
-      } catch (Exception e) {
+      } catch (NumberFormatException e) {
       }
     }
     return false;

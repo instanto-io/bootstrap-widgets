@@ -58,9 +58,10 @@ final class NativeComponentsExamples {
         new InlineLabel("Choose a panel. Escape, the backdrop or Close dismisses it.");
     for (OffcanvasPlacement placement : OffcanvasPlacement.values()) {
       Offcanvas drawer = new Offcanvas();
-      drawer.setId("native-offcanvas-" + placement.name().toLowerCase());
+      drawer.setId("native-offcanvas-" + placement.name().toLowerCase(java.util.Locale.ROOT));
       drawer.setPlacement(placement);
-      drawer.add(new OffcanvasHeader("Details: " + placement.name().toLowerCase()));
+      drawer.add(
+          new OffcanvasHeader("Details: " + placement.name().toLowerCase(java.util.Locale.ROOT)));
       OffcanvasBody body = new OffcanvasBody();
       body.add(
           new Paragraph(
@@ -71,10 +72,14 @@ final class NativeComponentsExamples {
       body.add(search);
       drawer.add(body);
       drawer.addShownHandler(
-          event -> status.setText("Panel shown: " + placement.name().toLowerCase()));
+          event ->
+              status.setText(
+                  "Panel shown: " + placement.name().toLowerCase(java.util.Locale.ROOT)));
       drawer.addHiddenHandler(
           event -> status.setText("Panel hidden; focus returned to the opening button."));
-      Button open = new Button("Open " + placement.name().toLowerCase(), Variant.PRIMARY);
+      Button open =
+          new Button(
+              "Open " + placement.name().toLowerCase(java.util.Locale.ROOT), Variant.PRIMARY);
       open.addClickHandler(event -> drawer.show());
       controls.add(open);
       demo.add(drawer);
@@ -100,7 +105,7 @@ final class NativeComponentsExamples {
     for (PlaceholderContainer.Animation animation : PlaceholderContainer.Animation.values()) {
       Div column = new Div();
       column.setStyleName("col-12 col-md-4");
-      column.add(new Heading(3, animation.name().toLowerCase()));
+      column.add(new Heading(3, animation.name().toLowerCase(java.util.Locale.ROOT)));
       PlaceholderContainer skeleton = new PlaceholderContainer();
       skeleton.setAnimation(animation);
       skeleton.addStyleName("border rounded p-3");

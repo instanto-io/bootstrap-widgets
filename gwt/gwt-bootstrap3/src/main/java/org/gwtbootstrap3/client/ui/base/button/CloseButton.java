@@ -34,12 +34,7 @@ import com.google.gwt.dom.client.Element;
 public class CloseButton extends AbstractButton {
 
     public CloseButton() {
-        setStyleName(Styles.CLOSE);
-        getElement().setInnerHTML("&times;");
-    }
-
-    @Override
-    protected Element createElement() {
-        return Document.get().createPushButtonElement().cast();
+        super.getElement().setClassName(Styles.CLOSE);
+        super.getElement().setInnerHTML("&times;");
     }
 }

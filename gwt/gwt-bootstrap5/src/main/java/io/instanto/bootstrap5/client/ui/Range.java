@@ -63,6 +63,7 @@ public class Range extends FocusWidget
   private final IdMixin<Range> idMixin = new IdMixin<Range>(this);
 
   private boolean continuous;
+  private boolean inputListenerInstalled;
 
   public Range() {
     final InputElement element = InputElement.as(Document.get().createElement("input"));
@@ -124,8 +125,9 @@ public class Range extends FocusWidget
       return;
     }
     this.continuous = continuous;
-    if (continuous) {
+    if (continuous && !inputListenerInstalled) {
       InputEvents.listen(getElement(), this::onNativeInput);
+      inputListenerInstalled = true;
     }
   }
 
@@ -198,7 +200,9 @@ public class Range extends FocusWidget
   }
 
   private static String trim(final double value) {
-    return value == Math.rint(value) ? String.valueOf((long) value) : String.valueOf(value);
+    // HTML numeric attributes accept decimal/exponent notation. Casting integral doubles
+    // to long silently clips otherwise valid bounds outside the long range.
+    return String.valueOf(value);
   }
 
   private static double parse(final String value, final double fallback) {

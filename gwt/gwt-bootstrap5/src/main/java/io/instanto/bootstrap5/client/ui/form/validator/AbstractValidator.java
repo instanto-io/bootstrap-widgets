@@ -25,7 +25,9 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import io.instanto.bootstrap5.client.ui.form.error.BasicEditorError;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Common validator code.
@@ -51,8 +53,8 @@ public abstract class AbstractValidator<T> implements Validator<T> {
    */
   public AbstractValidator(String invalidMessageOverride) {
     this(null, new Object[0]);
-    assert invalidMessageOverride != null;
-    this.invalidMessageOverride = invalidMessageOverride;
+    this.invalidMessageOverride =
+        Objects.requireNonNull(invalidMessageOverride, "invalidMessageOverride");
   }
 
   /**
@@ -64,8 +66,8 @@ public abstract class AbstractValidator<T> implements Validator<T> {
    */
   public AbstractValidator(String messageKey, Object[] messageValueArgs) {
     this.messageKey = messageKey;
-    this.messageValueArgs = messageValueArgs;
-    assert this.messageValueArgs != null;
+    Objects.requireNonNull(messageValueArgs, "messageValueArgs");
+    this.messageValueArgs = Arrays.copyOf(messageValueArgs, messageValueArgs.length);
   }
 
   /**

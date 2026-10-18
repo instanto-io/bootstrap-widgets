@@ -31,7 +31,7 @@ public class VerticalButtonGroup extends AbstractButtonGroup {
 
   public VerticalButtonGroup() {
     super(Styles.BTN_GROUP_VERTICAL);
-    getElement().setAttribute("role", "group");
+    super.getElement().setAttribute("role", "group");
   }
 
   public void addButton(Widget button) {

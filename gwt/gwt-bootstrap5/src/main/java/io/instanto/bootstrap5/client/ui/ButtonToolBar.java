@@ -30,8 +30,8 @@ import io.instanto.bootstrap5.client.ui.gwt.FlowPanel;
 public class ButtonToolBar extends FlowPanel {
 
   public ButtonToolBar() {
-    setStyleName("btn-toolbar");
-    getElement().setAttribute("role", "toolbar");
+    super.getElement().setClassName("btn-toolbar");
+    super.getElement().setAttribute("role", "toolbar");
   }
 
   public void addGroup(ButtonGroup group) {

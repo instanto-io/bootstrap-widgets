@@ -67,6 +67,7 @@ public final class Bootstrap5BrowserFixturesEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    CoreConstructorFixture.run();
     RootPanel root = RootPanel.get("fixtures");
     initializeThemes();
     root.add(new HTML("<h1>GWT Bootstrap 5 interaction fixtures</h1>"));

@@ -69,6 +69,7 @@ public final class Bootstrap3BrowserFixturesEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    CoreConstructorFixture.run();
     RootPanel root = RootPanel.get("fixtures");
     initializeThemes();
     root.add(new HTML("<h1>GWT Bootstrap 3 interaction fixtures</h1>"));
@@ -127,6 +128,11 @@ public final class Bootstrap3BrowserFixturesEntryPoint implements EntryPoint {
     root.add(buttonGroupRemovalFixture());
     root.add(bootstrapSelectFixture());
 
+    DatePickerValidationLifecycleFixture.run();
+    AttachmentRegressionFixture.run();
+    OptionPreconditionsFixture.run();
+    CalendarLoaderFixture.run();
+    ExtrasConstructorFixture.run();
     Document.get().getBody().setAttribute("data-fixtures-ready", "true");
     markReady();
   }

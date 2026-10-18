@@ -48,8 +48,12 @@ public abstract class AbstractToggleButton extends AbstractIconButton implements
     }
 
     protected AbstractToggleButton(final ButtonType type) {
-        setType(type);
-        iconTextMixin.addTextWidgetToParent();
+        this(type, com.google.gwt.dom.client.Document.get().createPushButtonElement());
+    }
+
+    protected AbstractToggleButton(final ButtonType type, final Element element) {
+        super(type, element);
+        addInitialChild(initialText);
     }
 
     /**

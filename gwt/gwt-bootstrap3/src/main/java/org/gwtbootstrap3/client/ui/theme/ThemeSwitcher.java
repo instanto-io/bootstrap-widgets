@@ -38,6 +38,12 @@ public class ThemeSwitcher extends ListDropDown {
     private final DropDownMenu menu = new DropDownMenu();
     private final AnchorButton toggle = new AnchorButton();
     private final String label;
+    private final ThemeChangeHandler themeHandler = theme -> {
+        if (isAttached()) {
+            markActive();
+            updateToggleText();
+        }
+    };
 
     public ThemeSwitcher() {
         this("Theme");
@@ -50,15 +56,15 @@ public class ThemeSwitcher extends ListDropDown {
         toggle.setToggleCaret(true);
         add(toggle);
         add(menu);
-        rebuild();
-        Themes.addThemeChangeHandler(theme -> {
-            markActive();
-            updateToggleText();
-        });
+        rebuildMenu();
     }
 
     /** Rebuilds the list from the themes currently registered. */
     public void rebuild() {
+        rebuildMenu();
+    }
+
+    private void rebuildMenu() {
         menu.clear();
         for (final Theme theme : Themes.getThemes()) {
             final AnchorListItem item = new AnchorListItem(theme.getDisplayName());
@@ -67,6 +73,21 @@ public class ThemeSwitcher extends ListDropDown {
         }
         markActive();
         updateToggleText();
+    }
+
+
+    @Override
+    protected void onLoad() {
+      super.onLoad();
+      Themes.addThemeChangeHandler(themeHandler);
+      markActive();
+      updateToggleText();
+    }
+
+    @Override
+    protected void onUnload() {
+      Themes.removeThemeChangeHandler(themeHandler);
+      super.onUnload();
     }
 
     private void markActive() {

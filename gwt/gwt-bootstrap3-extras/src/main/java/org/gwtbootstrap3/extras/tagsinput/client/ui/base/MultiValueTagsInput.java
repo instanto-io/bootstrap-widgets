@@ -50,8 +50,7 @@ public class MultiValueTagsInput<T> extends TagsInputBase<T> implements HasValue
 
     public MultiValueTagsInput(final Dataset<T> dataset) {
         this(Arrays.asList(dataset));
-        
-        setDatasets(dataset);
+
     }
 
     public MultiValueTagsInput(final Collection<? extends Dataset<T>> datasets) {
@@ -61,7 +60,7 @@ public class MultiValueTagsInput<T> extends TagsInputBase<T> implements HasValue
 
         setElement(tagsSelect);
         
-        setDatasets(datasets);
+        initializeDatasets(datasets);
     }
 
     public MultiValueTagsInput(Element e) {
@@ -70,20 +69,20 @@ public class MultiValueTagsInput<T> extends TagsInputBase<T> implements HasValue
 
     public MultiValueTagsInput(Element e, final Dataset<T> dataset) {
         this(e, Arrays.asList(dataset));
-        
-        setDatasets(dataset);
+
     }
 
+    /** Wraps the element without attaching. Call attachToDocument() after construction,
+     * or add this widget to a panel, to begin its lifecycle. */
     public MultiValueTagsInput(Element e, final Collection<? extends Dataset<T>> datasets) {
+        if (e == null || !"select".equalsIgnoreCase(e.getTagName())) {
+            throw new IllegalArgumentException("Expected a select element");
+        }
         e.setAttribute("data-role", "tagsinput");
 
         setElement(e);
         
-        // Wrapped elements are already attached to the DOM and the onAttach method will not be called automatically,
-        // so it is called manually to correctly set attached state.
-        onAttach();
-        
-        setDatasets(datasets);
+        initializeDatasets(datasets);
     }
     
     /**

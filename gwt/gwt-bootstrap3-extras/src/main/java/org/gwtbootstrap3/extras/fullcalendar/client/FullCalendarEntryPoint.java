@@ -22,49 +22,47 @@ package org.gwtbootstrap3.extras.fullcalendar.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.dom.client.StyleInjector;
 
 public class FullCalendarEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        StyleInjector.injectAtEnd(FullCalendarClientBundle.INSTANCE.fullCalendarCss().getText());
-        StyleInjector.injectAtEnd("@media print {" + FullCalendarClientBundle.INSTANCE.fullCalendarPrintCss().getText() + "}");
+        injectStyle("gwtbootstrap3-fullcalendar-style", FullCalendarClientBundle.INSTANCE.fullCalendarCss().getText());
+        injectStyle("gwtbootstrap3-fullcalendar-print-style",
+                "@media print {" + FullCalendarClientBundle.INSTANCE.fullCalendarPrintCss().getText() + "}");
 
         if (!isMomentPresent()) {
-            ScriptInjector.fromString(FullCalendarClientBundle.INSTANCE.getMomentJS().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
+            ScriptInjector.fromString(FullCalendarClientBundle.INSTANCE.getMomentJS().getText())
+                    .setWindow(ScriptInjector.TOP_WINDOW).inject();
         }
-
-        if (!isCalendarPresent()) {
-            ScriptInjector.fromString(FullCalendarClientBundle.INSTANCE.getFullCalendarJS().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
-        }
-
         if (!isDragAndResizePresent()) {
-            ScriptInjector.fromString(FullCalendarClientBundle.INSTANCE.getCustomDragResizeJS().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
+            ScriptInjector.fromString(FullCalendarClientBundle.INSTANCE.getCustomDragResizeJS().getText())
+                    .setWindow(ScriptInjector.TOP_WINDOW).inject();
+        }
+        if (!isCalendarPresent()) {
+            ScriptInjector.fromString(FullCalendarClientBundle.INSTANCE.getFullCalendarJS().getText())
+                    .setWindow(ScriptInjector.TOP_WINDOW).inject();
         }
     }
 
-    private native boolean isCalendarPresent() /*-{
-        if ($wnd.jQuery && $wnd.jQuery.fullCalendar) {
-            return true;
-        } else {
-            return false;
-        }
+    private static native void injectStyle(String id, String css) /*-{
+        if ($doc.getElementById(id)) return;
+        var style = $doc.createElement('style');
+        style.id = id;
+        style.textContent = css;
+        $doc.head.appendChild(style);
     }-*/;
 
-    private native boolean isDragAndResizePresent() /*-{
-        if ($wnd.jQuery && $wnd.jQuery.draggable && $wnd.jQuery.resizable) {
-            return true;
-        } else {
-            return false;
-        }
+    private static native boolean isCalendarPresent() /*-{
+        return !!($wnd.jQuery && typeof $wnd.jQuery.fn.fullCalendar === 'function');
     }-*/;
 
-    private native boolean isMomentPresent() /*-{
-        if ($wnd.jQuery && $wnd.jQuery.moment) {
-            return true;
-        } else {
-            return false;
-        }
+    private static native boolean isDragAndResizePresent() /*-{
+        return !!($wnd.jQuery && typeof $wnd.jQuery.fn.draggable === 'function'
+                && typeof $wnd.jQuery.fn.resizable === 'function');
+    }-*/;
+
+    private static native boolean isMomentPresent() /*-{
+        return typeof $wnd.moment === 'function';
     }-*/;
 }

@@ -9,9 +9,9 @@ package org.gwtbootstrap3.extras.gallery.client.ui;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,14 +59,11 @@ import org.gwtbootstrap3.extras.gallery.client.events.GallerySlideHandler;
  */
 public class Gallery extends ComplexWidget {
 
-    private static Div galleryRoot;
+    private final SharedGallery shared = SharedGalleryHolder.INSTANCE;
 
-    // Controls
-    private Heading title;
-    private Anchor prev;
-    private Anchor next;
-    private Anchor close;
-    private OrderedList indicator;
+    private static final class SharedGalleryHolder {
+        private static final SharedGallery INSTANCE = new SharedGallery();
+    }
 
     // Options
     private String thumbnailHeight;
@@ -74,50 +71,45 @@ public class Gallery extends ComplexWidget {
 
     public Gallery() {
         setElement(Document.get().createDivElement());
-        getElement().setId("links");
-
-        // Ensure the root gallery components are setup
-        if(galleryRoot == null) {
-            setupRootGallery();
-        }
+        super.getElement().setId("links");
     }
 
     @Override
     public String getTitle() {
-        return title.getText();
+        return shared.title.getText();
     }
 
     @Override
     public void setTitle(String title) {
-        this.title.setText(title);
+        shared.title.setText(title);
     }
 
     public void setPrevIcon(IconType iconType) {
-        prev.setIcon(iconType);
+        shared.prev.setIcon(iconType);
     }
 
     public void setShowPrevButton(boolean show) {
-        prev.setVisible(show);
+        shared.prev.setVisible(show);
     }
 
     public void setNextIcon(IconType iconType) {
-        next.setIcon(iconType);
+        shared.next.setIcon(iconType);
     }
 
     public void setShowNextButton(boolean show) {
-        next.setVisible(show);
+        shared.next.setVisible(show);
     }
 
     public void setCloseIcon(IconType iconType) {
-        close.setIcon(iconType);
+        shared.close.setIcon(iconType);
     }
 
     public void setShowCloseButton(boolean show) {
-        close.setVisible(show);
+        shared.close.setVisible(show);
     }
 
     public void setShowIndicator(boolean show) {
-        indicator.setVisible(show);
+        shared.indicator.setVisible(show);
     }
 
     public String getThumbnailHeight() {
@@ -272,52 +264,61 @@ public class Gallery extends ComplexWidget {
     }
 
     public void reconfigure() {
-        if(galleryRoot != null) {
-            destroy(galleryRoot.getElement());
+        if(shared.galleryRoot != null) {
+            destroy(shared.galleryRoot.getElement());
             configure();
         }
     }
 
-    private void setupRootGallery() {
-        galleryRoot = new Div();
-        galleryRoot.getElement().setId("blueimp-gallery");
-        galleryRoot.getElement().setClassName("blueimp-gallery");
-        galleryRoot.getElement().setAttribute("data-use-bootstrap-modal", "false");
+    private static final class SharedGallery {
+        private final Div galleryRoot;
+        private final Heading title;
+        private final Anchor prev;
+        private final Anchor next;
+        private final Anchor close;
+        private final OrderedList indicator;
 
-        Div slides = new Div();
-        slides.getElement().setClassName("slides");
-        galleryRoot.add(slides);
+        private SharedGallery() {
+            galleryRoot = new Div();
+            galleryRoot.getElement().setId("blueimp-gallery");
+            galleryRoot.getElement().setClassName("blueimp-gallery");
+            galleryRoot.getElement().setAttribute("data-use-bootstrap-modal", "false");
 
-        title = new Heading(HeadingSize.H3);
-        title.getElement().setClassName("title");
-        galleryRoot.add(title);
+            Div slides = new Div();
+            slides.getElement().setClassName("slides");
+            galleryRoot.add(slides);
 
-        prev = new Anchor("");
-        prev.getElement().setClassName("prev");
-        prev.setIcon(IconType.CARET_LEFT);
-        galleryRoot.add(prev);
+            title = new Heading(HeadingSize.H3);
+            title.getElement().setClassName("title");
+            galleryRoot.add(title);
 
-        next = new Anchor("");
-        next.getElement().setClassName("next");
-        next.setIcon(IconType.CARET_RIGHT);
-        galleryRoot.add(next);
+            prev = new Anchor("");
+            prev.getElement().setClassName("prev");
+            prev.setIcon(IconType.CARET_LEFT);
+            galleryRoot.add(prev);
 
-        close = new Anchor("");
-        close.getElement().setClassName("close");
-        close.setIcon(IconType.CLOSE);
-        galleryRoot.add(close);
+            next = new Anchor("");
+            next.getElement().setClassName("next");
+            next.setIcon(IconType.CARET_RIGHT);
+            galleryRoot.add(next);
 
-        indicator = new OrderedList();
-        indicator.getElement().setClassName("indicator");
-        galleryRoot.add(indicator);
+            close = new Anchor("");
+            close.getElement().setClassName("close");
+            close.setIcon(IconType.CLOSE);
+            galleryRoot.add(close);
+
+            indicator = new OrderedList();
+            indicator.getElement().setClassName("indicator");
+            galleryRoot.add(indicator);
+        }
     }
 
     @Override
     protected void onLoad() {
-        if(galleryRoot != null) {
-            if (!galleryRoot.isAttached()) {
+        if(shared.galleryRoot != null) {
+            if (!shared.galleryRoot.isAttached()) {
                 // Add the gallery to the root panel
-                RootPanel.get().add(galleryRoot);
+                RootPanel.get().add(shared.galleryRoot);
             }
 
             configure();
@@ -326,14 +327,14 @@ public class Gallery extends ComplexWidget {
 
     @Override
     protected void onUnload() {
-        if(galleryRoot != null) {
-            destroy(galleryRoot.getElement());
+        if(shared.galleryRoot != null) {
+            destroy(shared.galleryRoot.getElement());
         }
     }
 
     protected void configure() {
-        if(galleryRoot != null) {
-            configure(galleryRoot.getElement());
+        if(shared.galleryRoot != null) {
+            configure(shared.galleryRoot.getElement());
         }
     }
 

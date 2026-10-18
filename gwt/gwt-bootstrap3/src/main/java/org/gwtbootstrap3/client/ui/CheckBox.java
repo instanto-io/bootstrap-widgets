@@ -186,13 +186,13 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>, 
 
     public CheckBox() {
         this(DOM.createDiv(), Document.get().createCheckInputElement());
-        setStyleName(Styles.CHECKBOX);
+        super.getElement().setClassName(Styles.CHECKBOX);
 
         LabelElement label = Document.get().createLabelElement();
         label.appendChild(inputElem);
         label.appendChild(labelElem);
 
-        getElement().appendChild(label);
+        super.getElement().appendChild(label);
     }
 
     protected CheckBox(Element element, InputElement inputElement) {
@@ -204,7 +204,7 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>, 
         // calls setTabIndex, which is overridden below. However, at the time
         // that this call is made, inputElem has not been created. So, we have
         // to call setTabIndex again, once inputElem has been created.
-        setTabIndex(0);
+        inputElem.setTabIndex(0);
     }
 
     @Override

@@ -218,8 +218,6 @@ public abstract class AbstractForm extends FormElementContainer implements FormP
 
     private static final String FORM = "form";
 
-    private static int formId = 0;
-
     private static final FormPanelImpl impl = GWT.create(FormPanelImpl.class);
 
     private String frameName;
@@ -232,7 +230,7 @@ public abstract class AbstractForm extends FormElementContainer implements FormP
 
     public AbstractForm(boolean createIFrame) {
         this(Document.get().createFormElement(), createIFrame);
-        getElement().setAttribute(Attributes.ROLE, FORM);
+        super.getElement().setAttribute(Attributes.ROLE, FORM);
     }
 
     /**
@@ -253,17 +251,18 @@ public abstract class AbstractForm extends FormElementContainer implements FormP
      */
     protected AbstractForm(Element element, boolean createIFrame) {
         setElement(element);
-        FormElement.as(element);
+        FormElement form = FormElement.as(element);
 
         if (createIFrame) {
-            assert getTarget() == null || getTarget().trim()
-                    .length() == 0 : "Cannot create target iframe if the form's target is already set.";
+            if (form.getTarget() != null && !form.getTarget().trim().isEmpty()) {
+                throw new IllegalArgumentException("Cannot create target iframe if the form target is already set.");
+            }
 
             // We use the module name as part of the unique ID to ensure that
             // ids are
             // unique across modules.
-            frameName = "GWTBootstrap3_AbstractForm_" + GWT.getModuleName() + "_" + (++formId);
-            setTarget(frameName);
+            frameName = "GWTBootstrap3_AbstractForm_" + GWT.getModuleName() + "_" + Document.get().createUniqueId();
+            form.setTarget(frameName);
 
             sinkEvents(Event.ONLOAD);
         }
@@ -488,9 +487,6 @@ public abstract class AbstractForm extends FormElementContainer implements FormP
         });
     }
 
-    private void setTarget(String target) {
-        getFormElement().setTarget(target);
-    }
 
     /**
      * @return true if the child input elements are all valid.

@@ -12,18 +12,16 @@
 
   <artifactId>widget-processor</artifactId>
   <name>Widget Annotation Processor</name>
-  <description>
-    Does at compile time what GWT's generators do through deferred binding, so the
-    TeaVM backend gets the same features without a generator SPI.
-
-    It runs inside javac, which is what makes it worth having: the questions a
-    UiBinder generator has to answer are questions about types -- does this widget
-    have a @UiConstructor, what does this setter take, is that type an enum -- and
-    javac already knows the answers. Reading them from the annotation processing
-    type model is exact where scanning sources for them is guesswork.
-  </description>
+  <description>Compatibility coordinates for the shared GWT UiBinder processor in teavm-compat.
+    Existing annotationProcessorPaths continue to work through this dependency; the implementation
+    and its fixes now live in gwt-uibinder-processor.</description>
 
   <dependencies>
+    <dependency>
+      <groupId>io.instanto</groupId>
+      <artifactId>gwt-uibinder-processor</artifactId>
+      <version>${teavm-compat.version}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -38,7 +36,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <!-- This module is the processor; it must not try to run itself. -->
+          <!-- Compiler contract tests invoke the shared processor explicitly. -->
           <proc>none</proc>
         </configuration>
       </plugin>

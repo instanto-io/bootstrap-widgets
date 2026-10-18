@@ -43,8 +43,10 @@ public class TextArea extends TextBoxBase {
      * @return TextArea
      */
     public static TextArea wrap(final Element element) {
-        // Assert that the element is attached.
-        assert Document.get().getBody().isOrHasChild(element);
+        if (element == null || !Document.get().getBody().isOrHasChild(element)
+            || !"textarea".equalsIgnoreCase(element.getTagName())) {
+            throw new IllegalArgumentException("Expected an attached textarea element");
+        }
 
         final TextArea textArea = new TextArea(element);
 

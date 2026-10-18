@@ -49,7 +49,7 @@ public abstract class AbstractButtonGroup extends FlowPanel implements HasName, 
     private String name;
 
     protected AbstractButtonGroup(final String styleName) {
-        setStyleName(styleName);
+        super.getElement().setClassName(styleName);
     }
 
     /**

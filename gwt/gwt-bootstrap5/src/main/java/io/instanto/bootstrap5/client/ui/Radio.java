@@ -168,7 +168,7 @@ public class Radio extends CheckBox {
   @UiConstructor
   public Radio(String name) {
     super(DOM.createDiv(), Document.get().createRadioInputElement(name));
-    setStyleName("form-check");
+    super.getElement().setClassName("form-check");
 
     // Bootstrap 5 wants the input and the label as siblings inside the
     // .form-check, not the input nested inside the label as Bootstrap 3 had
@@ -183,8 +183,8 @@ public class Radio extends CheckBox {
     label.setHtmlFor(controlId);
     label.appendChild(labelElem);
 
-    getElement().appendChild(inputElem);
-    getElement().appendChild(label);
+    super.getElement().appendChild(inputElem);
+    super.getElement().appendChild(label);
   }
 
   protected Radio(Element elem, InputElement inputElement) {

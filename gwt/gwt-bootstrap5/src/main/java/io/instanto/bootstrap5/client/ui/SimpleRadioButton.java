@@ -58,8 +58,12 @@ public class SimpleRadioButton extends com.google.gwt.user.client.ui.SimpleRadio
    * @param element the element to be wrapped
    */
   public static SimpleRadioButton wrap(Element element) {
-    // Assert that the element is attached.
-    assert Document.get().getBody().isOrHasChild(element);
+    if (element == null
+        || !Document.get().getBody().isOrHasChild(element)
+        || !"input".equalsIgnoreCase(element.getTagName())
+        || !"radio".equalsIgnoreCase(element.getPropertyString("type"))) {
+      throw new IllegalArgumentException("Expected an attached radio input element");
+    }
 
     SimpleRadioButton radioButton = new SimpleRadioButton(InputElement.as(element));
 

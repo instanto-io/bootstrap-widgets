@@ -43,17 +43,18 @@ public class CarouselControl extends ElementPanel implements HasHref {
 
   public CarouselControl(String targetId, boolean previous) {
     super("button");
-    setStyleName(previous ? "carousel-control-prev" : "carousel-control-next");
-    getElement().setAttribute("type", "button");
-    getElement().setAttribute("data-bs-target", "#" + targetId);
-    getElement().setAttribute("data-bs-slide", previous ? "prev" : "next");
-    setHTML(
-        "<span class=\""
-            + (previous ? "carousel-control-prev-icon" : "carousel-control-next-icon")
-            + "\" aria-hidden=\"true\"></span>"
-            + "<span class=\"visually-hidden\">"
-            + (previous ? "Previous" : "Next")
-            + "</span>");
+    super.getElement().setClassName(previous ? "carousel-control-prev" : "carousel-control-next");
+    super.getElement().setAttribute("type", "button");
+    super.getElement().setAttribute("data-bs-target", "#" + targetId);
+    super.getElement().setAttribute("data-bs-slide", previous ? "prev" : "next");
+    super.getElement()
+        .setInnerHTML(
+            "<span class=\""
+                + (previous ? "carousel-control-prev-icon" : "carousel-control-next-icon")
+                + "\" aria-hidden=\"true\"></span>"
+                + "<span class=\"visually-hidden\">"
+                + (previous ? "Previous" : "Next")
+                + "</span>");
   }
 
   private boolean previous;

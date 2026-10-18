@@ -201,13 +201,13 @@ public class Radio extends CheckBox {
     @UiConstructor
     public Radio(String name) {
         super(DOM.createDiv(), Document.get().createRadioInputElement(name));
-        setStyleName(Styles.RADIO);
+        super.getElement().setClassName(Styles.RADIO);
 
         LabelElement label = Document.get().createLabelElement();
         label.appendChild(inputElem);
         label.appendChild(labelElem);
 
-        getElement().appendChild(label);
+        super.getElement().appendChild(label);
     }
 
     protected Radio(Element elem, InputElement inputElement) {

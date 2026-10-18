@@ -42,12 +42,20 @@ import io.instanto.bootstrap5.client.ui.constants.IconType;
 public abstract class AbstractIconButton extends AbstractButton
     implements HasText, HasIcon, HasIconPosition, HasBadge {
 
-  IconTextMixin<AbstractIconButton> iconTextMixin = new IconTextMixin<AbstractIconButton>(this);
+  protected final io.instanto.bootstrap5.client.ui.html.Text initialText =
+      new io.instanto.bootstrap5.client.ui.html.Text();
+  final IconTextMixin<AbstractIconButton> iconTextMixin =
+      new IconTextMixin<AbstractIconButton>(this, initialText);
 
   protected AbstractIconButton() {}
 
   protected AbstractIconButton(final ButtonType type) {
     super(type);
+  }
+
+  protected AbstractIconButton(
+      final ButtonType type, final com.google.gwt.dom.client.Element element) {
+    super(type, element);
   }
 
   @Override

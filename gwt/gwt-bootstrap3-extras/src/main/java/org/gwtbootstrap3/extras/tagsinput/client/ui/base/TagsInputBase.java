@@ -41,8 +41,6 @@ import org.gwtbootstrap3.extras.tagsinput.client.event.ItemAddedOnInitHandler;
 import org.gwtbootstrap3.extras.tagsinput.client.event.ItemRemovedEvent;
 import org.gwtbootstrap3.extras.tagsinput.client.event.ItemRemovedHandler;
 import org.gwtbootstrap3.extras.typeahead.client.base.Dataset;
-import org.gwtbootstrap3.extras.typeahead.client.events.TypeaheadSelectedEvent;
-import org.gwtbootstrap3.extras.typeahead.client.events.TypeaheadSelectedHandler;
 import org.gwtbootstrap3.extras.typeahead.client.ui.Typeahead;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -50,7 +48,9 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.ui.RootPanel;
+import java.util.Objects;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -75,26 +75,80 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
     private Collection<? extends Dataset<T>> datasets;
     
     private Typeahead<T> typeahead;
-    private ScheduledCommand attachTypeahead = new ScheduledCommand() {   
-        @Override
-        public void execute() {
+    private HandlerRegistration typeaheadSelection;
+    private int generation;
+    private boolean initialized;
+
+    /** Initializes constructor state without dispatching to a subclass setter. */
+    protected final void initializeDatasets(Collection<? extends Dataset<T>> values) {
+        datasets = new ArrayList<>(Objects.requireNonNull(values, "datasets"));
+    }
+
+    /** Starts a wrapped, already-in-document widget after its constructor has returned. */
+    public final void attachToDocument() {
+        if (isAttached()) return;
+        if (!Document.get().getBody().isOrHasChild(getElement())) {
+            throw new IllegalStateException("The wrapped element must be in the document before attaching");
+        }
+        onAttach();
+        RootPanel.detachOnWindowClose(this);
+    }
+
+    private boolean isCurrent(int request) {
+        return initialized && isAttached() && request == generation;
+    }
+
+    private void initializePlugin() {
+        if (!isAttached()) return;
+        final int request = ++generation;
+        initialized = true;
+        try {
+            initialize(getElement(), options, request);
+        } catch (RuntimeException | Error failure) {
+            try {
+                releasePlugin();
+            } catch (RuntimeException | Error cleanupFailure) {
+                failure.addSuppressed(cleanupFailure);
+            }
+            throw failure;
+        }
+        // Only the current mount may create a typeahead on the generated input.
+        Scheduler.get().scheduleDeferred(() -> {
+            if (!isCurrent(request)) return;
             typeahead = new Typeahead<T>(input(), datasets);
             typeahead.reconfigure();
-            typeahead.addTypeaheadSelectedHandler(new TypeaheadSelectedHandler<T>() {
-                @Override
-                public void onSelected(TypeaheadSelectedEvent<T> event) {
-                    add(event.getSuggestion().getData());
-                }
+            typeaheadSelection = typeahead.addTypeaheadSelectedHandler(event -> {
+                if (isCurrent(request)) add(event.getSuggestion().getData());
             });
+        });
+    }
+
+    private void releasePlugin() {
+        ++generation;
+        if (typeaheadSelection != null) {
+            typeaheadSelection.removeHandler();
+            typeaheadSelection = null;
         }
-    };
-    
+        try {
+            if (typeahead != null) {
+                Typeahead<T> previous = typeahead;
+                typeahead = null;
+                previous.destroy();
+            }
+        } finally {
+            if (initialized) {
+                initialized = false;
+                destroy(getElement());
+            }
+        }
+    }
+
     public void setDatasets(final Dataset<T> dataset) {
-        this.datasets = Arrays.asList(dataset);
+        initializeDatasets(Arrays.asList(Objects.requireNonNull(dataset, "dataset")));
     }
 
     public void setDatasets(final Collection<? extends Dataset<T>> datasets) {
-        this.datasets = datasets;
+        initializeDatasets(datasets);
     }
 
     /**
@@ -239,42 +293,43 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
     }
     
     public void reconfigure() {
-        destroy();
-        initialize(getElement(), options);
-
-        // Deferred to make sure the tagsinput component creates <input> field
-        // on which typeahead should attach.
-        Scheduler.get().scheduleDeferred(attachTypeahead);
+        releasePlugin();
+        initializePlugin();
     }
-    
+
     /**
      * Initialises tags input component with given options.
      * 
      * @param e tags input element
      * @param options tags input options
      */
-    private native void initialize(Element e, JavaScriptObject options) /*-{
+    private native void initialize(Element e, JavaScriptObject options, int request) /*-{
         var tagsInput = this;
         
-        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_ADDED_ON_INIT_EVENT, function(event) {
+        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_ADDED_ON_INIT_EVENT + '.gwtTagsInput', function(event) {
+            if (!tagsInput.@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputBase::isCurrent(I)(request)) return;
             @org.gwtbootstrap3.extras.tagsinput.client.event.ItemAddedOnInitEvent::fire(Lorg/gwtbootstrap3/extras/tagsinput/client/event/HasItemAddedOnInitHandlers;Ljava/lang/Object;)(tagsInput, event.item);
         });
         
         $wnd.jQuery(e).tagsinput(options);
 
-        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::BEFORE_ITEM_ADD_EVENT, function(event) {
+        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::BEFORE_ITEM_ADD_EVENT + '.gwtTagsInput', function(event) {
+            if (!tagsInput.@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputBase::isCurrent(I)(request)) return;
             @org.gwtbootstrap3.extras.tagsinput.client.event.BeforeItemAddEvent::fire(Lorg/gwtbootstrap3/extras/tagsinput/client/event/HasBeforeItemAddHandlers;Ljava/lang/Object;)(tagsInput, event.item);
         });
 
-        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_ADDED_EVENT, function(event) {
+        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_ADDED_EVENT + '.gwtTagsInput', function(event) {
+            if (!tagsInput.@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputBase::isCurrent(I)(request)) return;
             @org.gwtbootstrap3.extras.tagsinput.client.event.ItemAddedEvent::fire(Lorg/gwtbootstrap3/extras/tagsinput/client/event/HasItemAddedHandlers;Ljava/lang/Object;)(tagsInput, event.item);
         });
 
-        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::BEFORE_ITEM_REMOVE_EVENT, function(event) {
+        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::BEFORE_ITEM_REMOVE_EVENT + '.gwtTagsInput', function(event) {
+            if (!tagsInput.@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputBase::isCurrent(I)(request)) return;
             @org.gwtbootstrap3.extras.tagsinput.client.event.BeforeItemRemoveEvent::fire(Lorg/gwtbootstrap3/extras/tagsinput/client/event/HasBeforeItemRemoveHandlers;Ljava/lang/Object;)(tagsInput, event.item);
         });
 
-        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_REMOVED_EVENT, function(event) {
+        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_REMOVED_EVENT + '.gwtTagsInput', function(event) {
+            if (!tagsInput.@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputBase::isCurrent(I)(request)) return;
             @org.gwtbootstrap3.extras.tagsinput.client.event.ItemRemovedEvent::fire(Lorg/gwtbootstrap3/extras/tagsinput/client/event/HasItemRemovedHandlers;Ljava/lang/Object;)(tagsInput, event.item);
         });
 
@@ -286,7 +341,8 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
         //
         // Even if firing of ValueChangeEvent is removed, there should remain empty function and 'change' event will be properly cached by GWT.
         ////////////////////
-        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_CHANGED_EVENT, function(event) {
+        $wnd.jQuery(e).on(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_CHANGED_EVENT + '.gwtTagsInput', function(event) {
+            if (!tagsInput.@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputBase::isCurrent(I)(request)) return;
             var currentValue = $wnd.jQuery(e).val();
 
             if ($wnd.jQuery.isArray(currentValue)) {
@@ -315,21 +371,18 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
     @Override
     protected void onLoad() {
         super.onLoad();
-
-        initialize(getElement(), options);
-
-        // Deferred to make sure the tagsinput component creates <input> field
-        // on which typeahead should attach.
-        Scheduler.get().scheduleDeferred(attachTypeahead);
+        initializePlugin();
     }
 
     @Override
     protected void onUnload() {
-        super.onUnload();
-        
-        command(getElement(), TagsInputCommand.DESTROY);
+        try {
+            releasePlugin();
+        } finally {
+            super.onUnload();
+        }
     }
-    
+
     /**
      * Returns list of items contained in the
      *  
@@ -417,8 +470,7 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
      * Removes tagsinput behaviour
      */
     public void destroy() {
-        if (isAttached())
-            destroy(getElement());       
+        releasePlugin();
     }
     
     private native void command(Element e, String command)/*-{
@@ -434,7 +486,7 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
     }-*/;
     
     private native Element input(Element e) /*-{
-        return $wnd.jQuery(e).tagsinput(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputCommand::INPUT);
+        return $wnd.jQuery(e).tagsinput(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputCommand::INPUT)[0];
     }-*/;
 
     native JavaScriptObject getValue(Element e) /*-{
@@ -446,12 +498,7 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
     }-*/;
     
     private native void destroy(Element e) /*-{
-        $wnd.jQuery(e).off(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_ADDED_ON_INIT_EVENT);
-        $wnd.jQuery(e).off(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::BEFORE_ITEM_ADD_EVENT);
-        $wnd.jQuery(e).off(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_ADDED_EVENT);
-        $wnd.jQuery(e).off(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::BEFORE_ITEM_REMOVE_EVENT);
-        $wnd.jQuery(e).off(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.HasAllTagsInputEvents::ITEM_REMOVED_EVENT);
-                
-        return $wnd.jQuery(e).tagsinput(@org.gwtbootstrap3.extras.tagsinput.client.ui.base.TagsInputCommand::DESTROY);
+        $wnd.jQuery(e).off('.gwtTagsInput');
+        if ($wnd.jQuery(e).data('tagsinput')) $wnd.jQuery(e).tagsinput('destroy');
     }-*/;
 }

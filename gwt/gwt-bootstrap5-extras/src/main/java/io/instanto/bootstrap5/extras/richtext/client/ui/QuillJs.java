@@ -95,8 +95,31 @@ final class QuillJs {
     return new Quill(Js.asAny(element), options);
   }
 
-  static void bindChange(final Quill quill, final ChangeHandler handler) {
-    quill.on("text-change", handler::onTextChange);
+  static Listener bindChange(final Quill quill, final ChangeHandler handler) {
+    Listener listener = handler::onTextChange;
+    quill.on("text-change", listener);
+    return listener;
+  }
+
+  static final class Handle {
+    final Quill editor;
+    Listener listener;
+
+    Handle(Quill editor) {
+      this.editor = editor;
+    }
+  }
+
+  // Quill has no public destroy operation. Release our subscription and generated toolbar,
+  // disable editing, then let the widget remove the editor DOM before a later mount.
+  static void release(Handle handle) {
+    if (handle.listener != null) {
+      handle.editor.off("text-change", handle.listener);
+      handle.listener = null;
+    }
+    handle.editor.enable(false);
+    Toolbar toolbar = handle.editor.getModule("toolbar");
+    if (Js.isTruthy(toolbar)) toolbar.getContainer().remove();
   }
 
   static String readHtml(final Quill quill) {
@@ -133,6 +156,10 @@ final class QuillJs {
 
     native void on(String event, Listener listener);
 
+    native void off(String event, Listener listener);
+
+    native Toolbar getModule(String name);
+
     native String getSemanticHTML();
 
     native String getText();
@@ -146,6 +173,17 @@ final class QuillJs {
 
     @JsProperty(name = "clipboard")
     native Clipboard getClipboard();
+  }
+
+  @JsType(isNative = true)
+  interface Toolbar {
+    @JsProperty
+    Removable getContainer();
+  }
+
+  @JsType(isNative = true)
+  interface Removable {
+    void remove();
   }
 
   /** Quill's clipboard module, which turns HTML into a delta. */

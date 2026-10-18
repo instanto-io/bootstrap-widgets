@@ -3,6 +3,13 @@
   <inherits name="org.gwtbootstrap3.themes.GwtBootstrap3Themes"/>
   <inherits name="org.gwtbootstrap3.extras.positionedtabs.PositionedTabs"/>
   <inherits name="org.gwtbootstrap3.extras.select.Select"/>
+  <inherits name="org.gwtbootstrap3.extras.datepicker.DatePicker"/>
+  <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
+  <inherits name="org.gwtbootstrap3.extras.tagsinput.TagsInput"/>
+  <!-- Calendar option tests need the Java types, not the calendar/jQuery UI runtime. -->
+  <inherits name="org.gwtbootstrap3.extras.fullcalendar.FullCalendarNoResources"/>
+  <inherits name="org.gwtbootstrap3.extras.gallery.GalleryNoResources"/>
+  <inherits name="org.gwtbootstrap3.extras.markdown.Markdown"/>
   <entry-point class="io.instanto.bootstrap.testing.gwt3.client.Bootstrap3BrowserFixturesEntryPoint"/>
   <source path="client"/>
   <set-property name="user.agent" value="safari"/>

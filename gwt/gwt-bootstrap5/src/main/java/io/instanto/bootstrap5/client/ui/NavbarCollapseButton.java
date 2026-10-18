@@ -33,21 +33,25 @@ public class NavbarCollapseButton extends Button {
 
   public NavbarCollapseButton(String targetId) {
     super("");
-    setStyleName("navbar-toggler");
-    getElement().setAttribute("type", "button");
-    getElement().setAttribute("data-bs-toggle", "collapse");
-    setTarget(targetId);
+    super.getElement().setClassName("navbar-toggler");
+    super.getElement().setAttribute("type", "button");
+    super.getElement().setAttribute("data-bs-toggle", "collapse");
+    applyTarget(super.getElement(), targetId);
     ElementPanel icon = new ElementPanel("span");
     icon.addStyleName("navbar-toggler-icon");
-    add(icon);
+    addInitialChild(icon);
   }
 
   public void setTarget(String targetId) {
+    applyTarget(getElement(), targetId);
+  }
+
+  private static void applyTarget(com.google.gwt.dom.client.Element element, String targetId) {
     if (targetId != null && !targetId.isEmpty()) {
-      getElement().setAttribute("data-bs-target", "#" + targetId);
-      getElement().setAttribute("aria-controls", targetId);
+      element.setAttribute("data-bs-target", "#" + targetId);
+      element.setAttribute("aria-controls", targetId);
     }
-    getElement().setAttribute("aria-expanded", "false");
-    getElement().setAttribute("aria-label", "Toggle navigation");
+    element.setAttribute("aria-expanded", "false");
+    element.setAttribute("aria-label", "Toggle navigation");
   }
 }

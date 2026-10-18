@@ -15,14 +15,14 @@ public class Toast extends AbstractVisibilityWidget {
 
   public Toast() {
     super("Toast", "toast", "toast");
-    getElement().setAttribute("role", "status");
-    getElement().setAttribute("aria-atomic", "true");
+    super.getElement().setAttribute("role", "status");
+    super.getElement().setAttribute("aria-atomic", "true");
   }
 
   public Toast(String title, String message) {
     this();
-    add(new ToastHeader(title));
-    add(new ToastBody(message));
+    addInitialChild(new ToastHeader(title));
+    addInitialChild(new ToastBody(message));
   }
 
   public void setAutoHide(boolean autoHide) {

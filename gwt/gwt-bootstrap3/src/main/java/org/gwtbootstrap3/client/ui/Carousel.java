@@ -52,11 +52,11 @@ public class Carousel extends Div {
 
     public Carousel() {
         // Set the default styles
-        setStyleName(Styles.CAROUSEL);
-        addStyleName(Styles.SLIDE);
+        super.getElement().setClassName(Styles.CAROUSEL);
+        org.gwtbootstrap3.client.ui.base.helper.StyleHelper.addStyleNames(super.getElement(), Styles.SLIDE);
 
         // Set the default attribute
-        getElement().setAttribute(Attributes.DATA_RIDE, CAROUSEL);
+        super.getElement().setAttribute(Attributes.DATA_RIDE, CAROUSEL);
     }
 
     @Override

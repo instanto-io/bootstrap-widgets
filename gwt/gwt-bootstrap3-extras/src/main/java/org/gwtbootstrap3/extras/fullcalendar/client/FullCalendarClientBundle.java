@@ -43,7 +43,7 @@ public interface FullCalendarClientBundle extends ClientBundle {
     @Source("resource/js/gcal-3.10.5.cache.js")
     TextResource getGoogleCalJS();
 
-    @Source("resource/js/jquery-ui-1.13.3.min.cache.js")
+    @Source("resource/js/jquery-ui-1.13.3-drag-resize.cache.js")
     TextResource getCustomDragResizeJS();
 
     @Source("resource/js/moment-2.30.1.min.cache.js")

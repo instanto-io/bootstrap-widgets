@@ -34,6 +34,15 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 public final class StyleHelper {
 
+    /** Adds class tokens to a known element without calling widget overrides. */
+    public static void addStyleNames(com.google.gwt.dom.client.Element element, String names) {
+        if (names == null || names.isEmpty()) return;
+        for (String name : names.split("\\s+")) {
+            if (!name.isEmpty()) element.addClassName(name);
+        }
+    }
+
+
     /**
      * Convenience method for first removing all enum style constants and then adding the single one.
      *
