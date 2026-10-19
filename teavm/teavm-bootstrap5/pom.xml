@@ -95,6 +95,9 @@
     </dependency>
   </dependencies>
   <properties>
+    <instanto.terser.phase>prepare-package</instanto.terser.phase>
+    <instanto.terser.directory>${project.build.directory}/teavm</instanto.terser.directory>
+    <instanto.terser.file>teavm-bootstrap5-smoke.js</instanto.terser.file>
     <source.maps.phase>prepare-package</source.maps.phase>
     <source.maps.mode>teavm</source.maps.mode>
     <source.maps.path>${project.build.directory}/teavm/teavm-bootstrap5-smoke.js</source.maps.path>
@@ -350,7 +353,7 @@
               <mainClass>io.instanto.bootstrap5.teavm.demo.SharedShowcaseApp</mainClass>
               <targetDirectory>${project.build.directory}/teavm</targetDirectory>
               <targetFileName>teavm-bootstrap5-smoke.js</targetFileName>
-              <minifying>true</minifying>
+              <minifying>false</minifying>
             </configuration>
           </execution>
         </executions>
