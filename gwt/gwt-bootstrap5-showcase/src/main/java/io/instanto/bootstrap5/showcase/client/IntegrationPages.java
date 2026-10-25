@@ -49,6 +49,12 @@ final class IntegrationPages {
     Column column = fullColumn(row);
 
     switch (token) {
+      case "fullCalendar":
+        {
+          addPageHeader(column, "fullCalendar", "FullCalendar", "Bootstrap 5 scheduling");
+          column.add(CalendarExample.create());
+          break;
+        }
       case "datePicker":
         {
           addPageHeader(column, "datePicker", "DatePicker", "Tempus Dominus 6");

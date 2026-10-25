@@ -30,7 +30,7 @@ This fork vendors browser JS/CSS resources inside the GWT modules so downstream 
 | Summernote | 0.9.1 | `summernote` | Current maintained browser distribution. |
 | FullCalendar | 3.10.5 | `fullcalendar` | Last jQuery-compatible line; newer major versions are not drop-in. |
 | jQuery UI | 1.13.3 | `jquery-ui` | FullCalendar loads only draggable, resizable and their dependencies, preserving Bootstrap plugins. |
-| Moment | 2.30.1 | `moment` | Used by FullCalendar 3.x. |
+| Moment | 2.31.0 | `moment` | Used by FullCalendar 3.x. |
 | Blueimp Gallery | 3.4.0 | `blueimp-gallery` | Core gallery plugin update; legacy Bootstrap image gallery adapter retained. |
 | bootstrap-notify | 3.1.3 | `bootstrap-notify` | Latest available line, retained. |
 | bootstrap-tagsinput | 0.8.0 | upstream gwtbootstrap3-extras | Newer npm package is older than the bundled upstream asset, retained. |
@@ -105,14 +105,16 @@ the core widgets. Inheriting an extra's GWT module loads only that extra's resou
 | Quill | 2.0.3 | `quill` | BSD-3-Clause | Rich text editor, replacing the Summernote extra. No jQuery, ships its own toolbar. Licence text at `gwt/gwt-bootstrap5-extras/QUILL-LICENSE`. |
 | noUiSlider | 15.8.1 | `nouislider` | MIT | Slider for what a native range input cannot do: two handles, non-linear scales, tooltips, pips. No dependencies. Licence text at `gwt/gwt-bootstrap5-extras/NOUISLIDER-LICENSE`. |
 | marked | 18.0.11 | `marked` | MIT | Markdown parser, configured for GitHub Flavoured Markdown so a client-side preview matches what flexmark-java renders with its tables, strikethrough and task list extensions. No dependencies. |
-| DOMPurify | 3.4.14 | `dompurify` | MPL-2.0 OR Apache-2.0 | Sanitises rendered Markdown before it reaches the DOM. marked does not sanitise, by design, and Markdown permits raw HTML. |
+| DOMPurify | 3.4.17 | `dompurify` | MPL-2.0 OR Apache-2.0 | Sanitises rendered Markdown before it reaches the DOM. marked does not sanitise, by design, and Markdown permits raw HTML. |
 | Tom Select | 2.6.2 | `tom-select` | Apache-2.0 | Searchable selects, multiple selection, tags and asynchronous options; Bootstrap 5 stylesheet. |
 | Tabulator | 6.5.2 | `tabulator-tables` | MIT | Editable data grids, grouping, tree rows and pagination; Bootstrap 5 stylesheet. |
 | SortableJS | 1.15.7 | `sortablejs` | MIT | List reordering and moving widgets between lists. |
 | GridStack | 13.2.0 | `gridstack` | MIT | Responsive, draggable and resizable dashboard tiles. |
 | PhotoSwipe | 5.4.4 | `photoswipe` | MIT | Image lightbox, zoom and swipe navigation; UMD core and lightbox distributions. |
+| FullCalendar | 7.1.3 | `fullcalendar` | MIT | Calendar views, interaction and events; official npm bundle, license retained under `fullcalendar/client/resource/licenses/`. |
+| FullCalendar Bootstrap 5 integration | 7.1.3 | `@fullcalendar/bootstrap5` | MIT | Bootstrap 5 theme adapter; license retained alongside the core license. |
 
-The five integration distributions come from their official npm release archives. Their
+The integration distributions come from their official npm release archives. Their
 licences are kept in `gwt/gwt-bootstrap5-extras/*-LICENSE` and bundled under each
 module's `client/resource/licenses/` directory. Available upstream maps accompany the
 vendored files. The build does not run npm or retrieve assets from a CDN.

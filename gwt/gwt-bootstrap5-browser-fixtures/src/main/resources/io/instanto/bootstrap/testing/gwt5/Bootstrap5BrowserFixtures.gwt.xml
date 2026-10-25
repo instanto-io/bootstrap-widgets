@@ -1,6 +1,7 @@
 <module rename-to="Bootstrap5BrowserFixtures">
   <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
   <inherits name="io.instanto.bootstrap5.themes.GwtBootstrap5Themes"/>
+  <inherits name="io.instanto.bootstrap5.extras.markdown.Markdown"/>
   <entry-point class="io.instanto.bootstrap.testing.gwt5.client.Bootstrap5BrowserFixturesEntryPoint"/>
   <source path="client"/>
   <set-property name="user.agent" value="safari"/>

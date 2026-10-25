@@ -133,3 +133,35 @@ the underlying browser framework.
 Using the TeaVM build? Please [support TeaVM](https://github.com/sponsors/konsoletyper).
 
 Want to see this port and more TeaVM libraries maintained? Please [sponsor this port](https://github.com/sponsors/instanto-io).
+
+## FullCalendar
+
+The Bootstrap 5 extras now include `io.instanto.bootstrap5.extras.fullcalendar.FullCalendar`.
+It wraps FullCalendar **7.1.3** and its official **Bootstrap 5 theme plugin**, using
+one Java widget implementation for GWT and TeaVM. Both upstream distributions are
+MIT licensed; pinned assets and license files are recorded in
+[THIRD-PARTY-ASSETS.md](THIRD-PARTY-ASSETS.md).
+
+Inherit the module in a GWT application:
+
+```xml
+<inherits name="io.instanto.bootstrap5.extras.fullcalendar.FullCalendar"/>
+```
+
+Configure `io.instanto.bootstrap5.extras.fullcalendar.client.ui.FullCalendar`
+before attaching it. The current Java surface covers initial date/view,
+editable events, event addition/removal, navigation, date selection and event
+click/change callbacks. Its native calendar is destroyed on detach and its
+current view/date/events are restored on reattachment. Callbacks report ISO date
+strings, preserving all-day date-only values. This is a focused wrapper, not a
+binding for every FullCalendar setting or its separately licensed premium views.
+
+Open **Integrations → FullCalendar** in either Bootstrap 5 showcase. The example
+includes month/week/day/list views, appointments, selection, drag/resize,
+Java callbacks and a detach/reattach control.
+
+The Bootstrap 3 GWT API remains on FullCalendar **3.10.5**. Its TeaVM showcase now
+has a live **Extras → FullCalendar** page using that same runtime and Moment
+2.31.0. This is a scoped TeaVM showcase bridge; the entire legacy GWT3 FullCalendar
+API has not been ported. The Bootstrap 5 wrapper is a separate modern API, not a
+drop-in upgrade of the jQuery-based Bootstrap 3 wrapper.

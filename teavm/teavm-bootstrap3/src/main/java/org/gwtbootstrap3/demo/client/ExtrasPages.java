@@ -34,6 +34,7 @@ final class ExtrasPages {
 
     /** Returns a shared showcase page when its dependencies have been ported. */
     static Widget forToken(final String token) {
+        if (org.gwtbootstrap3.demo.client.place.NameTokens.FULL_CALENDAR.equals(token)) return new org.gwtbootstrap3.teavm.calendar.CalendarPage();
         if (org.gwtbootstrap3.demo.client.place.NameTokens.SUMMERNOTE.equals(token)) {
             return new org.gwtbootstrap3.demo.client.application.extras.SummernoteView();
         }

@@ -184,6 +184,23 @@ Maven build:
   immediately before `HasHTML`, which is how UiBinder knows its children are
   widgets.
 
+## Markdown editor parity
+
+`MarkdownEditorParityTest` runs in Chromium for both TeaVM generations, while
+`MARKDOWN-PARITY` in the compiled GWT browser fixtures covers the same behaviour
+on GWT3 and GWT5: Write/Preview controls, retained content, disabled controls,
+pressed state and DOMPurify 3.4.17 sanitization. The Bootstrap 3 cases also exercise
+Rich Text/Markdown switching, formatting selection state, and three detach/remount
+cycles to check listener cleanup and reattachment. Bootstrap 5 remains a Markdown
+source editor and therefore has no rich-text selection contract.
+
+## FullCalendar lifecycle
+
+`FullCalendarLifecycleTest` checks timed and all-day events, ISO date callbacks,
+three detach/remount cycles without duplicate callbacks, and event removal and
+clearing in the TeaVM Bootstrap 5 browser runtime. The shared widget is also
+compiled and exercised in the native GWT Bootstrap 5 showcase.
+
 ## Where things run
 
 | | local `mvn install` | CI |

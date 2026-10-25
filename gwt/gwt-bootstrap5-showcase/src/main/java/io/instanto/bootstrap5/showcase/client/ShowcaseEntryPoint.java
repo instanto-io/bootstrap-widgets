@@ -160,6 +160,7 @@ public class ShowcaseEntryPoint implements EntryPoint {
     "Tooltips"
   };
   private static final String[] INTEGRATION_SECTIONS = {
+    "fullCalendar",
     "datePicker",
     "richText",
     "markdown",
@@ -172,6 +173,7 @@ public class ShowcaseEntryPoint implements EntryPoint {
     "unsupportedExtras"
   };
   private static final String[] INTEGRATION_LABELS = {
+    "FullCalendar",
     "DatePicker",
     "Rich Text",
     "Markdown",

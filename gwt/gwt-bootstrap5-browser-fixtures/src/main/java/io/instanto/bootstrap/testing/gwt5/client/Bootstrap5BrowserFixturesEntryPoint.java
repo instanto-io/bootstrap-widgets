@@ -67,6 +67,7 @@ public final class Bootstrap5BrowserFixturesEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    MarkdownEditorParityFixture.run();
     CoreConstructorFixture.run();
     RootPanel root = RootPanel.get("fixtures");
     initializeThemes();

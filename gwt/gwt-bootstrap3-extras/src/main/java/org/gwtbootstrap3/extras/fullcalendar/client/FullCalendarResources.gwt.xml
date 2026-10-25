@@ -1,0 +1,6 @@
+<module><public path="resource"/>
+ <stylesheet src="css/fullcalendar-3.10.5.cache.css"/>
+ <script src="js/moment-2.31.0.min.cache.js"/>
+ <script src="js/jquery-ui-1.13.3-drag-resize.cache.js"/>
+ <script src="js/fullcalendar-3.10.5.min.cache.js"/>
+</module>

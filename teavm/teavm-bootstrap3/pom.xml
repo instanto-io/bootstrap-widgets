@@ -129,7 +129,7 @@
             <configuration>
               <classifier>sources</classifier>
               <includeArtifactIds>gwt-bootstrap3-extras</includeArtifactIds>
-              <includes>org/gwtbootstrap3/extras/animate/**,org/gwtbootstrap3/extras/card/**,org/gwtbootstrap3/extras/markdown/**,org/gwtbootstrap3/extras/toggleswitch/**,org/gwtbootstrap3/extras/slider/**,org/gwtbootstrap3/extras/select/**,org/gwtbootstrap3/extras/summernote/**</includes>
+              <includes>org/gwtbootstrap3/extras/animate/**,org/gwtbootstrap3/extras/card/**,org/gwtbootstrap3/extras/markdown/**,org/gwtbootstrap3/extras/toggleswitch/**,org/gwtbootstrap3/extras/slider/**,org/gwtbootstrap3/extras/select/**,org/gwtbootstrap3/extras/summernote/**,org/gwtbootstrap3/extras/fullcalendar/client/FullCalendarResources.gwt.xml,org/gwtbootstrap3/extras/fullcalendar/client/resource/**</includes>
               <excludes>${shared.source.gwt.only}</excludes>
               <outputDirectory>${project.build.directory}/shared-sources</outputDirectory>
               <overWriteSnapshots>true</overWriteSnapshots>
@@ -168,6 +168,7 @@
                 <includeModule>ToggleSwitchResources</includeModule>
                 <includeModule>CardResources</includeModule>
                 <includeModule>AnimateResources</includeModule>
+                <includeModule>FullCalendarResources</includeModule>
               </includeModules>
               <inlineTextBundles>
                 <inlineTextBundle>org.gwtbootstrap3.extras.select.client.SelectClientBundle</inlineTextBundle>

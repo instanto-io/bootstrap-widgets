@@ -2005,6 +2005,11 @@ async function main() {
         });
       }
 
+      test("MARKDOWN-PARITY", "Markdown controls preserve value, active state, lifecycle and sanitization", async () => {
+        await waitFor("document.body.dataset.markdownParity", "Markdown parity result");
+        assert.equal(await evaluate("document.body.dataset.markdownParity"), "ok");
+      });
+
       if (target.generation === 3) {
         for (const [id, description] of [
           ["TAG-001", "tags-input wrapping does not invoke subclass lifecycle during construction"],

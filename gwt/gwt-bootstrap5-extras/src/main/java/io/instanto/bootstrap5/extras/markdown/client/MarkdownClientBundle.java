@@ -37,6 +37,6 @@ public interface MarkdownClientBundle extends ClientBundle {
   @Source("resource/js/marked-18.0.11.umd.cache.js")
   TextResource marked();
 
-  @Source("resource/js/dompurify-3.4.14.min.cache.js")
+  @Source("resource/js/dompurify-3.4.17.min.cache.js")
   TextResource domPurify();
 }

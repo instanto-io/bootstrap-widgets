@@ -1,0 +1,9 @@
+<module>
+ <inherits name="io.instanto.bootstrap5.GwtBootstrap5NoTheme"/>
+ <inherits name="io.instanto.bootstrap5.extras.base.Integration"/>
+ <inherits name="com.google.gwt.resources.Resources"/>
+ <entry-point class="io.instanto.bootstrap5.extras.fullcalendar.client.FullCalendarEntryPoint"/>
+ <source path="client"/><public path="client/resource"/>
+ <stylesheet src="css/fullcalendar-7.1.3.css"/>
+ <stylesheet src="css/fullcalendar-bootstrap5-7.1.3.css"/>
+</module>

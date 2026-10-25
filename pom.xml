@@ -94,7 +94,7 @@
     <summernote.version>0.9.1</summernote.version>
     <fullcalendar.version>3.10.5</fullcalendar.version>
     <jquery.ui.version>1.13.3</jquery.ui.version>
-    <moment.version>2.30.1</moment.version>
+    <moment.version>2.31.0</moment.version>
     <blueimp.gallery.version>3.4.0</blueimp.gallery.version>
     <tomselect.version>2.6.2</tomselect.version>
     <tabulator.version>6.5.2</tabulator.version>

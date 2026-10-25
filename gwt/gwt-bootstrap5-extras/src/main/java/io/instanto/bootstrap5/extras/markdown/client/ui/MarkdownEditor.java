@@ -68,8 +68,10 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
 
   private final MarkdownHelp help = new MarkdownHelp();
 
-  /** The one control that changes mode: a pencil to edit, an eye to read. */
-  private final Button modeButton = new Button("", ButtonType.DEFAULT);
+  /** Explicit Write / Preview controls, shared with the Bootstrap 3 editor. */
+  private final Button writeButton = new Button("Write", ButtonType.DEFAULT);
+
+  private final Button previewButton = new Button("Preview", ButtonType.DEFAULT);
 
   private final Div syntaxButtons = syntaxButtons();
 
@@ -82,7 +84,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
     addStyleName("gbm-markdown-editor");
 
     toolbar.addStyleName("d-flex flex-wrap align-items-center gap-2 mb-2");
-    toolbar.add(modeToggle());
+    toolbar.add(modeControls());
     toolbar.add(syntaxButtons);
     add(toolbar);
 
@@ -111,26 +113,34 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
     applyRenderedMode();
   }
 
-  private Button modeToggle() {
-    modeButton.setSmall(true);
-    modeButton.addClickHandler(
-        new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            if (editing) {
-              showRendered();
-            } else {
-              showEditor();
-            }
-          }
-        });
-    return modeButton;
+  private Div modeControls() {
+    Div controls = new Div();
+    controls.addStyleName("btn-group gbm-markdown-tabs");
+    writeButton.setSmall(true);
+    writeButton.setTitle("Edit Markdown source");
+    writeButton.addStyleName("gbm-tab-btn gbm-tab-write");
+    writeButton.addClickHandler(event -> showEditor());
+    previewButton.setSmall(true);
+    previewButton.setTitle("Preview rendered Markdown");
+    previewButton.addStyleName("gbm-tab-btn gbm-tab-preview");
+    previewButton.addClickHandler(event -> showRendered());
+    controls.add(writeButton);
+    controls.add(previewButton);
+    return controls;
   }
 
-  private void setModeButton(final IconType icon, final String title) {
-    modeButton.clear();
-    modeButton.add(new Icon(icon));
-    modeButton.setTitle(title);
+  private void updateModeControls() {
+    writeButton.setType(editing ? ButtonType.PRIMARY : ButtonType.DEFAULT);
+    previewButton.setType(editing ? ButtonType.DEFAULT : ButtonType.PRIMARY);
+    writeButton.getElement().setAttribute("aria-pressed", String.valueOf(editing));
+    previewButton.getElement().setAttribute("aria-pressed", String.valueOf(!editing));
+    if (editing) {
+      writeButton.addStyleName("active");
+      previewButton.removeStyleName("active");
+    } else {
+      writeButton.removeStyleName("active");
+      previewButton.addStyleName("active");
+    }
   }
 
   private Div syntaxButtons() {
@@ -188,7 +198,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
     TextAreaSelection.focusAndSelect(element, start + before.length(), selected.length());
   }
 
-  /** Shows the textarea and the syntax buttons, with an eye to go back to reading. */
+  /** Shows the textarea and syntax buttons, selecting Write in the mode controls. */
   public void showEditor() {
     applyEditorMode();
   }
@@ -199,11 +209,11 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
     preview.setVisible(false);
     setToolbarVisible(true);
     help.setVisible(helpVisible);
-    setModeButton(IconType.EYE, "Done editing");
+    updateModeControls();
   }
 
   /**
-   * Shows the rendered Markdown, with a pencil to start editing. The syntax buttons and the
+   * Shows the rendered Markdown, selecting Preview in the mode controls. The syntax buttons and the
    * reference go with the textarea, because neither means anything while reading.
    */
   public void showRendered() {
@@ -217,7 +227,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
     preview.setVisible(true);
     setToolbarVisible(false);
     help.setVisible(false);
-    setModeButton(IconType.PENCIL, "Edit");
+    updateModeControls();
   }
 
   /**
@@ -321,6 +331,8 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
   @Override
   public void setEnabled(final boolean enabled) {
     textArea.setEnabled(enabled);
+    writeButton.setEnabled(enabled);
+    previewButton.setEnabled(enabled);
   }
 
   @Override

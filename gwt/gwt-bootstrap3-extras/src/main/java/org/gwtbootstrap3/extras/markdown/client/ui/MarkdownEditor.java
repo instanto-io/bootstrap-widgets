@@ -34,6 +34,7 @@ import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.base.HasId;
 import org.gwtbootstrap3.client.ui.base.mixin.IdMixin;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.html.Div;
 import org.gwtbootstrap3.extras.markdown.client.Markdown;
@@ -83,11 +84,15 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
 
     private final MarkdownHelp help = new MarkdownHelp();
 
-    /** In Classic mode: toggles between writing Markdown and previewing rendered output. */
-    private final Button modeButton = new Button();
+    /** In Classic mode: segmented Write / Preview controls. */
+    private final Div modeGroup = new Div();
+    private final Button writeButton = new Button("Write");
+    private final Button previewButton = new Button("Preview");
 
-    /** Switches between WYSIWYG and Classic editor modes. */
-    private final Button editorModeButton = new Button();
+    /** Segmented control for switching between Rich Text (WYSIWYG) and Markdown (Classic). */
+    private final Div modeSwitcherGroup = new Div();
+    private final Button wysiwygButton = new Button("Rich Text");
+    private final Button classicButton = new Button("Markdown");
 
     private final Div syntaxButtons;
 
@@ -115,26 +120,88 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         toolbar.getElement().getStyle().setProperty("display", "flex");
         toolbar.getElement().getStyle().setProperty("justifyContent", "space-between");
         toolbar.getElement().getStyle().setProperty("alignItems", "center");
+        toolbar.getElement().getStyle().setProperty("flexWrap", "wrap");
+        toolbar.getElement().getStyle().setProperty("gap", "6px");
         toolbar.getElement().getStyle().setProperty("marginBottom", "8px");
 
         final Div leftSection = new Div();
         leftSection.getElement().getStyle().setProperty("display", "inline-flex");
         leftSection.getElement().getStyle().setProperty("alignItems", "center");
+        leftSection.getElement().getStyle().setProperty("flexWrap", "wrap");
+        leftSection.getElement().getStyle().setProperty("gap", "6px");
 
-        final Div modeGroup = new Div();
+        // Classic mode Write / Preview segmented controls
         modeGroup.addStyleName("btn-group");
+        modeGroup.addStyleName("gbm-markdown-tabs");
         modeGroup.getElement().getStyle().setProperty("marginRight", "8px");
-        modeGroup.add(modeToggle());
+
+        writeButton.setSize(ButtonSize.SMALL);
+        writeButton.setIcon(IconType.PENCIL);
+        writeButton.setTitle("Edit Markdown source");
+        writeButton.addStyleName("gbm-tab-btn");
+        writeButton.addStyleName("gbm-tab-write");
+        preventMouseDownBlur(writeButton.getElement());
+        writeButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+                showEditor();
+            }
+        });
+        modeGroup.add(writeButton);
+
+        previewButton.setSize(ButtonSize.SMALL);
+        previewButton.setIcon(IconType.EYE);
+        previewButton.setTitle("Preview rendered Markdown");
+        previewButton.addStyleName("gbm-tab-btn");
+        previewButton.addStyleName("gbm-tab-preview");
+        preventMouseDownBlur(previewButton.getElement());
+        previewButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+                showRendered();
+            }
+        });
+        modeGroup.add(previewButton);
+
         leftSection.add(modeGroup);
 
         syntaxButtons = syntaxButtons();
         leftSection.add(syntaxButtons);
         toolbar.add(leftSection);
 
-        final Div rightSection = new Div();
-        rightSection.addStyleName("btn-group");
-        rightSection.add(editorModeToggle());
-        toolbar.add(rightSection);
+        // Right section: Rich Text vs Markdown segmented mode switcher
+        modeSwitcherGroup.addStyleName("btn-group");
+        modeSwitcherGroup.addStyleName("gbm-editor-mode-toggle");
+
+        wysiwygButton.setSize(ButtonSize.SMALL);
+        wysiwygButton.setIcon(IconType.PENCIL);
+        wysiwygButton.setTitle("Switch to Rich Text (WYSIWYG) mode");
+        wysiwygButton.addStyleName("gbm-mode-btn");
+        wysiwygButton.addStyleName("gbm-mode-wysiwyg");
+        preventMouseDownBlur(wysiwygButton.getElement());
+        wysiwygButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+                setEditorMode(EditorMode.WYSIWYG);
+            }
+        });
+        modeSwitcherGroup.add(wysiwygButton);
+
+        classicButton.setSize(ButtonSize.SMALL);
+        classicButton.setIcon(IconType.CODE);
+        classicButton.setTitle("Switch to Markdown source mode");
+        classicButton.addStyleName("gbm-mode-btn");
+        classicButton.addStyleName("gbm-mode-classic");
+        preventMouseDownBlur(classicButton.getElement());
+        classicButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+                setEditorMode(EditorMode.CLASSIC);
+            }
+        });
+        modeSwitcherGroup.add(classicButton);
+
+        toolbar.add(modeSwitcherGroup);
 
         addInitialChild(toolbar);
 
@@ -181,37 +248,6 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         applyValue(markdown);
     }
 
-    private Button modeToggle() {
-        modeButton.setSize(ButtonSize.SMALL);
-        modeButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                if (editing) {
-                    showRendered();
-                } else {
-                    showEditor();
-                }
-            }
-        });
-        return modeButton;
-    }
-
-    private void setModeButton(final IconType icon, final String title) {
-        modeButton.setIcon(icon);
-        modeButton.setTitle(title);
-    }
-
-    private Button editorModeToggle() {
-        editorModeButton.setSize(ButtonSize.SMALL);
-        editorModeButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                toggleEditorMode();
-            }
-        });
-        return editorModeButton;
-    }
-
     public EditorMode getEditorMode() {
         return editorMode;
     }
@@ -230,6 +266,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
             final String md = Markdown.toMarkdown(html);
             textArea.setValue(md);
             this.editorMode = EditorMode.CLASSIC;
+            this.editing = true;
         }
         applyEditorMode();
         fireEditorModeChange(this.editorMode);
@@ -241,7 +278,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
 
     public void setShowModeSwitcher(final boolean show) {
         this.showModeSwitcher = show;
-        editorModeButton.setVisible(show);
+        modeSwitcherGroup.setVisible(show);
     }
 
     public void addEditorModeChangeHandler(final EditorModeChangeHandler handler) {
@@ -261,36 +298,59 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
     }
 
     private void applyEditorMode(String previewValue) {
-        editorModeButton.setVisible(showModeSwitcher);
+        modeSwitcherGroup.setVisible(showModeSwitcher);
         if (editorMode == EditorMode.WYSIWYG) {
             visualEditor.setVisible(true);
             textArea.setVisible(false);
             preview.setVisible(false);
-            modeButton.setVisible(false);
+            modeGroup.setVisible(false);
             syntaxButtons.setVisible(true);
             help.setVisible(false);
-            editorModeButton.setIcon(IconType.CODE);
-            editorModeButton.setText("Classic");
-            editorModeButton.setTitle("Switch to Classic Markdown mode");
+
+            wysiwygButton.getElement().setAttribute("aria-pressed", "true");
+            classicButton.getElement().setAttribute("aria-pressed", "false");
+            wysiwygButton.setType(ButtonType.PRIMARY);
+            wysiwygButton.addStyleName("active");
+            classicButton.setType(ButtonType.DEFAULT);
+            classicButton.removeStyleName("active");
+            refreshToolbarState(visualEditor.getElement());
         } else {
+            clearToolbarState(syntaxButtons.getElement());
             visualEditor.setVisible(false);
-            modeButton.setVisible(true);
-            editorModeButton.setIcon(IconType.DESKTOP);
-            editorModeButton.setText("WYSIWYG");
-            editorModeButton.setTitle("Switch to Visual WYSIWYG mode");
+            modeGroup.setVisible(true);
+
+            wysiwygButton.setType(ButtonType.DEFAULT);
+            wysiwygButton.removeStyleName("active");
+            wysiwygButton.getElement().setAttribute("aria-pressed", "false");
+            classicButton.getElement().setAttribute("aria-pressed", "true");
+            classicButton.setType(ButtonType.PRIMARY);
+            classicButton.addStyleName("active");
+
             if (editing) {
                 textArea.setVisible(true);
                 preview.setVisible(false);
                 syntaxButtons.setVisible(true);
                 help.setVisible(helpVisible);
-                setModeButton(IconType.EYE, "Preview rendered markdown");
+
+                writeButton.getElement().setAttribute("aria-pressed", "true");
+                previewButton.getElement().setAttribute("aria-pressed", "false");
+                writeButton.setType(ButtonType.PRIMARY);
+                writeButton.addStyleName("active");
+                previewButton.setType(ButtonType.DEFAULT);
+                previewButton.removeStyleName("active");
             } else {
                 preview.setMarkdown(previewValue);
                 textArea.setVisible(false);
                 preview.setVisible(true);
                 syntaxButtons.setVisible(false);
                 help.setVisible(false);
-                setModeButton(IconType.PENCIL, "Write / edit markdown");
+
+                writeButton.setType(ButtonType.DEFAULT);
+                writeButton.removeStyleName("active");
+                writeButton.getElement().setAttribute("aria-pressed", "false");
+                previewButton.getElement().setAttribute("aria-pressed", "true");
+                previewButton.setType(ButtonType.PRIMARY);
+                previewButton.addStyleName("active");
             }
         }
     }
@@ -303,76 +363,79 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
             public void run() {
                 execFormat("bold");
             }
-        }, "**", "**", "bold text"));
+        }, "**", "**", "bold text", "command:bold"));
         group.add(syntaxButton(IconType.ITALIC, "Italic", new Runnable() {
             @Override
             public void run() {
                 execFormat("italic");
             }
-        }, "*", "*", "italic text"));
+        }, "*", "*", "italic text", "command:italic"));
         group.add(syntaxButton(IconType.STRIKETHROUGH, "Strikethrough", new Runnable() {
             @Override
             public void run() {
                 execFormat("strikeThrough");
             }
-        }, "~~", "~~", "struck text"));
+        }, "~~", "~~", "struck text", "command:strikeThrough"));
         group.add(syntaxButton(IconType.HEADER, "Heading", new Runnable() {
             @Override
             public void run() {
                 execFormatBlock("<h3>");
             }
-        }, "\n### ", "", "Heading"));
+        }, "\n### ", "", "Heading", "block:h3"));
         group.add(syntaxButton(IconType.CODE, "Code", new Runnable() {
             @Override
             public void run() {
                 execCodeFormat(visualEditor.getElement());
             }
-        }, "`", "`", "code"));
+        }, "`", "`", "code", "ancestor:code"));
         group.add(syntaxButton(IconType.LINK, "Link", new Runnable() {
             @Override
             public void run() {
                 execLinkFormat(visualEditor.getElement());
             }
-        }, "[", "](https://)", "text"));
+        }, "[", "](https://)", "text", "ancestor:a"));
         group.add(syntaxButton(IconType.LIST_UL, "Bulleted list", new Runnable() {
             @Override
             public void run() {
                 execFormat("insertUnorderedList");
             }
-        }, "\n- ", "", "item"));
+        }, "\n- ", "", "item", "command:insertUnorderedList"));
         group.add(syntaxButton(IconType.LIST_OL, "Numbered list", new Runnable() {
             @Override
             public void run() {
                 execFormat("insertOrderedList");
             }
-        }, "\n1. ", "", "item"));
+        }, "\n1. ", "", "item", "command:insertOrderedList"));
         group.add(syntaxButton(IconType.CHECK_SQUARE_O, "Task list", new Runnable() {
             @Override
             public void run() {
                 insertTaskList(visualEditor.getElement());
             }
-        }, "\n- [ ] ", "", "task"));
+        }, "\n- [ ] ", "", "task", "ancestor:ul.task-list"));
         group.add(syntaxButton(IconType.TABLE, "Table", new Runnable() {
             @Override
             public void run() {
                 insertTable(visualEditor.getElement());
             }
-        }, "\n| Column | Column |\n| --- | --- |\n| ", " |  |\n", "cell"));
+        }, "\n| Column | Column |\n| --- | --- |\n| ", " |  |\n", "cell", "ancestor:table"));
         group.add(syntaxButton(IconType.QUOTE_LEFT, "Quote", new Runnable() {
             @Override
             public void run() {
                 execFormatBlock("<blockquote>");
             }
-        }, "\n> ", "", "quote"));
+        }, "\n> ", "", "quote", "block:blockquote"));
         return group;
     }
 
     private Button syntaxButton(final IconType icon, final String title, final Runnable wysiwygAction,
-            final String before, final String after, final String placeholder) {
+            final String before, final String after, final String placeholder, final String stateQuery) {
         final Button button = new Button("");
         button.setSize(ButtonSize.SMALL);
         button.setIcon(icon);
         button.setTitle(title);
+        button.addStyleName("gbm-format-btn");
+        button.getElement().setAttribute("aria-pressed", "false");
+        button.getElement().setAttribute("data-gbm-format-state", stateQuery);
         preventMouseDownBlur(button.getElement());
         button.addClickHandler(new ClickHandler() {
             @Override
@@ -380,6 +443,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
                 if (editorMode == EditorMode.WYSIWYG) {
                     if (wysiwygAction != null) {
                         wysiwygAction.run();
+                        refreshToolbarState(visualEditor.getElement());
                         ValueChangeEvent.fire(MarkdownEditor.this, getValue());
                     }
                 } else {
@@ -514,8 +578,10 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
     public void setEnabled(final boolean enabled) {
         textArea.setEnabled(enabled);
         visualEditor.getElement().setAttribute("contenteditable", enabled ? "true" : "false");
-        modeButton.setEnabled(enabled);
-        editorModeButton.setEnabled(enabled);
+        writeButton.setEnabled(enabled);
+        previewButton.setEnabled(enabled);
+        wysiwygButton.setEnabled(enabled);
+        classicButton.setEnabled(enabled);
     }
 
     @Override
@@ -630,10 +696,12 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         super.onLoad();
         inputListener = this::onVisualEditorInput;
         initInputListener(visualEditor.getElement(), inputListener);
+        initToolbarStateTracking(visualEditor.getElement(), syntaxButtons.getElement());
     }
 
     @Override
     protected void onUnload() {
+        removeToolbarStateTracking(visualEditor.getElement());
         if (inputListener != null) {
             removeInputListener(visualEditor.getElement(), inputListener);
             inputListener = null;
@@ -643,6 +711,91 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
 
     private static native void initInputListener(Element el, InputListener listener) /*-{
         el.addEventListener('input', listener);
+    }-*/;
+
+    private static native void initToolbarStateTracking(Element editor, Element toolbar) /*-{
+        var refresh = function() {
+            var buttons = toolbar.querySelectorAll('[data-gbm-format-state]');
+            var selection = $wnd.getSelection ? $wnd.getSelection() : null;
+            var node = selection && selection.anchorNode ? selection.anchorNode : null;
+            if (node && node.nodeType === 3) {
+                node = node.parentNode;
+            }
+            var insideEditor = !!node && (node === editor || editor.contains(node));
+
+            for (var i = 0; i < buttons.length; i++) {
+                var button = buttons[i];
+                var query = button.getAttribute('data-gbm-format-state') || '';
+                var active = false;
+
+                if (insideEditor && query.indexOf('command:') === 0) {
+                    try {
+                        active = !!$doc.queryCommandState(query.substring(8));
+                    } catch (ignored) {
+                        active = false;
+                    }
+                } else if (insideEditor && query.indexOf('block:') === 0) {
+                    try {
+                        var block = String($doc.queryCommandValue('formatBlock') || '').toLowerCase();
+                        block = block.replace(/[<>]/g, '');
+                        active = block === query.substring(6).toLowerCase();
+                    } catch (ignored) {
+                        active = false;
+                    }
+                } else if (insideEditor && query.indexOf('ancestor:') === 0 && node.closest) {
+                    var ancestor = node.closest(query.substring(9));
+                    active = !!ancestor && editor.contains(ancestor);
+                }
+
+                if (active) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            }
+        };
+
+        editor.__gbmRefreshToolbarState = refresh;
+        var events = ['keyup', 'mouseup', 'input', 'focus'];
+        for (var i = 0; i < events.length; i++) {
+            editor.addEventListener(events[i], refresh);
+        }
+        refresh();
+    }-*/;
+
+    private static native void removeToolbarStateTracking(Element editor) /*-{
+        var refresh = editor.__gbmRefreshToolbarState;
+        var events = ['keyup', 'mouseup', 'input', 'focus'];
+        for (var i = 0; i < events.length; i++) {
+            editor.removeEventListener(events[i], refresh);
+        }
+        if (editor.__gbmToolbarFrame) $wnd.cancelAnimationFrame(editor.__gbmToolbarFrame);
+        if (editor.__gbmToolbarTimer) $wnd.clearTimeout(editor.__gbmToolbarTimer);
+        editor.__gbmToolbarFrame = null;
+        editor.__gbmToolbarTimer = null;
+        editor.__gbmRefreshToolbarState = null;
+    }-*/;
+
+    private static native void refreshToolbarState(Element editor) /*-{
+        if (editor.__gbmRefreshToolbarState) {
+            editor.__gbmRefreshToolbarState();
+            if ($wnd.requestAnimationFrame) {
+                if (editor.__gbmToolbarFrame) $wnd.cancelAnimationFrame(editor.__gbmToolbarFrame);
+                editor.__gbmToolbarFrame = $wnd.requestAnimationFrame(editor.__gbmRefreshToolbarState);
+            } else {
+                if (editor.__gbmToolbarTimer) $wnd.clearTimeout(editor.__gbmToolbarTimer);
+                editor.__gbmToolbarTimer = $wnd.setTimeout(editor.__gbmRefreshToolbarState, 0);
+            }
+        }
+    }-*/;
+
+    private static native void clearToolbarState(Element toolbar) /*-{
+        var buttons = toolbar.querySelectorAll('[data-gbm-format-state]');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('active');
+            buttons[i].setAttribute('aria-pressed', 'false');
+        }
     }-*/;
 
     private static native void removeInputListener(Element el, InputListener listener) /*-{

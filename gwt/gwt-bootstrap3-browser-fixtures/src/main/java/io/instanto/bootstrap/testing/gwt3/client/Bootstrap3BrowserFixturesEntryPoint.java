@@ -69,6 +69,7 @@ public final class Bootstrap3BrowserFixturesEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    MarkdownEditorParityFixture.run();
     CoreConstructorFixture.run();
     RootPanel root = RootPanel.get("fixtures");
     initializeThemes();

@@ -16,5 +16,6 @@
     <set-configuration-property name="compiler.embedSourceMaps" value="false"/>
     <set-configuration-property name="includeSourceMapUrl"
                                 value="symbolMaps/__HASH___sourceMap__FRAGMENT__.json"/>
+    <inherits name="io.instanto.bootstrap5.extras.fullcalendar.FullCalendar"/>
     <entry-point class="io.instanto.bootstrap5.showcase.client.ShowcaseEntryPoint"/>
 </module>
