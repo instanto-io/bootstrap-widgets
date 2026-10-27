@@ -34,6 +34,6 @@ public class TeaVmBootstrap5EntryPoint implements EntryPoint {
   @Override
   public void onModuleLoad() {
     Bootstrap5Resources.ensureInjected();
-    NoThemeResourcesResources.whenReady(BootstrapComponent::isLoaded, () -> {});
+    NoThemeResourcesResources.whenReady(BootstrapComponent::isLoaded, BootstrapComponent::onReady);
   }
 }

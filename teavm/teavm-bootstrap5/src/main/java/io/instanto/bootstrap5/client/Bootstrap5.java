@@ -39,6 +39,11 @@ public final class Bootstrap5 {
   /** Runs once the scripts declared by the library's module are usable. */
   public static void initialise(Runnable ready) {
     initialise();
-    NoThemeResourcesResources.whenReady(BootstrapComponent::isLoaded, ready);
+    NoThemeResourcesResources.whenReady(
+        BootstrapComponent::isLoaded,
+        () -> {
+          BootstrapComponent.onReady();
+          ready.run();
+        });
   }
 }

@@ -48,13 +48,15 @@ public abstract class AbstractVisibilityWidget extends Div {
     super.onUnload();
   }
 
-  /** Mount through a panel before showing, so event handlers and resources are ready. */
+  /**
+   * Mount through a panel before showing, so event handlers and resources are ready.
+   *
+   * <p>When Bootstrap's bundle has not arrived yet the show is queued behind it, in order with
+   * every other component call, rather than thrown away.
+   */
   public void show() {
     if (!isAttached()) {
       throw new IllegalStateException("Attach the widget before showing it");
-    }
-    if (!BootstrapComponent.isLoaded()) {
-      throw new IllegalStateException("Bootstrap resources have not finished initialising");
     }
     BootstrapComponent.call(getElement(), component, "show");
   }

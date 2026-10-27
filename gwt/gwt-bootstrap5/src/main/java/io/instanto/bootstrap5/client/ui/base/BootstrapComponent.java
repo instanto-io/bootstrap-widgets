@@ -19,8 +19,11 @@
  */
 package io.instanto.bootstrap5.client.ui.base;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import io.instanto.bootstrap5.client.shared.js.JsArrays;
+import java.util.ArrayList;
+import java.util.List;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
@@ -37,35 +40,93 @@ import jsinterop.base.JsPropertyMap;
  * one takes method calls in. Keeping every call in one place means the widgets reach no JavaScript
  * of their own. The calls go through JsInterop, so GWT and TeaVM compile this one source.
  *
- * <p>Every call is a no-op when Bootstrap's bundle or the named component is absent.
+ * <p>Calls that create or drive a component wait for Bootstrap's bundle: when it is absent the
+ * action is queued and runs once the bundle arrives, so widgets built before the script loads
+ * behave as if it had been there. Reads against live instances stay immediate no-ops when absent.
  */
 public final class BootstrapComponent {
   private static final String RETURN_FOCUS = "__bootstrapReturnFocus";
   private static final String RESTORE_FOCUS = "__bootstrapRestoreFocus";
+  private static final int READY_POLL_MS = 50;
+
+  private static final List<Runnable> PENDING = new ArrayList<>();
+  private static boolean pollScheduled;
 
   private BootstrapComponent() {}
 
+  /**
+   * Runs {@code action} once Bootstrap's bundle is usable, now when it already is.
+   *
+   * <p>Queued actions run in the order they were added. Nothing is dropped: when the bundle never
+   * arrives the queue simply waits, as the extras' {@code whenReady} helpers do.
+   */
+  public static void whenReady(final Runnable action) {
+    if (isLoaded()) {
+      action.run();
+      return;
+    }
+    PENDING.add(action);
+    schedulePoll();
+  }
+
+  /**
+   * Runs every queued action whose bundle has arrived. The entry points call this when their own
+   * loading observes Bootstrap; the poll below covers pages that load it by other means.
+   */
+  public static void onReady() {
+    if (!isLoaded() || PENDING.isEmpty()) {
+      return;
+    }
+    final List<Runnable> due = new ArrayList<>(PENDING);
+    PENDING.clear();
+    due.forEach(Runnable::run);
+  }
+
+  private static void schedulePoll() {
+    if (pollScheduled) {
+      return;
+    }
+    pollScheduled = true;
+    Scheduler.get()
+        .scheduleFixedDelay(
+            () -> {
+              if (isLoaded()) {
+                pollScheduled = false;
+                onReady();
+                return false;
+              }
+              return true;
+            },
+            READY_POLL_MS);
+  }
+
   /** Creates the component instance for {@code element} without invoking anything. */
   public static void create(final Element element, final String component) {
-    final Component type = component(component);
-    if (type != null) {
-      type.getOrCreateInstance(Js.asAny(element));
-    }
+    whenReady(
+        () -> {
+          final Component type = component(component);
+          if (type != null) {
+            type.getOrCreateInstance(Js.asAny(element));
+          }
+        });
   }
 
   /** Creates a Carousel with explicit options, replacing any instance already there. */
   public static void createCarousel(
       final Element element, final int interval, final String pause, final boolean wrap) {
-    final Component type = component("Carousel");
-    if (type == null) {
-      return;
-    }
-    disposeExisting(type, element);
-    final JsPropertyMap<Object> options = JsPropertyMap.of();
-    options.set("interval", (double) interval);
-    options.set("pause", isEmpty(pause) ? (Object) Boolean.FALSE : pause);
-    options.set("wrap", wrap);
-    construct(type, element, options);
+    whenReady(
+        () -> {
+          final Component type = component("Carousel");
+          if (type == null) {
+            return;
+          }
+          disposeExisting(type, element);
+          final JsPropertyMap<Object> options = JsPropertyMap.of();
+          options.set("interval", (double) interval);
+          options.set("pause", isEmpty(pause) ? (Object) Boolean.FALSE : pause);
+          options.set("wrap", wrap);
+          construct(type, element, options);
+        });
   }
 
   /**
@@ -88,59 +149,69 @@ public final class BootstrapComponent {
       final String title,
       final String template,
       final String content) {
-    final Component type = component(component);
-    if (type == null) {
-      return;
-    }
-    disposeExisting(type, element);
-    final PluginOptions typed = Js.uncheckedCast(JsPropertyMap.of());
-    final JsPropertyMap<Object> options = Js.asPropertyMap(typed);
-    options.set("animation", animation);
-    options.set("html", html);
-    options.set("placement", placement);
-    options.set("trigger", trigger);
-    options.set(
-        "delay", JsPropertyMap.<Object>of("show", (double) showDelay, "hide", (double) hideDelay));
-    options.set("title", title);
-    options.set("template", template);
-    if (!isEmpty(container)) {
-      options.set("container", container);
-    }
-    if (!isEmpty(selector)) {
-      options.set("selector", selector);
-    }
-    if (!isEmpty(boundary)) {
-      options.set("boundary", boundary);
-    }
-    if (content != null) {
-      options.set("content", content);
-    }
-    if (padding > 0) {
-      typed.setPopperConfig(defaultConfig -> withOverflowPadding(defaultConfig, padding));
-    }
-    construct(type, element, options);
+    whenReady(
+        () -> {
+          final Component type = component(component);
+          if (type == null) {
+            return;
+          }
+          disposeExisting(type, element);
+          final PluginOptions typed = Js.uncheckedCast(JsPropertyMap.of());
+          final JsPropertyMap<Object> options = Js.asPropertyMap(typed);
+          options.set("animation", animation);
+          options.set("html", html);
+          options.set("placement", placement);
+          options.set("trigger", trigger);
+          options.set(
+              "delay",
+              JsPropertyMap.<Object>of("show", (double) showDelay, "hide", (double) hideDelay));
+          options.set("title", title);
+          options.set("template", template);
+          if (!isEmpty(container)) {
+            options.set("container", container);
+          }
+          if (!isEmpty(selector)) {
+            options.set("selector", selector);
+          }
+          if (!isEmpty(boundary)) {
+            options.set("boundary", boundary);
+          }
+          if (content != null) {
+            options.set("content", content);
+          }
+          if (padding > 0) {
+            typed.setPopperConfig(defaultConfig -> withOverflowPadding(defaultConfig, padding));
+          }
+          construct(type, element, options);
+        });
   }
 
   /** Invokes a no-argument method on the component instance for {@code element}. */
   public static void call(final Element element, final String component, final String method) {
-    final Component type = component(component);
-    if (type != null) {
-      invoke(type.getOrCreateInstance(Js.asAny(element)), method);
-    }
+    whenReady(
+        () -> {
+          final Component type = component(component);
+          if (type != null) {
+            invoke(type.getOrCreateInstance(Js.asAny(element)), method);
+          }
+        });
   }
 
   /** Invokes a single-int-argument method, such as the carousel's {@code to}. */
   public static void call(
       final Element element, final String component, final String method, final int argument) {
-    final Component type = component(component);
-    if (type == null) {
-      return;
-    }
-    final Any instance = type.getOrCreateInstance(Js.asAny(element));
-    final Function function = method(instance, method);
-    if (function != null) {
-      function.call(instance, argument);
-    }
+    whenReady(
+        () -> {
+          final Component type = component(component);
+          if (type == null) {
+            return;
+          }
+          final Any instance = type.getOrCreateInstance(Js.asAny(element));
+          final Function function = method(instance, method);
+          if (function != null) {
+            function.call(instance, argument);
+          }
+        });
   }
 
   /**
@@ -149,28 +220,43 @@ public final class BootstrapComponent {
    * panel.
    */
   public static void createCollapse(final Element element, final boolean toggle) {
-    final Component type = component("Collapse");
-    if (type != null) {
-      type.getOrCreateInstance(Js.asAny(element), JsPropertyMap.<Object>of("toggle", toggle));
-    }
+    whenReady(
+        () -> {
+          final Component type = component("Collapse");
+          if (type != null) {
+            type.getOrCreateInstance(Js.asAny(element), JsPropertyMap.<Object>of("toggle", toggle));
+          }
+        });
   }
 
   /** Invokes a method on a Collapse instance created with {@code toggle: false}. */
   public static void callCollapse(final Element element, final String method) {
-    final Component type = component("Collapse");
-    if (type != null) {
-      invoke(
-          type.getOrCreateInstance(Js.asAny(element), JsPropertyMap.<Object>of("toggle", false)),
-          method);
-    }
+    whenReady(
+        () -> {
+          final Component type = component("Collapse");
+          if (type != null) {
+            invoke(
+                type.getOrCreateInstance(
+                    Js.asAny(element), JsPropertyMap.<Object>of("toggle", false)),
+                method);
+          }
+        });
   }
 
-  /** Disposes the component instance for {@code element}, if one exists. */
+  /**
+   * Disposes the component instance for {@code element}, if one exists.
+   *
+   * <p>Queued like the creations so a dispose that follows a still-waiting create runs after it, in
+   * order. Disposing an element that never gained an instance stays a no-op.
+   */
   public static void dispose(final Element element, final String component) {
-    final Component type = component(component);
-    if (type != null) {
-      invoke(type.getInstance(Js.asAny(element)), "dispose");
-    }
+    whenReady(
+        () -> {
+          final Component type = component(component);
+          if (type != null) {
+            invoke(type.getInstance(Js.asAny(element)), "dispose");
+          }
+        });
   }
 
   /** Hides every open modal except {@code current}. */
