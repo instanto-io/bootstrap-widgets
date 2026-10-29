@@ -2164,7 +2164,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+export { CdpClient, findChrome, startStaticServer, reservePort, poll, stopBrowser };
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((error) => {
   console.error(error.stack || error);
   process.exitCode = 1;
 });

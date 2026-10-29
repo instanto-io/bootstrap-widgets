@@ -91,12 +91,15 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.dom.client.Document;
+import org.gwtbootstrap3.extras.datepicker.client.DatePickerResourcesResources;
 
 /**
  * @author Joshua Godi
  * @author Steven Jardine
  */
-public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResponsiveness, HasVisibility, HasPlaceholder,
+public class DatePickerBase extends Composite implements HasEnabled, HasId, HasResponsiveness, HasVisibility, HasPlaceholder,
         HasAutoClose, HasDaysOfWeekDisabled, HasEndDate, HasForceParse, HasFormat, HasHighlightToday, HasKeyboardNavigation,
         HasMinView, HasShowTodayButton, HasShowClearButton, HasStartDate, HasStartView, HasViewSelect, HasWeekStart, HasDateTimePickerHandlers,
         HasLanguage, HasName, HasValue<Date>, HasPosition, LeafValueEditor<Date>, HasEditorErrors<Date>, HasErrorHandler,
@@ -131,11 +134,10 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
 
     private final TextBox textBox;
     private DateTimeFormat dateTimeFormat;
-    private final DateTimeFormat startEndDateFormat = DateTimeFormat.getFormat("MM-dd-yyyy");
+    private static final DateTimeFormat CALENDAR_DATE = DateTimeFormat.getFormat("yyyy-MM-dd");
     private LeafValueEditor<Date> editor;
-    private final ErrorHandlerMixin<Date> errorHandlerMixin = new ErrorHandlerMixin<Date>(this);
-    private final DatePickerValidatorMixin validatorMixin = new DatePickerValidatorMixin(this,
-            errorHandlerMixin.getErrorHandler());
+    private final ErrorHandlerMixin<Date> errorHandlerMixin;
+    private final DatePickerValidatorMixin validatorMixin;
 
     /**
      * DEFAULT values
@@ -159,10 +161,20 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     private DatePickerLanguage language = DatePickerLanguage.EN;
     private DatePickerPosition position = DatePickerPosition.AUTO;
 
+    private Date lastValue;
+    private boolean settingValue;
+    private boolean configured;
+    private int configurationVersion;
+    private String startDate;
+    private String endDate;
+
     public DatePickerBase() {
         textBox = new TextBox();
-        setElement((Element) textBox.getElement());
+        initWidget(textBox);
+        errorHandlerMixin = new ErrorHandlerMixin<Date>(this);
+        validatorMixin = new DatePickerValidatorMixin(this, errorHandlerMixin.getErrorHandler());
         setFormat(format);
+        textBox.addValueChangeHandler(event -> fireValueChange());
     }
 
     public void setContainer(final Widget container) {
@@ -254,10 +266,7 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     public void setLanguage(final DatePickerLanguage language) {
         this.language = language;
 
-        // Inject the JS for the language
-        if (language.getJs() != null) {
-            ScriptInjector.fromString(language.getJs().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
-        }
+        // Locale scripts are injected after the picker library has loaded in configure().
     }
 
     /** {@inheritDoc} */
@@ -292,11 +301,11 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     }
 
     public void show() {
-        show(getElement());
+        if (configured) show(getElement());
     }
 
     public void hide() {
-        hide(getElement());
+        if (configured) hide(getElement());
     }
 
     /** {@inheritDoc} */
@@ -335,6 +344,7 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     /** {@inheritDoc} */
     @Override
     public void onChangeDate(final Event e) {
+        fireValueChange();
         fireEvent(new ChangeDateEvent(e));
     }
 
@@ -371,6 +381,7 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     /** {@inheritDoc} */
     @Override
     public void onClearDate(final Event e) {
+        fireValueChange();
         fireEvent(new ClearDateEvent(e));
     }
 
@@ -383,27 +394,29 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     /** {@inheritDoc} */
     @Override
     public void setDaysOfWeekDisabled(final DatePickerDayOfWeek... daysOfWeekDisabled) {
-        setDaysOfWeekDisabled(getElement(), toDaysOfWeekDisabledString(daysOfWeekDisabled));
+        String days = toDaysOfWeekDisabledString(daysOfWeekDisabled);
+        if (configured) setDaysOfWeekDisabled(getElement(), days);
     }
 
     /** {@inheritDoc} */
     @Override
     public void setEndDate(final Date endDate) {
-        // Has to be in the format YYYY-MM-DD
-        setEndDate(startEndDateFormat.format(endDate));
+        // The plugin expects the currently configured display format.
+        setEndDate(formatLocalDate(endDate));
     }
 
     /** {@inheritDoc} */
     @Override
     public void setEndDate(final String endDate) {
-        // Has to be in the format YYYY-MM-DD
-        setEndDate(getElement(), endDate);
+        // The plugin expects the currently configured display format.
+        this.endDate = endDate;
+        if (configured) setEndDate(getElement(), endDate);
     }
 
     /** {@inheritDoc} */
     @Override
     public void clearEndDate() {
-        setStartDate(getElement(), null);
+        setEndDate((String) null);
     }
 
     /** {@inheritDoc} */
@@ -450,21 +463,22 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     /** {@inheritDoc} */
     @Override
     public void setStartDate(final Date startDate) {
-        // Has to be in the format DD-MM-YYYY
-        setStartDate(startEndDateFormat.format(startDate));
+        // The plugin expects the currently configured display format.
+        setStartDate(formatLocalDate(startDate));
     }
 
     /** {@inheritDoc} */
     @Override
     public void setStartDate(final String startDate) {
-        // Has to be in the format DD-MM-YYYY
-        setStartDate(getElement(), startDate);
+        // The plugin expects the currently configured display format.
+        this.startDate = startDate;
+        if (configured) setStartDate(getElement(), startDate);
     }
 
     /** {@inheritDoc} */
     @Override
     public void clearStartDate() {
-        setStartDate(getElement(), null);
+        setStartDate((String) null);
     }
 
     /** {@inheritDoc} */
@@ -574,10 +588,33 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     @Override
     public Date getValue() {
         try {
-            return dateTimeFormat != null && textBox.getValue() != null ? dateTimeFormat.parse(textBox.getValue()) : null;
+            if (dateTimeFormat == null || textBox.getValue() == null || textBox.getValue().isEmpty()) return null;
+            // A date picker represents a local calendar day. TeaVM's shared formatter may
+            // use UTC, so preserve its parsed calendar fields rather than its time zone.
+            String[] day = CALENDAR_DATE.format(dateTimeFormat.parse(textBox.getValue())).split("-");
+            return new Date(Integer.parseInt(day[0]) - 1900,
+                    Integer.parseInt(day[1]) - 1, Integer.parseInt(day[2]));
         } catch (final Exception e) {
             return null;
         }
+    }
+
+    private String formatLocalDate(Date value) {
+        // Give the formatter the same calendar fields in its own time zone. This keeps
+        // the date-only widget independent of the compiler's default time-zone setting.
+        int month = value.getMonth() + 1;
+        int date = value.getDate();
+        String day = (value.getYear() + 1900) + "-" + (month < 10 ? "0" : "") + month
+                + "-" + (date < 10 ? "0" : "") + date;
+        return dateTimeFormat.format(CALENDAR_DATE.parse(day));
+    }
+
+    private void fireValueChange() {
+        if (settingValue) return;
+        Date value = getValue();
+        Date oldValue = lastValue;
+        lastValue = value;
+        ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
     }
 
     public String getBaseValue() {
@@ -587,12 +624,6 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     /** {@inheritDoc} */
     @Override
     public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Date> dateValueChangeHandler) {
-        textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<String> event) {
-                ValueChangeEvent.fire(DatePickerBase.this, getValue());
-            }
-        });
         return addHandler(dateValueChangeHandler, ValueChangeEvent.getType());
     }
 
@@ -606,8 +637,15 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     @Override
     public void setValue(final Date value, final boolean fireEvents) {
         errorHandlerMixin.clearErrors();
-        textBox.setValue(value != null ? dateTimeFormat.format(value) : null);
-        update(textBox.getElement());
+        textBox.setValue(value != null ? formatLocalDate(value) : null);
+        lastValue = getValue();
+        boolean previous = settingValue;
+        settingValue = true;
+        try {
+            if (configured) update(textBox.getElement());
+        } finally {
+            settingValue = previous;
+        }
 
         if (fireEvents) {
             ValueChangeEvent.fire(DatePickerBase.this, value);
@@ -629,19 +667,32 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     /** {@inheritDoc} */
     @Override
     protected void onUnload() {
+        configurationVersion++;
+        if (configured) remove(getElement());
+        configured = false;
+        validatorMixin.setShowing(false);
         super.onUnload();
-        remove(getElement());
     }
 
     protected void configure() {
-        // If the user hasn't specified the container, default to the widget's parent
-        // This makes sure the modal scroll with the content correctly
-        if (container == null) {
-            configure(this, this.getParent());
-        } else {
-            configure(this, container);
-        }
+        final int version = ++configurationVersion;
+        DatePickerResourcesResources.whenReady(
+                DatePickerBase::isPickerReady, () -> {
+                    if (!isAttached() || version != configurationVersion) return;
+                    if (language.getJs() != null) {
+                        ScriptInjector.fromString(language.getJs().getText())
+                                .setWindow(ScriptInjector.TOP_WINDOW).inject();
+                    }
+                    configure(this, container == null ? getParent() : container);
+                    configured = true;
+                    setStartDate(getElement(), startDate);
+                    setEndDate(getElement(), endDate);
+                });
     }
+
+    private static native boolean isPickerReady() /*-{
+        return !!($wnd.jQuery && $wnd.jQuery.fn.datepicker);
+    }-*/;
 
     protected void configure(final Widget w, final Widget container) {
         w.getElement().setAttribute("data-date-format", format);
@@ -649,7 +700,7 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
         // If configuring not for the first time, datepicker must be removed first.
         this.remove(w.getElement());
 
-        configure(w.getElement(), container.getElement(), format, weekStart.getValue(), toDaysOfWeekDisabledString(daysOfWeekDisabled), autoClose,
+        configure(w.getElement(), container == null ? Document.get().getBody() : container.getElement(), format, weekStart.getValue(), toDaysOfWeekDisabledString(daysOfWeekDisabled), autoClose,
                 startView.getValue(), minView.getValue(), showTodayButton, showClearButton, highlightToday, keyboardNavigation, forceParse, viewSelect.getValue(),
                 language.getCode(), position.getPosition());
     }
@@ -663,13 +714,8 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
     }-*/;
 
     private native void remove(Element e) /*-{
-        $wnd.jQuery(e).datepicker('remove');
-        $wnd.jQuery(e).off('show');
-        $wnd.jQuery(e).off('hide');
-        $wnd.jQuery(e).off('changeDate');
-        $wnd.jQuery(e).off('changeYear');
-        $wnd.jQuery(e).off('changeMonth');
-        $wnd.jQuery(e).off('clearDate');
+        $wnd.jQuery(e).off('.gwtBootstrapDatePicker');
+        if ($wnd.jQuery(e).data('datepicker')) $wnd.jQuery(e).datepicker('destroy');
     }-*/;
 
     private native void show(Element e) /*-{
@@ -696,15 +742,38 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
         $wnd.jQuery(e).datepicker('setDaysOfWeekDisabled', daysOfWeekDisabled);
     }-*/;
 
-    protected native void configure(Element e, Element p, String format, int weekStart, String daysOfWeekDisabled, boolean autoClose, int startView,
+    protected void configure(Element e, Element p, String format, int weekStart, String daysOfWeekDisabled, boolean autoClose, int startView,
                                     int minViewMode, boolean todayBtn, boolean clearBtn, boolean highlightToday, boolean keyboardNavigation, boolean forceParse, int viewSelect, String language,
-                                    String orientation) /*-{
+                                    String orientation) {
+        configureNative(e, p, format, weekStart, daysOfWeekDisabled, autoClose, startView,
+                minViewMode, todayBtn, clearBtn, highlightToday, keyboardNavigation, forceParse,
+                viewSelect, language, orientation, (name, event) -> {
+                    Event nativeEvent = asEvent(event);
+                    switch (name) {
+                        case "show": onShow(nativeEvent); break;
+                        case "hide": onHide(nativeEvent); break;
+                        case "changeDate": onChangeDate(nativeEvent); break;
+                        case "changeYear": onChangeYear(nativeEvent); break;
+                        case "changeMonth": onChangeMonth(nativeEvent); break;
+                        case "clearDate": onClearDate(nativeEvent); break;
+                        default: break;
+                    }
+                });
+    }
+
+    @jsinterop.annotations.JsFunction
+    interface PickerEvents { void event(String name, jsinterop.base.Any event); }
+
+    private static native Event asEvent(jsinterop.base.Any event) /*-{ return event; }-*/;
+
+    private static native void configureNative(Element e, Element p, String format, int weekStart, String daysOfWeekDisabled, boolean autoClose, int startView,
+                                    int minViewMode, boolean todayBtn, boolean clearBtn, boolean highlightToday, boolean keyboardNavigation, boolean forceParse, int viewSelect, String language,
+                                    String orientation, PickerEvents callback) /*-{
 
         if (todayBtn) {
             todayBtn = "linked";
         }
 
-        var that = this;
         $wnd.jQuery(e).datepicker({
             format: format,
             language: language,
@@ -721,24 +790,8 @@ public class DatePickerBase extends Widget implements HasEnabled, HasId, HasResp
             orientation: orientation,
             container: p
         })
-            .on('show', function (e) {
-                that.@org.gwtbootstrap3.extras.datepicker.client.ui.base.DatePickerBase::onShow(Lcom/google/gwt/user/client/Event;)(e);
-            })
-            .on("hide", function (e) {
-                that.@org.gwtbootstrap3.extras.datepicker.client.ui.base.DatePickerBase::onHide(Lcom/google/gwt/user/client/Event;)(e);
-            })
-            .on("changeDate", function (e) {
-                that.@org.gwtbootstrap3.extras.datepicker.client.ui.base.DatePickerBase::onChangeDate(Lcom/google/gwt/user/client/Event;)(e);
-            })
-            .on("changeYear", function (e) {
-                that.@org.gwtbootstrap3.extras.datepicker.client.ui.base.DatePickerBase::onChangeYear(Lcom/google/gwt/user/client/Event;)(e);
-            })
-            .on("changeMonth", function (e) {
-                that.@org.gwtbootstrap3.extras.datepicker.client.ui.base.DatePickerBase::onChangeMonth(Lcom/google/gwt/user/client/Event;)(e);
-            })
-            .on("clearDate", function (e) {
-                that.@org.gwtbootstrap3.extras.datepicker.client.ui.base.DatePickerBase::onClearDate(Lcom/google/gwt/user/client/Event;)(e);
-            });
+            .on('show.gwtBootstrapDatePicker hide.gwtBootstrapDatePicker changeDate.gwtBootstrapDatePicker changeYear.gwtBootstrapDatePicker changeMonth.gwtBootstrapDatePicker clearDate.gwtBootstrapDatePicker',
+                function (event) { callback(event.type, event); });
     }-*/;
 
     protected String toDaysOfWeekDisabledString(final DatePickerDayOfWeek... datePickerDayOfWeeks) {

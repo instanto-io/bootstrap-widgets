@@ -103,6 +103,11 @@ jobs:
           path: testing/showcase-browser-tests/target/surefire-reports/*
           if-no-files-found: warn
 
+      - name: Exercise date pickers in all four compiled showcases
+        run: |
+          node scripts/run-datepicker-tests.mjs
+          BROWSER_TEST_TIMEZONE=America/Los_Angeles node scripts/run-datepicker-tests.mjs
+
       - name: Exercise compiled GWT widgets with mobile touch input
         run: node scripts/run-browser-behaviour-tests.mjs
 

@@ -71,6 +71,7 @@ public class DatePicker extends PluginWidget<DatePickerJs.TempusDominus>
   private double pendingMillis = -1;
   private boolean hasPendingValue;
   private boolean settingValue;
+  private int callbackVersion;
 
   private String format;
 
@@ -146,16 +147,19 @@ public class DatePicker extends PluginWidget<DatePickerJs.TempusDominus>
   @Override
   protected void afterCreate() {
     DatePickerJs.TempusDominus current = plugin();
+    // A Java generation token also works when TeaVM wraps the generic plugin handle.
+    final int version = ++callbackVersion;
     if (hasPendingValue) DatePickerJs.writeValue(current, pendingMillis);
     DatePickerJs.bindChange(
         current,
         millis -> {
-          if (plugin() == current && isAttached() && !settingValue) onPickerChange(millis);
+          if (callbackVersion == version && isAttached() && !settingValue) onPickerChange(millis);
         });
   }
 
   @Override
   protected void captureState() {
+    ++callbackVersion;
     pendingMillis = DatePickerJs.readValue(plugin());
     hasPendingValue = true;
   }

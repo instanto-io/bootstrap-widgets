@@ -25,7 +25,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.Button;
@@ -158,6 +157,18 @@ final class IntegrationPages {
     dateGroup.add(new FormLabel("Date"));
     final DatePicker date = new DatePicker("Pick a date");
     date.setFormat("yyyy-MM-dd");
+    echo.getElement().setId("date-picker-value");
+    final int[] changes = {0};
+    date.addValueChangeHandler(
+        event -> {
+          echo.getElement().setAttribute("data-change-count", String.valueOf(++changes[0]));
+          echo.getElement()
+              .setAttribute("data-source-match", String.valueOf(event.getSource() == date));
+          echo.getElement()
+              .setAttribute(
+                  "data-value",
+                  date.getValue() == null ? "null" : formatLocalDate(date.getValue()));
+        });
     date.addValueChangeHandler(
         new ValueChangeHandler<java.util.Date>() {
           @Override
@@ -166,11 +177,18 @@ final class IntegrationPages {
                 event.getValue() == null
                     ? "<p class='mb-0'>Cleared.</p>"
                     : "<p class='mb-0'>Picked <strong>"
-                        + DateTimeFormat.getFormat("yyyy-MM-dd").format(event.getValue())
+                        + formatLocalDate(event.getValue())
                         + "</strong></p>");
           }
         });
     dateGroup.add(date);
+    Button remount = new Button("Remove / restore date picker");
+    remount.addClickHandler(
+        event -> {
+          if (date.isAttached()) date.removeFromParent();
+          else dateGroup.add(date);
+        });
+    dateGroup.add(remount);
 
     FormGroup dateTimeGroup = new FormGroup();
     dateTimeGroup.add(new FormLabel("Date and time, side by side"));
@@ -187,6 +205,18 @@ final class IntegrationPages {
         "Basic",
         body,
         "DatePicker date = new DatePicker(\"Pick a date\");\ndate.setFormat(\"yyyy-MM-dd\");\ndate.addValueChangeHandler(event -> { ... });\n\nDatePicker dateTime = new DatePicker();\ndateTime.setFormat(\"yyyy-MM-dd HH:mm\");\ndateTime.setSideBySide(true);\n\n// Tempus Dominus 6 replaces the two Bootstrap 3 pickers.\n// It targets Bootstrap 5 and needs no jQuery.");
+  }
+
+  private static String formatLocalDate(java.util.Date date) {
+    int month = date.getMonth() + 1;
+    int day = date.getDate();
+    return (date.getYear() + 1900)
+        + "-"
+        + (month < 10 ? "0" : "")
+        + month
+        + "-"
+        + (day < 10 ? "0" : "")
+        + day;
   }
 
   private Widget richTextPanel() {

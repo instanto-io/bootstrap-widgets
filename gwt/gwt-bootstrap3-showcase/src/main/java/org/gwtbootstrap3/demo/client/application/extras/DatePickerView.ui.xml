@@ -70,7 +70,7 @@
                     Bootstrap DatePicker
                 </b:Anchor>
                 <b.html:Br/>
-                <b.html:Strong>Current Version Supported: 1.6.4</b.html:Strong>
+                <b.html:Strong>Current Version Supported: 1.10.1</b.html:Strong>
             </b:BlockQuote>
 
             <b:BlockQuote addStyleNames="{style.danger}">
@@ -224,6 +224,8 @@
                         <b:Column size="SM_6" addStyleNames="{style.buttons}">
                             <b:Button type="PRIMARY" text="Set Start Date" ui:field="startDate"/>
                             <b:Button type="PRIMARY" text="Set End Date" ui:field="endDate"/>
+                            <b:Button type="PRIMARY" text="Clear Start Date" ui:field="clearStartDate"/>
+                            <b:Button type="PRIMARY" text="Clear End Date" ui:field="clearEndDate"/>
                             <b:Button type="PRIMARY" text="Get Value" ui:field="getValue"/>
                             <b:Button type="PRIMARY" text="Set Value" ui:field="setValue"/>
                             <b:Button type="PRIMARY" text="Enable" ui:field="enable"/>
@@ -243,7 +245,7 @@
                         &lt;b2:DatePicker/&gt;\n
                     </d:PrettyPre>
 
-                    <b.html:Paragraph emphasis="DANGER" text="** In order to setFormat, you must call box.refresh() after to set on the JS object!"/>
+                    <b.html:Paragraph emphasis="DANGER" text="** In order to setFormat, you must call box.reload() after to set on the JS object!"/>
                 </b:PanelFooter>
             </b:Panel>
 
