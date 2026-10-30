@@ -19,6 +19,7 @@ public final class DatePickerResourcesResources {
 
     /** Nothing to fetch: an inherited module's entry point has already injected it. */
     public static void ensureInjected() {
+        // GWT already injects the library through DatePickerEntryPoint.
     }
 
     /**

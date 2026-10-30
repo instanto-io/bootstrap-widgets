@@ -111,7 +111,7 @@ public class DatePickerView extends Composite {
             @Override
             public void onChangeDate(final ChangeDateEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Changed Date Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
+                logEntry.setText("Changed Date Event Fired! (" + eventDatePicker.getValue() + ")");
                 logRow.add(logEntry);
             }
         });
@@ -120,7 +120,7 @@ public class DatePickerView extends Composite {
             @Override
             public void onChangeMonth(final ChangeMonthEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Changed Month Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
+                logEntry.setText("Changed Month Event Fired! (" + eventDatePicker.getValue() + ")");
                 logRow.add(logEntry);
             }
         });
@@ -129,7 +129,7 @@ public class DatePickerView extends Composite {
             @Override
             public void onChangeYear(final ChangeYearEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Changed Year Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
+                logEntry.setText("Changed Year Event Fired! (" + eventDatePicker.getValue() + ")");
                 logRow.add(logEntry);
             }
         });
@@ -138,7 +138,7 @@ public class DatePickerView extends Composite {
             @Override
             public void onClearDate(final ClearDateEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Clear Date Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
+                logEntry.setText("Clear Date Event Fired! (" + eventDatePicker.getValue() + ")");
                 logRow.add(logEntry);
             }
         });
