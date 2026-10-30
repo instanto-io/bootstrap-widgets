@@ -105,34 +105,13 @@ UiBinder and browser resources. The compatibility layer covers the APIs these
 widgets use; the [compatibility library](https://github.com/instanto-io/teavm-compat)
 documents its supported surface separately.
 
-## Upstream credits
+## Added work beyond the original GwtBootstrap3 portfolio
 
-The original Java widgets, extras and showcase are the work of the
-[GwtBootstrap3 contributors](https://github.com/gwtbootstrap3/gwtbootstrap3),
-including the [extras](https://github.com/gwtbootstrap3/gwtbootstrap3-extras) and
-[demo](https://github.com/gwtbootstrap3/gwtbootstrap3-demo) projects. Our Bootstrap 5
-widgets are also derived from that work. The browser components and styles come
-from [Bootstrap](https://github.com/twbs/bootstrap); the Bootstrap 3 libraries also
-use [jQuery](https://github.com/jquery/jquery).
-
-[GWT](https://github.com/gwtproject/gwt) provides the original Java browser APIs,
-and [TeaVM](https://github.com/konsoletyper/teavm), by Alexey Andreev and its
-contributors, makes the TeaVM builds possible. Instanto maintains the adaptations,
-compatibility integration and build tooling. This is an independent distribution.
-
-See [NOTICE](NOTICE) for source attribution and modifications, [LICENSE](LICENSE)
-for the Java licence, and the [asset inventory](THIRD-PARTY-ASSETS.md) for bundled
-plugins, themes, fonts and icons, which retain their own licences.
-
-## Support the projects
-
-Like Bootstrap? Please [support the Bootstrap team](https://github.com/sponsors/twbs).
-GwtBootstrap3 is a separate, archived project; the Bootstrap sponsorship supports
-the underlying browser framework.
-
-Using the TeaVM build? Please [support TeaVM](https://github.com/sponsors/konsoletyper).
-
-Want to see this port and more TeaVM libraries maintained? Please [sponsor this port](https://github.com/sponsors/instanto-io).
+This fork goes beyond the original GwtBootstrap3 widget catalogue with the
+Bootstrap 5-native widget set, TeaVM compatibility layers and showcase work,
+plus new extras such as FullCalendar and the bundled asset inventory used by the
+modern browser builds. Those additions are part of this project’s independent
+distribution rather than a direct re-export of the upstream portfolio.
 
 ## FullCalendar
 
@@ -165,3 +144,32 @@ has a live **Extras → FullCalendar** page using that same runtime and Moment
 2.31.0. This is a scoped TeaVM showcase bridge; the entire legacy GWT3 FullCalendar
 API has not been ported. The Bootstrap 5 wrapper is a separate modern API, not a
 drop-in upgrade of the jQuery-based Bootstrap 3 wrapper.
+
+## Upstream credits
+
+The original Java widgets, extras and showcase are the work of the
+[GwtBootstrap3 contributors](https://github.com/gwtbootstrap3/gwtbootstrap3),
+including the [extras](https://github.com/gwtbootstrap3/gwtbootstrap3-extras) and
+[demo](https://github.com/gwtbootstrap3/gwtbootstrap3-demo) projects. Our Bootstrap 5
+widgets are also derived from that work. The browser components and styles come
+from [Bootstrap](https://github.com/twbs/bootstrap); the Bootstrap 3 libraries also
+use [jQuery](https://github.com/jquery/jquery).
+
+[GWT](https://github.com/gwtproject/gwt) provides the original Java browser APIs,
+and [TeaVM](https://github.com/konsoletyper/teavm), by Alexey Andreev and its
+contributors, makes the TeaVM builds possible. Instanto maintains the adaptations,
+compatibility integration and build tooling. This is an independent distribution.
+
+See [NOTICE](NOTICE) for source attribution and modifications, [LICENSE](LICENSE)
+for the Java licence, and the [asset inventory](THIRD-PARTY-ASSETS.md) for bundled
+plugins, themes, fonts and icons, which retain their own licences.
+
+## Support the projects
+
+Like Bootstrap? Please [support the Bootstrap team](https://github.com/sponsors/twbs).
+GwtBootstrap3 is a separate, archived project; the Bootstrap sponsorship supports
+the underlying browser framework.
+
+Using the TeaVM build? Please [support TeaVM](https://github.com/sponsors/konsoletyper).
+
+Want to see this port and more TeaVM libraries maintained? Please [sponsor this port](https://github.com/sponsors/instanto-io).
