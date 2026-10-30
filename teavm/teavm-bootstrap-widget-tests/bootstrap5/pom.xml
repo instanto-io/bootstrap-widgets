@@ -65,6 +65,44 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>coverage-sources</id>
+            <phase>process-test-resources</phase>
+            <goals><goal>copy-resources</goal></goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/coverage-sources</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource><directory>${project.basedir}/../../teavm-bootstrap5/target/teavm-sources</directory><filtering>false</filtering></resource>
+                <resource><directory>${project.basedir}/../../teavm-bootstrap5/src/main/java</directory><filtering>false</filtering></resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.instanto</groupId>
+        <artifactId>teacoco-maven-plugin</artifactId>
+        <version>${teacoco.version}</version>
+        <configuration>
+          <sourceRoots>
+            <sourceRoot>${project.build.directory}/coverage-sources</sourceRoot>
+          </sourceRoots>
+          <dependencyIncludes>
+            <dependencyInclude>io.instanto:teavm-bootstrap5</dependencyInclude>
+          </dependencyIncludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>browser-coverage</id>
+            <goals><goal>prepare</goal><goal>report</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
       <!-- Browser resources are served from the library JAR by TeaVMTestRunner. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

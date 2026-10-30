@@ -58,6 +58,9 @@
     <module>showcase-site</module>
   </modules>
   <properties>
+    <teacoco.version>0.1.0-SNAPSHOT</teacoco.version>
+    <jacoco.version>0.8.15</jacoco.version>
+    <sonar.coverageReportPaths>${maven.multiModuleProjectDirectory}/target/browser-coverage.xml</sonar.coverageReportPaths>
     <dependency-check-maven.version>12.1.0</dependency-check-maven.version>
     <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
     <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>

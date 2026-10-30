@@ -25,10 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.gwtbootstrap3.client.shared.event.HideEvent;
-import org.gwtbootstrap3.client.shared.event.HideHandler;
-import org.gwtbootstrap3.client.shared.event.ShowEvent;
-import org.gwtbootstrap3.client.shared.event.ShowHandler;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.base.HasId;
 import org.gwtbootstrap3.client.ui.base.HasPlaceholder;
@@ -50,7 +46,6 @@ import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerLa
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerMinView;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerPosition;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasAutoClose;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasDateTimePickerHandlers;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasDaysOfWeekDisabled;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasEndDate;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasForceParse;
@@ -66,14 +61,6 @@ import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasStartDate
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasStartView;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasViewSelect;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasWeekStart;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateEvent;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateHandler;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeMonthEvent;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeMonthHandler;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeYearEvent;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeYearHandler;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ClearDateEvent;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ClearDateHandler;
 
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.Element;
@@ -85,13 +72,11 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.dom.client.Document;
 import org.gwtbootstrap3.extras.datepicker.client.DatePickerResourcesResources;
 
@@ -99,9 +84,9 @@ import org.gwtbootstrap3.extras.datepicker.client.DatePickerResourcesResources;
  * @author Joshua Godi
  * @author Steven Jardine
  */
-public class DatePickerBase extends Composite implements HasEnabled, HasId, HasResponsiveness, HasVisibility, HasPlaceholder,
+public class DatePickerBase extends DatePickerEventSupport implements HasEnabled, HasId, HasResponsiveness, HasVisibility, HasPlaceholder,
         HasAutoClose, HasDaysOfWeekDisabled, HasEndDate, HasForceParse, HasFormat, HasHighlightToday, HasKeyboardNavigation,
-        HasMinView, HasShowTodayButton, HasShowClearButton, HasStartDate, HasStartView, HasViewSelect, HasWeekStart, HasDateTimePickerHandlers,
+        HasMinView, HasShowTodayButton, HasShowClearButton, HasStartDate, HasStartView, HasViewSelect, HasWeekStart,
         HasLanguage, HasName, HasValue<Date>, HasPosition, LeafValueEditor<Date>, HasEditorErrors<Date>, HasErrorHandler,
         HasValidators<Date>, HasBlankValidator<Date> {
 
@@ -314,81 +299,20 @@ public class DatePickerBase extends Composite implements HasEnabled, HasId, HasR
         this.autoClose = autoClose;
     }
 
-    /** {@inheritDoc} */
     @Override
-    public void onShow(final Event e) {
+    protected void pickerShown() {
         validatorMixin.setShowing(true);
-        fireEvent(new ShowEvent(e));
     }
 
-    /** {@inheritDoc} */
     @Override
-    public HandlerRegistration addShowHandler(final ShowHandler showHandler) {
-        return addHandler(showHandler, ShowEvent.getType());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void onHide(final Event e) {
+    protected void pickerHidden() {
         validatorMixin.setShowing(false);
         validate(getValidateOnBlur());
-        fireEvent(new HideEvent(e));
     }
 
-    /** {@inheritDoc} */
     @Override
-    public HandlerRegistration addHideHandler(final HideHandler hideHandler) {
-        return addHandler(hideHandler, HideEvent.getType());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void onChangeDate(final Event e) {
+    protected void pickerValueChanged() {
         fireValueChange();
-        fireEvent(new ChangeDateEvent(e));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public HandlerRegistration addChangeDateHandler(final ChangeDateHandler changeDateHandler) {
-        return addHandler(changeDateHandler, ChangeDateEvent.getType());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void onChangeYear(final Event e) {
-        fireEvent(new ChangeYearEvent(e));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public HandlerRegistration addChangeYearHandler(final ChangeYearHandler changeYearHandler) {
-        return addHandler(changeYearHandler, ChangeYearEvent.getType());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void onChangeMonth(final Event e) {
-        fireEvent(new ChangeMonthEvent(e));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public HandlerRegistration addChangeMonthHandler(final ChangeMonthHandler changeMonthHandler) {
-        return addHandler(changeMonthHandler, ChangeMonthEvent.getType());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void onClearDate(final Event e) {
-        fireValueChange();
-        fireEvent(new ClearDateEvent(e));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public HandlerRegistration addClearDateHandler(final ClearDateHandler clearDateHandler) {
-        return addHandler(clearDateHandler, ClearDateEvent.getType());
     }
 
     /** {@inheritDoc} */
@@ -742,54 +666,35 @@ public class DatePickerBase extends Composite implements HasEnabled, HasId, HasR
         $wnd.jQuery(e).datepicker('setDaysOfWeekDisabled', daysOfWeekDisabled);
     }-*/;
 
+    /**
+     * Compatibility hook for existing subclasses. The historical parameter list is retained;
+     * the plugin bridge itself receives one options object.
+     */
+    @SuppressWarnings("java:S107") // Preserve the protected extension API used by downstream widgets.
     protected void configure(Element e, Element p, String format, int weekStart, String daysOfWeekDisabled, boolean autoClose, int startView,
-                                    int minViewMode, boolean todayBtn, boolean clearBtn, boolean highlightToday, boolean keyboardNavigation, boolean forceParse, int viewSelect, String language,
-                                    String orientation) {
-        configureNative(e, p, format, weekStart, daysOfWeekDisabled, autoClose, startView,
-                minViewMode, todayBtn, clearBtn, highlightToday, keyboardNavigation, forceParse,
-                viewSelect, language, orientation, (name, event) -> {
-                    Event nativeEvent = asEvent(event);
-                    switch (name) {
-                        case "show": onShow(nativeEvent); break;
-                        case "hide": onHide(nativeEvent); break;
-                        case "changeDate": onChangeDate(nativeEvent); break;
-                        case "changeYear": onChangeYear(nativeEvent); break;
-                        case "changeMonth": onChangeMonth(nativeEvent); break;
-                        case "clearDate": onClearDate(nativeEvent); break;
-                        default: break;
-                    }
-                });
+                             int minViewMode, boolean todayBtn, boolean clearBtn, boolean highlightToday, boolean keyboardNavigation, boolean forceParse, int viewSelect, String language,
+                             String orientation) {
+        jsinterop.base.JsPropertyMap<Object> options = jsinterop.base.JsPropertyMap.of();
+        options.set("format", format);
+        options.set("language", language);
+        options.set("weekStart", weekStart);
+        options.set("daysOfWeekDisabled", daysOfWeekDisabled);
+        options.set("autoclose", autoClose);
+        options.set("startView", startView);
+        options.set("minViewMode", minViewMode);
+        options.set("todayBtn", todayBtn ? "linked" : false);
+        options.set("clearBtn", clearBtn);
+        options.set("todayHighlight", highlightToday);
+        options.set("keyboardNavigation", keyboardNavigation);
+        options.set("forceParse", forceParse);
+        options.set("orientation", orientation);
+        configureNative(e, p, options, this::dispatchPickerEvent);
     }
 
-    @jsinterop.annotations.JsFunction
-    interface PickerEvents { void event(String name, jsinterop.base.Any event); }
-
-    private static native Event asEvent(jsinterop.base.Any event) /*-{ return event; }-*/;
-
-    private static native void configureNative(Element e, Element p, String format, int weekStart, String daysOfWeekDisabled, boolean autoClose, int startView,
-                                    int minViewMode, boolean todayBtn, boolean clearBtn, boolean highlightToday, boolean keyboardNavigation, boolean forceParse, int viewSelect, String language,
-                                    String orientation, PickerEvents callback) /*-{
-
-        if (todayBtn) {
-            todayBtn = "linked";
-        }
-
-        $wnd.jQuery(e).datepicker({
-            format: format,
-            language: language,
-            weekStart: weekStart,
-            daysOfWeekDisabled: daysOfWeekDisabled,
-            autoclose: autoClose,
-            startView: startView,
-            minViewMode: minViewMode,
-            todayBtn: todayBtn,
-            clearBtn: clearBtn,
-            todayHighlight: highlightToday,
-            keyboardNavigation: keyboardNavigation,
-            forceParse: forceParse,
-            orientation: orientation,
-            container: p
-        })
+    private static native void configureNative(Element e, Element p, jsinterop.base.JsPropertyMap<Object> options,
+                                                PickerEvents callback) /*-{
+        options.container = p;
+        $wnd.jQuery(e).datepicker(options)
             .on('show.gwtBootstrapDatePicker hide.gwtBootstrapDatePicker changeDate.gwtBootstrapDatePicker changeYear.gwtBootstrapDatePicker changeMonth.gwtBootstrapDatePicker clearDate.gwtBootstrapDatePicker',
                 function (event) { callback(event.type, event); });
     }-*/;

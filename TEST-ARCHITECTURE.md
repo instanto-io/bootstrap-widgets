@@ -268,3 +268,30 @@ cover navigation, headings, page spacing and code samples in both Bootstrap
 generations. It compares rendered geometry and computed styles, allowing one
 pixel of rounding, and fails on missing resources or browser exceptions. This
 guards against omitting the shared showcase styles from TeaVM's module loading.
+
+
+## JVM and browser coverage
+
+The shared parent supplies JaCoCo 0.8.15 for JVM tests. The two TeaVM widget-test
+modules use TeaCoCo 0.1.0-SNAPSHOT in JaCoCo mode to instrument test-only copies
+of the corresponding library, including shared widgets and showcase sources.
+Production class files, JARs and showcase JavaScript remain uninstrumented.
+
+Run `mvn clean install`, then `java build-tools/BrowserCoverage.java`. Use a clean
+build so TeaCoCo never mixes JUnit output from different instrumentation runs.
+The browser reports are `teavm/teavm-bootstrap-widget-tests/bootstrap{3,5}/target/teavm-coverage.xml`
+and their companion `.exec` files. JVM reports retain JaCoCo's standard locations.
+
+The TeaVM source adapter reformats shared Java and rewrites native bridges, so its
+class-file line numbers differ from the checked-in GWT sources. The JDK-only
+`BrowserCoverage.java` exporter matches complete unchanged token lines back to
+those sources and writes Sonar's generic format to `target/browser-coverage.xml`.
+Changed expressions and ambiguous lines are left unmapped and listed in
+`target/browser-coverage-unmapped.txt`; they are not assigned guessed coverage.
+Browser and JVM classes have different bytecode identities, so their raw probes
+must not be merged as if they were the same classes. Sonar imports the browser
+source report alongside the ordinary JVM JaCoCo reports.
+
+CI runs the exporter and its regression checks before analysis and uploads all
+coverage evidence. Missing browser reports or reports with no mapped hits fail
+that step. The quality gate thresholds remain unchanged.
