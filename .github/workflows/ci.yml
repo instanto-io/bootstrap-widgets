@@ -16,6 +16,7 @@ jobs:
     permissions:
       contents: read
       packages: read
+      security-events: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       FORGEJO_PACKAGE_USER: ${{ secrets.FORGEJO_PACKAGE_USER }}
@@ -142,6 +143,14 @@ jobs:
             -Dsonar.projectKey="$repo_name" \
             -Dsonar.projectName="$repo_name" \
             -Dsonar.qualitygate.wait=true
+
+      - name: Publish quality summary
+        if: always()
+        continue-on-error: true
+        uses: instanto-io/instanto-poms/.github/actions/quality-summary@main
+        with:
+          sonar-project-key: bootstrap-widgets
+          sonar-token: ${{ secrets.SONAR_READ_TOKEN || secrets.SONAR_TOKEN }}
 
       - name: Upload verified showcase site
         uses: actions/upload-artifact@v4
