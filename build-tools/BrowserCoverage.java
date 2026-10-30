@@ -70,13 +70,17 @@ public class BrowserCoverage {
       positions.computeIfAbsent(generated.get(i).text, key -> new ArrayList<>()).add(i);
     }
     Map<Integer, Integer> matches = new HashMap<>();
+    Set<Integer> matchedOriginal = new HashSet<>();
     Deque<Range> pending = new ArrayDeque<>();
     pending.add(new Range(0, old.size(), 0, generated.size()));
     while (!pending.isEmpty()) {
       Range range = pending.removeLast();
       Match match = longest(old, positions, range);
       if (match.length == 0) continue;
-      for (int i = 0; i < match.length; i++) matches.put(match.b + i, old.get(match.a + i).line);
+      for (int i = 0; i < match.length; i++) {
+        matches.put(match.b + i, old.get(match.a + i).line);
+        matchedOriginal.add(match.a + i);
+      }
       if (range.a < match.a && range.b < match.b) {
         pending.add(new Range(range.a, match.a, range.b, match.b));
       }
@@ -89,8 +93,15 @@ public class BrowserCoverage {
       destinations.computeIfAbsent(generated.get(i).line, key -> new HashSet<>()).add(matches.getOrDefault(i, -1));
     }
     Map<Integer, Integer> mapped = new HashMap<>();
+    Set<Integer> changedOriginalLines = new HashSet<>();
+    for (int i = 0; i < old.size(); i++) {
+      if (!matchedOriginal.contains(i)) changedOriginalLines.add(old.get(i).line);
+    }
     destinations.forEach((line, targets) -> {
-      if (targets.size() == 1 && !targets.contains(-1)) mapped.put(line, targets.iterator().next());
+      if (targets.size() == 1 && !targets.contains(-1)) {
+        int target = targets.iterator().next();
+        if (!changedOriginalLines.contains(target)) mapped.put(line, target);
+      }
     });
     return mapped;
   }
@@ -199,10 +210,11 @@ public class BrowserCoverage {
     String adapted = "// generated\nclass Example {\n\n int n;\n\n void update() {\n  n++;\n }\n}\n";
     check(lineMapping(original, adapted).get(7) == 4);
     check(!lineMapping("return oldValue();", "return newValue();").containsKey(1));
+    check(!lineMapping("return value() + additionalWork();", "return value();").containsKey(1));
     check(!lineMapping("int a = 1;\nint b = 2;", "int a = 1; int b = 2;").containsKey(1));
     check(lineMapping("String s = \"// literal\";\n/* comment\n */\nreturn s;",
         "// notice\nString s = \"// literal\";\nreturn s;").get(3) == 4);
-    System.out.println("Coverage source mapping: 4 checks passed");
+    System.out.println("Coverage source mapping: 5 checks passed");
   }
 
   public static void main(String[] args) throws Exception {
