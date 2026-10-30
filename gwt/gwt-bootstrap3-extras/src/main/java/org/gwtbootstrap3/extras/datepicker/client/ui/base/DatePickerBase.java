@@ -45,22 +45,7 @@ import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerDa
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerLanguage;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerMinView;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerPosition;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasAutoClose;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasDaysOfWeekDisabled;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasEndDate;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasForceParse;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasFormat;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasHighlightToday;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasKeyboardNavigation;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasLanguage;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasMinView;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasPosition;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasShowTodayButton;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasShowClearButton;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasStartDate;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasStartView;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasViewSelect;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasWeekStart;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasDatePickerOptions;
 
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.Element;
@@ -84,11 +69,9 @@ import org.gwtbootstrap3.extras.datepicker.client.DatePickerResourcesResources;
  * @author Joshua Godi
  * @author Steven Jardine
  */
-public class DatePickerBase extends DatePickerEventSupport implements HasEnabled, HasId, HasResponsiveness, HasVisibility, HasPlaceholder,
-        HasAutoClose, HasDaysOfWeekDisabled, HasEndDate, HasForceParse, HasFormat, HasHighlightToday, HasKeyboardNavigation,
-        HasMinView, HasShowTodayButton, HasShowClearButton, HasStartDate, HasStartView, HasViewSelect, HasWeekStart,
-        HasLanguage, HasName, HasValue<Date>, HasPosition, LeafValueEditor<Date>, HasEditorErrors<Date>, HasErrorHandler,
-        HasValidators<Date>, HasBlankValidator<Date> {
+public class DatePickerBase extends DatePickerEventSupport implements HasEnabled, HasId, HasResponsiveness,
+        HasVisibility, HasPlaceholder, HasDatePickerOptions, HasName, HasValue<Date>, LeafValueEditor<Date>,
+        HasEditorErrors<Date>, HasErrorHandler, HasValidators<Date>, HasBlankValidator<Date> {
 
     static class DatePickerValidatorMixin extends BlankValidatorMixin<DatePickerBase, Date> {
 
