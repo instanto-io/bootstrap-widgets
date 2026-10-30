@@ -24,7 +24,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.gwtbootstrap3.client.shared.event.HideEvent;
+import org.gwtbootstrap3.client.shared.event.HideHandler;
+import org.gwtbootstrap3.client.shared.event.ShowEvent;
+import org.gwtbootstrap3.client.shared.event.ShowHandler;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.base.HasId;
 import org.gwtbootstrap3.client.ui.base.HasPlaceholder;
@@ -45,8 +48,15 @@ import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerDa
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerLanguage;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerMinView;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.DatePickerPosition;
-import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasDatePickerOptions;
-
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasDateTimePickerHandlers;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateEvent;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateHandler;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeMonthEvent;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeMonthHandler;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeYearEvent;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeYearHandler;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ClearDateEvent;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ClearDateHandler;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -57,19 +67,22 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.dom.client.Document;
 import org.gwtbootstrap3.extras.datepicker.client.DatePickerResourcesResources;
+import org.gwtbootstrap3.extras.datepicker.client.ui.base.constants.HasDatePickerOptions;
 
 /**
  * @author Joshua Godi
  * @author Steven Jardine
  */
-public class DatePickerBase extends DatePickerEventSupport implements HasEnabled, HasId, HasResponsiveness,
+public class DatePickerBase extends Composite implements HasDateTimePickerHandlers, HasEnabled, HasId, HasResponsiveness,
         HasVisibility, HasPlaceholder, HasDatePickerOptions, HasName, HasValue<Date>, LeafValueEditor<Date>,
         HasEditorErrors<Date>, HasErrorHandler, HasValidators<Date>, HasBlankValidator<Date> {
 
@@ -100,6 +113,7 @@ public class DatePickerBase extends DatePickerEventSupport implements HasEnabled
         DATE_TIME_FORMAT_MAP.put('m', 'M'); // months
     }
 
+    private final DatePickerEvents pickerEvents = new DatePickerEvents(this);
     private final TextBox textBox;
     private DateTimeFormat dateTimeFormat;
     private static final DateTimeFormat CALENDAR_DATE = DateTimeFormat.getFormat("yyyy-MM-dd");
@@ -282,20 +296,81 @@ public class DatePickerBase extends DatePickerEventSupport implements HasEnabled
         this.autoClose = autoClose;
     }
 
+    /** {@inheritDoc} */
     @Override
-    protected void pickerShown() {
+    public void onShow(final Event e) {
         validatorMixin.setShowing(true);
+        pickerEvents.show(e);
     }
 
+    /** {@inheritDoc} */
     @Override
-    protected void pickerHidden() {
+    public HandlerRegistration addShowHandler(final ShowHandler showHandler) {
+        return addHandler(showHandler, ShowEvent.getType());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onHide(final Event e) {
         validatorMixin.setShowing(false);
         validate(getValidateOnBlur());
+        pickerEvents.hide(e);
     }
 
+    /** {@inheritDoc} */
     @Override
-    protected void pickerValueChanged() {
+    public HandlerRegistration addHideHandler(final HideHandler hideHandler) {
+        return addHandler(hideHandler, HideEvent.getType());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onChangeDate(final Event e) {
         fireValueChange();
+        pickerEvents.changeDate(e);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public HandlerRegistration addChangeDateHandler(final ChangeDateHandler changeDateHandler) {
+        return addHandler(changeDateHandler, ChangeDateEvent.getType());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onChangeYear(final Event e) {
+        pickerEvents.changeYear(e);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public HandlerRegistration addChangeYearHandler(final ChangeYearHandler changeYearHandler) {
+        return addHandler(changeYearHandler, ChangeYearEvent.getType());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onChangeMonth(final Event e) {
+        pickerEvents.changeMonth(e);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public HandlerRegistration addChangeMonthHandler(final ChangeMonthHandler changeMonthHandler) {
+        return addHandler(changeMonthHandler, ChangeMonthEvent.getType());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onClearDate(final Event e) {
+        fireValueChange();
+        pickerEvents.clearDate(e);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public HandlerRegistration addClearDateHandler(final ClearDateHandler clearDateHandler) {
+        return addHandler(clearDateHandler, ClearDateEvent.getType());
     }
 
     /** {@inheritDoc} */
@@ -665,7 +740,7 @@ public class DatePickerBase extends DatePickerEventSupport implements HasEnabled
         options.set("autoclose", autoClose);
         options.set("startView", startView);
         options.set("minViewMode", minViewMode);
-        options.set("todayBtn", todayBtn ? "linked" : false);
+        options.set("todayBtn", todayBtn ? "linked" : Boolean.FALSE);
         options.set("clearBtn", clearBtn);
         options.set("todayHighlight", highlightToday);
         options.set("keyboardNavigation", keyboardNavigation);
@@ -673,6 +748,24 @@ public class DatePickerBase extends DatePickerEventSupport implements HasEnabled
         options.set("orientation", orientation);
         configureNative(e, p, options, this::dispatchPickerEvent);
     }
+
+    @jsinterop.annotations.JsFunction
+    interface PickerEvents { void event(String name, jsinterop.base.Any event); }
+
+    final void dispatchPickerEvent(String name, jsinterop.base.Any event) {
+        Event nativeEvent = asEvent(event);
+        switch (name) {
+            case "show": onShow(nativeEvent); break;
+            case "hide": onHide(nativeEvent); break;
+            case "changeDate": onChangeDate(nativeEvent); break;
+            case "changeYear": onChangeYear(nativeEvent); break;
+            case "changeMonth": onChangeMonth(nativeEvent); break;
+            case "clearDate": onClearDate(nativeEvent); break;
+            default: break;
+        }
+    }
+
+    private static native Event asEvent(jsinterop.base.Any event) /*-{ return event; }-*/;
 
     private static native void configureNative(Element e, Element p, jsinterop.base.JsPropertyMap<Object> options,
                                                 PickerEvents callback) /*-{
