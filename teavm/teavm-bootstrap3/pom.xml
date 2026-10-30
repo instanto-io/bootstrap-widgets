@@ -161,6 +161,7 @@
               </scriptPresence>
               <includeModules>
                 <includeModule>NoThemeResources</includeModule>
+                <includeModule>Resources</includeModule>
                 <includeModule>Markdown</includeModule>
                 <includeModule>SliderResources</includeModule>
                 <includeModule>DatePickerResources</includeModule>

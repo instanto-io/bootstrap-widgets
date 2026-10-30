@@ -456,7 +456,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
 
     /** Wraps the selection in Classic mode, or inserts a placeholder when nothing is selected. */
     private void wrapSelection(final String before, final String after, final String placeholder) {
-        final TextAreaElement element = textArea.getElement().cast();
+        final TextAreaElement element = TextAreaElement.as(textArea.getElement());
         final int start = TextAreaSelection.start(element);
         final int end = TextAreaSelection.end(element);
         final String value = getValue();

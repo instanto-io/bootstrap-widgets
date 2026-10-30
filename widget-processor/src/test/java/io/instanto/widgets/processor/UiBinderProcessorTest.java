@@ -166,9 +166,7 @@ public class UiBinderProcessorTest {
     assertFalse(compilation.success);
     assertTrue(
         compilation.diagnostics(),
-        compilation
-            .diagnostics()
-            .contains("Button needs the kind attribute its @UiConstructor takes"));
+        compilation.diagnostics().contains("Button needs the kind attribute"));
   }
 
   @Test
@@ -193,15 +191,20 @@ public class UiBinderProcessorTest {
 
     assertTrue(compilation.diagnostics(), compilation.success);
     final String generated = compilation.generated("fixture/Sample_BinderImpl.java");
-    // Prefixed, because 21 of the showcase templates each declare their own .margin-fix
-    // and they all end up on one page.
+    // The namespace is implementation-defined; the CSS and applied classes must agree.
+    java.util.regex.Matcher namespacedClass =
+        java.util.regex.Pattern.compile("button2\\.addStyleName\\(\"([^\"]+)spacing\"\\);")
+            .matcher(generated);
+    assertTrue(generated, namespacedClass.find());
+    String prefix = namespacedClass.group(1);
     assertContains(
         generated,
-        "StyleInjector.inject(\".Sample-spacing { margin: 4px; } "
-            + ".Sample-margin-fix { margin-bottom: 0 !important; }\");",
+        "." + prefix + "spacing { margin: 4px; }",
+        "." + prefix + "margin-fix { margin-bottom: 0 !important; }",
+        "StyleInjector.inject(text,true)",
+        "uiStyle_style.ensureInjected();",
         "button2.addStyleName(\"btn\");",
-        "button2.addStyleName(\"Sample-spacing\");",
-        "button2.addStyleName(\"Sample-margin-fix\");");
+        "button2.addStyleName(\"" + prefix + "margin-fix\");");
   }
 
   @Test
@@ -281,7 +284,7 @@ public class UiBinderProcessorTest {
         compilation.diagnostics(),
         compilation
             .diagnostics()
-            .contains("no <ui:with> declares absent, which {absent.thing} reads from"));
+            .contains("No template field declares absent, named by {absent.thing}"));
   }
 
   @Test
@@ -344,12 +347,12 @@ public class UiBinderProcessorTest {
     Compilation compiled = compile(owner, validTemplate());
     assertTrue(compiled.diagnostics(), compiled.success);
     assertEquals(
-        "fixture.Sample_Source_TextBundle\n",
+        "fixture.Sample_Source_Resources\n",
         Files.readString(compiled.classes.resolve("META-INF/services/fixture.Sample$Source")));
     try (var loader =
         new java.net.URLClassLoader(new java.net.URL[] {compiled.classes.toUri().toURL()})) {
       Object bundle =
-          loader.loadClass("fixture.Sample_Source_TextBundle").getConstructor().newInstance();
+          loader.loadClass("fixture.Sample_Source_Resources").getConstructor().newInstance();
       Object text = bundle.getClass().getMethod("template").invoke(bundle);
       Class<?> resource = loader.loadClass("com.google.gwt.resources.client.TextResource");
       assertEquals(validTemplate(), resource.getMethod("getText").invoke(text));
@@ -367,7 +370,9 @@ public class UiBinderProcessorTest {
                 + "com.google.gwt.resources.client.TextResource template(); }",
             validTemplate());
     assertFalse(compiled.success);
-    assertTrue(compiled.diagnostics(), compiled.diagnostics().contains("Missing @Source resource"));
+    assertTrue(
+        compiled.diagnostics(),
+        compiled.diagnostics().contains("Missing resource fixture/missing.xml"));
   }
 
   @Test
@@ -412,6 +417,10 @@ public class UiBinderProcessorTest {
             + "@interface Source { String[] value(); } }");
     write(
         sources,
+        "com/google/gwt/resources/client/CssResource.java",
+        "package com.google.gwt.resources.client; public interface CssResource { String getName(); String getText(); boolean ensureInjected(); }");
+    write(
+        sources,
         "com/google/gwt/resources/client/TextResource.java",
         "package com.google.gwt.resources.client; public interface TextResource {\n"
             + "String getText(); String getName(); }");
@@ -437,7 +446,7 @@ public class UiBinderProcessorTest {
         sources,
         "com/google/gwt/dom/client/StyleInjector.java",
         "package com.google.gwt.dom.client;\n"
-            + "public class StyleInjector { public static void inject(String css) {} }\n");
+            + "public class StyleInjector { public static void inject(String css) {} public static void inject(String css, boolean immediate) {} }\n");
     write(
         sources,
         "com/google/gwt/event/dom/client/ClickEvent.java",

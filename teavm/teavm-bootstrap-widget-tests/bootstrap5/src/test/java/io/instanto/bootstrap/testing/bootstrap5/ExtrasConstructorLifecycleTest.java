@@ -2,7 +2,7 @@ package io.instanto.bootstrap.testing.bootstrap5;
 
 import static org.junit.Assert.*;
 
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Element;
 import io.instanto.bootstrap5.extras.dashboard.client.ui.DashboardTile;
 import io.instanto.bootstrap5.extras.datepicker.client.ui.DatePicker;
 import io.instanto.bootstrap5.extras.slider.client.ui.Slider;

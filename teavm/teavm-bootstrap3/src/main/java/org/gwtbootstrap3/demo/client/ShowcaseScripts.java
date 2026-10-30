@@ -19,7 +19,6 @@
  */
 package org.gwtbootstrap3.demo.client;
 
-import org.gwtbootstrap3.client.Bootstrap3Resources;
 import org.teavm.jso.JSBody;
 
 /**
@@ -38,19 +37,16 @@ final class ShowcaseScripts {
     private ShowcaseScripts() {
     }
 
-    /** Loads the syntax highlighter the code samples are rendered with. */
+    /** Loads the same showcase styles and syntax highlighter declared for GWT. */
     static void inject() {
-        load("gwtbootstrap3-prettify", Bootstrap3Resources.scriptBase() + "prettify.js");
+        // This also restores demo.css: its page spacing is separate from Bootstrap.
+        ResourcesResources.ensureInjected();
+        ResourcesResources.whenReady(ShowcaseScripts::isReady, ShowcaseScripts::highlight);
     }
 
-    @JSBody(params = {"id", "src"}, script =
-            "if (document.getElementById(id)) { return; }"
-          + "var script = document.createElement('script');"
-          + "script.id = id;"
-          + "script.onload = function () {"
-          + "  if (typeof window.prettyPrint === 'function') { window.prettyPrint(); }"
-          + "};"
-          + "script.src = src;"
-          + "document.head.appendChild(script);")
-    private static native void load(String id, String src);
+    @JSBody(script = "return typeof window.prettyPrint === 'function';")
+    private static native boolean isReady();
+
+    @JSBody(script = "if (typeof window.prettyPrint === 'function') window.prettyPrint();")
+    private static native void highlight();
 }

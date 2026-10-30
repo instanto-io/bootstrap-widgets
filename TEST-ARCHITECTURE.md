@@ -261,3 +261,10 @@ Run it after compiling the GWT showcases and assembling `showcase-site` as in CI
 `GWT3`, `TeaVM3`, `GWT5` or `TeaVM5` for diagnosis. The default test time zone is
 Europe/London; `BROWSER_TEST_TIMEZONE` selects another browser time zone. Winter
 and summer dates exercise daylight-saving offsets.
+
+`node scripts/run-showcase-layout-tests.mjs` compares the overall GWT and TeaVM
+showcases at desktop (1440px) and mobile (390px) widths. Home and Buttons pages
+cover navigation, headings, page spacing and code samples in both Bootstrap
+generations. It compares rendered geometry and computed styles, allowing one
+pixel of rounding, and fails on missing resources or browser exceptions. This
+guards against omitting the shared showcase styles from TeaVM's module loading.
