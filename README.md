@@ -173,6 +173,12 @@ has a live **Extras → FullCalendar** page using that same runtime and Moment
 API has not been ported. The Bootstrap 5 wrapper is a separate modern API, not a
 drop-in upgrade of the jQuery-based Bootstrap 3 wrapper.
 
+## Quality
+
+SpotBugs runs on every build. High-priority findings fail the build, and all findings are published to [code scanning](https://github.com/instanto-io/bootstrap-widgets/security/code-scanning). SonarQube analysis runs on `main` against the organisation's private instance; maintainers see the gate, coverage and issue counts in the workflow summary. The Sonar quality gate is advisory, so a snapshot still publishes when only that gate fails.
+
+See [Actions](https://github.com/instanto-io/bootstrap-widgets/actions) for the latest verification and quality summary.
+
 ## Upstream credits
 
 The original Java widgets, extras and showcase are the work of the
