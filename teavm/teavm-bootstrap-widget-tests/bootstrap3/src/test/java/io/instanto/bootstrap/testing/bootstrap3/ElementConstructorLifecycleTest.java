@@ -2,7 +2,7 @@ package io.instanto.bootstrap.testing.bootstrap3;
 
 import static org.junit.Assert.*;
 
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Element;
 import io.instanto.webapp.testkit.dom.Dom;
 import org.junit.Before;
 import org.junit.Test;
@@ -308,7 +308,7 @@ public class ElementConstructorLifecycleTest {
   public void buttonFactoryIsReplacedByExplicitElementConstruction() {
     class Probe extends org.gwtbootstrap3.client.ui.Button {
       @Override
-      protected Element createElement() {
+      protected com.google.gwt.dom.client.Element createElement() {
         throw new AssertionError("Subclass factory invoked during construction");
       }
     }

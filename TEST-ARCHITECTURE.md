@@ -242,3 +242,29 @@ module is built with `mvn -f ...` as well as from the reactor root.
 The `widget-processor` artifact delegates to the owned `gwt-uibinder-processor`
 dependency. Its compiler tests remain here to check compatibility for widget consumers;
 processor implementation changes and their unit tests belong in `teavm-compat`.
+
+## Date picker browser regressions
+
+`node scripts/run-datepicker-tests.mjs` serves the assembled site and drives Chrome
+against GWT Bootstrap 3, TeaVM Bootstrap 3, GWT Bootstrap 5 and TeaVM Bootstrap 5.
+It opens each calendar, chooses a day, types a formatted date and clears the input.
+The assertions compare the displayed text, Java `getValue()`, event values, event
+sources and two independent Java listeners. Both generations check repeated
+remounts. Bootstrap 3 also checks local-midnight timestamps, the French locale,
+date limits, disabled weekdays and format reloads. The TeaVM Bootstrap 3 case also
+delays the plugin download, detaches the widget
+and checks that the late callback cannot initialize it. The tests use normal asset
+loading and fail on browser exceptions or failed HTTP requests.
+
+Run it after compiling the GWT showcases and assembling `showcase-site` as in CI.
+`PAGES_OUTPUT_DIR` selects another assembled site; `BROWSER_TEST_TARGET` can select
+`GWT3`, `TeaVM3`, `GWT5` or `TeaVM5` for diagnosis. The default test time zone is
+Europe/London; `BROWSER_TEST_TIMEZONE` selects another browser time zone. Winter
+and summer dates exercise daylight-saving offsets.
+
+`node scripts/run-showcase-layout-tests.mjs` compares the overall GWT and TeaVM
+showcases at desktop (1440px) and mobile (390px) widths. Home and Buttons pages
+cover navigation, headings, page spacing and code samples in both Bootstrap
+generations. It compares rendered geometry and computed styles, allowing one
+pixel of rounding, and fails on missing resources or browser exceptions. This
+guards against omitting the shared showcase styles from TeaVM's module loading.

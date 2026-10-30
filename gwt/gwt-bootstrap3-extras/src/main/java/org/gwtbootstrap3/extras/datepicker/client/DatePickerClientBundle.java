@@ -34,7 +34,8 @@ public interface DatePickerClientBundle extends ClientBundle {
     static final String VERSION = "1.10.1";
     static final String LOCALES_DIR = "resource/js/locales.cache." + VERSION + "/";
 
-    @Source("resource/js/bootstrap-datepicker-" + VERSION + ".min.cache.js")
+    // Keep the runtime asset literal so the TeaVM module generator can discover it.
+    @Source("resource/js/bootstrap-datepicker-1.10.1.min.cache.js")
     TextResource datePicker();
 
     @Source(LOCALES_DIR + "bootstrap-datepicker.ar.min.js")

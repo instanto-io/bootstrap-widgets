@@ -120,8 +120,8 @@ If you want to read a working application:
 
 ## Extras
 
-The extras port includes Animate, Card, Markdown, ToggleSwitch, Slider, Select and
-Summernote. Slider/RangeSlider, Select/MultipleSelect and the editor compile from the
+The extras port includes Animate, Card, Markdown, ToggleSwitch, Slider, Select,
+Summernote and DatePicker. Slider/RangeSlider, Select/MultipleSelect and the editor compile from the
 shared GWT widget classes, with TeaVM bridges for native plugin operations. Their
 original showcase pages are included.
 
@@ -134,5 +134,13 @@ These extras currently ship inside teavm-bootstrap3, not a separate extras artif
 Scripts, styles and locale text resources are bundled in the JAR. Widgets initialize
 after their core dependencies, and destroy their plugin instance when detached.
 
-Other extras, including FullCalendar and the date pickers, still need their native
-browser calls ported. Bundling their assets alone does not port their widgets.
+DatePicker uses the shared Bootstrap 3 widget and bootstrap-datepicker 1.10.1.
+It loads its scripts before creating the popup and applies the chosen locale after
+the library is ready. Set values and date limits before attachment or while the
+widget is detached; they are restored on attachment. Use `reload()` after changing
+the display format or other options that require rebuilding the popup. Selection,
+typed dates and clearing deliver Java value-change events once per listener.
+
+The separate legacy DateTimePicker remains outside the TeaVM Bootstrap 3 port.
+Bootstrap 5 uses Tempus Dominus for both date and date-time input. The Bootstrap 3
+FullCalendar showcase uses the scoped bridge described in the main README.

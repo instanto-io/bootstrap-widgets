@@ -264,7 +264,6 @@ public abstract class AbstractForm extends FormElementContainer implements FormP
             frameName = "GWTBootstrap3_AbstractForm_" + GWT.getModuleName() + "_" + Document.get().createUniqueId();
             form.setTarget(frameName);
 
-            sinkEvents(Event.ONLOAD);
         }
     }
 
@@ -273,6 +272,8 @@ public abstract class AbstractForm extends FormElementContainer implements FormP
         super.onAttach();
 
         if (frameName != null) {
+            // Register only after construction; sinkEvents may call subclass hooks.
+            sinkEvents(Event.ONLOAD);
             // Create and attach a hidden iframe to the body element.
             createFrame();
             Document.get().getBody().appendChild(synthesizedFrame);

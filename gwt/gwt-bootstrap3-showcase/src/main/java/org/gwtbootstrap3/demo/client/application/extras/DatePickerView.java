@@ -88,14 +88,30 @@ public class DatePickerView extends Composite {
     public DatePickerView() {
         eventDatePicker = new DatePicker();
         eventDatePicker.setValue(new Date());
-
         initWidget(BINDER.createAndBindUi(this));
+        eventDatePicker.setId("event-date-picker");
+        logRow.getElement().setId("date-picker-events");
+        final int[] changes = {0};
+        eventDatePicker.addValueChangeHandler(event -> {
+            logRow.getElement().setAttribute("data-change-count", String.valueOf(++changes[0]));
+            logRow.getElement().setAttribute("data-time", event.getValue() == null ? "null" : String.valueOf(event.getValue().getTime()));
+            logRow.getElement().setAttribute("data-source-match", String.valueOf(event.getSource() == eventDatePicker));
+            logRow.getElement().setAttribute("data-value", eventDatePicker.getValue() == null ? "null"
+                    : formatLocalDate(eventDatePicker.getValue()));
+        });
+        methods.setId("methods-date-picker");
+        eventDatePicker.addValueChangeHandler(event -> {
+            final Paragraph entry = new Paragraph();
+            entry.setText("Value Changed: " + (event.getValue() == null ? "null"
+                    : formatLocalDate(event.getValue())));
+            logRow.add(entry);
+        });
 
         eventDatePicker.addChangeDateHandler(new ChangeDateHandler() {
             @Override
             public void onChangeDate(final ChangeDateEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Changed Date Event Fired! (" + eventDatePicker.getValue().toString() + ")");
+                logEntry.setText("Changed Date Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
                 logRow.add(logEntry);
             }
         });
@@ -104,7 +120,7 @@ public class DatePickerView extends Composite {
             @Override
             public void onChangeMonth(final ChangeMonthEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Changed Month Event Fired! (" + eventDatePicker.getValue().toString() + ")");
+                logEntry.setText("Changed Month Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
                 logRow.add(logEntry);
             }
         });
@@ -113,7 +129,7 @@ public class DatePickerView extends Composite {
             @Override
             public void onChangeYear(final ChangeYearEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Changed Year Event Fired! (" + eventDatePicker.getValue().toString() + ")");
+                logEntry.setText("Changed Year Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
                 logRow.add(logEntry);
             }
         });
@@ -122,7 +138,7 @@ public class DatePickerView extends Composite {
             @Override
             public void onClearDate(final ClearDateEvent evt) {
                 final Paragraph logEntry = new Paragraph();
-                logEntry.setText("Clear Date Event Fired! (" + eventDatePicker.getValue().toString() + ")");
+                logEntry.setText("Clear Date Event Fired! (" + String.valueOf(eventDatePicker.getValue()) + ")");
                 logRow.add(logEntry);
             }
         });
@@ -146,6 +162,13 @@ public class DatePickerView extends Composite {
         });
     }
 
+    private static String formatLocalDate(java.util.Date date) {
+        int month = date.getMonth() + 1;
+        int day = date.getDate();
+        return (date.getYear() + 1900) + "-" + (month < 10 ? "0" : "") + month
+                + "-" + (day < 10 ? "0" : "") + day;
+    }
+
     @UiHandler("addRemove")
     public void handleAddRemove(final ClickEvent event) {
         if (eventDatePicker.isAttached()) {
@@ -158,6 +181,16 @@ public class DatePickerView extends Composite {
     @UiHandler("clearLogButton")
     public void handleClearLog(final ClickEvent event) {
         logRow.clear();
+    }
+
+    @UiHandler("clearEndDate")
+    public void handleClearEndDate(final ClickEvent event) {
+        methods.clearEndDate();
+    }
+
+    @UiHandler("clearStartDate")
+    public void handleClearStartDate(final ClickEvent event) {
+        methods.clearStartDate();
     }
 
     @UiHandler("endDate")

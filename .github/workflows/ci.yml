@@ -57,11 +57,8 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Build and install reactor artifacts
-        run: mvn -B -U -DskipTests install
-
-      - name: Run compatibility and widget browser tests
-        run: mvn -B -pl :gwt-user-jvm-contract-tests,:gwt-bootstrap-widget-tests,:teavm-bootstrap3-tests,:teavm-bootstrap5-tests test
+      - name: Verify and install reactor artifacts including all tests
+        run: mvn -B -U install
 
       - name: Upload test results including unfinished specifications
         if: always()
@@ -102,6 +99,14 @@ jobs:
           name: showcase-navigation-results
           path: testing/showcase-browser-tests/target/surefire-reports/*
           if-no-files-found: warn
+
+      - name: Exercise date pickers in all four compiled showcases
+        run: |
+          node scripts/run-datepicker-tests.mjs
+          BROWSER_TEST_TIMEZONE=America/Los_Angeles node scripts/run-datepicker-tests.mjs
+
+      - name: Compare GWT and TeaVM showcase layouts on desktop and mobile
+        run: node scripts/run-showcase-layout-tests.mjs
 
       - name: Exercise compiled GWT widgets with mobile touch input
         run: node scripts/run-browser-behaviour-tests.mjs

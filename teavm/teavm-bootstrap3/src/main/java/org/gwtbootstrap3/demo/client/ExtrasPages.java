@@ -47,6 +47,9 @@ final class ExtrasPages {
         if (org.gwtbootstrap3.demo.client.place.NameTokens.TOGGLESWITCH.equals(token)) {
             return new org.gwtbootstrap3.demo.client.application.extras.ToggleSwitchView();
         }
+        if (org.gwtbootstrap3.demo.client.place.NameTokens.DATE_PICKER.equals(token)) {
+            return new org.gwtbootstrap3.demo.client.application.extras.DatePickerView();
+        }
         return null;
     }
 }
