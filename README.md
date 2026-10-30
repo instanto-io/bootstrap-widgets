@@ -18,6 +18,34 @@ concepts may need deliberate changes.
 | GWT Bootstrap 5 | Build a GWT application with Bootstrap 5 components. |
 | TeaVM Bootstrap 5 | Use the Bootstrap 5 API with TeaVM. |
 
+## Bootstrap 5 API continuity
+
+The Bootstrap 5 track is designed to preserve the GwtBootstrap3 programming
+model as much as possible. Where a Bootstrap 3 widget had a familiar Java API,
+composition pattern, or lifecycle, the Bootstrap 5 port tries to keep the same
+shape and usage patterns rather than reinventing the library from scratch. This
+keeps migration work smaller for existing GWT applications and makes the
+bootstrap3-to-bootstrap5 transition more predictable.
+
+That said, Bootstrap 5 is not a literal clone of the Bootstrap 3 API. Some
+differences are unavoidable because the underlying HTML, CSS classes,
+JavaScript plugin model, and interaction semantics changed in Bootstrap 5. In
+particular:
+
+- markup and class names follow Bootstrap 5 conventions rather than Bootstrap 3
+  ones
+- some widgets are reworked to align with Bootstrap 5's native APIs and DOM
+  structure
+- plugin-based extras that relied on jQuery or legacy Bootstrap 3 behavior are
+  either rewritten, wrapped differently, or intentionally scoped to the parts
+  that still map cleanly
+- newer Bootstrap 5 features and naming conventions may appear, even when the
+  older widget patterns are retained
+
+In other words, the goal is compatibility of intent and developer workflow, not
+a byte-for-byte API transplant. Where behavior or markup diverges, the project
+documentation and showcase examples call that out explicitly.
+
 ## Explore the showcases
 
 - [GWT Bootstrap 3](https://instanto-io.github.io/bootstrap-widgets/)
