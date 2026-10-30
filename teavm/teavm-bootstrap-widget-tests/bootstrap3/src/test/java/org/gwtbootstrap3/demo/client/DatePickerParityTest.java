@@ -42,7 +42,7 @@ public class DatePickerParityTest {
   }
 
   @Test
-  public void calendarValuesLimitsAndListenersSurviveReloadAndRemount() {
+  public void calendarValuesLimitsAndListenersStayInSync() {
     DatePicker picker = new DatePicker();
     assertNull(picker.getValue());
     picker.show();
@@ -94,6 +94,21 @@ public class DatePickerParityTest {
     picker.setValue(null, true);
     assertNull(picker.getValue());
     assertEquals(2, values[0]);
+    assertEquals(values[0], values[1]);
+    assertTrue(events[2] > 0);
+  }
+
+  @Test
+  public void localizedValuesAndListenersSurviveReloadAndRemount() {
+    DatePicker picker = new DatePicker();
+    Date winter = new Date(131, 1, 17);
+    int[] values = {0, 0};
+    picker.addValueChangeHandler(event -> values[0]++);
+    picker.addValueChangeHandler(event -> values[1]++);
+    int[] cleared = {0};
+    picker.addClearDateHandler(event -> cleared[0]++);
+    host.add(picker);
+    Dom.waitFor(() -> assertTrue(ready(picker.getElement().unwrap())), 10000);
     picker.setValue(winter);
     picker.setLanguage(DatePickerLanguage.FR);
     picker.setFormat("dd/mm/yyyy");
@@ -110,9 +125,8 @@ public class DatePickerParityTest {
     type(picker.getElement().unwrap(), "");
     assertNull(picker.getValue());
     trigger(picker.getElement().unwrap(), "clearDate");
-    assertTrue(events[5] > 0);
+    assertTrue(cleared[0] > 0);
     assertEquals(values[0], values[1]);
-    assertTrue(events[2] > 0);
     picker.getTextBox().setValue("invalid");
     assertNull(picker.getValue());
   }
