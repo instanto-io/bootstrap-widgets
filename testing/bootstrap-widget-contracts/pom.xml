@@ -13,4 +13,8 @@
   <packaging>pom</packaging>
   <description>Relocated to the independent TeaVM compatibility build.</description>
 
+  <properties>
+    <instanto.repository>bootstrap-widgets</instanto.repository>
+  </properties>
+
 </project>

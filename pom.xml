@@ -58,6 +58,7 @@
     <module>showcase-site</module>
   </modules>
   <properties>
+    <instanto.repository>bootstrap-widgets</instanto.repository>
     <teacoco.version>0.1.0-SNAPSHOT</teacoco.version>
     <jacoco.version>0.8.15</jacoco.version>
     <sonar.coverageReportPaths>${maven.multiModuleProjectDirectory}/target/browser-coverage.xml</sonar.coverageReportPaths>
