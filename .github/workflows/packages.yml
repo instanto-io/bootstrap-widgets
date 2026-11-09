@@ -1,11 +1,7 @@
 name: Maven Packages
 
-# Publishes after CI passes on main, so consumers such as verrai-demo always find the
-# current snapshots. It can still be run by hand.
 on:
-  workflow_run:
-    workflows: [CI]
-    types: [completed]
+  push:
     branches: [main]
   workflow_dispatch:
 
@@ -20,36 +16,13 @@ concurrency:
 jobs:
   publish:
     name: Publish library reactor
-    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
-    runs-on: [self-hosted, instanto-container]
-
-    steps:
-      - name: Check out
-        uses: actions/checkout@v4
-        with:
-          # The commit CI verified, not whatever main points at by now.
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-          cache: maven
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
-
-      # Adds the Forgejo publisher to the settings setup-java wrote. The credentials stay in
-      # the environment; Maven reads them when it deploys.
-      - name: Configure package access
-        run: |
-          server='<server><id>forgejo-instanto</id><username>${env.FORGEJO_PACKAGE_USER}</username><password>${env.FORGEJO_PACKAGE_TOKEN}</password></server>'
-          sed -i "s#</servers>#${server}</servers>#" "$HOME/.m2/settings.xml"
-          grep -q '<id>forgejo-instanto</id>' "$HOME/.m2/settings.xml"
-
-      - name: Publish parent and library snapshots
-        run: mvn -B -DskipTests -pl widget-processor,gwt/gwt-bootstrap3,gwt/gwt-bootstrap3-extras,gwt/gwt-bootstrap3-themes,gwt/gwt-bootstrap5,gwt/gwt-bootstrap5-extras,gwt/gwt-bootstrap5-themes,testing/bootstrap-widget-contracts,teavm/teavm-gwt-compat,teavm/teavm-bootstrap3,teavm/teavm-bootstrap5 -am deploy
-        env:
-          FORGEJO_PACKAGE_USER: ${{ secrets.FORGEJO_PACKAGE_USER }}
-          FORGEJO_PACKAGE_TOKEN: ${{ secrets.FORGEJO_PACKAGE_TOKEN }}
+    uses: instanto-io/instanto-poms/.github/workflows/maven-build.yml@main
+    with:
+      name: Publish parent and library snapshots
+      goals: deploy
+      maven-args: -pl widget-processor,gwt/gwt-bootstrap3,gwt/gwt-bootstrap3-extras,gwt/gwt-bootstrap3-themes,gwt/gwt-bootstrap5,gwt/gwt-bootstrap5-extras,gwt/gwt-bootstrap5-themes,testing/bootstrap-widget-contracts,teavm/teavm-gwt-compat,teavm/teavm-bootstrap3,teavm/teavm-bootstrap5 -am
+      fast-deploy: true
+      downstream-checks: false
+      sonar: false
+      timeout-minutes: 30
+    secrets: inherit

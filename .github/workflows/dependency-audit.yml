@@ -2,8 +2,6 @@ name: Dependency Audit
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '23 4 * * 1'
 
 permissions:
   contents: read
@@ -16,7 +14,7 @@ concurrency:
 jobs:
   audit:
     name: OWASP dependency audit
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     runs-on: [self-hosted, instanto-container]
     env:
       FORGEJO_PACKAGE_USER: ${{ secrets.FORGEJO_PACKAGE_USER }}

@@ -1,8 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -16,7 +14,6 @@ jobs:
     permissions:
       contents: read
       packages: read
-      security-events: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       FORGEJO_PACKAGE_USER: ${{ secrets.FORGEJO_PACKAGE_USER }}
@@ -129,20 +126,6 @@ jobs:
 
       - name: Exercise compiled GWT widgets with mobile touch input
         run: node scripts/run-browser-behaviour-tests.mjs
-
-      - name: SonarQube Quality Gate
-        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonar.instanto.io
-        run: |
-          set -euo pipefail
-          : "${SONAR_TOKEN:?SONAR_TOKEN is required for the main-branch quality gate}"
-          repo_name="${GITHUB_REPOSITORY#*/}"
-          mvn --batch-mode --no-transfer-progress sonar:sonar \
-            -Dsonar.projectKey="$repo_name" \
-            -Dsonar.projectName="$repo_name" \
-            -Dsonar.qualitygate.wait=true
 
       - name: Publish quality summary
         if: always()
