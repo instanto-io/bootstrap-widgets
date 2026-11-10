@@ -2,12 +2,10 @@ package example;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import io.instanto.bootstrap5.client.Bootstrap5;
-import io.instanto.bootstrap5.client.Bootstrap5Resources;
 import io.instanto.bootstrap5.client.ui.*;
 
 public final class HelloBootstrap {
     public static void main(String[] args) {
-        Bootstrap5Resources.setAssetBase("assets/bootstrap5/");
         Bootstrap5.initialise(() -> {
             TextBox name = new TextBox();
             name.setPlaceholder("Your name");

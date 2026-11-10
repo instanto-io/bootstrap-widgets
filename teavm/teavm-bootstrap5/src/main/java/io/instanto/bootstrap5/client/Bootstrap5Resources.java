@@ -45,12 +45,20 @@ public final class Bootstrap5Resources {
   private static final String ID_PREFIX = "bootstrap5-resource-";
 
   /**
+   * Where the module's assets are published unless an application says otherwise. It matches the
+   * {@code target} in {@code META-INF/teavm-assets.properties}, which is where the resource
+   * plugin's {@code stage-assets} goal puts them, so staging the assets and calling {@link
+   * Bootstrap5#initialise()} is enough: nothing has to be configured.
+   */
+  static final String DEFAULT_ASSET_BASE = "assets/bootstrap5/";
+
+  /**
    * Where everything this module ships is served from. The TeaVM build puts its stylesheets, fonts
    * and vendored scripts under one directory, so a single setting covers the library and every
-   * extra: an application says where the module was deployed and nothing else has to be told
-   * anything.
+   * extra: an application says where the module was deployed, if not at the default, and nothing
+   * else has to be told anything.
    */
-  private static String assetBase = "";
+  private static String assetBase = DEFAULT_ASSET_BASE;
 
   private static boolean injected;
 

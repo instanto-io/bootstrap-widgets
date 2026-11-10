@@ -9,9 +9,9 @@ initialisation, themes and UiBinder.
 The widget library carries its CSS, scripts and fonts in its JAR. A file named
 `META-INF/teavm-assets.properties` tells the
 [resource plugin](https://github.com/instanto-io/teavm-compat/tree/main/gwt-resources-compat-maven-plugin)
-where to place them in the website folder. This example serves them from
-`assets/bootstrap5/`. The Java entry point uses
-`Bootstrap5Resources.setAssetBase("assets/bootstrap5/")` to find them.
+where to place them in the website folder: `assets/bootstrap5/`. That is also
+where `Bootstrap5.initialise` looks for them, so the Java entry point does not
+have to say where they are.
 
 Copy this example to begin an application. Keep the generated JavaScript,
 host page and asset folder together when serving it.

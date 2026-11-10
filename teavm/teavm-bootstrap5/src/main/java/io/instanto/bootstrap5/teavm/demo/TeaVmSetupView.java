@@ -19,8 +19,8 @@ public final class TeaVmSetupView extends SetupView {
           },
           {
             "Bundled assets",
-            "Publish the JAR's META-INF/bootstrap5-assets/ contents alongside your application, preserving directories. Initialisation loads the bundled CSS and scripts; do not add individual plugin script tags.",
-            "// If assets are published at a different location, set this before initialisation:\nBootstrap5Resources.setAssetBase(\"assets/bootstrap5/\");"
+            "Add the gwt-resources-compat-maven-plugin's stage-assets goal: it copies the JAR's assets into your site under assets/bootstrap5/, where initialisation looks for them. Initialisation loads the bundled CSS and scripts; do not add individual plugin script tags.",
+            "// Only if the assets are published somewhere else, before initialisation:\nBootstrap5Resources.setAssetBase(\"static/bootstrap5/\");"
           },
           {
             "UiBinder support",

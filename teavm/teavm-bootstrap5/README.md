@@ -39,16 +39,41 @@ RootPanel.get("editor").add(new Container());
 
 ## Publish the bundled assets
 
-Publish the library JAR's `META-INF/bootstrap5-assets/` tree alongside your application,
-preserving its directories. For a different location, set
-`Bootstrap5Resources.setAssetBase("assets/bootstrap5/")` before initialisation.
-No per-script HTML declarations are needed:
+The JAR carries Bootstrap's stylesheets and scripts, the icon font and the library's own
+rules. `Bootstrap5.initialise` loads them itself, so the host page needs no `<link>` or
+`<script>` for Bootstrap. They only have to be published with your application.
+
+Add the resource plugin's `stage-assets` goal to the application's build. It reads
+`META-INF/teavm-assets.properties` from each dependency and copies the assets into your
+site, these ones under `assets/bootstrap5/`:
+
+```xml
+<plugin>
+  <groupId>io.instanto</groupId>
+  <artifactId>gwt-resources-compat-maven-plugin</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <executions>
+    <execution>
+      <goals><goal>stage-assets</goal></goals>
+      <configuration>
+        <outputDirectory>${project.build.directory}/site</outputDirectory>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
+`assets/bootstrap5/`, relative to the page, is where initialisation looks by default, so
+nothing else is needed:
 
 ```html
 <body>
   <script src="your-app.js"></script>
 </body>
 ```
+
+If you publish the assets somewhere else, say so before initialisation:
+`Bootstrap5Resources.setAssetBase("static/bootstrap5/")`.
 
 If the host already supplies the compatible Bootstrap runtime, it is reused. The
 no-argument `initialise()` starts loading but does not wait; use the callback before
