@@ -49,6 +49,8 @@ import java.util.Map;
  * }</pre>
  */
 public final class Themes {
+    private static final String THEME_DARK = "theme-dark";
+    private static final String THEME_LIGHT = "theme-light";
 
     /** The id of the stylesheet link this class owns. */
     public static final String LINK_ID = "gwtbootstrap3-theme";
@@ -135,11 +137,11 @@ public final class Themes {
         }
         body.setAttribute("data-theme", theme.getName());
         if (theme.isDark()) {
-            body.addClassName("theme-dark");
-            body.removeClassName("theme-light");
+            body.addClassName(THEME_DARK);
+            body.removeClassName(THEME_LIGHT);
         } else {
-            body.addClassName("theme-light");
-            body.removeClassName("theme-dark");
+            body.addClassName(THEME_LIGHT);
+            body.removeClassName(THEME_DARK);
         }
     }
 
@@ -159,8 +161,8 @@ public final class Themes {
         final Element body = Document.get().getBody();
         if (body != null) {
             body.removeAttribute("data-theme");
-            body.removeClassName("theme-dark");
-            body.removeClassName("theme-light");
+            body.removeClassName(THEME_DARK);
+            body.removeClassName(THEME_LIGHT);
         }
         current = null;
     }
