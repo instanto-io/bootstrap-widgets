@@ -73,6 +73,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class AbstractButton extends ComplexWidget implements HasEnabled, HasActive, HasType<ButtonType>,
         HasSize<ButtonSize>, HasDataTarget, HasClickHandlers, Focusable, HasAllMouseHandlers {
+    private static final String ARIA_BUSY_ATTRIBUTE = "aria-busy";
 
     public class ButtonStateHandler {
         private ButtonStateHandler() {
@@ -95,7 +96,7 @@ public abstract class AbstractButton extends ComplexWidget implements HasEnabled
             setButtonText(state);
             normalText = state == null ? "" : state;
             setEnabled(true);
-            getElement().removeAttribute("aria-busy");
+            getElement().removeAttribute(ARIA_BUSY_ATTRIBUTE);
             loading = false;
         }
     }
@@ -338,11 +339,11 @@ public abstract class AbstractButton extends ComplexWidget implements HasEnabled
                 setButtonText(loadingText);
             }
             setEnabled(false);
-            getElement().setAttribute("aria-busy", "true");
+            getElement().setAttribute(ARIA_BUSY_ATTRIBUTE, "true");
         } else {
             setButtonText(normalText);
             setEnabled(true);
-            getElement().removeAttribute("aria-busy");
+            getElement().removeAttribute(ARIA_BUSY_ATTRIBUTE);
         }
         this.loading = loading;
     }
