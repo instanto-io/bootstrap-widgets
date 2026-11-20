@@ -41,6 +41,7 @@ import io.instanto.bootstrap5.client.ui.base.helper.StyleHelper;
 import io.instanto.bootstrap5.client.ui.constants.AlertType;
 
 public class Alert extends ElementPanel implements HasType<AlertType> {
+  private static final String ALERT = "alert";
 
   private final InlineLabel text = new InlineLabel();
   private final ElementPanel closeButton = new ElementPanel("button");
@@ -49,11 +50,11 @@ public class Alert extends ElementPanel implements HasType<AlertType> {
   public Alert() {
     super("div");
     io.instanto.bootstrap5.client.ui.base.helper.StyleHelper.addStyleNames(
-        super.getElement(), "alert");
-    super.getElement().setAttribute("role", "alert");
+        super.getElement(), ALERT);
+    super.getElement().setAttribute("role", ALERT);
     closeButton.setStyleName("btn-close");
     closeButton.getElement().setAttribute("type", "button");
-    closeButton.getElement().setAttribute("data-bs-dismiss", "alert");
+    closeButton.getElement().setAttribute("data-bs-dismiss", ALERT);
     closeButton.getElement().setAttribute("aria-label", "Close");
     applyVariant(super.getElement(), Variant.WARNING);
     addCloseHandler(
