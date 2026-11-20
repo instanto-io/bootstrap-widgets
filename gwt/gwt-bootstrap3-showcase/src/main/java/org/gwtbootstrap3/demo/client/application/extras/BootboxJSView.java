@@ -47,6 +47,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author lyhcode
  */
 public class BootboxJSView extends Composite {
+    private static final String HELLO_WORLD = "Hello World";
+    private static final String RETURN = "Return: ";
 
     @UiField ListBox localeBox;
 
@@ -58,7 +60,7 @@ public class BootboxJSView extends Composite {
 
     @UiHandler("alertButton")
     void handleAlertButton(final ClickEvent event) {
-        Bootbox.alert("Hello World");
+        Bootbox.alert(HELLO_WORLD);
     }
 
     @UiHandler("alertCallbackButton")
@@ -84,10 +86,10 @@ public class BootboxJSView extends Composite {
 
     @UiHandler("confirmButton")
     void handleConfirmButton(final ClickEvent event) {
-        Bootbox.confirm("Hello World", new ConfirmCallback() {
+        Bootbox.confirm(HELLO_WORLD, new ConfirmCallback() {
             @Override
             public void callback(final boolean result) {
-                Window.alert("Return: " + result);
+                Window.alert(RETURN + result);
             }
         });
     }
@@ -103,7 +105,7 @@ public class BootboxJSView extends Composite {
         options.setCallback(new ConfirmCallback() {
             @Override
             public void callback(final boolean result) {
-                Window.alert("Return: " + result);
+                Window.alert(RETURN + result);
             }
         });
         Bootbox.confirm(options);
@@ -111,10 +113,10 @@ public class BootboxJSView extends Composite {
 
     @UiHandler("promptButton")
     void handlePromptButton(final ClickEvent event) {
-        Bootbox.prompt("Hello World", new PromptCallback() {
+        Bootbox.prompt(HELLO_WORLD, new PromptCallback() {
             @Override
             public void callback(final String result) {
-                Window.alert("Return: " + result);
+                Window.alert(RETURN + result);
             }
         });
     }
@@ -129,7 +131,7 @@ public class BootboxJSView extends Composite {
         options.setCallback(new PromptCallback() {
             @Override
             public void callback(String result) {
-                Window.alert("Return: " + result);
+                Window.alert(RETURN + result);
             }
         });
         Bootbox.prompt(options);
