@@ -38,7 +38,7 @@ public class SuggestionCallback<T> {
     }
 
     public void execute(final Collection<Suggestion<T>> suggestions) {
-        JsArray<Suggestion<T>> jsArray = JsArrayString.createArray().cast();
+        JsArray<Suggestion<T>> jsArray = JavaScriptObject.createArray().cast();
         if (suggestions != null) {
             for (Suggestion<T> s : suggestions) {
                 jsArray.push(s);
