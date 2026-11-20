@@ -27,7 +27,11 @@ fs.readFile(file, 'UTF-8', function (err, data) {
         }
     });
 
-    result.sort();
+    result.sort(function (left, right) {
+        if (left < right) return -1;
+        if (left > right) return 1;
+        return 0;
+    });
 
     result.forEach(function (item) {
         console.log(item);
