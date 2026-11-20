@@ -48,6 +48,7 @@ import io.instanto.bootstrap5.client.ui.theme.Themes;
 import io.instanto.bootstrap5.themes.client.BootswatchThemes;
 
 public class ShowcaseEntryPoint implements EntryPoint {
+  private static final String UI_BINDER = "UiBinder";
 
   private final CssPages cssPages = new CssPages();
   private final ComponentPages componentPages = new ComponentPages();
@@ -239,7 +240,7 @@ public class ShowcaseEntryPoint implements EntryPoint {
     }
     if ("uiBinder".equals(token)) {
       return panel(
-          "UiBinder",
+          UI_BINDER,
           new UiBinderDemo(),
           "@UiField Button counter;\n@UiHandler(\"counter\")\nvoid onCounterClick(ClickEvent event) { ... }");
     }
@@ -285,7 +286,7 @@ public class ShowcaseEntryPoint implements EntryPoint {
     navbarCollapse.add(navbar.getNav());
     navbar.getContainer().add(navbarCollapse);
     navbar.getNav().add(new NavbarLink("Setup", "#setup"));
-    navbar.getNav().add(new NavbarLink("UiBinder", "#uiBinder"));
+    navbar.getNav().add(new NavbarLink(UI_BINDER, "#uiBinder"));
     navbar.getNav().add(dropdown("CSS", CSS_LABELS, CSS_SECTIONS));
     navbar.getNav().add(dropdown("Components", COMPONENT_LABELS, COMPONENT_SECTIONS));
     navbar.getNav().add(dropdown("Interactive", JS_LABELS, JS_SECTIONS));
@@ -351,7 +352,7 @@ public class ShowcaseEntryPoint implements EntryPoint {
     Row row = section("setup", "Setup", "Application setup");
     Column column = fullColumn(row);
     column.add(setupFactory.get());
-    column.add(panel("UiBinder", uiBinderProbe(), uiBinderSource()));
+    column.add(panel(UI_BINDER, uiBinderProbe(), uiBinderSource()));
     return row;
   }
 
