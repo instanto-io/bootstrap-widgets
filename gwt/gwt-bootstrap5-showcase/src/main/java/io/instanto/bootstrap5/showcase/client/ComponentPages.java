@@ -109,6 +109,20 @@ import java.util.Arrays;
 
 /** Creates only the requested showcase section. */
 final class ComponentPages {
+  private static final String BASIC = "Basic";
+  private static final String MIDDLE = "Middle";
+  private static final String RIGHT = "Right";
+  private static final String ACTION = "Action";
+  private static final String ANOTHER_ACTION = "Another action";
+  private static final String ACTIVE_CLASS = "active";
+  private static final String PROFILE = "Profile";
+  private static final String DANGER_TEXT = "Danger";
+  private static final String NAVS = "#navs";
+  private static final String MESSAGES = "Messages";
+  private static final String BUTTON_DROPDOWNS = "#buttonDropdowns";
+  private static final String LIST_GROUP = "#listGroup";
+  private static final String NAVBAR = "#navbar";
+
   private static final IconType[] ICON_GALLERY = {
     IconType.ARCHIVE,
     IconType.ARROW_DOWN,
@@ -310,7 +324,7 @@ final class ComponentPages {
           addPageHeader(column, "pageHeader", "Page Header", null);
           PageHeader pageHeader = new PageHeader();
           pageHeader.add(new Heading(2, "Page Header"));
-          column.add(panel("Basic", pageHeader, "PageHeader pageHeader = new PageHeader();"));
+          column.add(panel(BASIC, pageHeader, "PageHeader pageHeader = new PageHeader();"));
           column.add(pageHeaderVariantsPanel());
           break;
         }
@@ -326,7 +340,7 @@ final class ComponentPages {
           addPageHeader(column, "panels", "Panels", null);
           column.add(
               panel(
-                  "Basic",
+                  BASIC,
                   basicPanelExample(),
                   "Panel panel = new Panel();\npanel.add(new PanelHeader(\"Panel Header\"));\npanel.add(new PanelBody());\npanel.add(new PanelFooter(\"Panel Footer\"));"));
           column.add(
@@ -425,13 +439,13 @@ final class ComponentPages {
     ButtonGroup large = new ButtonGroup();
     large.setLarge(true);
     large.addButton(new Button("Left", ButtonType.DEFAULT));
-    large.addButton(new Button("Middle", ButtonType.DEFAULT));
-    large.addButton(new Button("Right", ButtonType.DEFAULT));
+    large.addButton(new Button(MIDDLE, ButtonType.DEFAULT));
+    large.addButton(new Button(RIGHT, ButtonType.DEFAULT));
     ButtonGroup small = new ButtonGroup();
     small.setSmall(true);
     small.addButton(new Button("Left", ButtonType.DEFAULT));
-    small.addButton(new Button("Middle", ButtonType.DEFAULT));
-    small.addButton(new Button("Right", ButtonType.DEFAULT));
+    small.addButton(new Button(MIDDLE, ButtonType.DEFAULT));
+    small.addButton(new Button(RIGHT, ButtonType.DEFAULT));
     VerticalButtonGroup vertical = new VerticalButtonGroup();
     vertical.addButton(new Button("Top", ButtonType.DEFAULT));
     vertical.addButton(new Button("Bottom", ButtonType.DEFAULT));
@@ -457,15 +471,15 @@ final class ComponentPages {
     DropDown endAligned = new DropDown("End aligned");
     endAligned.setMenuEndAligned(true);
     endAligned.setMenuMatchToggleWidth(true);
-    endAligned.addItem(new DropDownItem("Action", "#"));
-    endAligned.addItem(new DropDownItem("Another action", "#"));
+    endAligned.addItem(new DropDownItem(ACTION, "#"));
+    endAligned.addItem(new DropDownItem(ANOTHER_ACTION, "#"));
     DropDown dropUp = new DropDown("Dropup");
     dropUp.setDropUp(true);
     dropUp.setMenuMatchToggleWidth(true);
-    dropUp.addItem(new DropDownItem("Action", "#"));
-    dropUp.addItem(new DropDownItem("Another action", "#"));
+    dropUp.addItem(new DropDownItem(ACTION, "#"));
+    dropUp.addItem(new DropDownItem(ANOTHER_ACTION, "#"));
     return panel(
-        "Basic",
+        BASIC,
         inline(dropDown, endAligned, dropUp),
         "DropDown dropDown = new DropDown(\"Click to toggle dropdown\");\ndropDown.addItem(new DropDownItem(\"Action\", \"#\"));\ndropDown.setMenuEndAligned(true);\ndropDown.setDropUp(true);\ndropDown.setMenuMatchToggleWidth(true);");
   }
@@ -505,7 +519,7 @@ final class ComponentPages {
     LinkedGroupItem linkedItem = new LinkedGroupItem("LinkedGroupItem", "#");
     linkedItem.add(new LinkedGroupItemText("Linked item body text"));
     linked.add(linkedItem);
-    return panel("Basic", inline(group, linked), "new ListGroup();\nnew LinkedGroup();");
+    return panel(BASIC, inline(group, linked), "new ListGroup();\nnew LinkedGroup();");
   }
 
   private Widget mediaPanel() {
@@ -517,7 +531,7 @@ final class ComponentPages {
     mediaList.add(new Image(IMG_THUMB));
     mediaList.add(mediaBody);
     return panel(
-        "Basic",
+        BASIC,
         mediaList,
         "MediaList mediaList = new MediaList();\nmediaList.add(new MediaBody());");
   }
@@ -535,18 +549,18 @@ final class ComponentPages {
     navbar.getContainer().add(header);
     navbar.getContainer().add(form);
     return panel(
-        "Basic",
+        BASIC,
         navbar,
         "Navbar navbar = new Navbar();\nnavbar.getContainer().add(new NavbarBrand(...));");
   }
 
   private Widget navsPanel() {
     NavTabs tabs = new NavTabs();
-    tabs.addLink("Home", "#").addStyleName("active");
-    tabs.addLink("Profile", "#");
+    tabs.addLink("Home", "#").addStyleName(ACTIVE_CLASS);
+    tabs.addLink(PROFILE, "#");
     NavPills pills = new NavPills();
-    pills.addLink("Home", "#").addStyleName("active");
-    pills.addLink("Profile", "#");
+    pills.addLink("Home", "#").addStyleName(ACTIVE_CLASS);
+    pills.addLink(PROFILE, "#");
     return panel("Tabs and pills", inline(tabs, pills), "new NavTabs();\nnew NavPills();");
   }
 
@@ -555,7 +569,7 @@ final class ComponentPages {
     Pagination small = pagination(PaginationSize.SMALL);
     Pagination large = pagination(PaginationSize.LARGE);
     return panel(
-        "Basic",
+        BASIC,
         stacked(pagination, small, large),
         "Pagination pagination = new Pagination();\npagination.setPaginationSize(PaginationSize.SMALL);\npagination.setPaginationSize(PaginationSize.LARGE);");
   }
@@ -594,7 +608,7 @@ final class ComponentPages {
 
   private Widget progressBasicPanel() {
     return panel(
-        "Basic",
+        BASIC,
         stacked(
             progress(40, ProgressBarType.SUCCESS),
             progress(20, ProgressBarType.INFO),
@@ -668,19 +682,19 @@ final class ComponentPages {
     panel.addBody(new Paragraph("ThumbnailPanel maps to Card."));
     ThumbnailLink link = new ThumbnailLink("#");
     link.add(new Image(IMG_THUMB));
-    return panel("Basic", inline(panel, link), "new ThumbnailPanel();\nnew ThumbnailLink(\"#\");");
+    return panel(BASIC, inline(panel, link), "new ThumbnailPanel();\nnew ThumbnailLink(\"#\");");
   }
 
   private Widget labelsPanel() {
     return panel(
-        "Basic",
+        BASIC,
         inline(
             new Label("Default", LabelType.DEFAULT),
             new Label("Primary", LabelType.PRIMARY),
             new Label("Success", LabelType.SUCCESS),
             new Label("Info", LabelType.INFO),
             new Label("Warning", LabelType.WARNING),
-            new Label("Danger", LabelType.DANGER)),
+            new Label(DANGER_TEXT, LabelType.DANGER)),
         "new Label(\"Primary\", LabelType.PRIMARY);");
   }
 
@@ -928,9 +942,9 @@ final class ComponentPages {
   private Widget navStackedPanel() {
     NavPills stacked = new NavPills();
     stacked.addStyleName("flex-column");
-    stacked.addLink("Home", "#navs").addStyleName("active");
-    stacked.addLink("Profile", "#navs");
-    stacked.addLink("Messages", "#navs");
+    stacked.addLink("Home", NAVS).addStyleName(ACTIVE_CLASS);
+    stacked.addLink(PROFILE, NAVS);
+    stacked.addLink(MESSAGES, NAVS);
     Column narrow = new Column(4);
     narrow.add(stacked);
     Row wrapper = row();
@@ -944,14 +958,14 @@ final class ComponentPages {
   private Widget navJustifiedPanel() {
     NavTabs justified = new NavTabs();
     justified.addStyleName("nav-justified");
-    justified.addLink("Home", "#navs").addStyleName("active");
-    justified.addLink("Profile", "#navs");
-    justified.addLink("Messages", "#navs");
+    justified.addLink("Home", NAVS).addStyleName(ACTIVE_CLASS);
+    justified.addLink(PROFILE, NAVS);
+    justified.addLink(MESSAGES, NAVS);
     NavPills filled = new NavPills();
     filled.addStyleName("nav-fill");
-    filled.addLink("Home", "#navs").addStyleName("active");
-    filled.addLink("Profile", "#navs");
-    filled.addLink("Messages", "#navs");
+    filled.addLink("Home", NAVS).addStyleName(ACTIVE_CLASS);
+    filled.addLink(PROFILE, NAVS);
+    filled.addLink(MESSAGES, NAVS);
     PanelBody body = new PanelBody();
     body.add(justified);
     body.add(new HTML("<div class='mt-3'></div>"));
@@ -964,14 +978,14 @@ final class ComponentPages {
 
   private Widget navDropdownPanel() {
     NavTabs tabs = new NavTabs();
-    tabs.addLink("Home", "#navs").addStyleName("active");
+    tabs.addLink("Home", NAVS).addStyleName(ACTIVE_CLASS);
     ListDropDown menu = new ListDropDown("Dropdown");
-    menu.addItem(new DropDownItem("Action", "#navs"));
-    menu.addItem(new DropDownItem("Another action", "#navs"));
+    menu.addItem(new DropDownItem(ACTION, NAVS));
+    menu.addItem(new DropDownItem(ANOTHER_ACTION, NAVS));
     menu.addMenuWidget(new Divider());
-    menu.addItem(new DropDownItem("Separated link", "#navs"));
+    menu.addItem(new DropDownItem("Separated link", NAVS));
     tabs.add(menu);
-    tabs.addLink("Messages", "#navs");
+    tabs.addLink(MESSAGES, NAVS);
     return panel(
         "Using Dropdowns",
         tabs,
@@ -981,13 +995,13 @@ final class ComponentPages {
   private Widget navIconsPanel() {
     NavPills pills = new NavPills();
     IconType[] types = {IconType.HOUSE, IconType.PERSON, IconType.ENVELOPE};
-    String[] labels = {"Home", "Profile", "Messages"};
+    String[] labels = {"Home", PROFILE, MESSAGES};
     for (int i = 0; i < types.length; i++) {
-      Anchor link = pills.addLink(labels[i], "#navs");
+      Anchor link = pills.addLink(labels[i], NAVS);
       link.setIcon(types[i]);
       link.setIconFixedWidth(true);
       if (i == 0) {
-        link.addStyleName("active");
+        link.addStyleName(ACTIVE_CLASS);
       }
     }
     return panel(
@@ -997,11 +1011,11 @@ final class ComponentPages {
   }
 
   private Widget buttonDropdownBasicPanel() {
-    DropDown primary = menuDropDown("Action", ButtonType.PRIMARY);
-    DropDown secondary = menuDropDown("Another action", ButtonType.DEFAULT);
-    DropDown danger = menuDropDown("Danger", ButtonType.DANGER);
+    DropDown primary = menuDropDown(ACTION, ButtonType.PRIMARY);
+    DropDown secondary = menuDropDown(ANOTHER_ACTION, ButtonType.DEFAULT);
+    DropDown danger = menuDropDown(DANGER_TEXT, ButtonType.DANGER);
     return panel(
-        "Basic",
+        BASIC,
         inline(primary, secondary, danger),
         "DropDown dropDown = new DropDown(\"Action\");\ndropDown.getToggle().setType(ButtonType.PRIMARY);\ndropDown.addItem(new DropDownItem(\"First\", \"#\"));");
   }
@@ -1009,7 +1023,7 @@ final class ComponentPages {
   private Widget buttonDropdownSplitPanel() {
     Widget[] groups = new Widget[3];
     ButtonType[] types = {ButtonType.PRIMARY, ButtonType.SUCCESS, ButtonType.DANGER};
-    String[] labels = {"Primary", "Success", "Danger"};
+    String[] labels = {"Primary", "Success", DANGER_TEXT};
     for (int i = 0; i < types.length; i++) {
       groups[i] = splitDropDown(labels[i], types[i]);
     }
@@ -1052,13 +1066,13 @@ final class ComponentPages {
     DropDown dropDown = new DropDown("Menu content");
     dropDown.getToggle().setType(ButtonType.DEFAULT);
     dropDown.addMenuWidget(new DropDownHeader("Header"));
-    dropDown.addItem(new DropDownItem("Action", "#buttonDropdowns"));
-    DropDownItem disabled = new DropDownItem("Disabled action", "#buttonDropdowns");
+    dropDown.addItem(new DropDownItem(ACTION, BUTTON_DROPDOWNS));
+    DropDownItem disabled = new DropDownItem("Disabled action", BUTTON_DROPDOWNS);
     disabled.addStyleName("disabled");
     dropDown.addItem(disabled);
     dropDown.addMenuWidget(new Divider());
     dropDown.addMenuWidget(new DropDownHeader("Second group"));
-    dropDown.addItem(new DropDownItem("Separated link", "#buttonDropdowns"));
+    dropDown.addItem(new DropDownItem("Separated link", BUTTON_DROPDOWNS));
     return panel(
         "Headers, Dividers and Disabled Items",
         inline(dropDown),
@@ -1068,10 +1082,10 @@ final class ComponentPages {
   private DropDown menuDropDown(String text, ButtonType type) {
     DropDown dropDown = new DropDown(text);
     dropDown.getToggle().setType(type);
-    dropDown.addItem(new DropDownItem("First", "#buttonDropdowns"));
-    dropDown.addItem(new DropDownItem("Second", "#buttonDropdowns"));
+    dropDown.addItem(new DropDownItem("First", BUTTON_DROPDOWNS));
+    dropDown.addItem(new DropDownItem("Second", BUTTON_DROPDOWNS));
     dropDown.addMenuWidget(new Divider());
-    dropDown.addItem(new DropDownItem("Third", "#buttonDropdowns"));
+    dropDown.addItem(new DropDownItem("Third", BUTTON_DROPDOWNS));
     return dropDown;
   }
 
@@ -1084,8 +1098,8 @@ final class ComponentPages {
     split.getToggle().setType(type);
     split.getToggle().addStyleName("dropdown-toggle-split");
     split.getToggle().getElement().setAttribute("aria-label", text + " menu");
-    split.addItem(new DropDownItem("First", "#buttonDropdowns"));
-    split.addItem(new DropDownItem("Second", "#buttonDropdowns"));
+    split.addItem(new DropDownItem("First", BUTTON_DROPDOWNS));
+    split.addItem(new DropDownItem("Second", BUTTON_DROPDOWNS));
     group.add(split);
     return group;
   }
@@ -1104,7 +1118,7 @@ final class ComponentPages {
     learnMore.setLarge(true);
     jumbotron.add(learnMore);
     return panel(
-        "Basic",
+        BASIC,
         jumbotron,
         "Jumbotron jumbotron = new Jumbotron();\njumbotron.add(new Heading(1, \"Hello, world!\"));\njumbotron.add(new Lead(\"...\"));\n\n// Bootstrap 5 dropped the .jumbotron class; the widget now\n// renders the documented p-5 mb-4 bg-body-tertiary rounded-3 utilities.");
   }
@@ -1173,7 +1187,7 @@ final class ComponentPages {
         new HelpBlock(
             "The suggestion popup is styled with the Bootstrap 5 dropdown-menu classes."));
     return panel(
-        "Basic",
+        BASIC,
         group,
         "MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();\noracle.addAll(Arrays.asList(\"Alabama\", \"Alaska\", ...));\nSuggestBox suggestBox = new SuggestBox(oracle);");
   }
@@ -1251,7 +1265,7 @@ final class ComponentPages {
     LinkedGroup linked = new LinkedGroup();
     String[] titles = {"First item", "Second item", "Third item"};
     for (int i = 0; i < titles.length; i++) {
-      LinkedGroupItem item = new LinkedGroupItem(titles[i], "#listGroup");
+      LinkedGroupItem item = new LinkedGroupItem(titles[i], LIST_GROUP);
       item.setActive(i == 0);
       item.add(
           new LinkedGroupItemText(
@@ -1259,8 +1273,8 @@ final class ComponentPages {
       linked.add(item);
     }
     LinkedGroup disabled = new LinkedGroup();
-    LinkedGroupItem enabledItem = new LinkedGroupItem("Enabled link", "#listGroup");
-    LinkedGroupItem disabledItem = new LinkedGroupItem("Disabled link", "#listGroup");
+    LinkedGroupItem enabledItem = new LinkedGroupItem("Enabled link", LIST_GROUP);
+    LinkedGroupItem disabledItem = new LinkedGroupItem("Disabled link", LIST_GROUP);
     disabledItem.setDisabled(true);
     disabled.add(enabledItem);
     disabled.add(disabledItem);
@@ -1273,9 +1287,9 @@ final class ComponentPages {
   private Widget navbarDarkPanel() {
     Navbar navbar = new Navbar();
     navbar.setDark(true);
-    navbar.getContainer().add(new NavbarBrand("Dark brand", "#navbar"));
-    navbar.getNav().add(new NavbarLink("Home", "#navbar"));
-    navbar.getNav().add(new NavbarLink("Profile", "#navbar"));
+    navbar.getContainer().add(new NavbarBrand("Dark brand", NAVBAR));
+    navbar.getNav().add(new NavbarLink("Home", NAVBAR));
+    navbar.getNav().add(new NavbarLink(PROFILE, NAVBAR));
     navbar.getContainer().add(new NavbarText("Signed in as Carl"));
     return panel(
         "Dark Navbar",
@@ -1285,17 +1299,17 @@ final class ComponentPages {
 
   private Widget navbarCollapsePanel() {
     Navbar navbar = new Navbar();
-    navbar.getContainer().add(new NavbarBrand("Collapsing", "#navbar"));
+    navbar.getContainer().add(new NavbarBrand("Collapsing", NAVBAR));
     NavbarCollapseButton toggle = new NavbarCollapseButton("demo-navbar-collapse");
     navbar.getContainer().add(toggle);
     NavbarCollapse collapse = new NavbarCollapse();
     collapse.getElement().setId("demo-navbar-collapse");
     collapse.add(navbar.getNav());
-    navbar.getNav().add(new NavbarLink("Home", "#navbar"));
-    navbar.getNav().add(new NavbarLink("Link", "#navbar"));
+    navbar.getNav().add(new NavbarLink("Home", NAVBAR));
+    navbar.getNav().add(new NavbarLink("Link", NAVBAR));
     ListDropDown menu = new ListDropDown("Dropdown");
-    menu.addItem(new DropDownItem("Action", "#navbar"));
-    menu.addItem(new DropDownItem("Another action", "#navbar"));
+    menu.addItem(new DropDownItem(ACTION, NAVBAR));
+    menu.addItem(new DropDownItem(ANOTHER_ACTION, NAVBAR));
     navbar.getNav().add(menu);
     NavbarForm form = new NavbarForm();
     Input search = new Input("search");
@@ -1386,7 +1400,7 @@ final class ComponentPages {
       toolbar.addGroup(group);
     }
     ButtonGroup checkboxes = new ButtonGroup();
-    String[] labels = {"Left", "Middle", "Right"};
+    String[] labels = {"Left", MIDDLE, RIGHT};
     for (String label : labels) {
       CheckBoxButton toggle = new CheckBoxButton(label);
       toggle.setOutline(true);
