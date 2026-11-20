@@ -223,7 +223,7 @@ public class Typeahead<T> extends TextBox {
     }
 
     protected void configure() {
-        JsArray<JavaScriptObject> datasetJSOs = JsArray.createArray().cast();
+        JsArray<JavaScriptObject> datasetJSOs = JavaScriptObject.createArray().cast();
         for (Dataset<T> dataset : datasets) {
             JavaScriptObject jso = toJSO(dataset);
             datasetJSOs.push(jso);
