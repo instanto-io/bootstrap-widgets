@@ -44,6 +44,7 @@ import io.instanto.bootstrap5.client.ui.base.BootstrapEventHandler;
 import io.instanto.bootstrap5.client.ui.constants.ModalBackdrop;
 
 public class Modal extends ElementPanel implements IsClosable {
+  private static final String MODAL = "Modal";
 
   private final ElementPanel dialog = new ElementPanel("div");
   private final ElementPanel content = new ElementPanel("div");
@@ -113,7 +114,7 @@ public class Modal extends ElementPanel implements IsClosable {
   @Override
   protected void onUnload() {
     BootstrapEventBridge.unbindAll(getElement());
-    BootstrapComponent.releaseVisibility(getElement(), "Modal");
+    BootstrapComponent.releaseVisibility(getElement(), MODAL);
     super.onUnload();
   }
 
@@ -208,15 +209,15 @@ public class Modal extends ElementPanel implements IsClosable {
     if (!isAttached()) {
       RootPanel.get().add(this);
     }
-    BootstrapComponent.call(getElement(), "Modal", "show");
+    BootstrapComponent.call(getElement(), MODAL, "show");
   }
 
   public void hide() {
-    BootstrapComponent.call(getElement(), "Modal", "hide");
+    BootstrapComponent.call(getElement(), MODAL, "hide");
   }
 
   public void toggle() {
-    BootstrapComponent.call(getElement(), "Modal", "toggle");
+    BootstrapComponent.call(getElement(), MODAL, "toggle");
   }
 
   public HandlerRegistration addShowHandler(ModalShowHandler handler) {
