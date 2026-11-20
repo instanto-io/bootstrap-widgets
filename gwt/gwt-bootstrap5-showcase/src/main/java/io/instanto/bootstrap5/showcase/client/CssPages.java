@@ -97,6 +97,10 @@ import java.util.List;
 
 /** Creates only the requested showcase section. */
 final class CssPages {
+  private static final String BASIC = "Basic";
+  private static final String DISABLED = "Disabled";
+  private static final String PLACEHOLDER = "placeholder";
+
   Row createCssSections(String token) {
     Row row = row();
     Column column = fullColumn(row);
@@ -149,7 +153,7 @@ final class CssPages {
           thumbnail.setType(ImageType.THUMBNAIL);
           column.add(
               panel(
-                  "Basic",
+                  BASIC,
                   inline(rounded, circle, thumbnail, new ImageAnchor("#", IMG_THUMB)),
                   "Image rounded = new Image(url);\nrounded.setType(ImageType.ROUNDED);\nimage.setType(ImageType.CIRCLE);\nimage.setType(ImageType.THUMBNAIL);"));
           column.add(imagesResponsivePanel());
@@ -198,7 +202,7 @@ final class CssPages {
 
   private Widget buttonsBasicPanel() {
     return panel(
-        "Basic",
+        BASIC,
         inline(
             new Button("Default", ButtonType.DEFAULT),
             new Button("Primary", ButtonType.PRIMARY),
@@ -229,7 +233,7 @@ final class CssPages {
 
   private Widget buttonStatesPanel() {
     Button enabled = new Button("Enabled", ButtonType.PRIMARY);
-    Button disabled = new Button("Disabled", ButtonType.PRIMARY);
+    Button disabled = new Button(DISABLED, ButtonType.PRIMARY);
     disabled.setEnabled(false);
     Button toggle = new Button("Toggle button", Variant.PRIMARY);
     toggle.setOutline(true);
@@ -268,7 +272,7 @@ final class CssPages {
     initiallyChecked.setType(ButtonType.PRIMARY);
     initiallyChecked.setOutline(true);
     initiallyChecked.setValue(true);
-    CheckBoxButton disabled = new CheckBoxButton("Disabled");
+    CheckBoxButton disabled = new CheckBoxButton(DISABLED);
     disabled.setType(ButtonType.PRIMARY);
     disabled.setOutline(true);
     disabled.setEnabled(false);
@@ -318,7 +322,7 @@ final class CssPages {
     form.add(simpleControlsGroup());
     form.add(new SubmitButton("SubmitButton"));
     return panel(
-        "Basic",
+        BASIC,
         form,
         "new Form();\nnew TextBox();\nnew CheckBox(\"CheckBox\");\nnew Radio(\"group\", \"Radio\");\nnew InlineRadio(\"group\", \"InlineRadio\");\n\n// Bootstrap 5 renders the input and the label as siblings\n// inside .form-check, not the input nested in the label.");
   }
@@ -428,11 +432,11 @@ final class CssPages {
 
   private Widget formAdaptersPanel() {
     IntegerBox integerBox = new IntegerBox();
-    integerBox.getElement().setAttribute("placeholder", "IntegerBox");
+    integerBox.getElement().setAttribute(PLACEHOLDER, "IntegerBox");
     DoubleBox doubleBox = new DoubleBox();
-    doubleBox.getElement().setAttribute("placeholder", "DoubleBox");
+    doubleBox.getElement().setAttribute(PLACEHOLDER, "DoubleBox");
     LongBox longBox = new LongBox();
-    longBox.getElement().setAttribute("placeholder", "LongBox");
+    longBox.getElement().setAttribute(PLACEHOLDER, "LongBox");
     ListBox listBox = new ListBox();
     listBox.addItem("ListBox");
     ValueListBox<String> valueListBox = new ValueListBox<String>();
@@ -484,7 +488,7 @@ final class CssPages {
     Abbreviation abbreviation = new Abbreviation("GWT");
     abbreviation.setTitle("Google Web Toolkit");
     return panel(
-        "Basic",
+        BASIC,
         inline(
             new Heading(2, "Heading"),
             new Lead("Lead text"),
@@ -505,7 +509,7 @@ final class CssPages {
 
   private Widget tableBasicPanel() {
     return panel(
-        "Basic",
+        BASIC,
         new HTML(
             "<table class='table'>"
                 + "<caption>A list of the widget libraries in this repository</caption>"
@@ -940,7 +944,7 @@ final class CssPages {
     stepped.add(steps);
 
     FormGroup disabled = new FormGroup();
-    disabled.add(new FormLabel("Disabled"));
+    disabled.add(new FormLabel(DISABLED));
     Range off = new Range();
     off.setValue(30d);
     off.setEnabled(false);
