@@ -30,6 +30,7 @@ import io.instanto.bootstrap5.client.ui.constants.IconType;
 import io.instanto.bootstrap5.client.ui.constants.Styles;
 
 public class CarouselControl extends ElementPanel implements HasHref {
+  private static final String DATA_BS_TARGET = "data-bs-target";
 
   /**
    * A control with neither direction nor target set yet, which is what UiBinder needs: it
@@ -45,7 +46,7 @@ public class CarouselControl extends ElementPanel implements HasHref {
     super("button");
     super.getElement().setClassName(previous ? "carousel-control-prev" : "carousel-control-next");
     super.getElement().setAttribute("type", "button");
-    super.getElement().setAttribute("data-bs-target", "#" + targetId);
+    super.getElement().setAttribute(DATA_BS_TARGET, "#" + targetId);
     super.getElement().setAttribute("data-bs-slide", previous ? "prev" : "next");
     super.getElement()
         .setInnerHTML(
@@ -64,7 +65,7 @@ public class CarouselControl extends ElementPanel implements HasHref {
   /** The id of the carousel this control drives, without the leading hash. */
   public void setTargetId(final String targetId) {
     this.targetId = targetId == null ? "" : targetId;
-    getElement().setAttribute("data-bs-target", "#" + this.targetId);
+    getElement().setAttribute(DATA_BS_TARGET, "#" + this.targetId);
   }
 
   public String getTargetId() {
@@ -94,7 +95,7 @@ public class CarouselControl extends ElementPanel implements HasHref {
   @Override
   public void setHref(final String href) {
     this.targetId = href == null ? "" : (href.startsWith("#") ? href.substring(1) : href);
-    getElement().setAttribute("data-bs-target", "#" + this.targetId);
+    getElement().setAttribute(DATA_BS_TARGET, "#" + this.targetId);
   }
 
   @Override
