@@ -57,6 +57,7 @@ import io.instanto.bootstrap5.client.ui.html.Div;
  * #getHTML()} renders it.
  */
 public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> {
+  private static final String ACTIVE_CLASS = "active";
 
   private final IdMixin<MarkdownEditor> idMixin = new IdMixin<MarkdownEditor>(this);
 
@@ -135,11 +136,11 @@ public class MarkdownEditor extends Div implements HasEnabled, HasValue<String> 
     writeButton.getElement().setAttribute("aria-pressed", String.valueOf(editing));
     previewButton.getElement().setAttribute("aria-pressed", String.valueOf(!editing));
     if (editing) {
-      writeButton.addStyleName("active");
-      previewButton.removeStyleName("active");
+      writeButton.addStyleName(ACTIVE_CLASS);
+      previewButton.removeStyleName(ACTIVE_CLASS);
     } else {
-      writeButton.removeStyleName("active");
-      previewButton.addStyleName("active");
+      writeButton.removeStyleName(ACTIVE_CLASS);
+      previewButton.addStyleName(ACTIVE_CLASS);
     }
   }
 
