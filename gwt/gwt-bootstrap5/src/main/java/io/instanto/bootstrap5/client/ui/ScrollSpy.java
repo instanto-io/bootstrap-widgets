@@ -32,6 +32,7 @@ import io.instanto.bootstrap5.client.ui.base.BootstrapComponent;
 import io.instanto.bootstrap5.client.ui.base.HasId;
 
 public class ScrollSpy {
+  private static final String SCROLL_SPY = "ScrollSpy";
 
   private final Element spyOn;
 
@@ -60,15 +61,15 @@ public class ScrollSpy {
     this.spyOn.setAttribute("data-bs-spy", "scroll");
     this.spyOn.setAttribute("data-bs-target", selector == null ? "" : selector);
     this.spyOn.setAttribute("tabindex", "0");
-    BootstrapComponent.create(this.spyOn, "ScrollSpy");
+    BootstrapComponent.create(this.spyOn, SCROLL_SPY);
   }
 
   public void refresh() {
-    BootstrapComponent.call(spyOn, "ScrollSpy", "refresh");
+    BootstrapComponent.call(spyOn, SCROLL_SPY, "refresh");
   }
 
   public void dispose() {
-    BootstrapComponent.dispose(spyOn, "ScrollSpy");
+    BootstrapComponent.dispose(spyOn, SCROLL_SPY);
   }
 
   private static String targetSelector(HasId target) {
