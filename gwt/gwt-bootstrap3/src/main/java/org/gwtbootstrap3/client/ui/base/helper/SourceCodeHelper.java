@@ -38,7 +38,7 @@ public final class SourceCodeHelper {
      */
     public static SafeHtml parseCode(final String code) {
         final SafeHtmlBuilder builder = new SafeHtmlBuilder();
-        final String[] splitted = code.replaceAll("\\\\s", " ").split("\\\\n\\s?");
+        final String[] splitted = code.replace("\\s", " ").split("\\\\n\\s?");
 
         for (final String s : splitted) {
             builder.append(SafeHtmlUtils.fromTrustedString(SafeHtmlUtils.htmlEscapeAllowEntities(s)));
