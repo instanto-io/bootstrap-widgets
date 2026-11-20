@@ -40,6 +40,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Xiaodong SUN
  */
 public class NotifyView extends Composite {
+    private static final String MESSAGE = "Message";
+    private static final String TITLE = "Title";
 
     @UiField
     Button basicNotify;
@@ -56,12 +58,12 @@ public class NotifyView extends Composite {
 
     @UiHandler("basicNotify")
     public void handleBasicNotify(final ClickEvent event) {
-        Notify.notify("Message");
+        Notify.notify(MESSAGE);
     }
 
     @UiHandler("basicNotifyWithTitleIcon")
     public void handleBasicNotifyWithTitleIcon(final ClickEvent event) {
-        Notify.notify("Title", "Message", IconType.SMILE_O);
+        Notify.notify(TITLE, MESSAGE, IconType.SMILE_O);
     }
 
     @UiHandler("showProgressbar")
@@ -69,7 +71,7 @@ public class NotifyView extends Composite {
         NotifySettings settings = NotifySettings.newSettings();
         settings.setShowProgressbar(true);
         settings.setPauseOnMouseOver(true);
-        Notify.notify("Title", "Message", IconType.SMILE_O, settings);
+        Notify.notify(TITLE, MESSAGE, IconType.SMILE_O, settings);
     }
 
     @UiHandler("changeBackgroundAndDismiss")
@@ -77,14 +79,14 @@ public class NotifyView extends Composite {
         NotifySettings settings = NotifySettings.newSettings();
         settings.setType(NotifyType.SUCCESS);
         settings.setAllowDismiss(false);
-        Notify.notify("Title", "Message", IconType.SMILE_O, settings);
+        Notify.notify(TITLE, MESSAGE, IconType.SMILE_O, settings);
     }
 
     @UiHandler("positionAndLink")
     public void handlePositionAndFormatting(final ClickEvent event) {
         NotifySettings settings = NotifySettings.newSettings();
         settings.setPlacement(NotifyPlacement.TOP_CENTER);
-        Notify.notify("Title", "Message", IconType.SMILE_O, "https://github.com/gwtbootstrap3/gwtbootstrap3", settings);
+        Notify.notify(TITLE, MESSAGE, IconType.SMILE_O, "https://github.com/gwtbootstrap3/gwtbootstrap3", settings);
     }
 
     @UiHandler("animationAndOffset")
@@ -92,7 +94,7 @@ public class NotifyView extends Composite {
         NotifySettings settings = NotifySettings.newSettings();
         settings.setAnimation(Animation.TADA, Animation.LIGHTSPEED_OUT);
         settings.setOffset(200, 140);
-        Notify.notify("Title", "Message", IconType.SMILE_O, settings);
+        Notify.notify(TITLE, MESSAGE, IconType.SMILE_O, settings);
     }
 
     @UiHandler("template")
@@ -109,7 +111,7 @@ public class NotifyView extends Composite {
                 "\t\t<a href=\"#\" data-notify=\"url\"></a>\n" +
                 "\t</div>");
         settings.makeDefault();
-        Notify.notify("Title", "Message", IconType.SMILE_O);
+        Notify.notify(TITLE, MESSAGE, IconType.SMILE_O);
     }
 
     interface Binder extends UiBinder<Widget, NotifyView> {
