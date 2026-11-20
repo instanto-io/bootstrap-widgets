@@ -41,6 +41,11 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Marko Nikolić <marko.nikolic@iten.rs>
  */
 public class TagsInputView extends Composite {
+    private static final String SYDNEY = "Sydney";
+    private static final String BEIJING = "Beijing";
+    private static final String CAIRO = "Cairo";
+    private static final String BELGRADE = "Belgrade";
+    private static final String AMSTERDAM = "Amsterdam";
 
     interface Binder extends UiBinder<Widget, TagsInputView> {
     }
@@ -97,9 +102,9 @@ public class TagsInputView extends Composite {
     private void createMarkupTagsInput() {
         List<String> tags = new ArrayList<String>();
         
-        tags.add("Sydney");
-        tags.add("Beijing");
-        tags.add("Cairo");
+        tags.add(SYDNEY);
+        tags.add(BEIJING);
+        tags.add(CAIRO);
         
         for(String tag : tags) {
             markupTagsInput.add(tag);
@@ -109,9 +114,9 @@ public class TagsInputView extends Composite {
     private void createMultiValueTagsInput() {
         List<String> tags = new ArrayList<String>();
         
-        tags.add("Sydney");
-        tags.add("Beijing");
-        tags.add("Cairo");
+        tags.add(SYDNEY);
+        tags.add(BEIJING);
+        tags.add(CAIRO);
         
         multiValueTagsInput.add(tags);
     }
@@ -119,20 +124,20 @@ public class TagsInputView extends Composite {
     private void createTypeaheadTagsInput() {
         List<String> suggestions = new ArrayList<String>();
         
-        suggestions.add("Belgrade");
-        suggestions.add("Amsterdam");
+        suggestions.add(BELGRADE);
+        suggestions.add(AMSTERDAM);
         suggestions.add("London");
         suggestions.add("Paris");
         suggestions.add("Washington");
         suggestions.add("New York");
         suggestions.add("Los Angeles");
-        suggestions.add("Sydney");
+        suggestions.add(SYDNEY);
         suggestions.add("Melbourne");
         suggestions.add("Canberra");
-        suggestions.add("Beijing");
+        suggestions.add(BEIJING);
         suggestions.add("New Delhi");
         suggestions.add("Kathmandu");
-        suggestions.add("Cairo");
+        suggestions.add(CAIRO);
         suggestions.add("Cape Town");
         suggestions.add("Kinshasa");
         
@@ -163,14 +168,14 @@ public class TagsInputView extends Composite {
 
         // Add tags
         List<Item> tags = new ArrayList<Item>();
-        tags.add(new Item("Belgrade", 1));
-        tags.add(new Item("Amsterdam", 1));
+        tags.add(new Item(BELGRADE, 1));
+        tags.add(new Item(AMSTERDAM, 1));
         tags.add(new Item("London", 2));
         joTagsInput.add(tags);
         
         // Create suggestions
         List<Item> suggestions = new ArrayList<Item>();
-        suggestions.add(new Item("Belgrade", 4));
+        suggestions.add(new Item(BELGRADE, 4));
         suggestions.add(new Item("Athens", 5));
         CollectionDataset<Item> dataset = new CollectionDataset<Item>(suggestions) {
             @Override
@@ -186,12 +191,12 @@ public class TagsInputView extends Composite {
             @Override
             public String getTagClass(String item) {
                 switch(item) {
-                case "Belgrade":   return "label label-primary";
-                case "Amsterdam":  return "label label-danger label-important";
+                case BELGRADE:   return "label label-primary";
+                case AMSTERDAM:  return "label label-danger label-important";
                 case "Washington": return "label label-success";
-                case "Sydney":     return "label label-default";
-                case "Beijing":    return "label label-warning";
-                case "Cairo":      return "label label-info";
+                case SYDNEY:     return "label label-default";
+                case BEIJING:    return "label label-warning";
+                case CAIRO:      return "label label-info";
                 default:           return "label label-info";
                 }
             }
@@ -200,9 +205,9 @@ public class TagsInputView extends Composite {
         
         List<String> tags = new ArrayList<String>();
         
-        tags.add("Sydney");
-        tags.add("Beijing");
-        tags.add("Cairo");
+        tags.add(SYDNEY);
+        tags.add(BEIJING);
+        tags.add(CAIRO);
         
         for(String tag : tags) {
             categoryTagsInput.add(tag);
