@@ -50,6 +50,7 @@ import java.util.List;
  * @author Steven Jardine
  */
 public class DefaultErrorHandler implements ErrorHandler {
+  private static final String ARIA_DESCRIBEDBY_ATTRIBUTE = "aria-describedby";
 
   private boolean initialized = false;
 
@@ -192,12 +193,12 @@ public class DefaultErrorHandler implements ErrorHandler {
       messageId = Document.get().createUniqueId();
       feedback.getElement().setId(messageId);
     }
-    String describedBy = inputWidget.getElement().getAttribute("aria-describedby");
+    String describedBy = inputWidget.getElement().getAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE);
     if (!(" " + describedBy + " ").contains(" " + messageId + " ")) {
       inputWidget
           .getElement()
           .setAttribute(
-              "aria-describedby",
+              ARIA_DESCRIBEDBY_ATTRIBUTE,
               describedBy == null || describedBy.trim().isEmpty()
                   ? messageId
                   : describedBy.trim() + " " + messageId);
@@ -209,7 +210,7 @@ public class DefaultErrorHandler implements ErrorHandler {
       return;
     }
     String messageId = feedback.getElement().getId();
-    String describedBy = inputWidget.getElement().getAttribute("aria-describedby");
+    String describedBy = inputWidget.getElement().getAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE);
     if (messageId == null || messageId.isEmpty() || describedBy == null || describedBy.isEmpty()) {
       return;
     }
@@ -223,9 +224,9 @@ public class DefaultErrorHandler implements ErrorHandler {
       }
     }
     if (remaining.length() == 0) {
-      inputWidget.getElement().removeAttribute("aria-describedby");
+      inputWidget.getElement().removeAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE);
     } else {
-      inputWidget.getElement().setAttribute("aria-describedby", remaining.toString());
+      inputWidget.getElement().setAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE, remaining.toString());
     }
   }
 }
