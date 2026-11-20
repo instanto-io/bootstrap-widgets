@@ -247,7 +247,7 @@ public class CalendarConfig {
     
     public JsArray<JavaScriptObject> getJavaScriptParameters() {
         @SuppressWarnings("unchecked")
-        final JsArray<JavaScriptObject> params = (JsArray<JavaScriptObject>) JsArray.createArray();
+        final JsArray<JavaScriptObject> params = (JsArray<JavaScriptObject>) JavaScriptObject.createArray();
         setParameter(params, getGeneralDisplay());
         setParameter(params, getButtonText());
         setParameter(params, getMonthNames());
