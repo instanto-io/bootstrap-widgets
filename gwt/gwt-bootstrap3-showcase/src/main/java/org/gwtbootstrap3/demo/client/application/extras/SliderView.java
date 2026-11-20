@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Xiaodong SUN
  */
 public class SliderView extends Composite {
+    private static final String VALUE = "value = ";
 
     @UiField Slider basicExample;
     @UiField RangeSlider rangeExample;
@@ -146,22 +147,22 @@ public class SliderView extends Composite {
 
     @UiHandler("eventExample")
     void onSlide(SlideEvent<Double> event) {
-        addEventLog("slide", "value = " + event.getValue());
+        addEventLog("slide", VALUE + event.getValue());
     }
 
     @UiHandler("eventExample")
     void onSlideStart(SlideStartEvent<Double> event) {
-        addEventLog("slideStart", "value = " + event.getValue());
+        addEventLog("slideStart", VALUE + event.getValue());
     }
 
     @UiHandler("eventExample")
     void onSlideStop(SlideStopEvent<Double> event) {
-        addEventLog("slideStop", "value = " + event.getValue());
+        addEventLog("slideStop", VALUE + event.getValue());
     }
 
     @UiHandler("eventExample")
     void onChange(ValueChangeEvent<Double> event) {
-        addEventLog("change", "value = " + event.getValue());
+        addEventLog("change", VALUE + event.getValue());
     }
 
     @UiHandler("eventExample")
@@ -186,22 +187,22 @@ public class SliderView extends Composite {
 
     @UiHandler("eventRangeExample")
     void onRangeSlide(SlideEvent<Range> event) {
-        addEventLog("slide", "value = " + event.getValue());
+        addEventLog("slide", VALUE + event.getValue());
     }
 
     @UiHandler("eventRangeExample")
     void onRangeSlideStart(SlideStartEvent<Range> event) {
-        addEventLog("slideStart", "value = " + event.getValue());
+        addEventLog("slideStart", VALUE + event.getValue());
     }
 
     @UiHandler("eventRangeExample")
     void onRangeSlideStop(SlideStopEvent<Range> event) {
-        addEventLog("slideStop", "value = " + event.getValue());
+        addEventLog("slideStop", VALUE + event.getValue());
     }
 
     @UiHandler("eventRangeExample")
     void onRangeChange(ValueChangeEvent<Range> event) {
-        addEventLog("change", "value = " + event.getValue());
+        addEventLog("change", VALUE + event.getValue());
     }
 
     @UiHandler("eventRangeExample")
