@@ -34,6 +34,8 @@ import com.google.gwt.dom.client.Element;
  * @author Marko Nikolić <marko.nikolic@iten.rs>
  */
 public class TagsInput extends SingleValueTagsInput<String> {
+    private static final String VALUE = "value";
+
     
     /** Wraps an element already in the document and starts its lifecycle. */
     public static TagsInput wrap(Element element) {
@@ -63,8 +65,8 @@ public class TagsInput extends SingleValueTagsInput<String> {
         if (isAttached())
             super.add(tag);
         else {
-            String currentValue = getElement().getPropertyString("value");
-            getElement().setPropertyString("value", (currentValue.isEmpty() ? "" : currentValue+",") + tag);
+            String currentValue = getElement().getPropertyString(VALUE);
+            getElement().setPropertyString(VALUE, (currentValue.isEmpty() ? "" : currentValue+",") + tag);
         }
     }
     
@@ -73,7 +75,7 @@ public class TagsInput extends SingleValueTagsInput<String> {
         if (isAttached())
             return super.getValue();
         else
-            return getElement().getPropertyString("value");
+            return getElement().getPropertyString(VALUE);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class TagsInput extends SingleValueTagsInput<String> {
         if (isAttached()) {
             super.removeAll();
         } else {
-            getElement().setPropertyString("value", "");
+            getElement().setPropertyString(VALUE, "");
         }
     }
 
