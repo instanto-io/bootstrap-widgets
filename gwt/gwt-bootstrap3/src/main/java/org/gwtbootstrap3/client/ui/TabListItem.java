@@ -57,6 +57,8 @@ import java.util.List;
  * @see org.gwtbootstrap3.client.ui.NavTabs
  */
 public class TabListItem extends AnchorListItem implements HasDataTarget {
+    private static final String FALSE_ATTRIBUTE_VALUE = "false";
+    private static final String ARIA_SELECTED_ATTRIBUTE = "aria-selected";
 
     /**
      * Creates the default widget with no text
@@ -74,7 +76,7 @@ public class TabListItem extends AnchorListItem implements HasDataTarget {
         super(text);
         setDataToggle(Toggle.TAB);
         anchor.getElement().setAttribute("role", "tab");
-        anchor.getElement().setAttribute("aria-selected", super.isActive() ? "true" : "false");
+        anchor.getElement().setAttribute(ARIA_SELECTED_ATTRIBUTE, super.isActive() ? "true" : FALSE_ATTRIBUTE_VALUE);
     }
 
     public TabListItem(final String text, final IconType iconType) {
@@ -172,7 +174,7 @@ public class TabListItem extends AnchorListItem implements HasDataTarget {
     @Override
     public void setEnabled(final boolean enabled) {
         super.setEnabled(enabled);
-        anchor.getElement().setAttribute("aria-disabled", enabled ? "false" : "true");
+        anchor.getElement().setAttribute("aria-disabled", enabled ? FALSE_ATTRIBUTE_VALUE : "true");
 
         // On enable/disable we need to add/remove the data toggle for it to work properly
         if (enabled) {
@@ -217,9 +219,9 @@ public class TabListItem extends AnchorListItem implements HasDataTarget {
      */
     protected void onShow(final Event evt) {
         if (evt != null && evt.getRelatedEventTarget() != null) {
-            Element.as(evt.getRelatedEventTarget()).setAttribute("aria-selected", "false");
+            Element.as(evt.getRelatedEventTarget()).setAttribute(ARIA_SELECTED_ATTRIBUTE, FALSE_ATTRIBUTE_VALUE);
         }
-        anchor.getElement().setAttribute("aria-selected", "true");
+        anchor.getElement().setAttribute(ARIA_SELECTED_ATTRIBUTE, "true");
         fireEvent(new TabShowEvent(this, evt));
     }
 
@@ -231,7 +233,7 @@ public class TabListItem extends AnchorListItem implements HasDataTarget {
     }
 
     private void updateAriaSelected() {
-        anchor.getElement().setAttribute("aria-selected", isActive() ? "true" : "false");
+        anchor.getElement().setAttribute(ARIA_SELECTED_ATTRIBUTE, isActive() ? "true" : FALSE_ATTRIBUTE_VALUE);
     }
 
     /**
