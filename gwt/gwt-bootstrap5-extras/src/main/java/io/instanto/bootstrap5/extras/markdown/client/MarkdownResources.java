@@ -45,7 +45,9 @@ public final class MarkdownResources {
   private MarkdownResources() {}
 
   /** Nothing to fetch: the entry point has already injected the scripts. */
-  public static void ensureInjected() {}
+  public static void ensureInjected() {
+    // The GWT module entry point already injects the resources.
+  }
 
   /**
    * Runs an action now if the library is on the page.
