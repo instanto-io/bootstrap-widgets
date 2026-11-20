@@ -14,6 +14,7 @@ public final class Bootstrap3 {
 
     /** Nothing to do: the module has already injected Bootstrap. */
     public static void initialise() {
+        // The GWT module entry point already injects the resources.
     }
 
     /** Runs {@code ready} now; Bootstrap is already on the page. */
