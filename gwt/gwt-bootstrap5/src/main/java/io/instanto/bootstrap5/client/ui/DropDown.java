@@ -29,6 +29,10 @@ import com.google.gwt.user.client.ui.Widget;
 import io.instanto.bootstrap5.client.ui.constants.ButtonType;
 
 public class DropDown extends ElementPanel {
+  private static final String DROPDOWN = "dropdown";
+  private static final String DROPUP = "dropup";
+  private static final String DROPSTART = "dropstart";
+  private static final String DROPEND = "dropend";
 
   private final Button toggle;
   private final DropDownMenu menu = new DropDownMenu();
@@ -43,10 +47,10 @@ public class DropDown extends ElementPanel {
 
   protected DropDown(String tagName, String text) {
     super(tagName);
-    addStyleName("dropdown");
+    addStyleName(DROPDOWN);
     toggle = new Button(text, ButtonType.DEFAULT);
     toggle.addStyleName("dropdown-toggle");
-    toggle.getElement().setAttribute("data-bs-toggle", "dropdown");
+    toggle.getElement().setAttribute("data-bs-toggle", DROPDOWN);
     toggle.getElement().setAttribute("aria-expanded", "false");
     add(toggle);
     add(menu);
@@ -79,29 +83,29 @@ public class DropDown extends ElementPanel {
   }
 
   public void setDropUp(boolean dropUp) {
-    setStyleName("dropup", dropUp);
-    setStyleName("dropdown", !dropUp);
+    setStyleName(DROPUP, dropUp);
+    setStyleName(DROPDOWN, !dropUp);
   }
 
   public void setDropStart(boolean dropStart) {
-    setStyleName("dropstart", dropStart);
+    setStyleName(DROPSTART, dropStart);
     if (dropStart) {
-      removeStyleName("dropdown");
-      removeStyleName("dropup");
-      removeStyleName("dropend");
-    } else if (!getStyleName().contains("dropend") && !getStyleName().contains("dropup")) {
-      addStyleName("dropdown");
+      removeStyleName(DROPDOWN);
+      removeStyleName(DROPUP);
+      removeStyleName(DROPEND);
+    } else if (!getStyleName().contains(DROPEND) && !getStyleName().contains(DROPUP)) {
+      addStyleName(DROPDOWN);
     }
   }
 
   public void setDropEnd(boolean dropEnd) {
-    setStyleName("dropend", dropEnd);
+    setStyleName(DROPEND, dropEnd);
     if (dropEnd) {
-      removeStyleName("dropdown");
-      removeStyleName("dropup");
-      removeStyleName("dropstart");
-    } else if (!getStyleName().contains("dropstart") && !getStyleName().contains("dropup")) {
-      addStyleName("dropdown");
+      removeStyleName(DROPDOWN);
+      removeStyleName(DROPUP);
+      removeStyleName(DROPSTART);
+    } else if (!getStyleName().contains(DROPSTART) && !getStyleName().contains(DROPUP)) {
+      addStyleName(DROPDOWN);
     }
   }
 
