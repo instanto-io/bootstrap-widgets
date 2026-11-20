@@ -256,7 +256,8 @@ public class FullCalendarView extends Composite {
                 lunch.setStart(new Date(start.getTime() + 1000*60*60*4));
                 lunch.setConstraint("businessHours");
                 fc.addEvent(lunch);
-            } if (i == 11 || i == 13) {
+            }
+            if (i == 11 || i == 13) {
                 Event available = new Event("availableForMeeting", "");
                 available.setStart(start);
                 available.setEnd(new Date(start.getTime() + 1000*60*60*8));
