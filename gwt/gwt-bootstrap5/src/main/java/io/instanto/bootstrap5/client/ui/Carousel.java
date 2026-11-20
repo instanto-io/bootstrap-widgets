@@ -37,6 +37,7 @@ import io.instanto.bootstrap5.client.ui.base.BootstrapEventBridge;
 import io.instanto.bootstrap5.client.ui.base.BootstrapEventHandler;
 
 public class Carousel extends ElementPanel {
+  private static final String CAROUSEL_TEXT = "Carousel";
 
   public static final String HOVER = "hover";
   public static final String CAROUSEL = "carousel";
@@ -53,7 +54,7 @@ public class Carousel extends ElementPanel {
   public Carousel() {
     super("div");
     super.getElement().setClassName("carousel slide");
-    super.getElement().setAttribute("data-bs-ride", "carousel");
+    super.getElement().setAttribute("data-bs-ride", CAROUSEL);
     addInitialChild(inner);
   }
 
@@ -81,23 +82,23 @@ public class Carousel extends ElementPanel {
   }
 
   public void cycleCarousel() {
-    BootstrapComponent.call(getElement(), "Carousel", "cycle");
+    BootstrapComponent.call(getElement(), CAROUSEL_TEXT, CYCLE);
   }
 
   public void pauseCarousel() {
-    BootstrapComponent.call(getElement(), "Carousel", "pause");
+    BootstrapComponent.call(getElement(), CAROUSEL_TEXT, PAUSE);
   }
 
   public void goToPrev() {
-    BootstrapComponent.call(getElement(), "Carousel", "prev");
+    BootstrapComponent.call(getElement(), CAROUSEL_TEXT, "prev");
   }
 
   public void goToNext() {
-    BootstrapComponent.call(getElement(), "Carousel", "next");
+    BootstrapComponent.call(getElement(), CAROUSEL_TEXT, "next");
   }
 
   public void jumpToSlide(int index) {
-    BootstrapComponent.call(getElement(), "Carousel", "to", index);
+    BootstrapComponent.call(getElement(), CAROUSEL_TEXT, "to", index);
   }
 
   public HandlerRegistration addSlideHandler(CarouselSlideHandler handler) {
@@ -135,7 +136,7 @@ public class Carousel extends ElementPanel {
   @Override
   protected void onUnload() {
     BootstrapEventBridge.unbindAll(getElement());
-    BootstrapComponent.dispose(getElement(), "Carousel");
+    BootstrapComponent.dispose(getElement(), CAROUSEL_TEXT);
     super.onUnload();
   }
 
