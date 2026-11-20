@@ -45,6 +45,10 @@ import jsinterop.base.JsPropertyMap;
  * behave as if it had been there. Reads against live instances stay immediate no-ops when absent.
  */
 public final class BootstrapComponent {
+  private static final String MODAL = "Modal";
+  private static final String SHOWING = "showing";
+  private static final String OPTIONS = "options";
+
   private static final String RETURN_FOCUS = "__bootstrapReturnFocus";
   private static final String RESTORE_FOCUS = "__bootstrapRestoreFocus";
   private static final int READY_POLL_MS = 50;
@@ -261,7 +265,7 @@ public final class BootstrapComponent {
 
   /** Hides every open modal except {@code current}. */
   public static void hideOtherModals(final Element current) {
-    final Component modal = component("Modal");
+    final Component modal = component(MODAL);
     if (modal == null) {
       return;
     }
@@ -280,7 +284,7 @@ public final class BootstrapComponent {
 
   /** True when Bootstrap's JavaScript bundle is present on the page. */
   public static boolean isLoaded() {
-    return component("Modal") != null;
+    return component(MODAL) != null;
   }
 
   public static void releaseVisibility(final Element el, final String name) {
@@ -292,7 +296,7 @@ public final class BootstrapComponent {
     if (!Js.isTruthy(instance)) {
       return;
     }
-    if ("Modal".equals(name)) {
+    if (MODAL.equals(name)) {
       // Modal transitions run on three elements: backdrop, dialog, then the modal itself.
       // Complete each before disposal, otherwise delayed callbacks retain a disposed instance
       // and the body keeps its scroll lock. Use only this instance's backdrop.
@@ -310,18 +314,18 @@ public final class BootstrapComponent {
     }
     // Complete pending transitions before disposing: Bootstrap's dispose alone does not
     // cancel transition callbacks or restore an Offcanvas scroll lock.
-    if (el.hasClassName("showing")) {
+    if (el.hasClassName(SHOWING)) {
       finishTransition(el);
     }
     if (el.hasClassName("show")) {
       Js.<Instance>uncheckedCast(instance).hide();
     }
-    if (el.hasClassName("hiding") || el.hasClassName("showing")) {
+    if (el.hasClassName("hiding") || el.hasClassName(SHOWING)) {
       finishTransition(el);
     }
     Js.<Instance>uncheckedCast(instance).dispose();
     el.removeClassName("show");
-    el.removeClassName("showing");
+    el.removeClassName(SHOWING);
     el.removeClassName("hiding");
     final Object restore = Js.asPropertyMap(el).get(RESTORE_FOCUS);
     if (Js.isTruthy(restore)) {
@@ -402,10 +406,10 @@ public final class BootstrapComponent {
       for (int i = 0; i < modifiers.getLength(); i++) {
         final JsPropertyMap<Object> modifier = Js.asPropertyMap(modifiers.getAt(i));
         if ("preventOverflow".equals(modifier.get("name"))) {
-          if (!Js.isTruthy(modifier.get("options"))) {
-            modifier.set("options", JsPropertyMap.of());
+          if (!Js.isTruthy(modifier.get(OPTIONS))) {
+            modifier.set(OPTIONS, JsPropertyMap.of());
           }
-          Js.asPropertyMap(modifier.get("options")).set("padding", (double) padding);
+          Js.asPropertyMap(modifier.get(OPTIONS)).set("padding", (double) padding);
         }
       }
     }
