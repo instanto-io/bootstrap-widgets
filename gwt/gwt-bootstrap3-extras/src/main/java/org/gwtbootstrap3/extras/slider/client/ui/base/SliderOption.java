@@ -67,7 +67,7 @@ enum SliderOption {
      */
     private SliderOption(final String name) {
         this.name = name;
-        this.dataAttrName = name.replaceAll("_", "-");
+        this.dataAttrName = name.replace('_', '-');
     }
 
     /**
