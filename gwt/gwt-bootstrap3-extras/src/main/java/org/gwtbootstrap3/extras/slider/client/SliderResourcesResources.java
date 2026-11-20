@@ -19,6 +19,7 @@ public final class SliderResourcesResources {
 
     /** Nothing to fetch: an inherited module's entry point has already injected it. */
     public static void ensureInjected() {
+        // The GWT module entry point already injects the resources.
     }
 
     /**
