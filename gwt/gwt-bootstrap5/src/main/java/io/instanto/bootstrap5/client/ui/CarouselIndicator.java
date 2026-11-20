@@ -26,6 +26,7 @@
 package io.instanto.bootstrap5.client.ui;
 
 public class CarouselIndicator extends ElementPanel {
+  private static final String DATA_BS_SLIDE_TO = "data-bs-slide-to";
 
   public CarouselIndicator() {
     super("button");
@@ -35,16 +36,16 @@ public class CarouselIndicator extends ElementPanel {
   public CarouselIndicator(String targetId, int slideIndex) {
     this();
     super.getElement().setAttribute("data-bs-target", "#" + targetId);
-    super.getElement().setAttribute("data-bs-slide-to", String.valueOf(slideIndex));
+    super.getElement().setAttribute(DATA_BS_SLIDE_TO, String.valueOf(slideIndex));
     super.getElement().setAttribute("aria-label", "Slide " + (slideIndex + 1));
   }
 
   public void setDataSlideTo(final String dataSlideTo) {
-    getElement().setAttribute("data-bs-slide-to", dataSlideTo);
+    getElement().setAttribute(DATA_BS_SLIDE_TO, dataSlideTo);
   }
 
   public String getDataSlideTo() {
-    return getElement().getAttribute("data-bs-slide-to");
+    return getElement().getAttribute(DATA_BS_SLIDE_TO);
   }
 
   public void setActive(boolean active) {
