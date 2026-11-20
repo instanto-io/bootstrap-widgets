@@ -83,6 +83,13 @@ import java.util.List;
 
 /** Creates only the requested showcase section. */
 final class JavaScriptPages {
+  private static final String BASIC = "Basic";
+  private static final String COLLAPSE = "collapse";
+  private static final String FIRST = "First";
+  private static final String SECOND = "Second";
+  private static final String EVENTS = "Events";
+  private static final String CONTENT_OF = "Content of ";
+
   private final List<Modal> pageModals = new ArrayList<>();
 
   void clearModals() {
@@ -131,16 +138,16 @@ final class JavaScriptPages {
           addPageHeader(column, "carousel", "Carousel", null);
           column.add(
               panel(
-                  "Basic",
+                  BASIC,
                   carousel(),
                   "Carousel carousel = new Carousel();\ncarousel.addSlide(...);"));
           column.add(carouselCaptionsPanel());
           column.add(carouselOptionsPanel());
           break;
         }
-      case "collapse":
+      case COLLAPSE:
         {
-          addPageHeader(column, "collapse", "Collapse", null);
+          addPageHeader(column, COLLAPSE, "Collapse", null);
           column.add(collapsePanel());
           column.add(accordionPanel());
           break;
@@ -204,9 +211,7 @@ final class JavaScriptPages {
           }
         });
     return panel(
-        "Basic",
-        inline(button, collapse),
-        "Collapse collapse = new Collapse();\ncollapse.toggle();");
+        BASIC, inline(button, collapse), "Collapse collapse = new Collapse();\ncollapse.toggle();");
   }
 
   private Widget accordionPanel() {
@@ -225,7 +230,7 @@ final class JavaScriptPages {
     Panel panel = new Panel();
     PanelHeader header = new PanelHeader();
     Anchor anchor = new Anchor(title, "#" + id);
-    anchor.setDataToggle("collapse");
+    anchor.setDataToggle(COLLAPSE);
     anchor.getElement().setAttribute("data-bs-target", "#" + id);
     header.add(anchor);
     panel.add(header);
@@ -269,15 +274,15 @@ final class JavaScriptPages {
             modal.show();
           }
         });
-    return panel("Basic", show, "Modal modal = new Modal();\nmodal.show();\nmodal.hide();");
+    return panel(BASIC, show, "Modal modal = new Modal();\nmodal.show();\nmodal.hide();");
   }
 
   private Widget tabsPanel() {
     TabPanel tabPanel = new TabPanel();
-    TabListItem firstTab = new TabListItem("First", "firstPane");
+    TabListItem firstTab = new TabListItem(FIRST, "firstPane");
     firstTab.setActive(true);
     tabPanel.getTabs().add(firstTab);
-    tabPanel.getTabs().add(new TabListItem("Second", "secondPane"));
+    tabPanel.getTabs().add(new TabListItem(SECOND, "secondPane"));
     TabPane firstPane = new TabPane();
     firstPane.getElement().setId("firstPane");
     firstPane.setActive(true);
@@ -289,7 +294,7 @@ final class JavaScriptPages {
     content.add(firstPane);
     content.add(secondPane);
     return panel(
-        "Basic",
+        BASIC,
         tabPanel,
         "TabPanel tabPanel = new TabPanel();\ntabPanel.getTabs().add(new TabListItem(...));");
   }
@@ -499,7 +504,7 @@ final class JavaScriptPages {
 
   private Widget modalEventsPanel(RootPanel root) {
     final Modal modal = new Modal();
-    modal.setTitle("Events");
+    modal.setTitle(EVENTS);
     modal.addToBody(new Paragraph("Show, shown, hide and hidden are logged below."));
     ModalFooter footer = new ModalFooter();
     footer.add(closeButton(modal));
@@ -563,7 +568,7 @@ final class JavaScriptPages {
     body.add(inline(open, clear));
     body.add(logBody);
     return panel(
-        "Events",
+        EVENTS,
         body,
         "modal.addShowHandler(...);\nmodal.addShownHandler(...);\nmodal.addHideHandler(...);\nmodal.addHiddenHandler(...);");
   }
@@ -600,7 +605,7 @@ final class JavaScriptPages {
       widgets[i] = tooltip.asWidget();
     }
     return panel(
-        "Basic",
+        BASIC,
         inline(widgets),
         "Tooltip tooltip = new Tooltip(button, \"Tooltip text\");\ntooltip.setPlacement(Placement.TOP);");
   }
@@ -694,7 +699,7 @@ final class JavaScriptPages {
       widgets[i] = popover.asWidget();
     }
     return panel(
-        "Basic",
+        BASIC,
         inline(widgets),
         "Popover popover = new Popover(button, \"Title\", \"Content\");\npopover.setPlacement(Placement.TOP);");
   }
@@ -785,7 +790,7 @@ final class JavaScriptPages {
       pane.setFade(true);
       pane.setActive(i == 0);
       pane.setIn(i == 0);
-      pane.add(new Paragraph("Content of " + labels[i] + ", faded in and out."));
+      pane.add(new Paragraph(CONTENT_OF + labels[i] + ", faded in and out."));
       tabPanel.getContent().add(pane);
     }
     return panel(
@@ -807,7 +812,7 @@ final class JavaScriptPages {
       TabPane pane = new TabPane();
       pane.getElement().setId(paneId);
       pane.setActive(i == 0);
-      pane.add(new Paragraph("Content of " + labels[i] + "."));
+      pane.add(new Paragraph(CONTENT_OF + labels[i] + "."));
       tabPanel.getContent().add(pane);
     }
     return panel(
@@ -845,7 +850,7 @@ final class JavaScriptPages {
       TabPane pane = new TabPane();
       pane.getElement().setId(paneId);
       pane.setActive(i == 0);
-      pane.add(new Paragraph("Content of " + labels[i] + "."));
+      pane.add(new Paragraph(CONTENT_OF + labels[i] + "."));
       tabPanel.getContent().add(pane);
     }
     Button clear = new Button("Clear Log", ButtonType.DEFAULT);
@@ -863,7 +868,7 @@ final class JavaScriptPages {
     body.add(empty);
     body.add(log);
     return panel(
-        "Events",
+        EVENTS,
         body,
         "tab.addShowHandler(...);\ntab.addShownHandler(...);\ntab.showTab(); // switch programmatically");
   }
@@ -896,8 +901,8 @@ final class JavaScriptPages {
     NavPills spyNav = new NavPills();
     spyNav.getElement().setId(navId);
     spyNav.addStyleName("flex-column");
-    spyNav.addLink("First", "#spy-first");
-    spyNav.addLink("Second", "#spy-second");
+    spyNav.addLink(FIRST, "#spy-first");
+    spyNav.addLink(SECOND, "#spy-second");
     spyNav.addLink("Third", "#spy-third");
 
     Div scroller = new Div();
@@ -906,7 +911,7 @@ final class JavaScriptPages {
     scroller.getElement().getStyle().setProperty("maxHeight", "200px");
     scroller.getElement().getStyle().setProperty("overflowY", "auto");
     String[] ids = {"spy-first", "spy-second", "spy-third"};
-    String[] titles = {"First", "Second", "Third"};
+    String[] titles = {FIRST, SECOND, "Third"};
     for (int i = 0; i < ids.length; i++) {
       Heading heading = new Heading(5, titles[i]);
       heading.getElement().setId(ids[i]);
@@ -927,7 +932,7 @@ final class JavaScriptPages {
     ScrollSpy.scrollSpy(scroller, "#" + navId);
 
     return panel(
-        "Basic",
+        BASIC,
         row,
         "NavPills nav = new NavPills();\nnav.getElement().setId(\"spy-nav\");\n\nScrollSpy.scrollSpy(scrollingBody, \"#spy-nav\");\n\n// Bootstrap 5 spells the attributes data-bs-spy and\n// data-bs-target, which is what the widget writes.");
   }
