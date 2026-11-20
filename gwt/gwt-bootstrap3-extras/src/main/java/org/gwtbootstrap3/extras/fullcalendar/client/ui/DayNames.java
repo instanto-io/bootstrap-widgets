@@ -62,12 +62,12 @@ public class DayNames implements IsJavaScriptObject {
         if (shortNames == null || shortNames.length != 7) {
             throw new IllegalArgumentException("shortNames must contain 7 names");
         }
-        final JsArrayString longOnes = (JsArrayString) JsArrayString.createArray();
+        final JsArrayString longOnes = (JsArrayString) JavaScriptObject.createArray();
         for (final String name : longNames) {
             longOnes.push(name);
         }
 
-        final JsArrayString shortOnes = (JsArrayString) JsArrayString.createArray();
+        final JsArrayString shortOnes = (JsArrayString) JavaScriptObject.createArray();
         for (final String name : shortNames) {
             shortOnes.push(name);
         }
