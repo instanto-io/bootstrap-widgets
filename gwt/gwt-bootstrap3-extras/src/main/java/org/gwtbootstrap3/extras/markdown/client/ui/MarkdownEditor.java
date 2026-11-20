@@ -62,6 +62,10 @@ import com.google.gwt.user.client.ui.HasValue;
  */
 public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<String>,
         HasValueChangeHandlers<String> {
+    private static final String BTN_GROUP = "btn-group";
+    private static final String ARIA_PRESSED = "aria-pressed";
+    private static final String FALSE_ATTRIBUTE_VALUE = "false";
+    private static final String ACTIVE_CLASS = "active";
 
     public enum EditorMode {
         WYSIWYG,
@@ -131,7 +135,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         leftSection.getElement().getStyle().setProperty("gap", "6px");
 
         // Classic mode Write / Preview segmented controls
-        modeGroup.addStyleName("btn-group");
+        modeGroup.addStyleName(BTN_GROUP);
         modeGroup.addStyleName("gbm-markdown-tabs");
         modeGroup.getElement().getStyle().setProperty("marginRight", "8px");
 
@@ -170,7 +174,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         toolbar.add(leftSection);
 
         // Right section: Rich Text vs Markdown segmented mode switcher
-        modeSwitcherGroup.addStyleName("btn-group");
+        modeSwitcherGroup.addStyleName(BTN_GROUP);
         modeSwitcherGroup.addStyleName("gbm-editor-mode-toggle");
 
         wysiwygButton.setSize(ButtonSize.SMALL);
@@ -307,12 +311,12 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
             syntaxButtons.setVisible(true);
             help.setVisible(false);
 
-            wysiwygButton.getElement().setAttribute("aria-pressed", "true");
-            classicButton.getElement().setAttribute("aria-pressed", "false");
+            wysiwygButton.getElement().setAttribute(ARIA_PRESSED, "true");
+            classicButton.getElement().setAttribute(ARIA_PRESSED, FALSE_ATTRIBUTE_VALUE);
             wysiwygButton.setType(ButtonType.PRIMARY);
-            wysiwygButton.addStyleName("active");
+            wysiwygButton.addStyleName(ACTIVE_CLASS);
             classicButton.setType(ButtonType.DEFAULT);
-            classicButton.removeStyleName("active");
+            classicButton.removeStyleName(ACTIVE_CLASS);
             refreshToolbarState(visualEditor.getElement());
         } else {
             clearToolbarState(syntaxButtons.getElement());
@@ -320,11 +324,11 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
             modeGroup.setVisible(true);
 
             wysiwygButton.setType(ButtonType.DEFAULT);
-            wysiwygButton.removeStyleName("active");
-            wysiwygButton.getElement().setAttribute("aria-pressed", "false");
-            classicButton.getElement().setAttribute("aria-pressed", "true");
+            wysiwygButton.removeStyleName(ACTIVE_CLASS);
+            wysiwygButton.getElement().setAttribute(ARIA_PRESSED, FALSE_ATTRIBUTE_VALUE);
+            classicButton.getElement().setAttribute(ARIA_PRESSED, "true");
             classicButton.setType(ButtonType.PRIMARY);
-            classicButton.addStyleName("active");
+            classicButton.addStyleName(ACTIVE_CLASS);
 
             if (editing) {
                 textArea.setVisible(true);
@@ -332,12 +336,12 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
                 syntaxButtons.setVisible(true);
                 help.setVisible(helpVisible);
 
-                writeButton.getElement().setAttribute("aria-pressed", "true");
-                previewButton.getElement().setAttribute("aria-pressed", "false");
+                writeButton.getElement().setAttribute(ARIA_PRESSED, "true");
+                previewButton.getElement().setAttribute(ARIA_PRESSED, FALSE_ATTRIBUTE_VALUE);
                 writeButton.setType(ButtonType.PRIMARY);
-                writeButton.addStyleName("active");
+                writeButton.addStyleName(ACTIVE_CLASS);
                 previewButton.setType(ButtonType.DEFAULT);
-                previewButton.removeStyleName("active");
+                previewButton.removeStyleName(ACTIVE_CLASS);
             } else {
                 preview.setMarkdown(previewValue);
                 textArea.setVisible(false);
@@ -346,18 +350,18 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
                 help.setVisible(false);
 
                 writeButton.setType(ButtonType.DEFAULT);
-                writeButton.removeStyleName("active");
-                writeButton.getElement().setAttribute("aria-pressed", "false");
-                previewButton.getElement().setAttribute("aria-pressed", "true");
+                writeButton.removeStyleName(ACTIVE_CLASS);
+                writeButton.getElement().setAttribute(ARIA_PRESSED, FALSE_ATTRIBUTE_VALUE);
+                previewButton.getElement().setAttribute(ARIA_PRESSED, "true");
                 previewButton.setType(ButtonType.PRIMARY);
-                previewButton.addStyleName("active");
+                previewButton.addStyleName(ACTIVE_CLASS);
             }
         }
     }
 
     private Div syntaxButtons() {
         final Div group = new Div();
-        group.addStyleName("btn-group");
+        group.addStyleName(BTN_GROUP);
         group.add(syntaxButton(IconType.BOLD, "Bold", new Runnable() {
             @Override
             public void run() {
@@ -434,7 +438,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
         button.setIcon(icon);
         button.setTitle(title);
         button.addStyleName("gbm-format-btn");
-        button.getElement().setAttribute("aria-pressed", "false");
+        button.getElement().setAttribute(ARIA_PRESSED, FALSE_ATTRIBUTE_VALUE);
         button.getElement().setAttribute("data-gbm-format-state", stateQuery);
         preventMouseDownBlur(button.getElement());
         button.addClickHandler(new ClickHandler() {
@@ -577,7 +581,7 @@ public class MarkdownEditor extends Div implements HasEnabled, HasId, HasValue<S
     @Override
     public void setEnabled(final boolean enabled) {
         textArea.setEnabled(enabled);
-        visualEditor.getElement().setAttribute("contenteditable", enabled ? "true" : "false");
+        visualEditor.getElement().setAttribute("contenteditable", enabled ? "true" : FALSE_ATTRIBUTE_VALUE);
         writeButton.setEnabled(enabled);
         previewButton.setEnabled(enabled);
         wysiwygButton.setEnabled(enabled);
