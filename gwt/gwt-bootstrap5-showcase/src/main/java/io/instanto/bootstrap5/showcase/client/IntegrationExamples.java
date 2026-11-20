@@ -15,6 +15,9 @@ import java.util.*;
 
 /** Live integration examples shared by both showcase builds. */
 final class IntegrationExamples {
+  private static final String LOCATION = "location";
+  private static final String TO_DO = "To do";
+
   private IntegrationExamples() {}
 
   static Widget selects() {
@@ -68,15 +71,14 @@ final class IntegrationExamples {
     GridColumn name = new GridColumn("Name", "name");
     name.setEditable(true);
     table.setColumns(
-        Arrays.asList(
-            name, new GridColumn("Team", "team"), new GridColumn("Location", "location")));
+        Arrays.asList(name, new GridColumn("Team", "team"), new GridColumn("Location", LOCATION)));
     List<Map<String, ?>> rows = new ArrayList<>();
     for (int i = 0; i < 12; i++) {
       Map<String, Object> row = new LinkedHashMap<>();
       row.put("id", i + 1);
       row.put("name", "Colleague " + (i + 1));
       row.put("team", i % 2 == 0 ? "Engineering" : "Operations");
-      row.put("location", i % 3 == 0 ? "London" : "Paris");
+      row.put(LOCATION, i % 3 == 0 ? "London" : "Paris");
       rows.add(row);
     }
     table.setRows(rows);
@@ -88,9 +90,9 @@ final class IntegrationExamples {
     examples.add(status);
     examples.add(table);
     Button filter = new Button("Show London");
-    filter.addClickHandler(event -> table.filter("location", "London"));
+    filter.addClickHandler(event -> table.filter(LOCATION, "London"));
     Button clear = new Button("Clear filter");
-    clear.addClickHandler(event -> table.filter("location", ""));
+    clear.addClickHandler(event -> table.filter(LOCATION, ""));
     examples.add(filter);
     examples.add(clear);
     return examples;
@@ -101,15 +103,15 @@ final class IntegrationExamples {
     Div board = new Div();
     board.setStyleName("row g-3");
     Paragraph status = new Paragraph("Drag cards within a column or across to the other column.");
-    for (String title : Arrays.asList("To do", "Reviewed")) {
+    for (String title : Arrays.asList(TO_DO, "Reviewed")) {
       Div column = new Div();
       column.setStyleName("col-md-6");
       column.add(new Paragraph(title));
       SortableList list = new SortableList();
       list.setGroup("showcase-work");
       list.getElement().getStyle().setProperty("minHeight", "120px");
-      list.add(new Paragraph(title.equals("To do") ? "Review changes" : "Update documentation"));
-      list.add(new Paragraph(title.equals("To do") ? "Run tests" : "Check accessibility"));
+      list.add(new Paragraph(title.equals(TO_DO) ? "Review changes" : "Update documentation"));
+      list.add(new Paragraph(title.equals(TO_DO) ? "Run tests" : "Check accessibility"));
       list.addValueChangeHandler(
           event -> status.setText(title + ": " + event.getValue().size() + " cards"));
       column.add(list);
