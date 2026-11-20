@@ -52,6 +52,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Steven Jardine
  */
 public class DefaultErrorHandler implements ErrorHandler {
+    private static final String ARIA_INVALID_ATTRIBUTE = "aria-invalid";
+    private static final String ARIA_DESCRIBEDBY_ATTRIBUTE = "aria-describedby";
 
     private boolean initialized = false;
 
@@ -86,7 +88,7 @@ public class DefaultErrorHandler implements ErrorHandler {
     /** {@inheritDoc} */
     @Override
     public void clearErrors() {
-        inputWidget.getElement().removeAttribute("aria-invalid");
+        inputWidget.getElement().removeAttribute(ARIA_INVALID_ATTRIBUTE);
         removeValidationDescription();
         if (validationStateParent == null) { return; }
         validationStateParent.setValidationState(ValidationState.NONE);
@@ -151,10 +153,10 @@ public class DefaultErrorHandler implements ErrorHandler {
             validationStateHelpBlock.setError(errorMsg);
         }
         if (errors != null && !errors.isEmpty()) {
-            inputWidget.getElement().setAttribute("aria-invalid", "true");
+            inputWidget.getElement().setAttribute(ARIA_INVALID_ATTRIBUTE, "true");
             associateValidationDescription();
         } else {
-            inputWidget.getElement().removeAttribute("aria-invalid");
+            inputWidget.getElement().removeAttribute(ARIA_INVALID_ATTRIBUTE);
             removeValidationDescription();
         }
     }
@@ -168,9 +170,9 @@ public class DefaultErrorHandler implements ErrorHandler {
             messageId = Document.get().createUniqueId();
             validationStateHelpBlock.getElement().setId(messageId);
         }
-        String describedBy = inputWidget.getElement().getAttribute("aria-describedby");
+        String describedBy = inputWidget.getElement().getAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE);
         if (!(" " + describedBy + " ").contains(" " + messageId + " ")) {
-            inputWidget.getElement().setAttribute("aria-describedby",
+            inputWidget.getElement().setAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE,
                     describedBy == null || describedBy.trim().isEmpty()
                             ? messageId : describedBy.trim() + " " + messageId);
         }
@@ -181,7 +183,7 @@ public class DefaultErrorHandler implements ErrorHandler {
             return;
         }
         String messageId = validationStateHelpBlock.getElement().getId();
-        String describedBy = inputWidget.getElement().getAttribute("aria-describedby");
+        String describedBy = inputWidget.getElement().getAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE);
         if (messageId == null || messageId.isEmpty() || describedBy == null || describedBy.isEmpty()) {
             return;
         }
@@ -195,9 +197,9 @@ public class DefaultErrorHandler implements ErrorHandler {
             }
         }
         if (remaining.length() == 0) {
-            inputWidget.getElement().removeAttribute("aria-describedby");
+            inputWidget.getElement().removeAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE);
         } else {
-            inputWidget.getElement().setAttribute("aria-describedby", remaining.toString());
+            inputWidget.getElement().setAttribute(ARIA_DESCRIBEDBY_ATTRIBUTE, remaining.toString());
         }
     }
 
