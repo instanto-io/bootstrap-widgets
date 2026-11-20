@@ -198,7 +198,7 @@ class TagsInputBase<T> extends Widget implements HasAllTagsInputEvents<T>, HasCh
      * @param confirmKeys Array of keycodes
      */
     public void setConfirmKeys(final List<Integer> confirmKeys) {
-        JsArrayInteger keys = JsArrayInteger.createArray().cast();
+        JsArrayInteger keys = JavaScriptObject.createArray().cast();
         
         for(int key : confirmKeys) {
             keys.push(key);
