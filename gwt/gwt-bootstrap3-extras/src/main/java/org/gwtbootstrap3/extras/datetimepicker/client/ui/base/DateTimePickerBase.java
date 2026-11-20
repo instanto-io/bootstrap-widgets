@@ -527,13 +527,13 @@ public class DateTimePickerBase extends Widget implements HasEnabled, HasReadOnl
         // Replace short day name "EE" with "DD"
         bootstrap_format = bootstrap_format.replaceAll("E{1,3}", "D");
         // Replace minutes "m" with "i"
-        bootstrap_format = bootstrap_format.replaceAll("m", "i");
+        bootstrap_format = bootstrap_format.replace('m', 'i');
         // Replace "H" with "h" and vice versa
-        bootstrap_format = bootstrap_format.replaceAll("H", "Q");
-        bootstrap_format = bootstrap_format.replaceAll("h", "H");
-        bootstrap_format = bootstrap_format.replaceAll("Q", "h");
+        bootstrap_format = bootstrap_format.replace('H', 'Q');
+        bootstrap_format = bootstrap_format.replace('h', 'H');
+        bootstrap_format = bootstrap_format.replace('Q', 'h');
         // Replace "a" with "P" for AM/PM markers
-        bootstrap_format = bootstrap_format.replaceAll("a", "P");
+        bootstrap_format = bootstrap_format.replace('a', 'P');
 
         // If there are at least 3 Ms there is month name in wording
         if (bootstrap_format.contains("MMM")) {
