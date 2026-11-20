@@ -45,6 +45,8 @@ import org.gwtbootstrap3.demo.client.pojo.TableTestPojo;
  * @author Joshua Godi
  */
 public class TablesView extends Composite {
+    private static final String TEST = "Test ";
+
     @UiField(provided = true)
     DataGrid<TableTestPojo> dataGrid = new DataGrid<TableTestPojo>(10);
     @UiField
@@ -75,7 +77,7 @@ public class TablesView extends Composite {
 
     private void initMockData(final Pagination pagination, final SimplePager simplePager, final ListDataProvider<TableTestPojo> dataProvider) {
         for (int i = 0; i < 25; i++) {
-            dataProvider.getList().add(new TableTestPojo("Test " + i, "Test " + i, "Test " + i));
+            dataProvider.getList().add(new TableTestPojo(TEST + i, TEST + i, TEST + i));
         }
         dataProvider.flush();
         pagination.rebuild(simplePager);
