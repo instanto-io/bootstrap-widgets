@@ -47,7 +47,7 @@ public class Carousel extends Div {
 
     // Bootstrap default values: http://getbootstrap.com/javascript/#carousel
     private int interval = 5000;
-    private String pause = HOVER;
+    private String pauseOnHover = HOVER;
     private boolean wrap = true;
 
     public Carousel() {
@@ -67,7 +67,7 @@ public class Carousel extends Div {
         bindJavaScriptEvents(getElement());
 
         // Configure the carousel
-        CarouselOptions.carousel(getElement(), interval, pause, wrap);
+        CarouselOptions.carousel(getElement(), interval, pauseOnHover, wrap);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class Carousel extends Div {
     }
 
     public void setPause(final String pause) {
-        this.pause = pause;
+        this.pauseOnHover = pause;
     }
 
     public void setWrap(final boolean wrap) {
