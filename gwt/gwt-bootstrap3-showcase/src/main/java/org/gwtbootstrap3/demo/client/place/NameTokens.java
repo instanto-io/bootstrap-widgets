@@ -83,7 +83,7 @@ public class NameTokens {
     public static final String TOGGLESWITCH = "toggleswitch";
     public static final String TYPEAHEAD = "typeahead";
     public static final String OFFLINE = "offline";
-    public static final String NOTIFY = "notify";
+    public static final String NOTIFY_PAGE = "notify";
     public static final String FULL_CALENDAR = "fullcalendar";
     public static final String ANIMATE = "animate";
     public static final String GALLERY = "gallery";
@@ -164,7 +164,7 @@ public class NameTokens {
     }
 
     public static String getNotify() {
-        return NOTIFY;
+        return NOTIFY_PAGE;
     }
 
     public static String getFullCalendar() {

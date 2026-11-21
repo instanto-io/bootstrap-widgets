@@ -58,7 +58,7 @@ final class ExtrasPages {
                 return new org.gwtbootstrap3.demo.client.application.extras.GalleryView();
             case NameTokens.MARKDOWN:
                 return new org.gwtbootstrap3.demo.client.application.extras.MarkdownView();
-            case NameTokens.NOTIFY:
+            case NameTokens.NOTIFY_PAGE:
                 return new org.gwtbootstrap3.demo.client.application.extras.NotifyView();
             case NameTokens.SELECT:
                 return new org.gwtbootstrap3.demo.client.application.extras.BootstrapSelectView();
