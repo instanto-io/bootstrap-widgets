@@ -32,9 +32,11 @@ public enum NotifyPlacement implements Type {
     TOP_LEFT("top", "left"),
     TOP_CENTER("top", "center"),
     TOP_RIGHT("top", "right"),
-    BOTTOM_LEFT("bottom", "left"),
-    BOTTOM_CENTER("bottom", "center"),
-    BOTTOM_RIGHT("bottom", "right");
+    BOTTOM_LEFT(NotifyPlacement.BOTTOM_EDGE, "left"),
+    BOTTOM_CENTER(NotifyPlacement.BOTTOM_EDGE, "center"),
+    BOTTOM_RIGHT(NotifyPlacement.BOTTOM_EDGE, "right");
+
+    private static final String BOTTOM_EDGE = "bottom";
 
     private final String from;
     private final String align;
