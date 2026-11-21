@@ -87,11 +87,6 @@ public class SummernoteBase extends Div implements HasAllSummernoteHandlers, Has
     private boolean hasChangeHandler = false;
 
     /**
-     *
-     */
-    public SummernoteBase() {}
-
-    /**
      * Sets the default height of the editor (in pixel).<br>
      * <br>
      * <b>Note</b>: DO NOT renamed this method to <em>setHeight</em>
