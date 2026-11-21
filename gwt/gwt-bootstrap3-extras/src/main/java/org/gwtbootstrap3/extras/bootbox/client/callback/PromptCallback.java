@@ -40,6 +40,8 @@ public interface PromptCallback extends Callback {
      */
     static final PromptCallback DEFAULT_PROMPT_CALLBACK = new PromptCallback() {
         @Override
-        public void callback(String result) {}
+        public void callback(String result) {
+            // The result is unused when the caller supplies no callback.
+        }
     };
 }
