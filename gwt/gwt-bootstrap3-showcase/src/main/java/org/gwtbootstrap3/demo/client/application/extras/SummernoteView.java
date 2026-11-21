@@ -199,7 +199,12 @@ public class SummernoteView extends Composite {
     public SummernoteView() {
 
         initWidget(BINDER.createAndBindUi(this));
+        configureHints();
+        configureToolbar();
+        configureLanguageSelector();
+    }
 
+    private void configureHints() {
         // Hint for words
         hintWords.setHint("\\b(\\w{1,})$", new DefaultHintHandler() {
 
@@ -234,6 +239,9 @@ public class SummernoteView extends Composite {
             @Override public Node getContent(String item) { return Document.get().createTextNode(symbol(item)); }
         });
 
+    }
+
+    private void configureToolbar() {
         customToolbar.setToolbar(new Toolbar()
             .addGroup(ToolbarButton.FONT_NAME, ToolbarButton.FONT_SIZE)
             .addGroup(ToolbarButton.UNDO, ToolbarButton.REDO)
@@ -241,7 +249,9 @@ public class SummernoteView extends Composite {
             .addGroup(ToolbarButton.TABLE));
 
 
-        // Language
+    }
+
+    private void configureLanguageSelector() {
         SummernoteLanguage defaultLanguage = languageNote.getLanguage();
         for (SummernoteLanguage language : SummernoteLanguage.values()) {
             languageBox.addItem(language.getCode(), language.name());
