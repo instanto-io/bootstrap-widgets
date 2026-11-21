@@ -22,6 +22,8 @@ package io.instanto.bootstrap5.client.ui.gwt;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.cellview.client.CellTable.Resources;
+import com.google.gwt.user.cellview.client.CellTable.Style;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ProvidesKey;
 import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
@@ -132,7 +134,7 @@ public class CellTable<T> extends com.google.gwt.user.cellview.client.CellTable<
 
   private static Resources getDefaultResources() {
     if (DEFAULT_RESOURCES == null) {
-      final CellTable.Resources cellTableResources = GWT.create(CellTable.Resources.class);
+      final Resources cellTableResources = GWT.create(Resources.class);
       DEFAULT_RESOURCES = new ResourcesAdapter(cellTableResources);
     }
     return DEFAULT_RESOURCES;
@@ -181,11 +183,11 @@ public class CellTable<T> extends com.google.gwt.user.cellview.client.CellTable<
   }
 
   /** Resources/Styles to remove the GWT styling of the tables! */
-  private static class ResourcesAdapter implements CellTable.Resources {
-    private final CellTable.Resources resources;
+  private static class ResourcesAdapter implements Resources {
+    private final Resources resources;
     private final StyleAdapter style;
 
-    public ResourcesAdapter(final CellTable.Resources resources) {
+    public ResourcesAdapter(final Resources resources) {
       this.resources = resources;
       this.style = new StyleAdapter();
     }
@@ -226,7 +228,7 @@ public class CellTable<T> extends com.google.gwt.user.cellview.client.CellTable<
     }
   }
 
-  private static class StyleAdapter implements CellTable.Style {
+  private static class StyleAdapter implements Style {
     private static final String B = "gwtb3-";
     private static final String DUMMY = B + "d";
 
