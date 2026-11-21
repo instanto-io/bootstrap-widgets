@@ -214,6 +214,24 @@ public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V
   @Override
   public boolean validate(boolean show) {
     Boolean oldValid = valid;
+    ValidationResult result = evaluateValidators(show);
+    boolean currentValid = result.valid;
+    List<EditorError> errors = result.errors;
+    if (show && errorHandler != null) {
+      if (errors == null) {
+        errorHandler.clearErrors();
+      } else {
+        errorHandler.showErrors(errors);
+      }
+    }
+    valid = currentValid;
+    if (oldValid == null || oldValid.booleanValue() != currentValid) {
+      eventBus.fireEvent(new ValidationChangedEvent(currentValid));
+    }
+    return valid;
+  }
+
+  private ValidationResult evaluateValidators(boolean show) {
     boolean currentValid = true;
     List<EditorError> errors = null;
     if (!validators.isEmpty()) {
@@ -232,17 +250,16 @@ public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V
         }
       }
     }
-    if (show && errorHandler != null) {
-      if (errors == null) {
-        errorHandler.clearErrors();
-      } else {
-        errorHandler.showErrors(errors);
-      }
+    return new ValidationResult(currentValid, errors);
+  }
+
+  private static final class ValidationResult {
+    private final boolean valid;
+    private final List<EditorError> errors;
+
+    private ValidationResult(boolean valid, List<EditorError> errors) {
+      this.valid = valid;
+      this.errors = errors;
     }
-    valid = currentValid;
-    if (oldValid == null || oldValid.booleanValue() != currentValid) {
-      eventBus.fireEvent(new ValidationChangedEvent(currentValid));
-    }
-    return valid;
   }
 }
