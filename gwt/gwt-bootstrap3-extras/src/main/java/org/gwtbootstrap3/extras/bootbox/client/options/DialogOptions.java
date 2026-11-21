@@ -209,8 +209,12 @@ public class DialogOptions extends JavaScriptObject {
      * @param callback
      */
     public final void addButton(String label, String className, SimpleCallback callback) {
-        addButton(BUTTON_PREFIX + BUTTON_INDEX++, label, className,
+        addButton(nextButtonName(), label, className,
             callback != null ? callback : SimpleCallback.DEFAULT_SIMPLE_CALLBACK);
+    }
+
+    private static String nextButtonName() {
+        return BUTTON_PREFIX + BUTTON_INDEX++;
     }
 
     private final native void addButton(String name, String label, String className, SimpleCallback callback) /*-{
