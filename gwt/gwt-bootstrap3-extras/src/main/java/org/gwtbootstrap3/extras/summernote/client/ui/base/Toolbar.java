@@ -35,8 +35,7 @@ import com.google.gwt.core.client.JsArrayMixed;
 public class Toolbar {
 
     private static final String GROUP_PREFIX = "group_";
-    private static int GROUP_INDEX = 0;
-    private List<JsArrayMixed> groups = new ArrayList<>(0);
+    private final List<JsArrayMixed> groups = new ArrayList<>(0);
 
     /**
      * Add a new toolbar group with the specified buttons.
@@ -45,7 +44,7 @@ public class Toolbar {
      * @return {@link Toolbar}
      */
     public Toolbar addGroup(ToolbarButton... buttons) {
-        groups.add(SummernoteOptions.newToolbarGroup(GROUP_PREFIX + GROUP_INDEX++, buttons));
+        groups.add(SummernoteOptions.newToolbarGroup(GROUP_PREFIX + groups.size(), buttons));
         return this;
     }
 
