@@ -222,85 +222,90 @@ public class IconTextMixin<T extends ComplexWidget & HasText & HasIcon & HasIcon
   }
 
   private void render() {
-    // We defer to make sure the elements are available to manipulate their positions
-    Scheduler.get()
-        .scheduleDeferred(
-            new Scheduler.ScheduledCommand() {
-              @Override
-              public void execute() {
+    // Defer until the elements are available for repositioning.
+    Scheduler.get().scheduleDeferred(this::renderContent);
+  }
 
-                if (text.isAttached()) {
-                  text.removeFromParent();
-                }
+  private void renderContent() {
+    removeContent();
+    rebuildIcon();
+    insertContent();
+    // Remove default spacing when the badge is used in a pill.
+    badge.setMarginLeft(0);
+    badge.setMarginRight(0);
+  }
 
-                if (separator.isAttached()) {
-                  separator.removeFromParent();
-                }
+  private void removeContent() {
+    if (text.isAttached()) {
+      text.removeFromParent();
+    }
 
-                if (badgeSeparator.isAttached()) {
-                  badgeSeparator.removeFromParent();
-                }
+    if (separator.isAttached()) {
+      separator.removeFromParent();
+    }
 
-                if (badge.isAttached()) {
-                  badge.removeFromParent();
-                }
+    if (badgeSeparator.isAttached()) {
+      badgeSeparator.removeFromParent();
+    }
 
-                if (icon != null) {
-                  icon.removeFromParent();
-                  icon = null;
-                }
+    if (badge.isAttached()) {
+      badge.removeFromParent();
+    }
 
-                if (iconType != null) {
-                  icon = new Icon();
-                  icon.setType(iconType);
-                  icon.setSize(iconSize);
-                  icon.setFlip(iconFlip);
-                  icon.setRotate(iconRotate);
-                  icon.setSpin(iconSpin);
-                  icon.setPulse(iconPulse);
-                  icon.setBorder(iconBordered);
-                  icon.setFixedWidth(iconFixedWidth);
-                  icon.setInverse(iconInverse);
-                  icon.setColor(iconColor);
-                }
+    if (icon != null) {
+      icon.removeFromParent();
+      icon = null;
+    }
+  }
 
-                // Since we are dealing with Icon/Text, we can insert them at the right position
-                // Helps on widgets like ButtonDropDown, where it has a caret added
-                int position = 0;
+  private void rebuildIcon() {
+    if (iconType != null) {
+      icon = new Icon();
+      icon.setType(iconType);
+      icon.setSize(iconSize);
+      icon.setFlip(iconFlip);
+      icon.setRotate(iconRotate);
+      icon.setSpin(iconSpin);
+      icon.setPulse(iconPulse);
+      icon.setBorder(iconBordered);
+      icon.setFixedWidth(iconFixedWidth);
+      icon.setInverse(iconInverse);
+      icon.setColor(iconColor);
+    }
+  }
 
-                if (badge.getText() != null
-                    && badge.getText().length() > 0
-                    && badgePosition == BadgePosition.LEFT) {
-                  widget.insert(badge, position++);
-                  widget.insert(badgeSeparator, position++);
-                }
+  private void insertContent() {
+    // Since we are dealing with Icon/Text, we can insert them at the right position
+    // Helps on widgets like ButtonDropDown, where it has a caret added
+    int position = 0;
 
-                if (icon != null && iconPosition == IconPosition.LEFT) {
-                  widget.insert(icon, position++);
-                  widget.insert(separator, position++);
-                }
+    if (hasBadgeAt(BadgePosition.LEFT)) {
+      widget.insert(badge, position++);
+      widget.insert(badgeSeparator, position++);
+    }
 
-                if (text.getText() != null && text.getText().length() > 0) {
-                  widget.insert(text, position++);
-                }
+    if (icon != null && iconPosition == IconPosition.LEFT) {
+      widget.insert(icon, position++);
+      widget.insert(separator, position++);
+    }
 
-                if (icon != null && iconPosition == IconPosition.RIGHT) {
-                  widget.insert(separator, position++);
-                  widget.insert(icon, position++);
-                }
+    if (text.getText() != null && text.getText().length() > 0) {
+      widget.insert(text, position++);
+    }
 
-                if (badge.getText() != null
-                    && badge.getText().length() > 0
-                    && badgePosition == BadgePosition.RIGHT) {
-                  widget.insert(badgeSeparator, position++);
-                  widget.insert(badge, position++);
-                }
+    if (icon != null && iconPosition == IconPosition.RIGHT) {
+      widget.insert(separator, position++);
+      widget.insert(icon, position++);
+    }
 
-                // hack to remove css spacing in Pills
-                badge.setMarginLeft(0);
-                badge.setMarginRight(0);
-              }
-            });
+    if (hasBadgeAt(BadgePosition.RIGHT)) {
+      widget.insert(badgeSeparator, position++);
+      widget.insert(badge, position++);
+    }
+  }
+
+  private boolean hasBadgeAt(BadgePosition position) {
+    return badge.getText() != null && badge.getText().length() > 0 && badgePosition == position;
   }
 
   @Override
