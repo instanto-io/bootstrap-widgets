@@ -550,6 +550,8 @@ public class Anchor extends ComplexWidget implements HasEnabled, HasClickHandler
                     return;
                 }
                 break;
+            default:
+                break;
         }
         super.onBrowserEvent(event);
     }
