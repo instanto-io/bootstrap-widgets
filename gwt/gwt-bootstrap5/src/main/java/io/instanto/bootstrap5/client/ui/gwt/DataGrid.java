@@ -22,6 +22,8 @@ package io.instanto.bootstrap5.client.ui.gwt;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.cellview.client.DataGrid.Resources;
+import com.google.gwt.user.cellview.client.DataGrid.Style;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ProvidesKey;
 import io.instanto.bootstrap5.client.ui.base.HasResponsiveness;
@@ -69,7 +71,7 @@ public class DataGrid<T> extends com.google.gwt.user.cellview.client.DataGrid<T>
    * @param pageSize the page size
    * @param resources the resources to use for this widget
    */
-  public DataGrid(final int pageSize, final DataGrid.Resources resources) {
+  public DataGrid(final int pageSize, final Resources resources) {
     super(pageSize, resources, null);
     super.getTableBodyElement().getParentElement().addClassName(TableType.DEFAULT.getCssName());
   }
@@ -104,9 +106,9 @@ public class DataGrid<T> extends com.google.gwt.user.cellview.client.DataGrid<T>
     this(DEFAULT_PAGESIZE, keyProvider);
   }
 
-  private static DataGrid.Resources getDefaultResources() {
+  private static Resources getDefaultResources() {
     if (DEFAULT_RESOURCES == null) {
-      final DataGrid.Resources dataGridResources = GWT.create(Resources.class);
+      final Resources dataGridResources = GWT.create(Resources.class);
       DEFAULT_RESOURCES = new ResourcesAdapter(dataGridResources);
     }
     return DEFAULT_RESOURCES;
@@ -167,11 +169,11 @@ public class DataGrid<T> extends com.google.gwt.user.cellview.client.DataGrid<T>
   }
 
   /** Resources/Styles to remove the GWT styling of the tables! */
-  private static class ResourcesAdapter implements DataGrid.Resources {
-    private final DataGrid.Resources resources;
+  private static class ResourcesAdapter implements Resources {
+    private final Resources resources;
     private final StyleAdapter style;
 
-    public ResourcesAdapter(final DataGrid.Resources resources) {
+    public ResourcesAdapter(final Resources resources) {
       this.resources = resources;
       this.style = new StyleAdapter();
     }
@@ -192,12 +194,12 @@ public class DataGrid<T> extends com.google.gwt.user.cellview.client.DataGrid<T>
     }
 
     @Override
-    public DataGrid.Style dataGridStyle() {
+    public Style dataGridStyle() {
       return style;
     }
   }
 
-  private static class StyleAdapter implements DataGrid.Style {
+  private static class StyleAdapter implements Style {
     private static final String B = "gwtb3-";
     private static final String DUMMY = B + "d";
 
