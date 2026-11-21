@@ -129,6 +129,7 @@ public class FullCalendarView extends Composite {
 
             @Override
             public void eventMouseover(JavaScriptObject calendarEvent, NativeEvent event, JavaScriptObject viewObject) {
+                // This demo handles clicks only.
             }
 
             @Override
