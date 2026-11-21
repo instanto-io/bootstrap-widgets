@@ -29,8 +29,7 @@ import org.gwtbootstrap3.client.ui.constants.ValidationState;
 
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.logical.shared.AttachEvent.Handler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -58,6 +57,7 @@ public class DefaultErrorHandler implements ErrorHandler {
     private boolean initialized = false;
 
     private final Widget inputWidget;
+    private final HandlerRegistration attachmentHandler;
 
     private HelpBlock validationStateHelpBlock = null;
 
@@ -72,17 +72,13 @@ public class DefaultErrorHandler implements ErrorHandler {
         super();
         java.util.Objects.requireNonNull(widget, "widget");
         this.inputWidget = widget;
-        this.inputWidget.addAttachHandler(new Handler() {
-            @Override
-            public void onAttachOrDetach(AttachEvent event) {
-                init();
-            }
-        });
+        this.attachmentHandler = inputWidget.addAttachHandler(event -> init());
     }
 
     /** {@inheritDoc} */
     @Override
     public void cleanup() {
+        attachmentHandler.removeHandler();
     }
 
     /** {@inheritDoc} */
