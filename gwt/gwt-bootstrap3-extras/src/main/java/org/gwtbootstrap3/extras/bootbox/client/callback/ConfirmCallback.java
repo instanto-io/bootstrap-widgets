@@ -40,6 +40,8 @@ public interface ConfirmCallback extends Callback {
      */
     static final ConfirmCallback DEFAULT_CONFIRM_CALLBACK = new ConfirmCallback() {
         @Override
-        public void callback(boolean result) {}
+        public void callback(boolean result) {
+            // The result is unused when the caller supplies no callback.
+        }
     };
 }
