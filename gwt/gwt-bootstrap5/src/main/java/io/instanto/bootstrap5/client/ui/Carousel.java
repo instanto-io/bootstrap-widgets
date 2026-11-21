@@ -48,7 +48,7 @@ public class Carousel extends ElementPanel {
 
   private final CarouselInner inner = new CarouselInner();
   private int interval = 5000;
-  private String pause = HOVER;
+  private String pauseOnHover = HOVER;
   private boolean wrap = true;
 
   public Carousel() {
@@ -68,7 +68,7 @@ public class Carousel extends ElementPanel {
   }
 
   public void setPause(String pause) {
-    this.pause = pause;
+    this.pauseOnHover = pause;
     reconfigureIfAttached();
   }
 
@@ -130,7 +130,7 @@ public class Carousel extends ElementPanel {
             fireEvent(new CarouselSlidEvent(Carousel.this, Event.as(event)));
           }
         });
-    BootstrapComponent.createCarousel(getElement(), interval, pause, wrap);
+    BootstrapComponent.createCarousel(getElement(), interval, pauseOnHover, wrap);
   }
 
   @Override
@@ -142,7 +142,7 @@ public class Carousel extends ElementPanel {
 
   private void reconfigureIfAttached() {
     if (isAttached()) {
-      BootstrapComponent.createCarousel(getElement(), interval, pause, wrap);
+      BootstrapComponent.createCarousel(getElement(), interval, pauseOnHover, wrap);
     }
   }
 
