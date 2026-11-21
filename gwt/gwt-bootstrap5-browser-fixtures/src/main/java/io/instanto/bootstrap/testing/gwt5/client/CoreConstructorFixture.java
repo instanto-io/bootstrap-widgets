@@ -3,6 +3,7 @@ package io.instanto.bootstrap.testing.gwt5.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.TableSectionElement;
+import com.google.gwt.user.cellview.client.DataGrid.Resources;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import io.instanto.bootstrap5.client.ui.AnchorButton;
@@ -72,7 +73,7 @@ final class CoreConstructorFixture {
             return super.getTableBodyElement();
           }
         }
-        DataGrid.Resources resources = GWT.create(DataGrid.Resources.class);
+        Resources resources = GWT.create(Resources.class);
         for (Probe grid :
             new Probe[] {new Probe(), new Probe(resources), new Probe(resources, false)}) {
           check(
