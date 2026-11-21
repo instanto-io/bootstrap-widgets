@@ -139,46 +139,49 @@ public class SearchableSelect extends PluginWidget<SelectJs.Handle>
   protected void afterCreate() {
     SelectJs.setValues(plugin(), Json.encode(values));
     SelectJs.enabled(plugin(), enabled);
-    if (provider != null)
-      SelectJs.remote(
-          plugin(),
-          request -> {
-            final SelectJs.Handle current = plugin();
-            final String id = SelectJs.requestId(request);
-            AsyncCallback<List<SelectOption>> callback =
-                new AsyncCallback<List<SelectOption>>() {
-                  private boolean completed;
+    if (provider != null) SelectJs.remote(plugin(), this::loadOptions);
+  }
 
-                  @Override
-                  public void onSuccess(List<SelectOption> options) {
-                    if (completed || plugin() != current) return;
-                    completed = true;
-                    List<Map<String, String>> data = new ArrayList<>();
-                    if (options != null)
-                      for (SelectOption option : options) {
-                        SearchableSelect.this.options.put(option.getValue(), option.getText());
-                        Map<String, String> row = new LinkedHashMap<>();
-                        row.put("value", option.getValue());
-                        row.put("text", option.getText());
-                        data.add(row);
-                      }
-                    SelectJs.complete(current, id, Json.encode(data));
-                  }
+  private void loadOptions(String request) {
+    final SelectJs.Handle current = plugin();
+    final String id = SelectJs.requestId(request);
+    AsyncCallback<List<SelectOption>> callback =
+        new AsyncCallback<List<SelectOption>>() {
+          private boolean completed;
 
-                  @Override
-                  public void onFailure(Throwable failure) {
-                    if (completed || plugin() != current) return;
-                    completed = true;
-                    SelectJs.complete(current, id, null);
-                    com.google.gwt.core.client.GWT.log("Option loading failed", failure);
-                  }
-                };
-            try {
-              provider.load(SelectJs.requestQuery(request), callback);
-            } catch (RuntimeException failure) {
-              callback.onFailure(failure);
-            }
-          });
+          @Override
+          public void onSuccess(List<SelectOption> options) {
+            if (completed || plugin() != current) return;
+            completed = true;
+            SelectJs.complete(current, id, encodeOptions(options));
+          }
+
+          @Override
+          public void onFailure(Throwable failure) {
+            if (completed || plugin() != current) return;
+            completed = true;
+            SelectJs.complete(current, id, null);
+            com.google.gwt.core.client.GWT.log("Option loading failed", failure);
+          }
+        };
+    try {
+      provider.load(SelectJs.requestQuery(request), callback);
+    } catch (RuntimeException failure) {
+      callback.onFailure(failure);
+    }
+  }
+
+  private String encodeOptions(List<SelectOption> options) {
+    List<Map<String, String>> data = new ArrayList<>();
+        if (options != null)
+          for (SelectOption option : options) {
+            SearchableSelect.this.options.put(option.getValue(), option.getText());
+            Map<String, String> row = new LinkedHashMap<>();
+            row.put("value", option.getValue());
+            row.put("text", option.getText());
+            data.add(row);
+          }
+    return Json.encode(data);
   }
 
   @Override
