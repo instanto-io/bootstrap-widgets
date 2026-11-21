@@ -35,6 +35,8 @@ public interface NotifyShownHandler {
      */
     static NotifyShownHandler DEFAULT_SHOWN_HANDLER = new NotifyShownHandler() {
         @Override
-        public void onShown() {}
+        public void onShown() {
+            // Notifications can run without an application listener.
+        }
     };
 }
