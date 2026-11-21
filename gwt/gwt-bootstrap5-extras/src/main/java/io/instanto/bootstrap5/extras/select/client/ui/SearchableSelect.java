@@ -173,14 +173,14 @@ public class SearchableSelect extends PluginWidget<SelectJs.Handle>
 
   private String encodeOptions(List<SelectOption> options) {
     List<Map<String, String>> data = new ArrayList<>();
-        if (options != null)
-          for (SelectOption option : options) {
-            SearchableSelect.this.options.put(option.getValue(), option.getText());
-            Map<String, String> row = new LinkedHashMap<>();
-            row.put("value", option.getValue());
-            row.put("text", option.getText());
-            data.add(row);
-          }
+    if (options != null)
+      for (SelectOption option : options) {
+        SearchableSelect.this.options.put(option.getValue(), option.getText());
+        Map<String, String> row = new LinkedHashMap<>();
+        row.put("value", option.getValue());
+        row.put("text", option.getText());
+        data.add(row);
+      }
     return Json.encode(data);
   }
 

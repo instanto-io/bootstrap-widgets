@@ -236,23 +236,19 @@ public class DefaultValidatorMixin<W extends Widget & HasValue<V> & Editor<V>, V
   }
 
   private ValidationResult evaluateValidators(boolean show) {
+    if (validators.isEmpty()) return new ValidationResult(true, null);
+
     boolean currentValid = true;
     List<EditorError> errors = null;
-    if (!validators.isEmpty()) {
-      V value = inputWidget.getValue();
-      // A validator may edit the rule set; apply those changes on the next pass.
-      for (ValidatorWrapper<V> wrapper : new ArrayList<>(validators)) {
-        List<EditorError> result = wrapper.getValidator().validate(inputWidget, value);
-        if (result != null && !result.isEmpty()) {
-          currentValid = false;
-          if (show && errorHandler != null) {
-            if (errors == null) {
-              errors = new ArrayList<>();
-            }
-            errors.addAll(result);
-          }
-        }
-      }
+    V value = inputWidget.getValue();
+    // A validator may edit the rule set; apply those changes on the next pass.
+    for (ValidatorWrapper<V> wrapper : new ArrayList<>(validators)) {
+      List<EditorError> result = wrapper.getValidator().validate(inputWidget, value);
+      if (result == null || result.isEmpty()) continue;
+      currentValid = false;
+      if (!show || errorHandler == null) continue;
+      if (errors == null) errors = new ArrayList<>();
+      errors.addAll(result);
     }
     return new ValidationResult(currentValid, errors);
   }
