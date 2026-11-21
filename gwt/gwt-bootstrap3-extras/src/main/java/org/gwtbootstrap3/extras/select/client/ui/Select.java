@@ -34,9 +34,6 @@ import com.google.gwt.dom.client.OptionElement;
  */
 public class Select extends SelectBase<String> {
 
-    public Select() {
-    }
-
     @Override
     public final boolean isMultiple() {
         return false;
