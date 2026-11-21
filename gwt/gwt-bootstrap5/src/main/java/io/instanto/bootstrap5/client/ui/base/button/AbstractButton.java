@@ -99,10 +99,12 @@ public abstract class AbstractButton extends ComplexWidget
       setButtonText(state);
       normalText = state == null ? "" : state;
       setEnabled(true);
-      getElement().removeAttribute("aria-busy");
+      getElement().removeAttribute(ARIA_BUSY_ATTRIBUTE);
       loading = false;
     }
   }
+
+  private static final String ARIA_BUSY_ATTRIBUTE = "aria-busy";
 
   private final ButtonStateHandler buttonStateHandler = new ButtonStateHandler();
   private final DataTargetMixin<AbstractButton> targetMixin =
@@ -346,11 +348,11 @@ public abstract class AbstractButton extends ComplexWidget
         setButtonText(loadingText);
       }
       setEnabled(false);
-      getElement().setAttribute("aria-busy", "true");
+      getElement().setAttribute(ARIA_BUSY_ATTRIBUTE, "true");
     } else {
       setButtonText(normalText);
       setEnabled(true);
-      getElement().removeAttribute("aria-busy");
+      getElement().removeAttribute(ARIA_BUSY_ATTRIBUTE);
     }
     this.loading = loading;
   }
