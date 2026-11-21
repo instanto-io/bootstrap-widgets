@@ -37,6 +37,8 @@ public interface SimpleCallback extends Callback {
      */
     static final SimpleCallback DEFAULT_SIMPLE_CALLBACK = new SimpleCallback() {
         @Override
-        public void callback() {}
+        public void callback() {
+            // The result is unused when the caller supplies no callback.
+        }
     };
 }
