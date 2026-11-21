@@ -17,30 +17,33 @@ public final class Json {
         throw new IllegalArgumentException("Non-finite JSON number");
       return value.toString();
     }
-    StringBuilder result = new StringBuilder();
-    if (value instanceof Map) {
-      result.append('{');
-      boolean comma = false;
-      for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
-        if (!(entry.getKey() instanceof String))
-          throw new IllegalArgumentException("JSON keys must be strings");
-        if (comma) result.append(',');
-        comma = true;
-        result.append(quote((String) entry.getKey())).append(':').append(encode(entry.getValue()));
-      }
-      return result.append('}').toString();
-    }
-    if (value instanceof Collection) {
-      result.append('[');
-      boolean comma = false;
-      for (Object item : (Collection<?>) value) {
-        if (comma) result.append(',');
-        comma = true;
-        result.append(encode(item));
-      }
-      return result.append(']').toString();
-    }
+    if (value instanceof Map) return encodeObject((Map<?, ?>) value);
+    if (value instanceof Collection) return encodeArray((Collection<?>) value);
     throw new IllegalArgumentException("Unsupported JSON value: " + value.getClass().getName());
+  }
+
+  private static String encodeObject(Map<?, ?> entries) {
+    StringBuilder result = new StringBuilder("{");
+    boolean comma = false;
+    for (Map.Entry<?, ?> entry : entries.entrySet()) {
+      if (!(entry.getKey() instanceof String))
+        throw new IllegalArgumentException("JSON keys must be strings");
+      if (comma) result.append(',');
+      comma = true;
+      result.append(quote((String) entry.getKey())).append(':').append(encode(entry.getValue()));
+    }
+    return result.append('}').toString();
+  }
+
+  private static String encodeArray(Collection<?> items) {
+    StringBuilder result = new StringBuilder("[");
+    boolean comma = false;
+    for (Object item : items) {
+      if (comma) result.append(',');
+      comma = true;
+      result.append(encode(item));
+    }
+    return result.append(']').toString();
   }
 
   private static String quote(String text) {
