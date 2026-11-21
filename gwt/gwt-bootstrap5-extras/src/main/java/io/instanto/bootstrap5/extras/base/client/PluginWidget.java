@@ -33,32 +33,34 @@ public abstract class PluginWidget<P> extends Div {
   protected void onLoad() {
     super.onLoad();
     final int request = ++generation;
-    whenReady(
-        () -> {
-          if (isAttached() && request == generation && plugin == null) {
-            P created = createPlugin();
-            // Creation may synchronously detach the widget, or start another mount.
-            if (!isAttached() || request != generation) {
-              destroyPlugin(created);
-              return;
-            }
-            plugin = created;
-            try {
-              afterCreate();
-            } catch (RuntimeException | Error failure) {
-              // afterCreate may already have detached and destroyed this instance.
-              if (plugin == created) {
-                plugin = null;
-                try {
-                  destroyPlugin(created);
-                } catch (RuntimeException | Error cleanup) {
-                  if (cleanup != failure) failure.addSuppressed(cleanup);
-                }
-              }
-              throw failure;
-            }
-          }
-        });
+    whenReady(() -> initializePlugin(request));
+  }
+
+  private void initializePlugin(int request) {
+    if (!isAttached() || request != generation || plugin != null) return;
+    P created = createPlugin();
+    // Creation may synchronously detach the widget, or start another mount.
+    if (!isAttached() || request != generation) {
+      destroyPlugin(created);
+      return;
+    }
+    plugin = created;
+    try {
+      afterCreate();
+    } catch (RuntimeException | Error failure) {
+      // afterCreate may already have detached and destroyed this instance.
+      if (plugin == created) destroyAfterFailure(created, failure);
+      throw failure;
+    }
+  }
+
+  private void destroyAfterFailure(P previous, Throwable failure) {
+    plugin = null;
+    try {
+      destroyPlugin(previous);
+    } catch (RuntimeException | Error cleanup) {
+      if (cleanup != failure) failure.addSuppressed(cleanup);
+    }
   }
 
   @Override
@@ -70,12 +72,7 @@ public abstract class PluginWidget<P> extends Div {
         try {
           captureState();
         } catch (RuntimeException | Error failure) {
-          plugin = null;
-          try {
-            destroyPlugin(previous);
-          } catch (RuntimeException | Error cleanup) {
-            if (cleanup != failure) failure.addSuppressed(cleanup);
-          }
+          destroyAfterFailure(previous, failure);
           throw failure;
         }
         plugin = null;
