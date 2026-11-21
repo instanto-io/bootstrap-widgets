@@ -35,6 +35,8 @@ public interface NotifyClosedHandler {
      */
     static NotifyClosedHandler DEFAULT_CLOSED_HANDLER = new NotifyClosedHandler() {
         @Override
-        public void onClosed() {}
+        public void onClosed() {
+            // Notifications can run without an application listener.
+        }
     };
 }
