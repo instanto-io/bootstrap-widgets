@@ -10,6 +10,10 @@ public final class FullCalendarEntryPoint implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    injectOnce();
+  }
+
+  private static void injectOnce() {
     if (injected) return;
     if (!isLoaded()) {
       ScriptInjector.fromString(FullCalendarClientBundle.INSTANCE.script0().getText())
